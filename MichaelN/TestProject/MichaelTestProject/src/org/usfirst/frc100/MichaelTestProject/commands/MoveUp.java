@@ -14,9 +14,6 @@ package org.usfirst.frc100.MichaelTestProject.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.MichaelTestProject.Robot;
 
-/**
- *
- */
 public class  MoveUp extends Command {
 
     public MoveUp() {
@@ -31,10 +28,12 @@ public class  MoveUp extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.robotArm.raise();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.robotArm.raise();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -44,10 +43,12 @@ public class  MoveUp extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.robotArm.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

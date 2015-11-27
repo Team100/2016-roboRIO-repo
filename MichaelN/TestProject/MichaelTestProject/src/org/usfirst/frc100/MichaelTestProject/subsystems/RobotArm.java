@@ -13,8 +13,8 @@ package org.usfirst.frc100.MichaelTestProject.subsystems;
 
 import org.usfirst.frc100.MichaelTestProject.RobotMap;
 import org.usfirst.frc100.MichaelTestProject.commands.*;
-import edu.wpi.first.wpilibj.*;
 
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
@@ -42,6 +42,39 @@ public class RobotArm extends Subsystem {
 	
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public void raise() {
+    	if (isAtHighLimit()) {
+    		stop();
+    	} else {
+    		armContinuousRotationServo.set(0.0);  
+    	}
+    }
+    
+    public void lower() {
+    	if (isAtLowLimit()) {
+    		stop();
+    	}
+    	else {
+    		armContinuousRotationServo.set(1.0);
+    	}
+    }
+    
+    public void stop() {
+    	armContinuousRotationServo.set(0.5);
+    }
+    
+    public boolean isAtLowLimit() {
+    	return armLowerLimit.get();
+    }
+    
+    public boolean isAtHighLimit() {
+    	return armUpperLimit.get();
+    }
+    
+    public double getPotValue() {
+    	return armPositionPot.get();
     }
 }
 

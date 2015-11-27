@@ -13,8 +13,8 @@ package org.usfirst.frc100.MichaelTestProject.subsystems;
 
 import org.usfirst.frc100.MichaelTestProject.RobotMap;
 import org.usfirst.frc100.MichaelTestProject.commands.*;
-import edu.wpi.first.wpilibj.*;
 
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
@@ -42,6 +42,18 @@ public class DriveTrain extends Subsystem {
 	
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public void tankIt(Joystick stick) {
+    	twoMotorDrive.tankDrive(stick.getRawAxis(1), -stick.getRawAxis(3));
+    }
+    
+    public void stop() {
+    	twoMotorDrive.tankDrive(0.0, 0.0);
+    }
+    
+    public double getDistance() {
+    	return iRDistanceSensor.getValue();
     }
 }
 
