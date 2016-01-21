@@ -11,10 +11,13 @@
 
 package org.usfirst.frc0.Robot2.commands;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc0.Robot2.Robot;
+import org.usfirst.frc0.Robot2.RobotMap;
 import org.usfirst.frc0.Robot2.subsystems.DriveTrain;
 
 /**
@@ -22,6 +25,11 @@ import org.usfirst.frc0.Robot2.subsystems.DriveTrain;
  */
 public class  TankDrive extends Command {
 	//Ultrasonic ultra = new Ultrasonic(1,1);
+	int angle = 75;
+	String left = "go Left!";
+	String onTrac = "good!";
+	String right = "goRight";
+	
 	
     public TankDrive() {
         // Use requires() here to declare subsystem dependencies
@@ -37,19 +45,44 @@ public class  TankDrive extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// ultra.setAutomaticMode(true);
+    	
     }
     
    
    
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//DriveTrain dr = new DriveTrain();
-    	//double range = ultra.getRangeInches();
-    //	if(range > 24)
-    	//{
+    	//AnalogInput stuff = RobotMap.lineFollower;
     	Robot.driveTrain.tankIt(Robot.oi.joystick1);
-    	//}
-    }
+    	RobotMap.exampleServo.setAngle(angle);
+    	SmartDashboard.putNumber("Info",RobotMap.lineFollower.getVoltage());
+    	if(RobotMap.lineFollower.getVoltage() < 4.0)
+    
+    	{
+    		SmartDashboard.putString("direction", "c");
+    		
+    	}
+    	else
+    	{
+    		SmartDashboard.putString("direction","l");
+    		
+    	}
+    	/*
+    	if(RobotMap.lineFollowerLeft.getVoltage() < 3)
+    	{
+    		SmartDashboard.putString("direction", right);
+    	}
+    	if(RobotMap.lineFollowerRight.getVoltage() < 3)
+    	{
+    		SmartDashboard.putString("direction", left);
+    	}
+    	*/
+    	 
+    	 }
+    
+    		
+    	
+    
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

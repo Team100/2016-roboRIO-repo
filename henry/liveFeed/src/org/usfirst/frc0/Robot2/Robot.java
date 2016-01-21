@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
 	//g.setColor(Color.GREEN);
 	//g.fillRect(0,0,100,100);
         driveTrain = new DriveTrain();
-        
+        //lineFollower = new AnalogInput(3);
       //  System.out.println(camera.getClass().getMethods());
     	
 
