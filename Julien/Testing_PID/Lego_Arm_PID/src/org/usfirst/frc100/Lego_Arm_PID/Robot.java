@@ -108,6 +108,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("IR Distance", Robot.driveTrain.getDistance());
         SmartDashboard.putBoolean("Arm Hi", Robot.robotArm.isAtHighLimit());
         SmartDashboard.putBoolean("Arm Lo", Robot.robotArm.isAtLowLimit());
+        SmartDashboard.putNumber("Juliens thing",Preferences.getDouble("SlideJoystickDeadband"));
     }
 
     /**

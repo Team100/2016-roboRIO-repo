@@ -16,4 +16,4 @@ RobotArmSensorRatio 1.0
 RobotArmErrorTolerance 0.0
 RobotArmRateTolerance 0.0
 RobotArmIntegralLimit 0.0
-SlideJoystickDeadband 0.0
+SlideJoystickDeadband 7.0

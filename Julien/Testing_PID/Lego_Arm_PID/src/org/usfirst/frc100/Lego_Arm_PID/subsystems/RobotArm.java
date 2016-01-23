@@ -13,6 +13,8 @@ package org.usfirst.frc100.Lego_Arm_PID.subsystems;
 
 import org.usfirst.frc100.Lego_Arm_PID.RobotMap;
 import org.usfirst.frc100.Lego_Arm_PID.commands.*;
+import org.usfirst.frc100.Lego_Arm_PID.PID;
+
 import edu.wpi.first.wpilibj.*;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -60,7 +62,7 @@ public class RobotArm extends Subsystem {
     		armContinuousRotationServo.set(1.0);
     	}
     }
-    
+    private PID RobotArmPID = new PID("RobotArm");
     public void stop() {
     	armContinuousRotationServo.set(0.5);
     }
