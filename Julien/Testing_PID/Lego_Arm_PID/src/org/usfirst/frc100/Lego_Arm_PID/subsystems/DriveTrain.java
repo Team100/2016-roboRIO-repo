@@ -60,5 +60,20 @@ public class DriveTrain extends Subsystem {
     public double getDistance() {
     	return iRDistanceSensor.getValue();
     }
+
+	public void setAutoTarget(double target, double target2, double target3) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateAuto(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean autoReachedTarget() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
 

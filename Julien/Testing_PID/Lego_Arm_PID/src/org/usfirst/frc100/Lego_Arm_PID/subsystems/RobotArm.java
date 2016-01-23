@@ -13,6 +13,7 @@ package org.usfirst.frc100.Lego_Arm_PID.subsystems;
 
 import org.usfirst.frc100.Lego_Arm_PID.RobotMap;
 import org.usfirst.frc100.Lego_Arm_PID.commands.*;
+import org.usfirst.frc100.Lego_Arm_PID.Preferences;
 import org.usfirst.frc100.Lego_Arm_PID.PID;
 
 import edu.wpi.first.wpilibj.*;
@@ -66,7 +67,9 @@ public class RobotArm extends Subsystem {
     public void stop() {
     	armContinuousRotationServo.set(0.5);
     }
-    
+    public void robotInit() {
+    	Preferences.init();
+    	RobotMap.init();}
     public boolean isAtLowLimit() {
     	return armLowerLimit.get();
     }
@@ -78,5 +81,30 @@ public class RobotArm extends Subsystem {
     public double getPotValue() {
     	return armPositionPot.get();
     }
+
+	public void setAutoTarget(double target) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updatePID() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isInPosition() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void activateBrake() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void drive(int i, int j, int k) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
