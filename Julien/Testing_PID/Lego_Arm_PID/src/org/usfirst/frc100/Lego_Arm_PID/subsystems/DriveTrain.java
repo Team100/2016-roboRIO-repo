@@ -75,5 +75,12 @@ public class DriveTrain extends Subsystem {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public void updateDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }
 

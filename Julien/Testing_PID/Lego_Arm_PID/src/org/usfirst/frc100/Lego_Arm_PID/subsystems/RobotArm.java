@@ -106,5 +106,12 @@ public class RobotArm extends Subsystem {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void updateDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }
 

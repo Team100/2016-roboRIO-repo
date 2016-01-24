@@ -46,7 +46,7 @@ public class TestPID extends Command {
 			target = SmartDashboard.getNumber("PID/DriveAngle TestTarget");
 			Robot.driveTrain.setAutoTarget(0, 0, target);
 		} else if (system == System.ROBOTARM) {
-			target = SmartDashboard.getNumber("PID/Elevator TestTarget");
+			target = SmartDashboard.getNumber("PID/RobotArm TestTarget");
 			Robot.robotArm.setAutoTarget(target);
 //		} else if (system == System.ARM) {
 //			target = SmartDashboard.getNumber("PID/Arm TestTarget");
