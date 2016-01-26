@@ -328,8 +328,8 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
         """
         savefile = QtGui.QFileDialog.getSaveFileName(self, \
             "Save SpreadsheetFile", ".", "CSV (*.csv)")
-        write_spreadsheet_file(savefile, self.raw_data.rowLabels, \
-            self.raw_data.colLabels, self.timedict)
+        write_spreadsheet_file(savefile, self.raw_data.row_labels, \
+            self.raw_data.col_labels, self.timedict)
 
     @QtCore.pyqtSlot()
     def on_actionSave_Selected_triggered(self):
@@ -340,7 +340,7 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
         """
         savefile = QtGui.QFileDialog.getSaveFileName(self, \
             "Save SpreadsheetFile", ".", "CSV (*.csv)")
-        write_spreadsheet_file(savefile, self.raw_data.rowLabels, \
+        write_spreadsheet_file(savefile, self.raw_data.row_labels, \
             self.selected_vars, self.timedict)
 
 
