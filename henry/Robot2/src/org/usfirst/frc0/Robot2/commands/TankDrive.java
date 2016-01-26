@@ -11,18 +11,26 @@
 
 package org.usfirst.frc0.Robot2.commands;
 
+import edu.wpi.first.wpilibj.SpeedController;
+
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc0.Robot2.Robot;
+import org.usfirst.frc0.Robot2.RobotMap;
 import org.usfirst.frc0.Robot2.subsystems.DriveTrain;
 
+import edu.wpi.first.wpilibj.SensorBase;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 /**
  *
  */
 public class  TankDrive extends Command {
 	//Ultrasonic ultra = new Ultrasonic(4,5);
-	
+	 SpeedController speedController1 = RobotMap.driveTrainSpeedController1;
+	    SpeedController speedController2 = RobotMap.driveTrainSpeedController2;
+	    PowerDistributionPanel pdp = new PowerDistributionPanel();
     public TankDrive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -48,6 +56,8 @@ public class  TankDrive extends Command {
     	//if(range > 24)
     	//{
     	Robot.driveTrain.tankIt(Robot.oi.joystick1);
+    	SmartDashboard.putNumber("voltage of 0", pdp.getCurrent(0));
+    	SmartDashboard.putNumber("voltage of 1", pdp.getCurrent(1));
     	//}
     }
 

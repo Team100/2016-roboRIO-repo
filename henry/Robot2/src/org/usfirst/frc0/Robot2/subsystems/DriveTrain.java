@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
+
 /**
  *
  */
@@ -61,7 +62,7 @@ public class DriveTrain extends Subsystem {
    
     public void tankIt(Joystick stick)
     {
-    	robotDrive41.arcadeDrive(-stick.getRawAxis(1), -stick.getRawAxis(2));
+    	robotDrive41.arcadeDrive(stick.getRawAxis(1), stick.getRawAxis(2));
     	//robotDrive41.arcadeDrive(stick.getRawAxis(1), -stick.getRawAxis(2));
     	//robotDrive41.arcadeDrive(-stick.getRawAxis(1), stick.getRawAxis(2));
     }

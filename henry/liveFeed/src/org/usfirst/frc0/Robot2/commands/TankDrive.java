@@ -54,19 +54,20 @@ public class  TankDrive extends Command {
     protected void execute() {
     	//AnalogInput stuff = RobotMap.lineFollower;
     	Robot.driveTrain.tankIt(Robot.oi.joystick1);
-    	RobotMap.exampleServo.setAngle(angle);
-    	SmartDashboard.putNumber("Info",RobotMap.lineFollower.getVoltage());
-    	if(RobotMap.lineFollower.getVoltage() < 4.0)
+    	SmartDashboard.putNumber("voltage range ", RobotMap.rangeFinder.getVoltage());
+    	//RobotMap.exampleServo.setAngle(angle);
+    	//SmartDashboard.putNumber("Info",RobotMap.lineFollower.getVoltage());
+    	//if(RobotMap.lineFollower.getVoltage() < 4.0)
     
-    	{
-    		SmartDashboard.putString("direction", "c");
+    	//{
+    	//	SmartDashboard.putString("direction", "c");
     		
-    	}
-    	else
-    	{
-    		SmartDashboard.putString("direction","l");
+    //	}
+    	//else
+    	//{
+    		///.putString("direction","l");
     		
-    	}
+    //	}
     	/*
     	if(RobotMap.lineFollowerLeft.getVoltage() < 3)
     	{
