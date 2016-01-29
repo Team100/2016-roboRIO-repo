@@ -8,6 +8,9 @@ package org.usfirst.frc100.Lego_Arm_PID.commands;
 
 import org.usfirst.frc100.Lego_Arm_PID.Robot;
 
+
+import org.usfirst.frc100.SlideWinder.SlideWinder;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -37,16 +40,19 @@ public class SetArmPosition extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    }
+		Robot.robotArm.updatePID();
+	}
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
-    }
+    	Robot.robotArm
+		return Robot.robotArm.isInPosition() || (!Robot.robotArm.isGoingUp() && Robot.robotArm.isAtLowLimit()) || (Robot.robotArm.isGoingUp() && Robot.robotArm.isAtHighLimit());
+	}
+
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.robotArm.updatePID();
+    	
     }
 
     // Called when another command which requires one or more of the same
