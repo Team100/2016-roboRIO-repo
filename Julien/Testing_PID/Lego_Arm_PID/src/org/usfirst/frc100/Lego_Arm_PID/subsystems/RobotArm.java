@@ -90,8 +90,8 @@ public class RobotArm extends Subsystem {
 
 	public void updatePID() {
 		// TODO Auto-generated method stub
-		RobotArmPID.update(-getPotValue());
-		setArmMotor(RobotArmPID.getOutput());
+		RobotArmPID.update(getPotValue());
+		setArmMotor(-RobotArmPID.getOutput());
 		
 		
 	}
