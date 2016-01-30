@@ -69,7 +69,7 @@ public class OI {
         joystick1 = new Joystick(0);
         
         button3 = new JoystickButton(joystick1,3);
-       button3.whenPressed(new SetArmPosition(3));
+       button3.whenPressed(new SetArmPosition(0.392));
         
         joystick2MoveDown = new JoystickButton(joystick1, 2);
         joystick2MoveDown.whileHeld(new MoveDown());

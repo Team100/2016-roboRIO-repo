@@ -15,10 +15,11 @@ import org.usfirst.frc100.Lego_Arm_PID.RobotMap;
 import org.usfirst.frc100.Lego_Arm_PID.commands.*;
 import org.usfirst.frc100.Lego_Arm_PID.Preferences;
 import org.usfirst.frc100.Lego_Arm_PID.PID;
+//import org.usfirst.frc100.SlideWinder.SlideWinder;
 
 import edu.wpi.first.wpilibj.*;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -83,12 +84,15 @@ public class RobotArm extends Subsystem {
     }
 
 	public void setAutoTarget(double target) {
-		// TODO Auto-generated method stub
+		RobotArmPID.setTarget(target);
 		
 	}
 
 	public void updatePID() {
 		// TODO Auto-generated method stub
+		RobotArmPID.update(-getPotValue());
+		setArmMotor(RobotArmPID.getOutput());
+		
 		
 	}
 
@@ -112,6 +116,15 @@ public class RobotArm extends Subsystem {
 		
 	}
 
-	
+	public boolean isGoingUp() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	 
+	public void setArmMotor(double speed){
+		double cmd = speed/4 + 0.5; 
+		armContinuousRotationServo.set(cmd);
+		
+	}
 }
 

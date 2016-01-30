@@ -9,7 +9,7 @@ package org.usfirst.frc100.Lego_Arm_PID.commands;
 import org.usfirst.frc100.Lego_Arm_PID.Robot;
 
 
-import org.usfirst.frc100.SlideWinder.SlideWinder;
+
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -22,7 +22,7 @@ public class SetArmPosition extends Command {
 	private boolean presentPosition;
 
   
-    public SetArmPosition(int position) {
+    public SetArmPosition(double position) {
     	this.position = position;
     	this.presentPosition = true;
     	requires(Robot.robotArm);
@@ -35,7 +35,7 @@ public class SetArmPosition extends Command {
 	}
 
 	// Called just before this Command runs the first time
-    protected void initialize() {
+    protected void initialize() {Robot.robotArm.setAutoTarget(position);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -45,7 +45,7 @@ public class SetArmPosition extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	Robot.robotArm
+    	
 		return Robot.robotArm.isInPosition() || (!Robot.robotArm.isGoingUp() && Robot.robotArm.isAtLowLimit()) || (Robot.robotArm.isGoingUp() && Robot.robotArm.isAtHighLimit());
 	}
 
