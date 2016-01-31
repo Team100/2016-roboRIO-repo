@@ -32,10 +32,17 @@
             	                                         <tr><td>3</td><td>Drive Train Right Encoder</td><td></td></tr>
             	                                         <tr><td>4</td><td>Pick Up Upper Limit</td><td></td></tr>
             	                                         <tr><td>5</td><td>Pick Up Lower Limit</td><td></td></tr>
-            	                                         <tr><td>6</td><td>Shooter Fly Encoder</td><td></td></tr>
-            	                                         <tr><td>7</td><td>Shooter Fly Encoder</td><td></td></tr>
-            	                                         <tr><td>8</td><td>Shooter Loaded</td><td></td></tr>
-            	                                                                                                                                                                                                                 	    </table>
+            	                                         <tr><td>6</td><td>Pick Up Arm Angle Sensor</td><td></td></tr>
+            	                                         <tr><td>7</td><td>Pick Up Arm Angle Sensor</td><td></td></tr>
+            	                                         <tr><td>8</td><td>Pick Up Lift Engaged Sensor</td><td></td></tr>
+            	                                         <tr><td>9</td><td>Shooter Fly Encoder</td><td></td></tr>
+            	                                         <tr><td>10</td><td>Shooter Fly Encoder</td><td></td></tr>
+            	                                         <tr><td>11</td><td>Shooter Loaded</td><td></td></tr>
+            	                                         <tr><td>12</td><td>Turret Left Side Limit</td><td></td></tr>
+            	                                         <tr><td>13</td><td>Turret Right Side Limit</td><td></td></tr>
+            	                                         <tr><td>14</td><td>Turret Quadrature Encoder 1</td><td></td></tr>
+            	                                         <tr><td>15</td><td>Turret Quadrature Encoder 1</td><td></td></tr>
+            	                                                                                                                             	    </table>
                     <h2>PWMs</h2>
 	    <table><tr>
 	        <th class="pound">#</th>
@@ -43,10 +50,13 @@
                 <th>Type</th></tr>
 	                                               <tr><td>0</td><td>Drive Train Left</td><td>VictorSP</td></tr>
             	                                         <tr><td>1</td><td>Drive Train Right</td><td>VictorSP</td></tr>
-            	                                         <tr><td>2</td><td>Pick Up RaiseUp</td><td>VictorSP</td></tr>
-            	                                         <tr><td>3</td><td>Pick Up LowerDown</td><td>VictorSP</td></tr>
+            	                                         <tr><td>2</td><td>Pick Up Pick Up Roller</td><td>VictorSP</td></tr>
+            	                                         <tr><td>3</td><td>Pick Up Arm Angle Motor</td><td>VictorSP</td></tr>
             	                                         <tr><td>4</td><td>Shooter Fly Motor</td><td>VictorSP</td></tr>
-            	                                                                                                                                                                                                                                                                 	    </table>
+            	                                         <tr><td>5</td><td>Turret Horizontal Pivot happy now?</td><td>VictorSP</td></tr>
+            	                                         <tr><td>6</td><td>Unbeatable Scaling Mechanism  Winch Motor</td><td>VictorSP</td></tr>
+            	                                         <tr><td>7</td><td>Unbeatable Scaling Mechanism  Hook Extension</td><td>VictorSP</td></tr>
+            	                                                                                                                                                                                                                             	    </table>
      
         
             
@@ -57,6 +67,21 @@
 	                                               <tr><td>0</td><td>Drive Train IR Distance Sensor</td><td></td></tr>
             	                                                                                                                                                                                                                                                                                                                 	    </table>
     
-                                                                                                                                                                                                                                                            
-          </body>
+                    <h2>PCM 0</h2>
+	    <table><tr>
+	        <th class="pound">#</th>
+	        <th>Solenoid</th></tr>
+	                                               <tr><td>0</td><td>Shooter Ball Flappers Forward </td><td></td></tr>
+            	                                         <tr><td>1</td><td>Shooter Ball Flappers Reverse </td><td></td></tr>
+            	                                         <tr><td>2</td><td>Push Up Push Up Piston Forward </td><td></td></tr>
+            	                                         <tr><td>3</td><td>Push Up Push Up Piston Reverse </td><td></td></tr>
+            	                                                                                                                                                                                                                                                                             	    </table>
+                                                                                                                                                                                                                                                    
+                <h2>Compressor</h2>
+	<table><tr>
+	<th class="pound">PCM</th>
+	<th>Device</th></tr>
+	                                         <tr><td>0</td><td>Pneumatics Good? Compressor</td><td></td></tr>
+            	                                                                                                                                                                                                                                                                                                                 	</table>
+      </body>
 </html>
