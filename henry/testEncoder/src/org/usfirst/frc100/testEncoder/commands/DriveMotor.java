@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc100.testEncoder.Robot;
 import org.usfirst.frc100.testEncoder.RobotMap;
+import org.usfirst.frc100.testEncoder.subsystems.AndyMark;
 
 /**
  *
@@ -40,6 +41,10 @@ public class DriveMotor extends Command {
 	    // Called repeatedly when this Command is scheduled to run
 	    public void execute() {
 	    	//SmartDashboard.putNumber("setpoint", setpoint);
+	    	SmartDashboard.putNumber("rate of d value", AndyMark.returnD());
+	    	SmartDashboard.putNumber("rate of motor", AndyMark.returnSpeed());
+	    	//Robot.andyMark.driveJoy(Robot.oi.joystick1);
+	    	Robot.andyMark.returnSpeed();
 	    
 	    }
 	    
