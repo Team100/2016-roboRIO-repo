@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 public class  TankDrive extends Command {
 	 boolean direction = true;
 	 int distanceTraveled;
+	 int goToAngles; 
 	//Ultrasonic ultra = new Ultrasonic(4,5);
 		 SpeedController speedController1 = RobotMap.driveTrainSpeedController1;
 	    SpeedController speedController2 = RobotMap.driveTrainSpeedController2;
@@ -51,29 +52,38 @@ public class  TankDrive extends Command {
     	 requires(Robot.driveTrain);
     
     }
+    public TankDrive(int angles)
+    {
+    	requires(Robot.driveTrain);
+    	goToAngles = angles;
+    }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	// ultra.setAutomaticMode(true);
     	Robot.driveTrain.initiGyro();
-    	RobotMap.gyro.calibrate();
+    	//RobotMap.gyro.calibrate();
     	RobotMap.gyro.reset();
     }
+    
     
    
    
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("distance", (RobotMap.encoderRight.getRaw() + RobotMap.encoderLeft.getRaw()) / 720 ); //12.6 inches per revolution 
+    	SmartDashboard.putNumber("distance", (RobotMap.encoderRight.getRaw() + RobotMap.encoderLeft.getRaw()) /.784 ); //12.6 inches per revolution 
     	SmartDashboard.putNumber("angle", RobotMap.gyro.getAngle());
     	SmartDashboard.putNumber("center", RobotMap.gyro.getCenter());
     	SmartDashboard.putNumber("offset", RobotMap.gyro.getOffset());
+    	Robot.driveTrain.goToAngle(goToAngles);
     	if(direction){Robot.driveTrain.tankIt(Robot.oi.joystick1);}
     	else{Robot.driveTrain.tankItReverse(Robot.oi.joystick1);}
+    	/*
     	if(RobotMap.gyro.getAngle() > 339 || RobotMap.gyro.getAngle() < -339)
     	{
     		RobotMap.gyro.reset();
     	}
+    	*/
     	//SmartDashboard.putNumber("voltage of 0", pdp.getCurrent(0));
     	//SmartDashboard.putNumber("voltage of 1", pdp.getCurrent(1));
     	//}

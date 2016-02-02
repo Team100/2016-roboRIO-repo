@@ -69,6 +69,14 @@ public class OI {
 		 go1.whenPressed(new TankDrive(false));
 		 JoystickButton go2 = new JoystickButton(joystick1, 5);
 		 go2.whenPressed(new TankDrive(true));
+		 JoystickButton angle1 = new JoystickButton(joystick1, 1);
+		 JoystickButton angle2 = new JoystickButton(joystick1, 4);
+		 JoystickButton angle3 = new JoystickButton(joystick1, 3);
+		 angle1.whenPressed(new TankDrive(80));
+		 angle2.whenPressed(new TankDrive(190));
+		 angle3.whenPressed(new TankDrive(0));
+		 
+				 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
 

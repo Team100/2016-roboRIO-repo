@@ -14,6 +14,8 @@ package org.usfirst.frc0.Robot2.commands;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc0.Robot2.Robot;
 import org.usfirst.frc0.Robot2.RobotMap;
 
@@ -37,14 +39,20 @@ public class  AutonomousCommand extends Command {
     protected void initialize() {
     	Robot.driveTrain.initiGyro();
     	Robot.driveTrain.resetGyro();
-    	
+    	RobotMap.encoderRight.reset();
+    	RobotMap.encoderLeft.reset();
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	SmartDashboard.putNumber("didtance", (RobotMap.encoderRight.getDistance() + RobotMap.encoderLeft.getDistance()) /480 );
+    	//if (((RobotMap.encoderRight.getRaw() + RobotMap.encoderLeft.getRaw()) /.784  ) <= 1)
+		//{
+    		//Robot.driveTrain.drive();
+		//}
+    	//Robot.driveTrain.goToAngle(-80);
     	
-    	Robot.driveTrain.goToAngle(-80);
     	//Robot.driveTrain.drive();
         //Timer.delay(0.004);
     }

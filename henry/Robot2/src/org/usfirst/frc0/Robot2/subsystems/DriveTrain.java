@@ -99,7 +99,7 @@ public class DriveTrain extends Subsystem {
 	}
 	public void drive()
 	{
-		drives(.20, -getAngleOfGyro()*.03);//.getAngleOfGyro());
+		drives(.15, -getAngleOfGyro()*.03);//.getAngleOfGyro());
 		SmartDashboard.putNumber("heading", getAngleOfGyro()*0.03);
 	}
 	public void goToAngle(double destinationAngle)
@@ -111,14 +111,17 @@ public class DriveTrain extends Subsystem {
 			robotDrive41.tankDrive(0,0);
 		} else if ( destinationAngle  > gyros.getAngle()) {
 		    //rotate clockwise
-			robotDrive41.tankDrive(.40, -.40);
+			robotDrive41.tankDrive(.70, -.70);
 		} else {
 		    //rotate counter-clockwise
-			robotDrive41.tankDrive(-.40, .40);
+			robotDrive41.tankDrive(-.70, .70);
 		}
-		
 	}
+
+	
+		
 }
+
 
 
 
