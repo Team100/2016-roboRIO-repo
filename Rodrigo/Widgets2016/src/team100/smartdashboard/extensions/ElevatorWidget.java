@@ -9,8 +9,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.KeyAdapter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -22,11 +20,20 @@ import javax.swing.JTextField;
  */
 public class ElevatorWidget extends Widget{
 
-    public static final String NAME = "Elevator";
+    /**
+	 * Elevator Widget
+	 */
+	private static final long serialVersionUID = 1L;
+	public static final String NAME = "Elevator";
     public static final DataType[] TYPES = {DataType.NUMBER};
-    private double height = 0;
+    private double height = 20;
     private final JPanel graphics = new JPanel(){
-        @Override
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
         public void paint(Graphics g) {
             updateGraphics(g);
         }

@@ -18,7 +18,11 @@ import javax.swing.JLabel;
  */
 public class AllWidget extends AbstractTableWidget{
     
-    public static final DataType[] TYPES = {SubsystemType.get()};
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static final DataType[] TYPES = {SubsystemType.get()};
     public static final String NAME = "OmniWidget";
     GridLayout layout;
     
