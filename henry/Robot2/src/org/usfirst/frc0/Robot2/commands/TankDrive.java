@@ -64,6 +64,7 @@ public class  TankDrive extends Command {
     	Robot.driveTrain.initiGyro();
     	//RobotMap.gyro.calibrate();
     	RobotMap.gyro.reset();
+    	
     }
     
     
@@ -71,19 +72,28 @@ public class  TankDrive extends Command {
    
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("distance", (RobotMap.encoderRight.getRaw() + RobotMap.encoderLeft.getRaw()) /.784 ); //12.6 inches per revolution 
+    //	SmartDashboard.putNumber("distance", (RobotMap.encoderRight.getDistance() + RobotMap.encoderLeft.getDistance()) /2 ); //12.6 inches per revolution 
     	SmartDashboard.putNumber("angle", RobotMap.gyro.getAngle());
+    	SmartDashboard.putNumber("Rate Right Side", RobotMap.encoderRight.getRate());
+    	SmartDashboard.putNumber("left encoder rate", RobotMap.encoderLeft.getRate());
+    	SmartDashboard.putNumber("right side", RobotMap.driveTrainSpeedController1.get());
+    	SmartDashboard.putNumber("left side", RobotMap.driveTrainSpeedController3.get());
+    	//System.out.println("hi");
+    	//SmartDashboard.
     	SmartDashboard.putNumber("center", RobotMap.gyro.getCenter());
     	SmartDashboard.putNumber("offset", RobotMap.gyro.getOffset());
-    	Robot.driveTrain.goToAngle(goToAngles);
+    	//SmartDashboard.putNumber("rightsidepowerdraw", RobotMap.powerPanel.getCurrent(15));
+    	//SmartDashboard.putNumber("leftsidepowerdraw", RobotMap.powerPanel.getCurrent(12));
+    	//SmartDashboard.putNumber("total energy", RobotMap.powerPanel.getTotalEnergy());
+    	//Robot.driveTrain.goToAngle(goToAngles);
     	if(direction){Robot.driveTrain.tankIt(Robot.oi.joystick1);}
     	else{Robot.driveTrain.tankItReverse(Robot.oi.joystick1);}
-    	/*
+    	
     	if(RobotMap.gyro.getAngle() > 339 || RobotMap.gyro.getAngle() < -339)
     	{
     		RobotMap.gyro.reset();
     	}
-    	*/
+    	
     	//SmartDashboard.putNumber("voltage of 0", pdp.getCurrent(0));
     	//SmartDashboard.putNumber("voltage of 1", pdp.getCurrent(1));
     	//}

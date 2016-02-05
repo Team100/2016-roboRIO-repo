@@ -46,6 +46,8 @@ public class  AutonomousCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.driveTrain.goToAngle(170);
+    	//Robot.driveTrain.drive();
     	SmartDashboard.putNumber("didtance", (RobotMap.encoderRight.getDistance() + RobotMap.encoderLeft.getDistance()) /480 );
     	//if (((RobotMap.encoderRight.getRaw() + RobotMap.encoderLeft.getRaw()) /.784  ) <= 1)
 		//{

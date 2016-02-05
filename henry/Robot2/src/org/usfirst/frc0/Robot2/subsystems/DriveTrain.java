@@ -106,15 +106,15 @@ public class DriveTrain extends Subsystem {
 	{
 		SmartDashboard.putNumber("angle", gyros.getAngle());
 		SmartDashboard.putNumber("destination", destinationAngle);
-		if ( gyros.getAngle() >= destinationAngle) {
+		if ( gyros.getAngle() >= destinationAngle + 2 || gyros.getAngle()<= destinationAngle -.5) {
 		    //we're there, stop turning
 			robotDrive41.tankDrive(0,0);
 		} else if ( destinationAngle  > gyros.getAngle()) {
 		    //rotate clockwise
-			robotDrive41.tankDrive(.70, -.70);
+			robotDrive41.tankDrive(.40, -.40);
 		} else {
 		    //rotate counter-clockwise
-			robotDrive41.tankDrive(-.70, .70);
+			robotDrive41.tankDrive(-.40, .40);
 		}
 	}
 
