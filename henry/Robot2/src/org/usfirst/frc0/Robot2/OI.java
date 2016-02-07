@@ -14,6 +14,7 @@ package org.usfirst.frc0.Robot2;
 //import org.usfirst.frc.team100.robot.commands.Drive;
 
 import org.usfirst.frc0.Robot2.commands.*;
+import org.usfirst.frc0.Robot2.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.*;
@@ -72,9 +73,9 @@ public class OI {
 		 JoystickButton angle1 = new JoystickButton(joystick1, 1);
 		 JoystickButton angle2 = new JoystickButton(joystick1, 4);
 		 JoystickButton angle3 = new JoystickButton(joystick1, 3);
-		 //angle1.whenPressed(new TankDrive(80));
-		 //angle2.whenPressed(new TankDrive(190));
-		// angle3.whenPressed(new TankDrive(0));
+		 angle1.whenPressed(new TankDrive(1));
+		 angle2.whenPressed(new TankDrive(-1));
+		 angle3.whenPressed(new TankDrive(3));
 		 
 				 
         // SmartDashboard Buttons
