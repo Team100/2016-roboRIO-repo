@@ -40,6 +40,7 @@ boolean driveDirection = true;
     public TankDrive(boolean direction)
     {
     	driveDirection = direction;
+    	requires(Robot.driveTrain);
 
     }
 
@@ -49,7 +50,7 @@ boolean driveDirection = true;
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(driveDirection == false)
+    	if(driveDirection)
     	{
     	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getX(), -Robot.oi.getDriverController2().getY());
     	}
