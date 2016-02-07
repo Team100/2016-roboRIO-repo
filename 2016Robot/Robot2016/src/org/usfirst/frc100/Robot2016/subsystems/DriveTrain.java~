@@ -58,15 +58,15 @@ public class DriveTrain extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
-    
-    public void takeJoystickInputs(Joystick left, Joystick right){
+
+    public void takeJoystickInputs(double x, double y){
     	//twoMotorDrive.tankDrive(left, right);
-    twoMotorDrive.arcadeDrive(left.getRawAxis(1), -right.getRawAxis(0));
+    twoMotorDrive.arcadeDrive(-x, -y);
     }
-    public void takeJoystickInputsReverse(Joystick left, Joystick right){
-        twoMotorDrive.arcadeDrive(-left.getRawAxis(1), -right.getRawAxis(0));
+    public void takeJoystickInputsReverse(double x,  double y){
+        twoMotorDrive.arcadeDrive(x, -y);
     }
-    
+
     public void stop(){
     	twoMotorDrive.drive(0, 0);
     }
