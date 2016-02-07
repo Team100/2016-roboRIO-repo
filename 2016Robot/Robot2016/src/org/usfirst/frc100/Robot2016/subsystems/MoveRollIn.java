@@ -47,10 +47,10 @@ public class MoveRollIn extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
     public void setRollerSpeed(double speed){
-    	speedController1.set(speed);
+    	pickUpRoller.set(speed);
     }
     public void stop(){
-    	speedController1.set(0);
+    	pickUpRoller.set(0);
     }
 }
 

@@ -51,7 +51,7 @@ boolean driveDirection = true;
     protected void execute() {
     	if(driveDirection == false)
     	{
-    	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getX(), Robot.oi.getDriverController2().getY());
+    	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getX(), -Robot.oi.getDriverController2().getY());
     	}
     	else
     	{
