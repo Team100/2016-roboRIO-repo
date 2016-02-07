@@ -51,11 +51,11 @@ boolean driveDirection = true;
     protected void execute() {
     	if(driveDirection == false)
     	{
-    	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getY(), Robot.oi.getDriverController2().getX());
+    	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getX(), Robot.oi.getDriverController2().getY());
     	}
     	else
     	{
-    	Robot.driveTrain.takeJoystickInputsReverse(Robot.oi.getDriverController1().getY(), Robot.oi.getDriverController2().getX());
+    	Robot.driveTrain.takeJoystickInputsReverse(Robot.oi.getDriverController1().getX(), Robot.oi.getDriverController2().getY());
     	}
     	SmartDashboard.putBoolean("orientation", driveDirection);
 

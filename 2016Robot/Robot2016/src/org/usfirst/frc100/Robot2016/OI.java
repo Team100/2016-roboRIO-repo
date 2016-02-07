@@ -83,9 +83,9 @@ public class OI {
 
         danielCustomControllers = new Joystick(3);
 
-        operator = new Joystick(2);
+        operator = new Joystick(0);
 
-        shoot = new JoystickButton(operator, 3);
+        shoot = new JoystickButton(operator, 1);
         shoot.whenPressed(new Shooting());
         autoLine = new JoystickButton(operator, 1);
         autoLine.whenPressed(new AutoAlignHighGoal());
@@ -111,7 +111,7 @@ public class OI {
         spinIn.whileHeld(new RollIn());
         movePickupArm = new JoystickButton(operator, 1);
         movePickupArm.whileHeld(new MovePickUp());
-        driverController2 = new Joystick(0);
+        driverController2 = new Joystick(2);
 
         driverController1 = new Joystick(1);
 
