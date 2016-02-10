@@ -11,8 +11,10 @@
 
 package org.usfirst.frc100.Robot2016.commands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Robot2016.Robot;
+import org.usfirst.frc100.Robot2016.RobotMap;
 
 /**
  *
@@ -41,6 +43,8 @@ public class LoadBall extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	RobotMap.loaderPinballBallHandlerSolenoid1.set(DoubleSolenoid.Value.kReverse);
+    	RobotMap.loaderPinballBallHandlerSolenoid2.set(DoubleSolenoid.Value.kReverse);
     }
 
     // Make this return true when this Command no longer needs to run execute()
