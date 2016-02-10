@@ -62,7 +62,7 @@ public class PickUp extends Subsystem {
 
     public void takeJoystickInputs(Joystick op){
 
-    	armAngleMotor.set(op.getRawAxis(0));
+    	armAngleMotor.set(op.getRawAxis(1));
 
     }
 
