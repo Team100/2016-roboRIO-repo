@@ -45,7 +45,7 @@ public class RollIn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.pickUp.setRollerSpeed(1.0);
+    	Robot.moveRollIn.setRollerSpeed(1.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -57,7 +57,7 @@ public class RollIn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.pickUp.stop();
+    	Robot.moveRollIn.stop();
     }
 
     // Called when another command which requires one or more of the same

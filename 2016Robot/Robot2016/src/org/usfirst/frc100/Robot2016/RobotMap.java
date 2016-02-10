@@ -48,8 +48,8 @@ public class RobotMap {
     public static SpeedController pickUpArmAngleMotor;
     public static Encoder pickUpArmAngleSensor;
     public static AnalogPotentiometer pickUpPickUpPot;
-    public static SpeedController pickUpPickUpRoller;
     public static DigitalInput pickUpPortcullisSensor;
+    public static SpeedController moveRollInPickUpRoller;
     public static DigitalInput loaderPinballLoaded;
     public static DoubleSolenoid loaderPinballBallHandlerSolenoid1;
     public static DoubleSolenoid loaderPinballBallHandlerSolenoid2;
@@ -110,11 +110,11 @@ public class RobotMap {
         pickUpPickUpPot = new AnalogPotentiometer(1, 1.0, 0.0);
         LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
         
-        pickUpPickUpRoller = new VictorSP(3);
-        LiveWindow.addActuator("Pick Up", "Pick Up Roller", (VictorSP) pickUpPickUpRoller);
-        
         pickUpPortcullisSensor = new DigitalInput(8);
         LiveWindow.addSensor("Pick Up", "Portcullis Sensor", pickUpPortcullisSensor);
+        
+        moveRollInPickUpRoller = new VictorSP(3);
+        LiveWindow.addActuator("MoveRollIn", "Pick Up Roller", (VictorSP) moveRollInPickUpRoller);
         
         loaderPinballLoaded = new DigitalInput(9);
         LiveWindow.addSensor("Loader Pinball", "Loaded", loaderPinballLoaded);
