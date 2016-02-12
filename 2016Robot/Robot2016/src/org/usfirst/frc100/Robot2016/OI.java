@@ -65,8 +65,7 @@ public class OI {
     public JoystickButton flipperOutside;
     public JoystickButton flipperHold;
     public JoystickButton flipperShoot;
-    public JoystickButton turretRight;
-    public JoystickButton turretLeft;
+    public JoystickButton turretAdjust;
     public JoystickButton fastShoot;
     public JoystickButton mediumshoot;
     public JoystickButton slowShoot;
@@ -91,22 +90,23 @@ public class OI {
         autoLine = new JoystickButton(operator, 1);
         autoLine.whenPressed(new AutoAlignHighGoal());
         slowShoot = new JoystickButton(operator, 1);
+
         slowShoot.whileHeld(new ShootingSpeed(0));
         mediumshoot = new JoystickButton(operator, 4);
         mediumshoot.whileHeld(new ShootingSpeed(1900));
         fastShoot = new JoystickButton(operator, 3);
         fastShoot.whileHeld(new ShootingSpeed(2600));
         
-        turretLeft = new JoystickButton(operator, 1);
-        turretLeft.whileHeld(new AdjustLeft());
-        turretRight = new JoystickButton(operator, 1);
-        turretRight.whileHeld(new AdjustRight());
+        turretAdjust = new JoystickButton(operator, 2);
+        turretAdjust.whileHeld(new AdjustTurret());
+
         flipperShoot = new JoystickButton(operator, 1);
         flipperShoot.whenPressed(new ShootFlippers());
         flipperHold = new JoystickButton(operator, 1);
         flipperHold.whenPressed(new HoldFlippers());
         flipperOutside = new JoystickButton(operator, 1);
         flipperOutside.whenPressed(new OutSideFlippers());
+
         spinOut = new JoystickButton(operator, 7);
         spinOut.whileHeld(new RollOut());
         spinIn = new JoystickButton(operator, 5);
@@ -136,8 +136,7 @@ public class OI {
         SmartDashboard.putData("OutSideFlippers", new OutSideFlippers());
         SmartDashboard.putData("HoldFlippers", new HoldFlippers());
         SmartDashboard.putData("ShootFlippers", new ShootFlippers());
-        SmartDashboard.putData("AdjustLeft", new AdjustLeft());
-        SmartDashboard.putData("AdjustRight", new AdjustRight());
+        SmartDashboard.putData("AdjustTurret", new AdjustTurret());
         SmartDashboard.putData("AutoAlignHighGoal", new AutoAlignHighGoal());
      //   SmartDashboard.putData("ShootingSpeed", new ShootingSpeed());
         SmartDashboard.putData("Shooting", new Shooting());

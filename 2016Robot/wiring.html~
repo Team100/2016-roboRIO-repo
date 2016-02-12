@@ -52,14 +52,12 @@
 	                                               <tr><td>0</td><td>Drive Train Left</td><td>VictorSP</td></tr>
             	                                         <tr><td>1</td><td>Drive Train Right</td><td>VictorSP</td></tr>
             	                                         <tr><td>2</td><td>Pick Up Arm Angle Motor</td><td>VictorSP</td></tr>
-            	                                         <tr><td>3</td><td>Pick Up Pick Up Roller</td><td>VictorSP</td></tr>
-            	                                         <tr><td>4</td><td>MoveRollOut Speed Controller 1</td><td>VictorSP</td></tr>
-            	                                         <tr><td>5</td><td>MoveRollIn Speed Controller 1</td><td>VictorSP</td></tr>
-            	                                         <tr><td>6</td><td>Shooter Fly Motor</td><td>VictorSP</td></tr>
-            	                                         <tr><td>7</td><td>Turret Horizontal Pivot</td><td>VictorSP</td></tr>
-            	                                         <tr><td>8</td><td>Unbeatable Scaling Mechanism  Winch Motor</td><td>VictorSP</td></tr>
-            	                                         <tr><td>9</td><td>Unbeatable Scaling Mechanism  Hook Extension</td><td>VictorSP</td></tr>
-            	                                                                                                                                                                                                     	    </table>
+            	                                         <tr><td>3</td><td>MoveRollIn Pick Up Roller</td><td>VictorSP</td></tr>
+            	                                         <tr><td>4</td><td>Shooter Fly Motor</td><td>VictorSP</td></tr>
+            	                                         <tr><td>5</td><td>Turret Horizontal Pivot</td><td>VictorSP</td></tr>
+            	                                         <tr><td>6</td><td>Unbeatable Scaling Mechanism  Winch Motor</td><td>VictorSP</td></tr>
+            	                                         <tr><td>7</td><td>Unbeatable Scaling Mechanism  Hook Extension</td><td>VictorSP</td></tr>
+            	                                                                                                                                                                                                                             	    </table>
      
         
             
