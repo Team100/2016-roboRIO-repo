@@ -70,5 +70,8 @@ public class DriveTrain extends Subsystem {
     public void stop(){
     	twoMotorDrive.drive(0, 0);
     }
+    public double getAngles(){
+    	return RobotMap.internalGyro.getAngle(); //add the gyro 
+    }
     }
 
