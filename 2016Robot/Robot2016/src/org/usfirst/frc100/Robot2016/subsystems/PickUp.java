@@ -39,7 +39,6 @@ public class PickUp extends Subsystem {
     private final DigitalInput upperLimit = RobotMap.pickUpUpperLimit;
     private final DigitalInput lowerLimit = RobotMap.pickUpLowerLimit;
     private final SpeedController armAngleMotor = RobotMap.pickUpArmAngleMotor;
-    private final Encoder armAngleSensor = RobotMap.pickUpArmAngleSensor;
     private final AnalogPotentiometer pickUpPot = RobotMap.pickUpPickUpPot;
     private final DigitalInput portcullisSensor = RobotMap.pickUpPortcullisSensor;
 
