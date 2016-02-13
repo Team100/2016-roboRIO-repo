@@ -70,17 +70,11 @@ public class PickUp extends Subsystem {
     }
 
     public boolean hitUpper(){
-    	if(upperLimit.get()){
-    		return true;
-    	}
-    	return false;
+    	return upperLimit.get();
     }
 
     public boolean hitLower(){
-    	if(lowerLimit.get()){
-    		return true;
-    	}
-    	return false;
+    	return lowerLimit.get();
     }
 
 

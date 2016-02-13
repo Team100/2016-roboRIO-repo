@@ -113,8 +113,8 @@ public class OI {
         spinOut.whileHeld(new RollOut());
         spinIn = new JoystickButton(operator, 5);
         spinIn.whileHeld(new RollIn());
-            //   movePickupArm = new JoystickButton(operator, 1);
-      //  movePickupArm.whileHeld(new MovePickUp());
+        movePickupArm = new JoystickButton(operator, 1);
+        movePickupArm.whileHeld(new MovePickUp());
         driverController2 = new Joystick(2);
 
         driverController1 = new Joystick(1);
