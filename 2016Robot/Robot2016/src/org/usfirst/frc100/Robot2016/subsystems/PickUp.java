@@ -77,6 +77,23 @@ public class PickUp extends Subsystem {
     	return lowerLimit.get();
     }
 
+    public void manualControl(double speed){
+    	if(Robot.pickUp.hitUpper()){
+    		if(Robot.oi.operator.getRawAxis(1) > 0){
+    			armAngleMotor.set(speed);
+    		}else{
+    			Robot.pickUp.stop();
+    		}
+    	}else if(Robot.pickUp.hitLower()){
+    		if(Robot.oi.operator.getRawAxis(1) < 0){
+    			armAngleMotor.set(speed);
+    		}else{
+    			Robot.pickUp.stop();
+    		}
+    	}else{
+    		armAngleMotor.set(speed);
+    	}
+    }
 
     public void stop(){
     	armAngleMotor.set(0);

@@ -45,21 +45,7 @@ public class MovePickUp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.pickUp.hitUpper()){
-    		if(Robot.oi.operator.getRawAxis(1) > 0){
-    			Robot.pickUp.takeJoystickInputs(Robot.oi.operator.getRawAxis(1));
-    		}else{
-    			Robot.pickUp.stop();
-    		}
-    	}else if(Robot.pickUp.hitLower()){
-    		if(Robot.oi.operator.getRawAxis(1) < 0){
-    			Robot.pickUp.takeJoystickInputs(Robot.oi.operator.getRawAxis(1));
-    		}else{
-    			Robot.pickUp.stop();
-    		}
-    	}else{
-    		Robot.pickUp.takeJoystickInputs(Robot.oi.operator.getRawAxis(1));
-    	}
+    	Robot.pickUp.manualControl(Robot.oi.operator.getRawAxis(1));
     	//while(RobotMap.pickUpLowerLimit.get() == true && RobotMap.pickUpUpperLimit.get() == true);
     	/*
     	while(RobotMap.pickUpLowerLimit.get() == true && RobotMap.pickUpUpperLimit.get() == false)
