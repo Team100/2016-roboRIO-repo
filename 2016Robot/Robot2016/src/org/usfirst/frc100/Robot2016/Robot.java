@@ -11,10 +11,12 @@
 
 package org.usfirst.frc100.Robot2016;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
 import org.usfirst.frc100.Robot2016.commands.*;
 import org.usfirst.frc100.Robot2016.subsystems.*;
 
@@ -105,6 +107,8 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        CameraServer.getInstance().startAutomaticCapture("cam0");
+
     }
 
     /**
@@ -112,6 +116,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+
     }
 
     /**

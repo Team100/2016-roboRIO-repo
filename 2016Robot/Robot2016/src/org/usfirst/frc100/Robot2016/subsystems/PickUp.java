@@ -83,6 +83,7 @@ public class PickUp extends Subsystem {
     	return false;
     }
 
+
     public void stop(){
     	armAngleMotor.set(0);
     }
