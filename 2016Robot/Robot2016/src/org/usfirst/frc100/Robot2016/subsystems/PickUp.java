@@ -59,13 +59,29 @@ public class PickUp extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
 
-    public void takeJoystickInputs(Joystick op){
+    public void takeJoystickInputs(double op){
 
-    	armAngleMotor.set(op.getRawAxis(1));
+    	armAngleMotor.set(op);
 
     }
 
+    public double getArmAngleMotor(){
+    	return armAngleMotor.get();
+    }
 
+    public boolean hitUpper(){
+    	if(upperLimit.get()){
+    		return true;
+    	}
+    	return false;
+    }
+
+    public boolean hitLower(){
+    	if(lowerLimit.get()){
+    		return true;
+    	}
+    	return false;
+    }
 
     public void stop(){
     	armAngleMotor.set(0);

@@ -12,7 +12,10 @@
 package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc100.Robot2016.Robot;
+import org.usfirst.frc100.Robot2016.RobotMap;
 
 /**
  *
@@ -42,7 +45,19 @@ public class MovePickUp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.pickUp.takeJoystickInputs(Robot.oi.operator);
+
+    	Robot.pickUp.takeJoystickInputs(Robot.oi.operator.getRawAxis(1));
+    	//while(RobotMap.pickUpLowerLimit.get() == true && RobotMap.pickUpUpperLimit.get() == true);
+    	/*
+    	while(RobotMap.pickUpLowerLimit.get() == true && RobotMap.pickUpUpperLimit.get() == false)
+    	{
+    		Robot.pickUp.takeJoystickInputs(((Robot.oi.operator.getRawAxis(1))*.5));
+    	}
+    	while(RobotMap.pickUpLowerLimit.get() == false && RobotMap.pickUpUpperLimit.get() == true)
+    	{
+    		Robot.pickUp.takeJoystickInputs(((Robot.oi.operator.getRawAxis(1))/.5));
+    	}
+    	*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
