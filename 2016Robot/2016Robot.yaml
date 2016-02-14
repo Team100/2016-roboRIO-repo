@@ -72,7 +72,7 @@ Children:
           default: '0'
           name: Input Channel (Analog)
           validators: [AnalogInput]
-          value: '0'
+          value: '1'
       Base: Analog Input
       Name: IR Distance Sensor
     - Children: []
@@ -199,44 +199,12 @@ Children:
       Name: Arm Angle Motor
     - Children: []
       Properties:
-        Channel A Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id004
-          default: '0'
-          name: Channel A Channel (Digital)
-          validators: *id005
-          value: '6'
-        Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
-          name: Distance Per Pulse, validators: null, value: 1.0}
-        PID Source: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id006
-          default: kRate
-          name: PID Source
-          validators: null
-          value: kRate
-        Encoding Type: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id007
-          default: k4X
-          name: Encoding Type
-          validators: null
-          value: k4X
-        Reverse Direction: !!robotbuilder.data.properties.BooleanProperty {default: false,
-          name: Reverse Direction, validators: null, value: false}
-        Channel B Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id008
-          default: '0'
-          name: Channel B Channel (Digital)
-          validators: *id009
-          value: '7'
-      Base: Quadrature Encoder
-      Name: Arm Angle Sensor
-    - Children: []
-      Properties:
         Input Channel (Analog): !!robotbuilder.data.properties.ChoicesProperty
           choices: ['0', '1', '2', '3', '4', '5', '6', '7']
           default: '0'
           name: Input Channel (Analog)
           validators: [AnalogInput]
-          value: '1'
+          value: '0'
         Full Range: !!robotbuilder.data.properties.DoubleProperty {default: 1, name: Full Range,
           validators: null, value: 1.0}
         Offset: !!robotbuilder.data.properties.DoubleProperty {default: 0, name: Offset,
@@ -252,7 +220,7 @@ Children:
           default: '0'
           name: Input Channel (Digital)
           validators: [DigitalChannel]
-          value: '8'
+          value: '6'
       Base: Digital Input
       Name: Portcullis Sensor
     Properties:
@@ -310,7 +278,7 @@ Children:
           default: '0'
           name: Input Channel (Digital)
           validators: *id011
-          value: '9'
+          value: '7'
       Base: Limit Switch
       Name: Loaded
     - Children: []
@@ -334,13 +302,13 @@ Children:
           default: '0'
           name: Reverse Channel (Solenoid)
           validators: &id017 [Solenoid]
-          value: '5'
+          value: '1'
         Forward Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: &id018 ['0', '1', '2', '3', '4', '5', '6', '7']
           default: '0'
           name: Forward Channel (Solenoid)
           validators: &id019 [Solenoid]
-          value: '4'
+          value: '0'
       Base: Double Solenoid
       Name: Ball Handler Solenoid 1
     - Children: []
@@ -362,13 +330,13 @@ Children:
           default: '0'
           name: Reverse Channel (Solenoid)
           validators: *id017
-          value: '7'
+          value: '3'
         Forward Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id018
           default: '0'
           name: Forward Channel (Solenoid)
           validators: *id019
-          value: '6'
+          value: '2'
       Base: Double Solenoid
       Name: Ball Handler Solenoid 2
     Properties:
@@ -411,7 +379,7 @@ Children:
             default: '0'
             name: Channel A Channel (Digital)
             validators: *id005
-            value: '10'
+            value: '8'
           Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
             name: Distance Per Pulse, validators: null, value: 1.0}
           PID Source: !!robotbuilder.data.properties.ChoicesProperty
@@ -433,7 +401,7 @@ Children:
             default: '0'
             name: Channel B Channel (Digital)
             validators: *id009
-            value: '11'
+            value: '9'
         Base: Quadrature Encoder
         Name: Fly Encoder
       Properties:
@@ -697,50 +665,6 @@ Children:
         value: *id020
     Base: Subsystem
     Name: Pneumatics
-  - Children:
-    - Children: []
-      Properties:
-        Forward PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id012
-          default: '0'
-          name: Forward PCM (Solenoid)
-          validators: *id013
-          value: '0'
-        Reverse PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id014
-          default: '0'
-          name: Reverse PCM (Solenoid)
-          validators: *id015
-          value: '0'
-        Reverse Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id016
-          default: '0'
-          name: Reverse Channel (Solenoid)
-          validators: *id017
-          value: '3'
-        Forward Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id018
-          default: '0'
-          name: Forward Channel (Solenoid)
-          validators: *id019
-          value: '2'
-      Base: Double Solenoid
-      Name: Push Up Piston
-    Properties:
-      Default command parameters: !!robotbuilder.data.properties.ParametersProperty
-        default: []
-        name: Default command parameters
-        validators: null
-        value: []
-      Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Default Command, type: Command, validators: null, value: None}
-      Constants: !!robotbuilder.data.properties.ConstantsProperty
-        default: []
-        name: Constants
-        validators: null
-        value: *id020
-    Base: Subsystem
-    Name: Push Up
   - Children: []
     Properties:
       Default command parameters: !!robotbuilder.data.properties.ParametersProperty

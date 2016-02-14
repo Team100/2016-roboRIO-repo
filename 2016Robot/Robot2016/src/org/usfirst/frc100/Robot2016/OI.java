@@ -91,13 +91,15 @@ public class OI {
         autoLine.whenPressed(new AutoAlignHighGoal());
         slowShoot = new JoystickButton(operator, 1);
 
+
         slowShoot.whileHeld(new ShootingSpeed(0));
         mediumshoot = new JoystickButton(operator, 4);
         mediumshoot.whileHeld(new ShootingSpeed(1900));
         fastShoot = new JoystickButton(operator, 3);
         fastShoot.whileHeld(new ShootingSpeed(2600));
-        
+
         turretAdjust = new JoystickButton(operator, 2);
+
         turretAdjust.whileHeld(new AdjustTurret());
 
         flipperShoot = new JoystickButton(operator, 1);
@@ -111,13 +113,15 @@ public class OI {
         spinOut.whileHeld(new RollOut());
         spinIn = new JoystickButton(operator, 5);
         spinIn.whileHeld(new RollIn());
-            //   movePickupArm = new JoystickButton(operator, 1);
-      //  movePickupArm.whileHeld(new MovePickUp());
+        movePickupArm = new JoystickButton(operator, 1);
+        movePickupArm.whileHeld(new MovePickUp());
         driverController2 = new Joystick(2);
 
         driverController1 = new Joystick(1);
 
+
         turnAround = new JoystickButton(driverController2, 3);
+
         turnAround.whenPressed(new Turn180());
         forwardOrient = new JoystickButton(driverController1, 1);
         forwardOrient.whenPressed(new ChangeCameraOrientation());

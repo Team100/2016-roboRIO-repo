@@ -39,7 +39,6 @@ public class PickUp extends Subsystem {
     private final DigitalInput upperLimit = RobotMap.pickUpUpperLimit;
     private final DigitalInput lowerLimit = RobotMap.pickUpLowerLimit;
     private final SpeedController armAngleMotor = RobotMap.pickUpArmAngleMotor;
-    private final Encoder armAngleSensor = RobotMap.pickUpArmAngleSensor;
     private final AnalogPotentiometer pickUpPot = RobotMap.pickUpPickUpPot;
     private final DigitalInput portcullisSensor = RobotMap.pickUpPortcullisSensor;
 
@@ -60,13 +59,41 @@ public class PickUp extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
 
-    public void takeJoystickInputs(Joystick op){
+    public void takeJoystickInputs(double op){
 
-    	armAngleMotor.set(op.getRawAxis(1));
+    	armAngleMotor.set(op);
 
     }
 
+    public double getArmAngleMotor(){
+    	return armAngleMotor.get();
+    }
 
+    public boolean hitUpper(){
+    	return upperLimit.get();
+    }
+
+    public boolean hitLower(){
+    	return lowerLimit.get();
+    }
+
+    public void manualControl(double speed){
+    	if(Robot.pickUp.hitUpper()){
+    		if(Robot.oi.operator.getRawAxis(1) > 0){
+    			armAngleMotor.set(speed);
+    		}else{
+    			Robot.pickUp.stop();
+    		}
+    	}else if(Robot.pickUp.hitLower()){
+    		if(Robot.oi.operator.getRawAxis(1) < 0){
+    			armAngleMotor.set(speed);
+    		}else{
+    			Robot.pickUp.stop();
+    		}
+    	}else{
+    		armAngleMotor.set(speed);
+    	}
+    }
 
     public void stop(){
     	armAngleMotor.set(0);
