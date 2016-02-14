@@ -65,7 +65,7 @@ public class OI {
     public JoystickButton flipperOutside;
     public JoystickButton flipperHold;
     public JoystickButton flipperShoot;
-    public JoystickButton turretAdjust;
+    public JoystickButton spinnerAdjust;
     public JoystickButton fastShoot;
     public JoystickButton mediumshoot;
     public JoystickButton slowShoot;
@@ -98,9 +98,9 @@ public class OI {
         fastShoot = new JoystickButton(operator, 3);
         fastShoot.whileHeld(new ShootingSpeed(2600));
 
-        turretAdjust = new JoystickButton(operator, 2);
+        spinnerAdjust = new JoystickButton(operator, 2);
 
-        turretAdjust.whileHeld(new AdjustTurret());
+        spinnerAdjust.whileHeld(new AdjustSpinner());
 
         flipperShoot = new JoystickButton(operator, 1);
         flipperShoot.whenPressed(new ShootFlippers());
@@ -140,7 +140,7 @@ public class OI {
         SmartDashboard.putData("OutSideFlippers", new OutSideFlippers());
         SmartDashboard.putData("HoldFlippers", new HoldFlippers());
         SmartDashboard.putData("ShootFlippers", new ShootFlippers());
-        SmartDashboard.putData("AdjustTurret", new AdjustTurret());
+        SmartDashboard.putData("AdjustSpinner", new AdjustSpinner());
         SmartDashboard.putData("AutoAlignHighGoal", new AutoAlignHighGoal());
      //   SmartDashboard.putData("ShootingSpeed", new ShootingSpeed());
         SmartDashboard.putData("Shooting", new Shooting());

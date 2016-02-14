@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
     public static MoveRollIn moveRollIn;
     public static LoaderPinball loaderPinball;
     public static Shooter shooter;
-    public static Turret turret;
+    public static Spinner spinner;
     public static UnbeatableScalingMechanism unbeatableScalingMechanism;
     public static Pneumatics pneumatics;
     public static Vision vision;
@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
         moveRollIn = new MoveRollIn();
         loaderPinball = new LoaderPinball();
         shooter = new Shooter();
-        turret = new Turret();
+        spinner = new Spinner();
         unbeatableScalingMechanism = new UnbeatableScalingMechanism();
         pneumatics = new Pneumatics();
         vision = new Vision();

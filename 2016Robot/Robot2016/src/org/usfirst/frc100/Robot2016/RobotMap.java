@@ -56,10 +56,10 @@ public class RobotMap {
     public static SpeedController shooterFlyMotor;
     public static Encoder shooterFlyEncoder;
     public static PIDController shooterShooterSpeedControllerPID;
-    public static SpeedController turretHorizontalPivot;
-    public static DigitalInput turretLeftSideLimit;
-    public static DigitalInput turretRightSideLimit;
-    public static Encoder turretPivotEncoder;
+    public static SpeedController spinnerHorizontalPivot;
+    public static DigitalInput spinnerLeftSideLimit;
+    public static DigitalInput spinnerRightSideLimit;
+    public static Encoder spinnerPivotEncoder;
     public static SpeedController unbeatableScalingMechanismWinchMotor;
     public static SpeedController unbeatableScalingMechanismHookExtension;
     public static DigitalInput unbeatableScalingMechanismClimberLimit;
@@ -139,19 +139,19 @@ public class RobotMap {
         shooterShooterSpeedControllerPID.setAbsoluteTolerance(0.2);
 
         shooterShooterSpeedControllerPID.setOutputRange(-1.0, 1.0);
-        turretHorizontalPivot = new VictorSP(5);
-        LiveWindow.addActuator("Turret", "Horizontal Pivot", (VictorSP) turretHorizontalPivot);
+        spinnerHorizontalPivot = new VictorSP(5);
+        LiveWindow.addActuator("Spinner", "Horizontal Pivot", (VictorSP) spinnerHorizontalPivot);
 
-        turretLeftSideLimit = new DigitalInput(12);
-        LiveWindow.addSensor("Turret", "Left Side Limit", turretLeftSideLimit);
+        spinnerLeftSideLimit = new DigitalInput(12);
+        LiveWindow.addSensor("Spinner", "Left Side Limit", spinnerLeftSideLimit);
 
-        turretRightSideLimit = new DigitalInput(13);
-        LiveWindow.addSensor("Turret", "Right Side Limit", turretRightSideLimit);
+        spinnerRightSideLimit = new DigitalInput(13);
+        LiveWindow.addSensor("Spinner", "Right Side Limit", spinnerRightSideLimit);
 
-        turretPivotEncoder = new Encoder(14, 15, false, EncodingType.k4X);
-        LiveWindow.addSensor("Turret", "Pivot Encoder", turretPivotEncoder);
-        turretPivotEncoder.setDistancePerPulse(1.0);
-        turretPivotEncoder.setPIDSourceType(PIDSourceType.kRate);
+        spinnerPivotEncoder = new Encoder(14, 15, false, EncodingType.k4X);
+        LiveWindow.addSensor("Spinner", "Pivot Encoder", spinnerPivotEncoder);
+        spinnerPivotEncoder.setDistancePerPulse(1.0);
+        spinnerPivotEncoder.setPIDSourceType(PIDSourceType.kRate);
         unbeatableScalingMechanismWinchMotor = new VictorSP(6);
         LiveWindow.addActuator("Unbeatable Scaling Mechanism ", "Winch Motor", (VictorSP) unbeatableScalingMechanismWinchMotor);
 
