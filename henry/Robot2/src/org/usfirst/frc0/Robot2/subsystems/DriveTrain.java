@@ -10,6 +10,7 @@
 
 package org.usfirst.frc0.Robot2.subsystems;
 
+import org.usfirst.frc0.Robot2.PID;
 import org.usfirst.frc0.Robot2.Robot;
 import org.usfirst.frc0.Robot2.RobotMap;
 import org.usfirst.frc0.Robot2.commands.*;
@@ -34,12 +35,13 @@ public class DriveTrain extends PIDSubsystem {
 	// public int returnRange;
     
 	double angle;
+	//public Object stop;
 	static double integrolValue = TankDrive.iValue2;
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	public DriveTrain()
 	{
-		 super("DriveTrain", .04, .001 , 0);
+		 super("DriveTrain", PID.p(), PID.I() , PID.D());
 		 getPIDController().setContinuous(false);
 		 
 		 /*
@@ -147,9 +149,9 @@ public class DriveTrain extends PIDSubsystem {
 	
 	public void updateSetpoint(double incrementalAngle)
 	{
-		double sp = Robot.driveTrain.getSetpoint();
-		 sp += incrementalAngle;
-		 Robot.driveTrain.setSetpoint(sp);
+		//double sp = Robot.driveTrain.getSetpoint();
+		// sp += incrementalAngle;
+		 Robot.driveTrain.setSetpoint(incrementalAngle);
 		 //return sp;
 		 
 	}
