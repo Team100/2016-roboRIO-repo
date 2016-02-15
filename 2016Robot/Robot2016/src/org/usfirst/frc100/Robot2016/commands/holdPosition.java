@@ -12,11 +12,14 @@
 package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
+
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc100.Robot2016.Robot;
 import org.usfirst.frc100.Robot2016.RobotMap;
 
@@ -42,6 +45,7 @@ public class holdPosition extends Command {
  // Called just before this Command runs the first time
  protected void initialize() {
  	// Get everything in a safe starting state.
+	 Robot.driveTrain.pid.setPID(0.04, .002, 0, 0);
 	 Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
 	 Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()));
 	 Robot.driveTrain.pid.reset();
@@ -49,7 +53,9 @@ public class holdPosition extends Command {
  }
 
  // Called repeatedly when this Command is scheduled to run
- protected void execute() {}
+ protected void execute() {
+	SmartDashboard.putNumber("holdit value", Robot.driveTrain.pid.getSetpoint());
+ }
 
  // Make this return true when this Command no longer needs to run execute()
  protected boolean isFinished() {

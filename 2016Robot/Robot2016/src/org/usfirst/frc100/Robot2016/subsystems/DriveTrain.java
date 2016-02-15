@@ -92,10 +92,10 @@ public class DriveTrain extends Subsystem {
 
     public void takeJoystickInputs(double x, double y){
     	//twoMotorDrive.tankDrive(left, right);
-    twoMotorDrive.arcadeDrive(x, y);
+    twoMotorDrive.arcadeDrive(-x, y);
     }
     public void takeJoystickInputsReverse(double x,  double y){
-        twoMotorDrive.arcadeDrive(x, y);
+        twoMotorDrive.arcadeDrive(-x, y);
     }
 
     public void stop(){
