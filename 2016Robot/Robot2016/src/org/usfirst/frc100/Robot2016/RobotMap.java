@@ -46,6 +46,7 @@ public class RobotMap {
     public static Encoder driveTrainRightEncoder;
     public static DigitalInput pickUpUpperLimit;
     public static DigitalInput pickUpLowerLimit;
+    public static DigitalInput pickUpInsideDetector;
     public static SpeedController pickUpArmAngleMotor;
     public static AnalogPotentiometer pickUpPickUpPot;
     public static DigitalInput pickUpPortcullisSensor;
@@ -100,19 +101,22 @@ public class RobotMap {
         pickUpLowerLimit = new DigitalInput(5);
         LiveWindow.addSensor("Pick Up", "Lower Limit", pickUpLowerLimit);
 
+        pickUpInsideDetector = new DigitalInput(6);
+        LiveWindow.addSensor("Pick Up", "Indide Detector", pickUpInsideDetector);
+
         pickUpArmAngleMotor = new VictorSP(2);
         LiveWindow.addActuator("Pick Up", "Arm Angle Motor", (VictorSP) pickUpArmAngleMotor);
 
         pickUpPickUpPot = new AnalogPotentiometer(0, 1.0, 0.0);
         LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
 
-        pickUpPortcullisSensor = new DigitalInput(6);
+        pickUpPortcullisSensor = new DigitalInput(7);
         LiveWindow.addSensor("Pick Up", "Portcullis Sensor", pickUpPortcullisSensor);
 
         moveRollInPickUpRoller = new VictorSP(3);
         LiveWindow.addActuator("MoveRollIn", "Pick Up Roller", (VictorSP) moveRollInPickUpRoller);
 
-        loaderPinballLoaded = new DigitalInput(7);
+        loaderPinballLoaded = new DigitalInput(8);
         LiveWindow.addSensor("Loader Pinball", "Loaded", loaderPinballLoaded);
 
         loaderPinballBallHandlerSolenoid1 = new DoubleSolenoid(0, 0, 1);
@@ -124,7 +128,7 @@ public class RobotMap {
         shooterFlyMotor = new VictorSP(4);
         LiveWindow.addActuator("Shooter", "Fly Motor", (VictorSP) shooterFlyMotor);
 
-        shooterFlyEncoder = new Encoder(8, 9, false, EncodingType.k4X);
+        shooterFlyEncoder = new Encoder(9, 10, false, EncodingType.k4X);
         LiveWindow.addSensor("Shooter", "Fly Encoder", shooterFlyEncoder);
 
         shooterFlyEncoder.setDistancePerPulse(1.0);
@@ -144,7 +148,7 @@ public class RobotMap {
         //spinnerRightSideLimit = new DigitalInput(13);
         //LiveWindow.addSensor("Spinner", "Right Side Limit", spinnerRightSideLimit);
 
-        spinnerPivotEncoder = new Encoder(14, 15, false, EncodingType.k4X);
+        spinnerPivotEncoder = new Encoder(11, 12, false, EncodingType.k4X);
         LiveWindow.addSensor("Spinner", "Pivot Encoder", spinnerPivotEncoder);
 
         spinnerPivotEncoder.setDistancePerPulse(1.0);
@@ -155,7 +159,7 @@ public class RobotMap {
         unbeatableScalingMechanismHookExtension = new VictorSP(7);
         LiveWindow.addActuator("Unbeatable Scaling Mechanism ", "Hook Extension", (VictorSP) unbeatableScalingMechanismHookExtension);
 
-        unbeatableScalingMechanismClimberLimit = new DigitalInput(16);
+        unbeatableScalingMechanismClimberLimit = new DigitalInput(13);
         LiveWindow.addSensor("Unbeatable Scaling Mechanism ", "Climber Limit", unbeatableScalingMechanismClimberLimit);
 
         pneumaticsCompressor = new Compressor(0);

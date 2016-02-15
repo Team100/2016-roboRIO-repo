@@ -23,7 +23,7 @@ public class RollOut extends Command {
 
 	public RollOut() {
 
-        requires(Robot.pickUp);
+        requires(Robot.moveRollIn);
 
 	}
 

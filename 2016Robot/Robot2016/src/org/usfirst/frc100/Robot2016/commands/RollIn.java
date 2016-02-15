@@ -23,7 +23,7 @@ public class RollIn extends Command {
 
     public RollIn() {
 
-        requires(Robot.pickUp);
+        requires(Robot.moveRollIn);
 
     }
     public RollIn(boolean rollerIn) {
