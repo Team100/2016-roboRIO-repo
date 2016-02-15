@@ -38,6 +38,7 @@ public class MovePickUp extends Command {
     	Robot.pickUp.manualControl(Robot.oi.operator.getRawAxis(1)/4);
 
 
+
     }
 
     // Make this return true when this Command no longer needs to run execute()

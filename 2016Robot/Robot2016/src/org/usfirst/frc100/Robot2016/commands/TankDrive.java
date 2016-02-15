@@ -29,11 +29,9 @@ public class TankDrive extends Command {
         requires(Robot.driveTrain);
 
     }
-    public TankDrive(boolean direction)
-    {
+    public TankDrive(boolean direction){
     	driveDirection = direction;
     	requires(Robot.driveTrain);
-
     }
 
     protected void initialize() {
@@ -41,6 +39,19 @@ public class TankDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+
+    	if(driveDirection){
+    	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getX(), -Robot.oi.getDriverController2().getY());
+    	}
+    	else{
+    	Robot.driveTrain.takeJoystickInputsReverse(Robot.oi.getDriverController1().getX(), Robot.oi.getDriverController2().getY());
+    	}
+    	SmartDashboard.putNumber("angle", RobotMap.internalGyro.getAngle());
+    	SmartDashboard.putBoolean("value1", RobotMap.pickUpUpperLimit.get());
+    	SmartDashboard.putBoolean("value2", RobotMap.pickUpLowerLimit.get());
+    	//SmartDashboard.putNumber("tester", Robot.testValue);
+    	//can't switch orientation after switch button 5 and 4 once. Fix it!
+
     	SmartDashboard.putBoolean("valuess", RobotMap.pickUpInsideDetector.get());
     	if(driveDirection){
     	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getX(), -Robot.oi.getDriverController2().getY());
@@ -49,6 +60,7 @@ public class TankDrive extends Command {
     	}
 
     	SmartDashboard.putBoolean("orientation", driveDirection);
+
 
     }
 
