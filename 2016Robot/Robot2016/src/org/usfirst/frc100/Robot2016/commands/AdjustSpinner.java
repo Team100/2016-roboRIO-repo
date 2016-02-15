@@ -12,19 +12,16 @@
 package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc100.Robot2016.Robot;
-import org.usfirst.frc100.Robot2016.RobotMap;
 
 /**
  *
  */
-public class MovePickUp extends Command {
+public class AdjustSpinner extends Command {
 
-    public MovePickUp() {
+    public AdjustSpinner() {
 
-        requires(Robot.pickUp);
+        requires(Robot.spinner);
 
     }
 
@@ -34,11 +31,7 @@ public class MovePickUp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
-    	Robot.pickUp.manualControl(Robot.oi.operator.getRawAxis(1)/4);
-
-
-
+    Robot.spinner.takeJoystickInputs(Robot.oi.operator);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -48,7 +41,7 @@ public class MovePickUp extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.pickUp.stop();
+    	Robot.spinner.stop();
     }
 
     // Called when another command which requires one or more of the same
@@ -56,8 +49,4 @@ public class MovePickUp extends Command {
     protected void interrupted() {
     	end();
     }
-
-    //public static void moveArm(double rawAxis, double d) {
-	//	  Robot.pickUp.takeJoystickInputs(Robot.oi.getDriverController1(), Robot.oi.getDriverController2());
-	//}
 }
