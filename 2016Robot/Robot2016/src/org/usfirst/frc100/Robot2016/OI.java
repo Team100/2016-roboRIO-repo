@@ -34,9 +34,11 @@ public class OI {
     public JoystickButton movePickupArm;
     public JoystickButton spinIn;
     public JoystickButton spinOut;
+    /*
     public JoystickButton flipperOutside;
     public JoystickButton flipperHold;
     public JoystickButton flipperShoot;
+    */
     public JoystickButton spinnerAdjust;
     public JoystickButton fastShoot;
     public JoystickButton mediumshoot;
