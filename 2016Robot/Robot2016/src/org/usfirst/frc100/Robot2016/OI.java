@@ -81,10 +81,10 @@ public class OI {
         //slowShoot.whileHeld(new ShootingSpeed(0));
 
         mediumshoot = new JoystickButton(operator, 8);
-        mediumshoot.whileHeld(new ShootingSpeed(0.5));
+        mediumshoot.whenPressed(new ShootingSpeed(0));
 
         fastShoot = new JoystickButton(operator, 6);
-        fastShoot.whileHeld(new ShootingSpeed(1));
+        fastShoot.whenPressed(new ShootingSpeed(.5));
         top = new JoystickButton(operator, 1);
         top.whileHeld(new MovePickUp("top"));
         mid = new JoystickButton(operator, 4);
@@ -110,14 +110,14 @@ public class OI {
         */
 
         spinOut = new JoystickButton(operator, 7);
-        spinOut.whileHeld(new RollOut(-.3));
+        spinOut.whileHeld(new RollOut(-.1));
 
         spinIn = new JoystickButton(operator, 5);
         spinIn.whileHeld(new RollIn());
 
         
         turnAround = new JoystickButton(driverController2, 3);
-        turnAround.whileHeld(new Turn180());
+        turnAround.whileHeld(new Turn180(170));
 
         movePickupArm = new JoystickButton(operator, 1);
         movePickupArm.whileHeld(new MovePickUp());
@@ -132,7 +132,7 @@ public class OI {
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
-        SmartDashboard.putData("AutonomousDriveForward", new AutonomousDriveForward());
+       // SmartDashboard.putData("AutonomousDriveForward", new AutonomousDriveForward());
         SmartDashboard.putData("Turn180", new Turn180());
         SmartDashboard.putData("ChangeCameraOrientation", new ChangeCameraOrientation());
         SmartDashboard.putData("MovePickUp", new MovePickUp());

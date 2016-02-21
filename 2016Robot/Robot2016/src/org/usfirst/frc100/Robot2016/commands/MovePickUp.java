@@ -45,14 +45,7 @@ public class MovePickUp extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	if(angles.equals("top"))
-    		Robot.pickUp.goToTop();
-    	else if(angles.equals("mid"))
-    		Robot.pickUp.goToMid();
-    	else if(angles.equals("bot"))
-    		Robot.pickUp.goToBot();
-    	else
-    	Robot.pickUp.manualControl(Robot.oi.operator.getRawAxis(1)/4);
+    	    	Robot.pickUp.manualControl(Robot.oi.operator.getRawAxis(1)/4);
 
 
 

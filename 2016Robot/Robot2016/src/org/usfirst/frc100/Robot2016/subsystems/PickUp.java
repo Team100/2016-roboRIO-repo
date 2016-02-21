@@ -63,7 +63,7 @@ public class PickUp extends Subsystem {
             },
             new PIDOutput() { public void pidWrite(double d) {
                 
-                armAngleMotor.pidWrite(-d/2); // /2
+                armAngleMotor.pidWrite(-d/4); // /2
             }});
 	}
 
@@ -125,20 +125,45 @@ public class PickUp extends Subsystem {
 
     }
     public void goToTop(){
-    	if(!RobotMap.pickUpUpperLimit.get())
-    	armAngleMotor.set(.5);
-    }
-    public void goToMid(){
     	if(RobotMap.pickUpUpperLimit.get())
-        	armAngleMotor.set(-.5);
-    	else if(RobotMap.pickUpLowerLimit.get())
-    		armAngleMotor.set(.5);
+    	armAngleMotor.set(.5);
     	else
     		armAngleMotor.set(0);
+    
+    if(!RobotMap.pickUpUpperLimit.get() == true){
+    	pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+    	}
+    }
+    public void goToMid(){
+    	/*
+    	if(RobotMap.pickUpUpperLimit.get()){
+        	armAngleMotor.set(-.5);
+    	}
+    	else if(RobotMap.pickUpLowerLimit.get()){
+    		armAngleMotor.set(.5);
+    	}
+    	else
+    	{
+    		armAngleMotor.set(0);
+    	}
+    	*/
+    	if(RobotMap.pickUpUpperLimit.get())
+        	armAngleMotor.set(.5);
+    	if(!RobotMap.pickUpUpperLimit.get())
+    		armAngleMotor.set(-.5);
+    	if(!RobotMap.pickUpMidLimit.get()){
+        		armAngleMotor.set(0);
+        		pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+    	}
+    	
     }
     public void goToBot(){
-    	if(!RobotMap.pickUpUpperLimit.get())
+    	if(RobotMap.pickUpUpperLimit.get())
         	armAngleMotor.set(-.5);
+    	 if(!RobotMap.pickUpLowerLimit.get()){
+    		 armAngleMotor.set(0);
+ 	    	pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+ 	}
     }
 
     public void stop(){

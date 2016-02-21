@@ -121,6 +121,7 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.cancel();
         //RobotMap.internalGyro.reset();
         CameraServer.getInstance().startAutomaticCapture("cam0");
+        
 
 
     }
@@ -143,10 +144,15 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("ap", aP);
      	SmartDashboard.putNumber("ai", aI);
      	SmartDashboard.putNumber("ad", aD);
+    	SmartDashboard.putNumber("dist of counter", RobotMap.shooterSpdCtr.getDistance());
     	SmartDashboard.putNumber("rate of counter", RobotMap.shooterSpdCtr.getRate());
-
+    	SmartDashboard.putNumber("rate of right", RobotMap.driveTrainRightEncoder.getRate());
+    	SmartDashboard.putNumber("rate of left", RobotMap.driveTrainLeftEncoder.getRate());
+    	SmartDashboard.putNumber("dist of right", RobotMap.driveTrainRightEncoder.getDistance());
+    	SmartDashboard.putNumber("dist of left", RobotMap.driveTrainLeftEncoder.getDistance());
         SmartDashboard.putNumber("Posison",Robot.pickUp.getArmPosVal());
-
+        SmartDashboard.putNumber("rate of right", RobotMap.driveTrainRightEncoder.getRate());
+    	SmartDashboard.putBoolean("shooter sensor", RobotMap.shooterSpdIn.get());
 
     }
 

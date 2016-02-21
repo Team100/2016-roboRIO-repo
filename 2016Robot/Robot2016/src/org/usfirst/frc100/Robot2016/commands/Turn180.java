@@ -24,7 +24,7 @@ import org.usfirst.frc100.Robot2016.RobotMap;
  *
  */
 public class Turn180 extends Command {
-	
+	int distances;
 	private final SpeedController left = RobotMap.driveTrainLeft;
     private final SpeedController right = RobotMap.driveTrainRight;
 
@@ -35,13 +35,20 @@ public class Turn180 extends Command {
     
     
  }
+	public Turn180(int angles)
+	{
+	 distances = angles;
+	 requires(Robot.driveTrain);
+    
+    
+ }
 
  // Called just before this Command runs the first time
  protected void initialize() {
  	// Get everything in a safe starting state.
 	 Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04), Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue", .00), 0);
 	 Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
-	 Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()+180));  //Robot.driveTrain.getAngles+1
+	 Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()+distances));  //Robot.driveTrain.getAngles+1
 	 Robot.driveTrain.pid.reset();
 	 Robot.driveTrain.pid.enable();
  }

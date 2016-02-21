@@ -23,10 +23,15 @@ import org.usfirst.frc100.Robot2016.RobotMap;
 public class ShootingSpeed extends Command {
 
 	private double speed;
+	boolean incrementing = false;
+    public ShootingSpeed(double speeds) {
 
-    public ShootingSpeed(double speed) {
-
-    	this.speed = speed;
+    	this.speed = speeds;
+    	if (speeds > 0)
+    		incrementing = true;
+    	else
+    		incrementing = false;
+    	
         requires(Robot.shooter);
 
     }
@@ -35,18 +40,26 @@ public class ShootingSpeed extends Command {
     protected void initialize() {
     	 // Robot.shooter.enable();
          // Robot.shooter.setSetpoint(speed);
+    	//RobotMap.shooterFlyMotor.set(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(incrementing){
+    	speed = speed +0.001;
     	RobotMap.shooterFlyMotor.set(speed);
-    	
+    	}
+    	else
+    	{
+    		RobotMap.shooterFlyMotor.set(speed);
+    	}
+    	SmartDashboard.putNumber("spped Value", speed);
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.shooter.onTarget();
+    	return false;//Robot.shooter.onTarget();
     }
 
     // Called once after isFinished returns true

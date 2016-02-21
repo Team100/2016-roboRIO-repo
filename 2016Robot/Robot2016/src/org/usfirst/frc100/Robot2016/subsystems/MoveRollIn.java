@@ -67,10 +67,10 @@ public class MoveRollIn extends Subsystem {
     		pickUpRoller.set(speed);
     	}
     	*/
-    	if(!RobotMap.pickUpHomeLimit.get())
+    	//if(!RobotMap.pickUpHomeLimit.get())
     	pickUpRoller.set(speed);
-    	else
-    	pickUpRoller.set(0);
+    	//else
+    	//pickUpRoller.set(0);
 
     }
     public void moveRollerBack()
