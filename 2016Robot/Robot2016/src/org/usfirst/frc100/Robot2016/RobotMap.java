@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -46,6 +47,7 @@ public class RobotMap {
     public static Encoder driveTrainRightEncoder;
     public static DigitalInput pickUpUpperLimit;
     public static DigitalInput pickUpLowerLimit;
+    public static DigitalInput pickUpMidLimit;
     public static DigitalInput pickUpInsideDetector;
     public static SpeedController pickUpArmAngleMotor;
     public static AnalogPotentiometer pickUpPickUpPot;
@@ -55,12 +57,14 @@ public class RobotMap {
     public static DoubleSolenoid loaderPinballBallHandlerSolenoid1;
     public static DoubleSolenoid loaderPinballBallHandlerSolenoid2;
     public static SpeedController shooterFlyMotor;
-    public static Encoder shooterFlyEncoder;
+    public static Counter shooterSpdCtr;
+    public static DigitalInput shooterSpdIn;
     public static PIDController shooterShooterSpeedControllerPID;
     public static SpeedController spinnerHorizontalPivot;
     public static DigitalInput spinnerLeftSideLimit;
     public static DigitalInput spinnerRightSideLimit;
     public static Encoder spinnerPivotEncoder;
+    public static DigitalInput pickUpHomeLimit;
     public static SpeedController unbeatableScalingMechanismWinchMotor;
     public static SpeedController unbeatableScalingMechanismHookExtension;
     public static DigitalInput unbeatableScalingMechanismClimberLimit;
@@ -101,8 +105,8 @@ public class RobotMap {
         pickUpLowerLimit = new DigitalInput(5);
         LiveWindow.addSensor("Pick Up", "Lower Limit", pickUpLowerLimit);
 
-        pickUpInsideDetector = new DigitalInput(6);
-        LiveWindow.addSensor("Pick Up", "Indide Detector", pickUpInsideDetector);
+        pickUpHomeLimit = new DigitalInput(6);
+        LiveWindow.addSensor("Pick Up", "Indide Detector", pickUpHomeLimit);
 
         pickUpArmAngleMotor = new VictorSP(2);
         LiveWindow.addActuator("Pick Up", "Arm Angle Motor", (VictorSP) pickUpArmAngleMotor);
@@ -110,13 +114,13 @@ public class RobotMap {
         pickUpPickUpPot = new AnalogPotentiometer(0, 1.0, 0.0);
         LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
 
-        pickUpPortcullisSensor = new DigitalInput(7);
+        pickUpMidLimit = new DigitalInput(8);
         LiveWindow.addSensor("Pick Up", "Portcullis Sensor", pickUpPortcullisSensor);
 
         moveRollInPickUpRoller = new VictorSP(3);
         LiveWindow.addActuator("MoveRollIn", "Pick Up Roller", (VictorSP) moveRollInPickUpRoller);
 
-        loaderPinballLoaded = new DigitalInput(8);
+        loaderPinballLoaded = new DigitalInput(13);
         LiveWindow.addSensor("Loader Pinball", "Loaded", loaderPinballLoaded);
 
         loaderPinballBallHandlerSolenoid1 = new DoubleSolenoid(0, 0, 1);
@@ -128,13 +132,13 @@ public class RobotMap {
         shooterFlyMotor = new VictorSP(4);
         LiveWindow.addActuator("Shooter", "Fly Motor", (VictorSP) shooterFlyMotor);
 
-        shooterFlyEncoder = new Encoder(9, 10, false, EncodingType.k4X);
-        LiveWindow.addSensor("Shooter", "Fly Encoder", shooterFlyEncoder);
+        shooterSpdIn = new DigitalInput(7);
+       // LiveWindow.addSensor("Shooter", "Fly Encoder", shooterFlyEncoder);
 
-        shooterFlyEncoder.setDistancePerPulse(1.0);
-        shooterFlyEncoder.setPIDSourceType(PIDSourceType.kRate);
-        shooterShooterSpeedControllerPID = new PIDController(1.0, 0.0, 0.0, 0.0, shooterFlyEncoder, shooterFlyMotor, 0.02);
-        LiveWindow.addActuator("Shooter", "Shooter Speed Controller PID", shooterShooterSpeedControllerPID);
+        shooterSpdCtr = new Counter(shooterSpdIn);
+        shooterSpdCtr.setUpSourceEdge(true, true);
+       // shooterShooterSpeedControllerPID = new PIDController(1.0, 0.0, 0.0, 0.0, shooterFlyEncoder, shooterFlyMotor, 0.02);
+        //LiveWindow.addActuator("Shooter", "Shooter Speed Controller PID", shooterShooterSpeedControllerPID);
 
         shooterShooterSpeedControllerPID.setContinuous(false);
         shooterShooterSpeedControllerPID.setAbsoluteTolerance(0.2);
@@ -159,7 +163,7 @@ public class RobotMap {
         unbeatableScalingMechanismHookExtension = new VictorSP(7);
         LiveWindow.addActuator("Unbeatable Scaling Mechanism ", "Hook Extension", (VictorSP) unbeatableScalingMechanismHookExtension);
 
-        unbeatableScalingMechanismClimberLimit = new DigitalInput(13);
+        unbeatableScalingMechanismClimberLimit = new DigitalInput(14);
         LiveWindow.addSensor("Unbeatable Scaling Mechanism ", "Climber Limit", unbeatableScalingMechanismClimberLimit);
 
         pneumaticsCompressor = new Compressor(0);

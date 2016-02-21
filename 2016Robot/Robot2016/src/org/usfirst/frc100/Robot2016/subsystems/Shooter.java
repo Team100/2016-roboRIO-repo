@@ -13,6 +13,8 @@ package org.usfirst.frc100.Robot2016.subsystems;
 
 import org.usfirst.frc100.Robot2016.RobotMap;
 import org.usfirst.frc100.Robot2016.commands.*;
+
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
@@ -30,7 +32,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Shooter extends PIDSubsystem {
 
     private final SpeedController flyMotor = RobotMap.shooterFlyMotor;
-    private final Encoder flyEncoder = RobotMap.shooterFlyEncoder;
+    private final Counter flyCounter = RobotMap.shooterSpdCtr;
     private final PIDController shooterSpeedControllerPID = RobotMap.shooterShooterSpeedControllerPID;
 
     // Initialize your subsystem here
@@ -61,7 +63,7 @@ public class Shooter extends PIDSubsystem {
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
 
-        return flyEncoder.getRate();
+        return flyCounter.getRate();
 
     }
 

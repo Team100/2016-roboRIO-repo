@@ -21,20 +21,37 @@ import org.usfirst.frc100.Robot2016.RobotMap;
  *
  */
 public class MovePickUp extends Command {
-
+	String angles; 
     public MovePickUp() {
 
         requires(Robot.pickUp);
 
     }
+    public MovePickUp(String  angle){
+    	angles = angle;
+    }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
+    	/*
+    	Robot.pickUp.pid.enable();
+    	Robot.pickUp.pid.setPID(Robot.prefs.getDouble("armP", .04), Robot.prefs.getDouble("armI", .00), Robot.prefs.getDouble("armD", .00), 0);
+    	Robot.pickUp.pid.setAbsoluteTolerance(.001);
+    	Robot.pickUp.pid.setSetpoint(angles);
+    	*/
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
+    	
+    	if(angles.equals("top"))
+    		Robot.pickUp.goToTop();
+    	else if(angles.equals("mid"))
+    		Robot.pickUp.goToMid();
+    	else if(angles.equals("bot"))
+    		Robot.pickUp.goToBot();
+    	else
     	Robot.pickUp.manualControl(Robot.oi.operator.getRawAxis(1)/4);
 
 
@@ -43,7 +60,8 @@ public class MovePickUp extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+       return false;
+      
     }
 
     // Called once after isFinished returns true
