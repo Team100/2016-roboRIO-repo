@@ -86,7 +86,7 @@ public class OI {
         fastShoot = new JoystickButton(operator, 6);
         fastShoot.whenPressed(new ShootingSpeed(.5));
         top = new JoystickButton(operator, 1);
-        top.whileHeld(new MovePickUp(1)); //.403
+        top.whileHeld(new MovePickUpWithPID(.403)); //.403
         mid = new JoystickButton(operator, 4);
         mid.whileHeld(new MovePickUpWithPID(.558));
         bot = new JoystickButton(operator, 3);

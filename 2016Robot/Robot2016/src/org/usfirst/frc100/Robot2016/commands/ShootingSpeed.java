@@ -46,7 +46,7 @@ public class ShootingSpeed extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(incrementing){
-    	speed = speed +0.0001;
+    	speed += 0.0008;
     	RobotMap.shooterFlyMotor.set(speed);
     	}
     	else

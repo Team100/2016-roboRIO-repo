@@ -37,7 +37,7 @@ public class RollIn extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(RobotMap.pickUpHomeLimit.get())
-    	Robot.moveRollIn.setRollerSpeed(.30);
+    	Robot.moveRollIn.setRollerSpeed(Robot.oi.operator.getRawAxis(3));
     	else
     		Robot.moveRollIn.setRollerSpeed(0);
     		
