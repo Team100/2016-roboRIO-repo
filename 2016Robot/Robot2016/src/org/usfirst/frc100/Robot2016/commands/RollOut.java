@@ -44,8 +44,10 @@ public class RollOut extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if(RobotMap.pickUpHomeLimit.get())
+		//if(RobotMap.pickUpHomeLimit.get())
 		Robot.moveRollIn.setRollerSpeed(speed);
+		//else
+			//obot.moveRollIn.setRollerSpeed(0);
 
 	}
 

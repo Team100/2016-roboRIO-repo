@@ -27,7 +27,7 @@ public class ShootingSpeed extends Command {
     public ShootingSpeed(double speeds) {
 
     	this.speed = speeds;
-    	if (speeds > 0)
+    	if (speeds > .4)
     		incrementing = true;
     	else
     		incrementing = false;
@@ -46,7 +46,7 @@ public class ShootingSpeed extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(incrementing){
-    	speed = speed +0.001;
+    	speed = speed +0.0001;
     	RobotMap.shooterFlyMotor.set(speed);
     	}
     	else

@@ -77,8 +77,8 @@ public class OI {
         //autoLine = new JoystickButton(operator, 1);
         //autoLine.whenPressed(new AutoAlignHighGoal());
 
-       // slowShoot = new JoystickButton(operator, 1);
-        //slowShoot.whileHeld(new ShootingSpeed(0));
+        slowShoot = new JoystickButton(operator, 9);
+        slowShoot.whenPressed(new ShootingSpeed(.25));
 
         mediumshoot = new JoystickButton(operator, 8);
         mediumshoot.whenPressed(new ShootingSpeed(0));
@@ -86,11 +86,11 @@ public class OI {
         fastShoot = new JoystickButton(operator, 6);
         fastShoot.whenPressed(new ShootingSpeed(.5));
         top = new JoystickButton(operator, 1);
-        top.whileHeld(new MovePickUp("top"));
+        top.whileHeld(new MovePickUp(1)); //.403
         mid = new JoystickButton(operator, 4);
-        mid.whileHeld(new MovePickUp("top"));
+        mid.whileHeld(new MovePickUpWithPID(.558));
         bot = new JoystickButton(operator, 3);
-        bot.whileHeld(new MovePickUp("top"));
+        bot.whileHeld(new MovePickUpWithPID(.658));
         
         
         hold = new JoystickButton(driverController1, 2);

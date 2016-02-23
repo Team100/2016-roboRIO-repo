@@ -13,6 +13,7 @@ package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Robot2016.Robot;
+import org.usfirst.frc100.Robot2016.RobotMap;
 
 /**
  *
@@ -35,7 +36,11 @@ public class RollIn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.moveRollIn.setRollerSpeed(.50);
+    	if(RobotMap.pickUpHomeLimit.get())
+    	Robot.moveRollIn.setRollerSpeed(.30);
+    	else
+    		Robot.moveRollIn.setRollerSpeed(0);
+    		
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -21,13 +21,13 @@ import org.usfirst.frc100.Robot2016.RobotMap;
  *
  */
 public class MovePickUp extends Command {
-	String angles; 
+	int angles; 
     public MovePickUp() {
 
         requires(Robot.pickUp);
 
     }
-    public MovePickUp(String  angle){
+    public MovePickUp(int  angle){
     	angles = angle;
     }
 
@@ -44,8 +44,10 @@ public class MovePickUp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	    	Robot.pickUp.manualControl(Robot.oi.operator.getRawAxis(1)/4);
+    			if(angles > 0)
+    			Robot.pickUp.goToTop();
+    			else
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1)/4);
 
 
 

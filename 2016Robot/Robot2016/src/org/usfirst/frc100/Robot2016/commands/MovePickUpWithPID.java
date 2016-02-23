@@ -21,28 +21,33 @@ import org.usfirst.frc100.Robot2016.RobotMap;
 *
 */
 public class MovePickUpWithPID extends Command {
-	String angles; 
+	double angles; 
  public MovePickUpWithPID() {
 
      requires(Robot.pickUp);
 
  }
- public MovePickUpWithPID(String angle){
-	requires(Robot.pickUp);
+ public MovePickUpWithPID(double angle){
+	
  	angles = angle;
+ 	requires(Robot.pickUp);
  }
 
  // Called just before this Command runs the first time
  protected void initialize() {
- 	Robot.pickUp.pid.enable();
- 	Robot.pickUp.pid.setPID(Robot.prefs.getDouble("armP", .04), Robot.prefs.getDouble("armI", .00), Robot.prefs.getDouble("armD", .00), 0);
- 	Robot.pickUp.pid.setAbsoluteTolerance(.001);
- 	if(angles.equals("top"))
+	 Robot.pickUp.enable();
+ 	//Robot.pickUp.pid.setPID(Robot.prefs.getDouble("armP", 1.04), Robot.prefs.getDouble("armI", .01), Robot.prefs.getDouble("armD", .00), 0);
+ 	Robot.pickUp.setAbsoluteTolerance(.001);
+ 	Robot.pickUp.setSetpoint(angles);
+ 	//Robot.pickUp.getPIDController().setPID(Robot.prefs.getDouble("armP", 4.00), Robot.prefs.getDouble("armI", .4), Robot.prefs.getDouble("armD", .00), 0);
+ 	
+ 	/*if(angles.equals("top"))
 		Robot.pickUp.goToTop();
 	else if(angles.equals("mid"))
 		Robot.pickUp.goToMid();
 	else
 		Robot.pickUp.goToBot();
+		*/
 	
 
  	//Robot.pickUp.pid.setSetpoint(angles);
@@ -50,7 +55,8 @@ public class MovePickUpWithPID extends Command {
 
  // Called repeatedly when this Command is scheduled to run
  protected void execute() {
-
+	// Robot.pickUp.(Robot.prefs.getDouble("armP", 2.04), Robot.prefs.getDouble("armI", .01), Robot.prefs.getDouble("armD", .00), 0);
+	 
  	//Robot.pickUp.manualControl(Robot.oi.operator.getRawAxis(1)/4);
 
 
@@ -60,11 +66,13 @@ public class MovePickUpWithPID extends Command {
  // Make this return true when this Command no longer needs to run execute()
  protected boolean isFinished() {
 	//Robot.pickUp.pid.disable();
-    return Robot.pickUp.pid.onTarget();
+	// Robot.pickUp.disable();
+    return Robot.pickUp.onTarget();
  }
 
  // Called once after isFinished returns true
  protected void end() {
+	 Robot.pickUp.disable();
  	Robot.pickUp.stop();
  }
 

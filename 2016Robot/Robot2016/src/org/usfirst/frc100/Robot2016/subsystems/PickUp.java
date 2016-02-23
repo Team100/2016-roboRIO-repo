@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class PickUp extends Subsystem {
+public class PickUp extends PIDSubsystem {
 
 	private final DigitalInput upperLimit = RobotMap.pickUpUpperLimit;
     private final DigitalInput lowerLimit = RobotMap.pickUpLowerLimit;
@@ -41,14 +41,16 @@ public class PickUp extends Subsystem {
     private final SpeedController armAngleMotor = RobotMap.pickUpArmAngleMotor;
     private final AnalogPotentiometer pickUpPot = RobotMap.pickUpPickUpPot;
     private final DigitalInput portcullisSensor = RobotMap.pickUpPortcullisSensor;
-    public PIDController pid;
+   // public PIDController pid;
 	public PickUp(){
-	 pid = new PIDController(.04, 0, 0,
+		super(6.0, .02, 0);
+		/*
+	 pid = new PIDController(4.04, .5, 0,
             new PIDSource() {                   //.04 0 0  for 180 // .04 .02 0 for like 1 degree
                 PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
                 public double pidGet() {
-               	 return RobotMap.pickUpArmAngleMotor.get();
+               	 return RobotMap.pickUpPickUpPot.get();
                 }
 
                 @Override
@@ -65,6 +67,7 @@ public class PickUp extends Subsystem {
                 
                 armAngleMotor.pidWrite(-d/4); // /2
             }});
+            */
 	}
 
 
@@ -95,43 +98,47 @@ public class PickUp extends Subsystem {
 
     public boolean hitUpper(){
 
-    	return upperLimit.get();
+    	return !upperLimit.get();
 
     }
 
     public boolean hitLower(){
-    	return lowerLimit.get();
+    	return !lowerLimit.get();
     }
 
     public void manualControl(double speed){
 
+    	
     	if(Robot.pickUp.hitUpper()){
-    		if(Robot.oi.operator.getRawAxis(1) < 0){
-    			armAngleMotor.set(speed);
-    		}else{
-    			Robot.pickUp.stop();
-    		}
-    	}else if(Robot.pickUp.hitLower()){
     		if(Robot.oi.operator.getRawAxis(1) > 0){
     			armAngleMotor.set(speed);
     		}else{
     			Robot.pickUp.stop();
     		}
+    	}else if(Robot.pickUp.hitLower()){ //|| !Robot.pickUp.hitLower() && !Robot.pickUp.hitUpper() && RobotMap.pickUpMidLimit.get()){
+    		if(Robot.oi.operator.getRawAxis(1) < 0){
+    			armAngleMotor.set(speed);
+    		}else{
+    			armAngleMotor.set(.1);
+    		}
     	}else{
     		armAngleMotor.set(speed);
     	}
+    	
+    	
+    	//armAngleMotor.set(speed);
 
-    	Robot.pickUp.pickUpPot.get();
+    	//Robot.pickUp.pickUpPot.get();
 
     }
     public void goToTop(){
     	if(RobotMap.pickUpUpperLimit.get())
-    	armAngleMotor.set(.5);
+    	armAngleMotor.set(.3);
     	else
     		armAngleMotor.set(0);
     
-    if(!RobotMap.pickUpUpperLimit.get() == true){
-    	pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+    if(!RobotMap.pickUpUpperLimit.get()){
+    	//pid.setSetpoint(Robot.pickUp.pickUpPot.get());
     	}
     }
     public void goToMid(){
@@ -153,7 +160,7 @@ public class PickUp extends Subsystem {
     		armAngleMotor.set(-.5);
     	if(!RobotMap.pickUpMidLimit.get()){
         		armAngleMotor.set(0);
-        		pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+        		//pid.setSetpoint(Robot.pickUp.pickUpPot.get());
     	}
     	
     }
@@ -162,7 +169,7 @@ public class PickUp extends Subsystem {
         	armAngleMotor.set(-.5);
     	 if(!RobotMap.pickUpLowerLimit.get()){
     		 armAngleMotor.set(0);
- 	    	pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+ 	    	//pid.setSetpoint(Robot.pickUp.pickUpPot.get());
  	}
     }
 
@@ -176,6 +183,22 @@ public class PickUp extends Subsystem {
     public double getArmPosVal(){
     	return pickUpPot.get();
     }
+
+
+
+	@Override
+	protected double returnPIDInput() {
+		// TODO Auto-generated method stub
+		  return RobotMap.pickUpPickUpPot.get();
+	}
+
+
+
+	@Override
+	protected void usePIDOutput(double output) {
+		 armAngleMotor.set(-output/2); // /2
+		
+	}
 
 	
 	}

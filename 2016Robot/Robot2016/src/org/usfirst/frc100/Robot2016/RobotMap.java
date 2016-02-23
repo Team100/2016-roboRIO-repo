@@ -100,19 +100,19 @@ public class RobotMap {
         driveTrainRightEncoder.setDistancePerPulse(1.0);
         driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kRate);
         pickUpUpperLimit = new DigitalInput(4);
-        LiveWindow.addSensor("Pick Up", "Upper Limit", pickUpUpperLimit);
+      //  LiveWindow.addSensor("Pick Up", "Upper Limit", pickUpUpperLimit);
 
         pickUpLowerLimit = new DigitalInput(5);
-        LiveWindow.addSensor("Pick Up", "Lower Limit", pickUpLowerLimit);
+    //    LiveWindow.addSensor("Pick Up", "Lower Limit", pickUpLowerLimit);
 
         pickUpHomeLimit = new DigitalInput(8);
-        LiveWindow.addSensor("Pick Up", "Indide Detector", pickUpHomeLimit);
+      //  LiveWindow.addSensor("Pick Up", "Indide Detector", pickUpHomeLimit);
 
         pickUpArmAngleMotor = new VictorSP(2);
-        LiveWindow.addActuator("Pick Up", "Arm Angle Motor", (VictorSP) pickUpArmAngleMotor);
+    //   LiveWindow.addActuator("Pick Up", "Arm Angle Motor", (VictorSP) pickUpArmAngleMotor);
 
         pickUpPickUpPot = new AnalogPotentiometer(0, 1.0, 0.0);
-        LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
+       // LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
 
         pickUpMidLimit = new DigitalInput(6);
         LiveWindow.addSensor("Pick Up", "mid", pickUpMidLimit);
@@ -136,7 +136,8 @@ public class RobotMap {
         LiveWindow.addSensor("Shooter", "Fly Encoder", shooterSpdIn);
 
         shooterSpdCtr = new Counter(shooterSpdIn);
-        shooterSpdCtr.setUpSourceEdge(true, true);
+        //shooterSpdCtr.setUpSource(shooterSpdIn);
+        
        // shooterShooterSpeedControllerPID = new PIDController(1.0, 0.0, 0.0, 0.0, shooterFlyEncoder, shooterFlyMotor, 0.02);
         //LiveWindow.addActuator("Shooter", "Shooter Speed Controller PID", shooterShooterSpeedControllerPID);
 
