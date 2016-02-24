@@ -67,8 +67,8 @@ public class DriveTrain extends Subsystem {
                      }
                  },
                  new PIDOutput() { public void pidWrite(double d) {
-                     right.pidWrite(d/2); // /2
-                     left.pidWrite(-d/2); // /2
+                     right.pidWrite(d); // /2
+                     left.pidWrite(-d); // /2
                  }});
     	 
     }

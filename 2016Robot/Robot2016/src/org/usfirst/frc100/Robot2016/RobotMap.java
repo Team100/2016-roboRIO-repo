@@ -136,6 +136,7 @@ public class RobotMap {
         LiveWindow.addSensor("Shooter", "Fly Encoder", shooterSpdIn);
 
         shooterSpdCtr = new Counter(shooterSpdIn);
+       // shooterSpdCtr.setDistancePerPulse(5);
         //shooterSpdCtr.setUpSource(shooterSpdIn);
         
        // shooterShooterSpeedControllerPID = new PIDController(1.0, 0.0, 0.0, 0.0, shooterFlyEncoder, shooterFlyMotor, 0.02);

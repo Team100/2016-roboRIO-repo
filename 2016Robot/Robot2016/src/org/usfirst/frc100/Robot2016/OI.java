@@ -71,8 +71,8 @@ public class OI {
        // LoadBall.whileHeld(new MovePickUpWithPID(.5));
        // moveAway = new JoystickButton(operator, 9);
         //moveAway.whileHeld(new MovePickUpWithPID(.4));
-        //shoot = new JoystickButton(operator, 3);
-        //shoot.whenPressed(new Shooting());
+        shoot = new JoystickButton(operator, 10);
+        shoot.whenPressed(new ShootingSpeed(-.2));
 
         //autoLine = new JoystickButton(operator, 1);
         //autoLine.whenPressed(new AutoAlignHighGoal());
@@ -119,8 +119,8 @@ public class OI {
         turnAround = new JoystickButton(driverController2, 3);
         turnAround.whileHeld(new Turn180(170));
 
-        movePickupArm = new JoystickButton(operator, 1);
-        movePickupArm.whileHeld(new MovePickUp());
+  //      movePickupArm = new JoystickButton(operator, 1);
+    //    movePickupArm.whileHeld(new MovePickUp());
 
 
         forwardOrient = new JoystickButton(driverController1, 1);
