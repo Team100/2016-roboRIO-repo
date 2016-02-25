@@ -12,17 +12,22 @@
 package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
 import org.usfirst.frc100.Robot2016.Robot;
 
 /**
  *
  */
-public class AutonomousCommand extends Command {
+public class AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
+    	addSequential(new AutonomousDriveForward(2000));
+    	addSequential(new Turn180( 45));
 
     }
 
+    /*
     // Called just before this Command runs the first time
     protected void initialize() {
     }
@@ -44,4 +49,5 @@ public class AutonomousCommand extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+    */
 }
