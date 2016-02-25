@@ -12,17 +12,18 @@
 package org.usfirst.frc100.Robot2016.subsystems;
 
 import org.usfirst.frc100.Robot2016.RobotMap;
+<<<<<<< HEAD
+
+import edu.wpi.first.wpilibj.Counter;
+=======
 import org.usfirst.frc100.Robot2016.commands.*;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
+>>>>>>> DriveTrain-PID
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.smartdashboard.*;
-
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 

@@ -48,6 +48,7 @@ public class OI {
     public Joystick operator;
     public Joystick danielCustomControllers;
     public JoystickButton turn180;
+
     public JoystickButton LoadBall;
     public JoystickButton moveAway;
     public JoystickButton hold;
@@ -59,6 +60,7 @@ public class OI {
     JoystickButton forwardOrientDrive;
     JoystickButton backwardOrientDrive;
 
+
     public OI() {
 
         danielCustomControllers = new Joystick(3);
@@ -66,6 +68,26 @@ public class OI {
 
         operator = new Joystick(0);
         driverController2 = new Joystick(2);
+
+
+        // shoot = new JoystickButton(operator, 3);
+        // shoot.whenPressed(new Shooting());
+
+        // autoLine = new JoystickButton(operator, 1);
+        // autoLine.whenPressed(new AutoAlignHighGoal());
+
+        // slowShoot = new JoystickButton(operator, 1);
+        // slowShoot.whileHeld(new ShootingSpeed(0));
+
+        // mediumshoot = new JoystickButton(operator, 4);
+        // mediumshoot.whileHeld(new ShootingSpeed(1900));
+
+        // fastShoot = new JoystickButton(operator, 3);
+        // fastShoot.whileHeld(new ShootingSpeed(2600));
+
+        // //hold = new JoystickButton(driverController1, 2);
+        // //hold.whileHeld(new holdPosition());
+
         driverController1 = new Joystick(1);
       //  LoadBall = new JoystickButton(operator, 10);
        // LoadBall.whileHeld(new MovePickUpWithPID(.5));
@@ -95,6 +117,7 @@ public class OI {
         
         hold = new JoystickButton(driverController1, 2);
         hold.whileHeld(new holdPosition());
+
         spinnerAdjust = new JoystickButton(operator, 2);
         spinnerAdjust.whileHeld(new AdjustSpinner());
 
@@ -115,7 +138,7 @@ public class OI {
         spinIn = new JoystickButton(operator, 5);
         spinIn.whileHeld(new RollIn());
 
-        
+
         turnAround = new JoystickButton(driverController2, 3);
         turnAround.whileHeld(new Turn180(170));
 
@@ -146,8 +169,8 @@ public class OI {
         //SmartDashboard.putData("ShootingSpeed", new ShootingSpeed());
         SmartDashboard.putData("Shooting", new Shooting());
 
-        forwardOrientDrive = new JoystickButton(driverController1, 5);
-        backwardOrientDrive = new JoystickButton(driverController1, 4);
+        forwardOrientDrive = new JoystickButton(danielCustomControllers, 17);
+        backwardOrientDrive = new JoystickButton(danielCustomControllers, 18);
         forwardOrientDrive.whenPressed(new TankDrive(false));
         backwardOrientDrive.whenPressed(new TankDrive(true));
 
