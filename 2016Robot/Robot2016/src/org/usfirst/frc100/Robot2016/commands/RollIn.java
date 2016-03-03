@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,25 +21,24 @@ public class RollIn extends Command {
 	boolean rollInDirection = true;
 
     public RollIn() {
-
         requires(Robot.moveRollIn);
-
     }
+
     public RollIn(boolean rollerIn) {
 		rollInDirection = rollerIn;
     }
+
     // Called just before this Command runs the first time
     protected void initialize() {
+
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute(){
     	Robot.moveRollIn.setRollerSpeed(1.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
-
-
     protected boolean isFinished() {
         return false;
     }

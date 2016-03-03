@@ -39,8 +39,12 @@ public class MoveRollIn extends Subsystem {
 
     }
 
+    public boolean hitDetector(){
+    	return insideDetector.get();
+    }
+
     public void setRollerSpeed(double speed){
-/*
+    	/*
     	if(Robot.moveRollIn.hitDetector()){
     		if(Robot.oi.spinOut.get()){
     			pickUpRoller.set(-speed/2);
@@ -67,30 +71,20 @@ public class MoveRollIn extends Subsystem {
     		pickUpRoller.set(speed);
     	}
     	*/
-    	if(!RobotMap.pickUpInsideDetector.get())
-    	pickUpRoller.set(speed);
-    	else
-    	pickUpRoller.set(-.3);
-
+    	if(RobotMap.pickUpInsideDetector.get()){
+    		pickUpRoller.set(speed);
+    	}else{
+    		pickUpRoller.set(-.3);
+    	}
     }
-    public void moveRollerBack()
-    {
+
+    public void moveRollerBack(){
     	pickUpRoller.set(-.4);
     }
 
 
     public void stop(){
-
     	pickUpRoller.set(0);
-
     }
-
-    public boolean hitDetector(){
-
-    	return insideDetector.get();
-
-    }
-
-
 }
 

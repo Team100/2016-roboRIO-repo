@@ -51,25 +51,19 @@ public class PickUp extends Subsystem {
     }
 
     public void takeJoystickInputs(double op){
-
     	armAngleMotor.set(op);
-
     }
 
     public double getArmAngleMotor(){
-
     	return armAngleMotor.get();
-
     }
 
     public boolean hitUpper(){
-
-    	return upperLimit.get();
-
+    	return !upperLimit.get();	//on testborad the polarity of the limit swiches is normally true
     }
 
     public boolean hitLower(){
-    	return lowerLimit.get();
+    	return !lowerLimit.get();	//on testborad the polarity of the limit swiches is normally true
     }
 
     public void manualControl(double speed){
@@ -89,15 +83,11 @@ public class PickUp extends Subsystem {
     	}else{
     		armAngleMotor.set(speed);
     	}
-
     	Robot.pickUp.pickUpPot.get();
-
     }
 
     public void stop(){
-
     	armAngleMotor.set(0);
-
     }
 
 

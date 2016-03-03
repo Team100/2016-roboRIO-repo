@@ -53,11 +53,6 @@ public class TankDrive extends Command {
     	//can't switch orientation after switch button 5 and 4 once. Fix it!
 
     	SmartDashboard.putBoolean("valuess", RobotMap.pickUpInsideDetector.get());
-    	if(driveDirection){
-    	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getX(), -Robot.oi.getDriverController2().getY());
-    	}else{
-    	Robot.driveTrain.takeJoystickInputsReverse(Robot.oi.getDriverController1().getX(), Robot.oi.getDriverController2().getY());
-    	}
 
     	SmartDashboard.putBoolean("orientation", driveDirection);
 

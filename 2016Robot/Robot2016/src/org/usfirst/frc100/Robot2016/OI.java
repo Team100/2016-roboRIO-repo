@@ -76,11 +76,12 @@ public class OI {
 
         fastShoot = new JoystickButton(operator, 3);
         fastShoot.whileHeld(new ShootingSpeed(2600));
-        
+
         hold = new JoystickButton(driverController1, 2);
         hold.whileHeld(new holdPosition());
         spinnerAdjust = new JoystickButton(operator, 2);
         spinnerAdjust.whileHeld(new AdjustSpinner());
+
 
         /*
         flipperShoot = new JoystickButton(operator, 1);
@@ -99,7 +100,7 @@ public class OI {
         spinIn = new JoystickButton(operator, 5);
         spinIn.whileHeld(new RollIn());
 
-        
+
         turnAround = new JoystickButton(driverController2, 3);
         turnAround.whileHeld(new Turn180());
 

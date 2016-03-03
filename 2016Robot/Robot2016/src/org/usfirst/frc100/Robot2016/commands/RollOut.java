@@ -19,28 +19,25 @@ import org.usfirst.frc100.Robot2016.Robot;
  *
  */
 public class RollOut extends Command {
+
 	boolean rollOutDirection = true;
 
 	public RollOut() {
-
         requires(Robot.moveRollIn);
-
 	}
 
 	public RollOut(boolean rollerOut) {
-
 		rollOutDirection = rollerOut;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-
 		Robot.moveRollIn.setRollerSpeed(-1.0);
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
