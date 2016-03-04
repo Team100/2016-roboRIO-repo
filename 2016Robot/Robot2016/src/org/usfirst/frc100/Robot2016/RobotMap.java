@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc100.Robot2016;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -36,6 +35,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+
 public class RobotMap {
 
     public static SpeedController driveTrainLeft;
@@ -78,7 +78,6 @@ public class RobotMap {
         LiveWindow.addActuator("Drive Train", "Right", (VictorSP) driveTrainRight);
 
         driveTrainTwoMotorDrive = new RobotDrive(driveTrainLeft, driveTrainRight);
-
         driveTrainTwoMotorDrive.setSafetyEnabled(true);
         driveTrainTwoMotorDrive.setExpiration(0.1);
         driveTrainTwoMotorDrive.setSensitivity(0.5);
@@ -91,10 +90,12 @@ public class RobotMap {
         LiveWindow.addSensor("Drive Train", "Left Encoder", driveTrainLeftEncoder);
         driveTrainLeftEncoder.setDistancePerPulse(1.0);
         driveTrainLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
+
         driveTrainRightEncoder = new Encoder(2, 3, true, EncodingType.k4X);
         LiveWindow.addSensor("Drive Train", "Right Encoder", driveTrainRightEncoder);
         driveTrainRightEncoder.setDistancePerPulse(1.0);
         driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kRate);
+
         pickUpUpperLimit = new DigitalInput(4);
         LiveWindow.addSensor("Pick Up", "Upper Limit", pickUpUpperLimit);
 
@@ -133,26 +134,29 @@ public class RobotMap {
 
         shooterFlyEncoder.setDistancePerPulse(1.0);
         shooterFlyEncoder.setPIDSourceType(PIDSourceType.kRate);
+
         shooterShooterSpeedControllerPID = new PIDController(1.0, 0.0, 0.0, 0.0, shooterFlyEncoder, shooterFlyMotor, 0.02);
         LiveWindow.addActuator("Shooter", "Shooter Speed Controller PID", shooterShooterSpeedControllerPID);
-
         shooterShooterSpeedControllerPID.setContinuous(false);
         shooterShooterSpeedControllerPID.setAbsoluteTolerance(0.2);
         shooterShooterSpeedControllerPID.setOutputRange(-1.0, 1.0);
+
         spinnerHorizontalPivot = new VictorSP(5);
         LiveWindow.addActuator("Spinner", "Horizontal Pivot", (VictorSP) spinnerHorizontalPivot);
 
-        //spinnerLeftSideLimit = new DigitalInput(12);
-        //LiveWindow.addSensor("Spinner", "Left Side Limit", spinnerLeftSideLimit);
+        /*
+        spinnerLeftSideLimit = new DigitalInput(12);
+        LiveWindow.addSensor("Spinner", "Left Side Limit", spinnerLeftSideLimit);
 
-        //spinnerRightSideLimit = new DigitalInput(13);
-        //LiveWindow.addSensor("Spinner", "Right Side Limit", spinnerRightSideLimit);
+        spinnerRightSideLimit = new DigitalInput(13);
+        LiveWindow.addSensor("Spinner", "Right Side Limit", spinnerRightSideLimit);
+        */
 
         spinnerPivotEncoder = new Encoder(11, 12, false, EncodingType.k4X);
         LiveWindow.addSensor("Spinner", "Pivot Encoder", spinnerPivotEncoder);
-
         spinnerPivotEncoder.setDistancePerPulse(1.0);
         spinnerPivotEncoder.setPIDSourceType(PIDSourceType.kRate);
+
         unbeatableScalingMechanismWinchMotor = new VictorSP(6);
         LiveWindow.addActuator("Unbeatable Scaling Mechanism ", "Winch Motor", (VictorSP) unbeatableScalingMechanismWinchMotor);
 
