@@ -20,13 +20,12 @@ import org.usfirst.frc100.Robot2016.RobotMap;
  *
  */
 public class RollOut extends Command {
+
 	boolean rollOutDirection = true;
 	double speed; 
 
 	public RollOut() {
-
         requires(Robot.moveRollIn);
-
 	}
 	public RollOut(double speed){
 		requires(Robot.moveRollIn);
@@ -34,21 +33,21 @@ public class RollOut extends Command {
 	}
 
 	public RollOut(boolean rollerOut) {
-
 		rollOutDirection = rollerOut;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+
 		//if(RobotMap.pickUpHomeLimit.get())
 		Robot.moveRollIn.setRollerSpeed(speed);
 		//else
 			//obot.moveRollIn.setRollerSpeed(0);
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

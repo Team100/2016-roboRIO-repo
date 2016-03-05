@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc100.Robot2016;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -35,6 +34,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+
 public class RobotMap {
 
     public static SpeedController driveTrainLeft;
@@ -86,7 +86,6 @@ public class RobotMap {
         LiveWindow.addActuator("Drive Train", "Right", (VictorSP) driveTrainRight);
 
         driveTrainTwoMotorDrive = new RobotDrive(driveTrainLeft, driveTrainRight);
-
         driveTrainTwoMotorDrive.setSafetyEnabled(true);
         driveTrainTwoMotorDrive.setExpiration(0.1);
         driveTrainTwoMotorDrive.setSensitivity(0.5);
@@ -150,6 +149,10 @@ public class RobotMap {
 
         shooterSpdIn = new DigitalInput(7);
 
+      //  shooterFlyEncoder.setDistancePerPulse(1.0);
+      //  shooterFlyEncoder.setPIDSourceType(PIDSourceType.kRate);
+
+
         LiveWindow.addSensor("Shooter", "Fly Counter", shooterSpdIn);
 
         shooterSpdCtr = new Counter(shooterSpdIn);
@@ -168,17 +171,21 @@ public class RobotMap {
      //   spinnerHorizontalPivot = new VictorSP(5);
       //  LiveWindow.addActuator("Spinner", "Horizontal Pivot", (VictorSP) spinnerHorizontalPivot);
 
-        //spinnerLeftSideLimit = new DigitalInput(12);
-        //LiveWindow.addSensor("Spinner", "Left Side Limit", spinnerLeftSideLimit);
+        /*
+        spinnerLeftSideLimit = new DigitalInput(12);
+        LiveWindow.addSensor("Spinner", "Left Side Limit", spinnerLeftSideLimit);
 
-        //spinnerRightSideLimit = new DigitalInput(13);
-        //LiveWindow.addSensor("Spinner", "Right Side Limit", spinnerRightSideLimit);
+        spinnerRightSideLimit = new DigitalInput(13);
+        LiveWindow.addSensor("Spinner", "Right Side Limit", spinnerRightSideLimit);
+        */
 
         spinnerPivotEncoder = new Encoder(11, 12, false, EncodingType.k4X);
+        
         //LiveWindow.addSensor("Spinner", "Pivot Encoder", spinnerPivotEncoder);
 
         spinnerPivotEncoder.setDistancePerPulse(1.0);
         spinnerPivotEncoder.setPIDSourceType(PIDSourceType.kRate);
+
         unbeatableScalingMechanismWinchMotor = new VictorSP(6);
        // LiveWindow.addActuator("Unbeatable Scaling Mechanism ", "Winch Motor", (VictorSP) unbeatableScalingMechanismWinchMotor);
 
