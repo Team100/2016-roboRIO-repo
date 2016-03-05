@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
         driveTrain = new DriveTrain();
         pickUp = new PickUp();
         shooter = new Shooter();
+        moveRollIn = new MoveRollIn();
         
         prefs = Preferences.getInstance();
         prefs.putDouble("pValue", .04);
@@ -121,8 +122,13 @@ public class Robot extends IterativeRobot {
      	SmartDashboard.putNumber("armD", aD);
     	SmartDashboard.putNumber("dist of counter", RobotMap.shooterSpdCtr.getDistance());
     	SmartDashboard.putNumber("rate of counter", RobotMap.shooterSpdCtr.getRate());
+    	
     	SmartDashboard.putNumber("rate of right", RobotMap.driveTrainRightEncoder.getRate());
     	SmartDashboard.putNumber("rate of left", RobotMap.driveTrainLeftEncoder.getRate());
+    	
+    	SmartDashboard.putNumber("Difference of encoders:", Math.abs(RobotMap.driveTrainRightEncoder.getDistance() - RobotMap.driveTrainLeftEncoder.getDistance()));
+    	SmartDashboard.putNumber("Difference of encoders Rate:", Math.abs(RobotMap.driveTrainRightEncoder.getRate() - RobotMap.driveTrainLeftEncoder.getRate()));
+
     	SmartDashboard.putNumber("dist of right", RobotMap.driveTrainRightEncoder.getDistance());
     	SmartDashboard.putNumber("dist of left", RobotMap.driveTrainLeftEncoder.getDistance());
 
