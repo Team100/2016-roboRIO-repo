@@ -12,36 +12,42 @@
 package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import org.usfirst.frc100.Robot2016.Robot;
+import org.usfirst.frc100.Robot2016.RobotMap;
+//import org.usfirst.frc100.SlideWinder.SlideWinder;
 
 /**
  *
  */
 public class AutonomousDriveForward extends Command {
-
-    public AutonomousDriveForward() {
-
+	double distance;
+    public AutonomousDriveForward(int distance) {
+    	this.distance = distance;
         requires(Robot.driveTrain);
 
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	RobotMap.driveTrainRightEncoder.reset();
+    	RobotMap.driveTrainRightEncoder.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.driveTrain.drives();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (!((RobotMap.driveTrainRightEncoder.getDistance() +RobotMap.driveTrainLeftEncoder.getDistance()/2) >= distance));
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	RobotMap.driveTrainTwoMotorDrive.drive(0, 0);
     }
-
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc100.Robot2016.Robot;
+import org.usfirst.frc100.Robot2016.RobotMap;
 
 /**
  *
@@ -21,9 +22,14 @@ import org.usfirst.frc100.Robot2016.Robot;
 public class RollOut extends Command {
 
 	boolean rollOutDirection = true;
+	double speed; 
 
 	public RollOut() {
         requires(Robot.moveRollIn);
+	}
+	public RollOut(double speed){
+		requires(Robot.moveRollIn);
+		this.speed = speed;
 	}
 
 	public RollOut(boolean rollerOut) {
@@ -37,7 +43,11 @@ public class RollOut extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.moveRollIn.setRollerSpeed(-1.0);
+
+		//if(RobotMap.pickUpHomeLimit.get())
+		Robot.moveRollIn.setRollerSpeed(speed);
+		//else
+			//obot.moveRollIn.setRollerSpeed(0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

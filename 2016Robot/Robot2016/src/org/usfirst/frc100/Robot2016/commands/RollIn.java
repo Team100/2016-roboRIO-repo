@@ -11,7 +11,10 @@
 package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc100.Robot2016.Robot;
+import org.usfirst.frc100.Robot2016.RobotMap;
 
 /**
  *
@@ -20,37 +23,42 @@ public class RollIn extends Command {
 
 	boolean rollInDirection = true;
 
-    public RollIn() {
-        requires(Robot.moveRollIn);
-    }
+	public RollIn() {
+		requires(Robot.moveRollIn);
+	}
 
-    public RollIn(boolean rollerIn) {
+	public RollIn(boolean rollerIn) {
 		rollInDirection = rollerIn;
-    }
+	}
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
+	// Called just before this Command runs the first time
+	protected void initialize() {
 
-    }
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute(){
-    	Robot.moveRollIn.setRollerSpeed(1.0);
-    }
+	// Called repeatedly when this Command is scheduled to run
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	protected void execute() {
+		SmartDashboard.putNumber("pick up running", 123123);
+		if (RobotMap.pickUpHomeLimit.get())
+			Robot.moveRollIn.setRollerSpeed(.5);
+		else
+			Robot.moveRollIn.setRollerSpeed(0);
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	Robot.moveRollIn.stop();
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	end();
-    }
+	// Called once after isFinished returns true
+	protected void end() {
+		Robot.moveRollIn.stop();
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+		end();
+	}
 }

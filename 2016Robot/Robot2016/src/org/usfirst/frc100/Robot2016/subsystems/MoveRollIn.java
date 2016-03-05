@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class MoveRollIn extends Subsystem {
 
     private final SpeedController pickUpRoller = RobotMap.moveRollInPickUpRoller;
-    private final DigitalInput insideDetector = RobotMap.pickUpInsideDetector;
+    private final DigitalInput insideDetector = RobotMap.pickUpHomeLimit;
     boolean insideRobot = false;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -71,11 +71,13 @@ public class MoveRollIn extends Subsystem {
     		pickUpRoller.set(speed);
     	}
     	*/
-    	if(RobotMap.pickUpInsideDetector.get()){
-    		pickUpRoller.set(speed);
-    	}else{
-    		pickUpRoller.set(-.3);
-    	}
+
+    	//if(!RobotMap.pickUpHomeLimit.get())
+
+    	pickUpRoller.set(speed);
+    	//else
+    	//pickUpRoller.set(0);
+
     }
 
     public void moveRollerBack(){

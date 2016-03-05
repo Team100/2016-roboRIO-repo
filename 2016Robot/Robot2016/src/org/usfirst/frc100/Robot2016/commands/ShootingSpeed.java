@@ -12,6 +12,8 @@
 package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc100.Robot2016.Robot;
 import org.usfirst.frc100.Robot2016.RobotMap;
 
@@ -21,27 +23,43 @@ import org.usfirst.frc100.Robot2016.RobotMap;
 public class ShootingSpeed extends Command {
 
 	private double speed;
+	boolean incrementing = false;
+    public ShootingSpeed(double speeds) {
 
-    public ShootingSpeed(int speed) {
-
-    	this.speed = speed;
+    	this.speed = speeds;
+    	if (speeds > .4)
+    		incrementing = true;
+    	else
+    		incrementing = false;
+    	
         requires(Robot.shooter);
 
     }
 
 	// Called just before this Command runs the first time
     protected void initialize() {
-    	  Robot.shooter.enable();
-          Robot.shooter.setSetpoint(speed);
+    	 // Robot.shooter.enable();
+         // Robot.shooter.setSetpoint(speed);
+    	//RobotMap.shooterFlyMotor.set(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(incrementing){
+    	speed += 0.0008;
+    	RobotMap.shooterFlyMotor.set(speed);
+    	}
+    	else
+    	{
+    		RobotMap.shooterFlyMotor.set(speed);
+    	}
+    	SmartDashboard.putNumber("spped Value", speed);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.shooter.onTarget();
+    	return false;//Robot.shooter.onTarget();
     }
 
     // Called once after isFinished returns true

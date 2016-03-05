@@ -12,15 +12,15 @@
 package org.usfirst.frc100.Robot2016.subsystems;
 
 import org.usfirst.frc100.Robot2016.RobotMap;
+
 import org.usfirst.frc100.Robot2016.commands.*;
+
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.smartdashboard.*;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Shooter extends PIDSubsystem {
 
     private final SpeedController flyMotor = RobotMap.shooterFlyMotor;
-    private final Encoder flyEncoder = RobotMap.shooterFlyEncoder;
+    private final Counter flyCounter = RobotMap.shooterSpdCtr;
     private final PIDController shooterSpeedControllerPID = RobotMap.shooterShooterSpeedControllerPID;
 
     // Initialize your subsystem here
@@ -38,7 +38,7 @@ public class Shooter extends PIDSubsystem {
 
         super("Shooter", 1.0, 0.0, 0.0);
         setAbsoluteTolerance(50);
-        getPIDController().setContinuous(true);
+        //getPIDController().setContinuous(true);
         LiveWindow.addActuator("Shooter", "PIDSubsystem Controller", getPIDController());
        // getPIDController().setInputRange(0.0, 10.0);
 
@@ -61,7 +61,7 @@ public class Shooter extends PIDSubsystem {
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
 
-        return flyEncoder.getRate();
+        return flyCounter.getRate();
 
     }
 
@@ -69,7 +69,7 @@ public class Shooter extends PIDSubsystem {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
 
-        flyMotor.pidWrite(output);
+       // flyMotor.pidWrite(output);
 
     }
 }
