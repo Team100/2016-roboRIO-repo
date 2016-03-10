@@ -47,12 +47,16 @@ public class OI {
 	public JoystickButton mid;
 	public JoystickButton bot;
 	public JoystickButton backwardOrientDrive;
+	public JoystickButton putBallInShooterPosition;
+	public JoystickButton putBallinDrivePosition;
+	public JoystickButton putArmToGround;
+	public JoystickButton lineUpRobotWithGoal;
 
 	public Joystick autoModeSelect;
-	public JoystickButton binary1;
-	public JoystickButton binary2;
-	public JoystickButton binary3;
-	public JoystickButton binary4;
+		public JoystickButton binary1;
+		public JoystickButton binary2;
+		public JoystickButton binary3;
+		public JoystickButton binary4;
 
 	public OI() {
 
@@ -136,6 +140,11 @@ public class OI {
 			binary3 = new JoystickButton(autoModeSelect, 3);
 			binary4 = new JoystickButton(autoModeSelect, 4);
 		}
+		
+		putBallInShooterPosition = new JoystickButton(driverController1, 10);
+		putBallinDrivePosition = new JoystickButton(driverController1, 9);
+		putArmToGround = new JoystickButton(driverController1, 11);
+		lineUpRobotWithGoal = new JoystickButton(driverController1, 12);
 
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
