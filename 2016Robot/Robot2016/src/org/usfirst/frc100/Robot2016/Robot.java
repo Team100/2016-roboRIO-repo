@@ -39,13 +39,7 @@ public class Robot extends IterativeRobot {
     public static DriveTrain driveTrain;
     public static PickUp pickUp;
     public static MoveRollIn moveRollIn;
-    public static LoaderPinball loaderPinball;
     public static Shooter shooter;
-    public static Spinner spinner;
-    public static UnbeatableScalingMechanism unbeatableScalingMechanism;
-    public static Pneumatics pneumatics;
-    public static Vision vision;
-    //public static holdPosition pos;
     public static Preferences prefs;
 
    // public static MovePickUpWithPID move;
@@ -65,12 +59,7 @@ public class Robot extends IterativeRobot {
         pickUp = new PickUp();
         //pos = new holdPosition();
         moveRollIn = new MoveRollIn();
-        loaderPinball = new LoaderPinball();
         shooter = new Shooter();
-        spinner = new Spinner();
-        unbeatableScalingMechanism = new UnbeatableScalingMechanism();
-        pneumatics = new Pneumatics();
-        vision = new Vision();
 
         prefs = Preferences.getInstance();
         prefs.putDouble("pValue", .04);
