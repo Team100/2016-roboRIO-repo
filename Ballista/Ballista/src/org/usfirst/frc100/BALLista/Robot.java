@@ -37,13 +37,13 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 
 		RobotMap.init();
-
+		prefs = Preferences.getInstance();
 		driveTrain = new DriveTrain();
 		pickUp = new PickUp();
 		shooter = new Shooter();
 		moveRollIn = new MoveRollIn();
 
-		prefs = Preferences.getInstance();
+		
 		prefs.putDouble("pValue", .04);
 		prefs.putDouble("iValue", 0);
 		prefs.putDouble("dValue", 0);
@@ -122,19 +122,19 @@ public class Robot extends IterativeRobot {
 
 		Scheduler.getInstance().run();
 
-		double p = prefs.getDouble("pValue", .04);
-		double i = prefs.getDouble("iValue", 0);
-		double d = prefs.getDouble("dValue", 0);
-		double aP = prefs.getDouble("armP", 4.00);
-		double aI = prefs.getDouble("armI", .4);
-		double aD = prefs.getDouble("armD", .0);
-		SmartDashboard.putNumber("p", p);
-		SmartDashboard.putNumber("i", i);
-		SmartDashboard.putNumber("d", d);
-
-		SmartDashboard.putNumber("armP", aP);
-		SmartDashboard.putNumber("armI", aI);
-		SmartDashboard.putNumber("armD", aD);
+//		double p = prefs.getDouble("pValue", .04);
+//		double i = prefs.getDouble("iValue", 0);
+//		double d = prefs.getDouble("dValue", 0);
+//		double aP = prefs.getDouble("armP", 4.00);
+//		double aI = prefs.getDouble("armI", .4);
+//		double aD = prefs.getDouble("armD", .0);
+//		SmartDashboard.putNumber("p", p);
+//		SmartDashboard.putNumber("i", i);
+//		SmartDashboard.putNumber("d", d);
+//
+//		SmartDashboard.putNumber("armP", aP);
+//		SmartDashboard.putNumber("armI", aI);
+//		SmartDashboard.putNumber("armD", aD);
 		SmartDashboard.putNumber("dist of counter",
 				RobotMap.shooterSpdCtr.getDistance());
 		SmartDashboard.putNumber("rate of counter",
@@ -159,7 +159,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("dist of left",
 				RobotMap.driveTrainLeftEncoder.getDistance());
 
-		SmartDashboard.putNumber("Posison", Robot.pickUp.getArmPosVal());
+		SmartDashboard.putNumber("PosIsOn", Robot.pickUp.getArmPosVal());
 		SmartDashboard.putNumber("rate of right",
 				RobotMap.driveTrainRightEncoder.getRate());
 		SmartDashboard
@@ -178,11 +178,5 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-
-	/*
-	 * public static double getP(){ return p = prefs.getDouble("pValue", .04); }
-	 * public static double getI(){ return i = prefs.getDouble("iValue", 0); }
-	 * public static double getD(){ return d = prefs.getDouble("dValue", 0); }
-	 */
 
 }
