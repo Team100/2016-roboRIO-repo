@@ -118,6 +118,9 @@ public class OI {
         hold = new JoystickButton(driverController1, 2);
         hold.whileHeld(new holdPosition());
 
+        spinnerAdjust = new JoystickButton(operator, 2);
+        spinnerAdjust.whileHeld(new AdjustSpinner());
+
         /*
         flipperShoot = new JoystickButton(operator, 1);
         flipperShoot.whenPressed(new ShootFlippers());
@@ -161,6 +164,10 @@ public class OI {
         SmartDashboard.putData("MovePickUp", new MovePickUp());
         SmartDashboard.putData("RollIn", new RollIn());
         SmartDashboard.putData("RollOut", new RollOut());
+        SmartDashboard.putData("OutSideFlippers", new OutSideFlippers());
+        SmartDashboard.putData("HoldFlippers", new HoldFlippers());
+        SmartDashboard.putData("ShootFlippers", new ShootFlippers());
+        SmartDashboard.putData("AdjustSpinner", new AdjustSpinner());
         SmartDashboard.putData("AutoAlignHighGoal", new AutoAlignHighGoal());
         //SmartDashboard.putData("ShootingSpeed", new ShootingSpeed());
         SmartDashboard.putData("Shooting", new Shooting());
