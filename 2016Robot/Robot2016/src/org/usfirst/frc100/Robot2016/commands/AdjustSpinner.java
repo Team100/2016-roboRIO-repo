@@ -9,20 +9,19 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc100.BALLista.commands;
+package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc100.BALLista.Robot;
+import org.usfirst.frc100.Robot2016.Robot;
 
 /**
  *
  */
-public class AutoAlignHighGoal extends Command {
+public class AdjustSpinner extends Command {
 
-    public AutoAlignHighGoal() {
+    public AdjustSpinner() {
 
-        requires(Robot.driveTrain);
+        requires(Robot.spinner);
 
     }
 
@@ -32,6 +31,7 @@ public class AutoAlignHighGoal extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    //Robot.spinner.takeJoystickInputs(Robot.oi.operator);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -41,10 +41,12 @@ public class AutoAlignHighGoal extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	//Robot.spinner.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

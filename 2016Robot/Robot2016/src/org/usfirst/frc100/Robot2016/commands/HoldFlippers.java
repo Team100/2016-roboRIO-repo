@@ -9,20 +9,19 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc100.BALLista.commands;
+package org.usfirst.frc100.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc100.BALLista.Robot;
+import org.usfirst.frc100.Robot2016.Robot;
 
 /**
  *
  */
-public class AutoAlignHighGoal extends Command {
+public class HoldFlippers extends Command {
 
-    public AutoAlignHighGoal() {
+    public HoldFlippers() {
 
-        requires(Robot.driveTrain);
+        requires(Robot.loaderPinball);
 
     }
 
