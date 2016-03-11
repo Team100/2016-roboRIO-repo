@@ -17,20 +17,20 @@ public class MoveRollIn extends Subsystem {
     private final DigitalInput insideDetector = RobotMap.pickUpHomeLimit;
     private final boolean insideRobot = false;
 
-    public void initDefaultCommand() {
-
-    }
-
-    public boolean hitDetector(){
-    	return insideDetector.get();
-    }
-
     public void updateDashboard() {
 
     	SmartDashboard.putNumber("MoveRollIn/PickUpRoller", pickUpRoller.get());
     	SmartDashboard.putBoolean("MoveRollIn/InsideDetector", insideDetector.get());
     	SmartDashboard.putBoolean("MoveRollIn/InsideRobot", insideRobot);
 
+    }
+
+    public void initDefaultCommand() {
+
+    }
+
+    public boolean hitDetector(){
+    	return insideDetector.get();
     }
 
     public void setRollerSpeed(double speed){
@@ -67,13 +67,11 @@ public class MoveRollIn extends Subsystem {
     	pickUpRoller.set(speed);
     	//else
     	//pickUpRoller.set(0);
-
     }
 
     public void moveRollerBack(){
     	pickUpRoller.set(-.4);
     }
-
 
     public void stop(){
     	pickUpRoller.set(0);

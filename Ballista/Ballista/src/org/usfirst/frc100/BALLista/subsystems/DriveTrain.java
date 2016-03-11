@@ -47,6 +47,12 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Drivetrain/LeftEncoder", leftEncoder.getDistance());
 		SmartDashboard.putNumber("Drivetrain/RightEncoder", rightEncoder.getDistance());
 		SmartDashboard.putNumber("Drivetrain/Gyro", RobotMap.internalGyro.getAngle());
+		SmartDashboard.putNumber("Drivetrain/Heading", RobotMap.internalGyro.getAngle() * 0.03);
+		SmartDashboard.putNumber("Drivetrain/HoldItValue", Robot.driveTrain.pid.getSetpoint());
+		SmartDashboard.putNumber("Drivetrain/RateOfRight", RobotMap.driveTrainRightEncoder.getRate());
+    	SmartDashboard.putNumber("Drivetrain/RateOfLeft", RobotMap.driveTrainLeftEncoder.getRate());
+    	SmartDashboard.putNumber("Drivetrain/DistOfRight", RobotMap.driveTrainRightEncoder.getDistance());
+    	SmartDashboard.putNumber("Drivetrain/DistOfLeft", RobotMap.driveTrainLeftEncoder.getDistance());
 
 		/*
 		// Acceleration code
@@ -57,7 +63,6 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("DriveTrain/Velocity", velocity);
 		SmartDashboard.putNumber("DriveTrain/Acceleration", trueAcceleration);
 		*/
-
 	}
 
 	public DriveTrain() {
@@ -86,48 +91,36 @@ public class DriveTrain extends Subsystem {
 						left.pidWrite(-d); // /2
 					}
 				});
-
 	}
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
 	public void initDefaultCommand() {
-
 		setDefaultCommand(new TankDrive());
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-
 	}
 
 	public void takeJoystickInputs(double x, double y) {
 		// twoMotorDrive.tankDrive(left, right);
 		twoMotorDrive.arcadeDrive(-x, y);
-
 	}
 
 	public void takeJoystickInputsReverse(double x, double y) {
-
 		twoMotorDrive.arcadeDrive(-x, y);
-
 	}
 
 	public void stop() {
-
 		twoMotorDrive.drive(0, 0);
-
 	}
 
 	public double getAngles() {
-
 		return RobotMap.internalGyro.getAngle(); // add the gyro
-
 	}
+
 	public void drives() {
 		twoMotorDrive.drive(.15, -RobotMap.internalGyro.getAngle() * .03);// .getAngleOfGyro());
-		SmartDashboard.putNumber("heading",
-				RobotMap.internalGyro.getAngle() * 0.03);
-
 	}
 
 }

@@ -45,8 +45,13 @@ public class PickUp extends PIDSubsystem {
 		SmartDashboard.putBoolean("PickUp/UpperLimit", upperLimit.get());
 		SmartDashboard.putBoolean("PickUp/LowerLimit", lowerLimit.get());
 		SmartDashboard.putBoolean("PickUp/HomeLimit", homeLimit.get());
-		SmartDashboard.putNumber("PickUp/armAngleMotor", armAngleMotor.get());
-		SmartDashboard.putNumber("PickUp/pickUpPot", pickUpPot.get());
+		SmartDashboard.putNumber("PickUp/ArmAngleMotor", armAngleMotor.get());
+		SmartDashboard.putNumber("PickUp/PickUpPot", pickUpPot.get());
+		SmartDashboard.putBoolean("PickUp/TopLimit", RobotMap.pickUpUpperLimit.get());
+    	SmartDashboard.putBoolean("PickUp/LowLimit", RobotMap.pickUpLowerLimit.get());
+    	SmartDashboard.putNumber("PickUp/SetPoint", Robot.pickUp.getSetpoint());
+    	SmartDashboard.putBoolean("PickUp/HomeLimit", RobotMap.pickUpHomeLimit.get());
+    	SmartDashboard.putNumber("PickUp/Posison",Robot.pickUp.getArmPosVal());
 
 	}
 
@@ -72,14 +77,11 @@ public class PickUp extends PIDSubsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-
 	public void initDefaultCommand() {
-
 		setDefaultCommand(new MovePickUp());
 
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-
 	}
 
 	public void takeJoystickInputs(double op) {
@@ -123,8 +125,8 @@ public class PickUp extends PIDSubsystem {
 		// armAngleMotor.set(speed);
 
 		// Robot.pickUp.pickUpPot.get();
-
 	}
+
 	public void goToTop() {
 		if (RobotMap.pickUpUpperLimit.get())
 			armAngleMotor.set(.3);
@@ -135,6 +137,7 @@ public class PickUp extends PIDSubsystem {
 			// pid.setSetpoint(Robot.pickUp.pickUpPot.get());
 		}
 	}
+
 	public void goToMid() {
 		/*
 		 * if(RobotMap.pickUpUpperLimit.get()){ armAngleMotor.set(-.5); } else
@@ -149,8 +152,8 @@ public class PickUp extends PIDSubsystem {
 			armAngleMotor.set(0);
 			// pid.setSetpoint(Robot.pickUp.pickUpPot.get());
 		}
-
 	}
+
 	public void goToBot() {
 		if (RobotMap.pickUpUpperLimit.get())
 			armAngleMotor.set(-.5);
@@ -177,7 +180,5 @@ public class PickUp extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		armAngleMotor.set(-output / 2); // /2
-
 	}
-
 }
