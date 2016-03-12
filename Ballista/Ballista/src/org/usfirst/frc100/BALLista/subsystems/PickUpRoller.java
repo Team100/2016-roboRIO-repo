@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class MoveRollIn extends Subsystem {
+public class PickUpRoller extends Subsystem {
 
     private final SpeedController pickUpRoller = RobotMap.moveRollInPickUpRoller;
     private final DigitalInput insideDetector = RobotMap.pickUpHomeLimit;

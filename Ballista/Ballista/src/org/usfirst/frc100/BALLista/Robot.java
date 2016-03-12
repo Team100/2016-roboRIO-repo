@@ -25,7 +25,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveTrain driveTrain;
 	public static PickUp pickUp;
-	public static MoveRollIn moveRollIn;
+	public static PickUpRoller moveRollIn;
 	public static Shooter shooter;
 	public static Preferences prefs;
 
@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 		driveTrain = new DriveTrain();
 		pickUp = new PickUp();
 		shooter = new Shooter();
-		moveRollIn = new MoveRollIn();
+		moveRollIn = new PickUpRoller();
 
 
 		prefs.putDouble("pValue", .04);
@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot {
 		default: new DoNothing(0).start();
 			break;
 		}
-		new UpdateDashboard().start();
+	//	new UpdateDashboard().start();
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		// RobotMap.internalGyro.reset();
 		Scheduler.getInstance().removeAll();
-		new UpdateDashboard().start();
+		//new UpdateDashboard().start();
 	}
 
 	/**
@@ -120,23 +120,7 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
-
 		Scheduler.getInstance().run();
-		/*
-		double p = prefs.getDouble("pValue", .04);
-		double i = prefs.getDouble("iValue", 0);
-		double d = prefs.getDouble("dValue", 0);
-		double aP = prefs.getDouble("armP", 4.00);
-		double aI = prefs.getDouble("armI", .4);
-		double aD = prefs.getDouble("armD", .0);
-		SmartDashboard.putNumber("p", p);
-		SmartDashboard.putNumber("i", i);
-		SmartDashboard.putNumber("d", d);
-
-		SmartDashboard.putNumber("armP", aP);
-		SmartDashboard.putNumber("armI", aI);
-		SmartDashboard.putNumber("armD", aD);
-		*/
 	}
 
 	/**

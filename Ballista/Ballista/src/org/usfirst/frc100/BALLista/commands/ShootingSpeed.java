@@ -23,6 +23,7 @@ import org.usfirst.frc100.BALLista.RobotMap;
 public class ShootingSpeed extends Command {
 
 	private double speed;
+	private double incrementingValue = 0.0008;
 	boolean incrementing = false;
     public ShootingSpeed(double speeds) {
 
@@ -31,7 +32,7 @@ public class ShootingSpeed extends Command {
     		incrementing = true;
     	else
     		incrementing = false;
-
+    	
         requires(Robot.shooter);
 
     }
@@ -45,14 +46,23 @@ public class ShootingSpeed extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	/* 
+    	 if(incrementing){
+    	 if(setpoint <=1)
+    	 setpoint  += incrementing value
+    	 Robot.shooter.setSetpoint(speed);
+    	 }
+    	 */
     	if(incrementing){
-    	speed += 0.0008;
+    	speed += incrementingValue;
     	RobotMap.shooterFlyMotor.set(speed);
     	}
     	else
     	{
     		RobotMap.shooterFlyMotor.set(speed);
     	}
+    	SmartDashboard.putNumber("spped Value", speed);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

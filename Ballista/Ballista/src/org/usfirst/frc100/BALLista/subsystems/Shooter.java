@@ -36,9 +36,9 @@ public class Shooter extends PIDSubsystem {
 
 		SmartDashboard.putNumber("Shooter/FlyMotor Raw", flyMotor.get());
 		SmartDashboard.putNumber("Shooter/FlyCounter Raw", flyCounter.getRate());
-		//SmartDashboard.putNumber("Shooter/ShooterSpeedControllerPID", shooterSpeedControllerPID.get());
-		SmartDashboard.putNumber("Shooter/DistOfCounter", flyCounter.getDistance());
-    	SmartDashboard.putNumber("Shooter/RateOfCounter", flyCounter.getRate());
+		SmartDashboard.putNumber("Shooter/ShooterSpeedControllerPID", shooterSpeedControllerPID.get());
+		SmartDashboard.putNumber("Shooter/DistOfCounter", RobotMap.shooterSpdCtr.getDistance());
+    	SmartDashboard.putNumber("Shooter/RateOfCounter", RobotMap.shooterSpdCtr.getRate());
     	SmartDashboard.putBoolean("Shooter/ShooterSensor", RobotMap.shooterSpdIn.get());
     }
 
@@ -77,7 +77,7 @@ public class Shooter extends PIDSubsystem {
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
-
+    	RobotMap.shooterFlyMotor.pidWrite(output);
        // flyMotor.pidWrite(output);
 
     }
