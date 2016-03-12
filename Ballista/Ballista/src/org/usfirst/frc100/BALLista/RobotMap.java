@@ -1,5 +1,7 @@
 package org.usfirst.frc100.BALLista;
 
+
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -55,6 +57,10 @@ public class RobotMap {
     public static ADXRS450_Gyro internalGyro;
 
     public static void init() {
+    	Robot.prefs.putDouble("driveTrainExpiration", 0.1);
+    	Robot.prefs.putDouble("driveTrainSensitivity", 0.5);
+    	Robot.prefs.putDouble("driveTrainMaxOutput", 1.0);
+    	Robot.prefs.putDouble("driveTrainDistancePerPulse", 1.0);
 
     	internalGyro = new ADXRS450_Gyro();
         driveTrainLeft = new VictorSP(0);
@@ -65,9 +71,9 @@ public class RobotMap {
 
         driveTrainTwoMotorDrive = new RobotDrive(driveTrainLeft, driveTrainRight);
         driveTrainTwoMotorDrive.setSafetyEnabled(true);
-        driveTrainTwoMotorDrive.setExpiration(0.1);
-        driveTrainTwoMotorDrive.setSensitivity(0.5);
-        driveTrainTwoMotorDrive.setMaxOutput(1.0);
+        driveTrainTwoMotorDrive.setExpiration(Robot.prefs.getDouble("driveTrainExpiration", 0.1));
+        driveTrainTwoMotorDrive.setSensitivity(Robot.prefs.getDouble("driveTrainSensitivity", 0.5));
+        driveTrainTwoMotorDrive.setMaxOutput(Robot.prefs.getDouble("driveTrainMaxOutput", 1.0));
         driveTrainTwoMotorDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 
         driveTrainIRDistanceSensor = new AnalogInput(1);
@@ -75,12 +81,12 @@ public class RobotMap {
 
         driveTrainLeftEncoder = new Encoder(0, 1, true, EncodingType.k4X);
         LiveWindow.addSensor("Drive Train", "Left Encoder", driveTrainLeftEncoder);
-        driveTrainLeftEncoder.setDistancePerPulse(1.0);
+        driveTrainRightEncoder.setDistancePerPulse(Robot.prefs.getDouble("driveTrainDistancePerPulse", 1.0));
         driveTrainLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
 
         driveTrainRightEncoder = new Encoder(2, 3, true, EncodingType.k4X);
         LiveWindow.addSensor("Drive Train", "Right Encoder", driveTrainRightEncoder);
-        driveTrainRightEncoder.setDistancePerPulse(1.0);
+        driveTrainRightEncoder.setDistancePerPulse(Robot.prefs.getDouble("driveTrainDistancePerPulse", 1.0));
         driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kRate);
 
         pickUpUpperLimit = new DigitalInput(4);
@@ -100,10 +106,13 @@ public class RobotMap {
         pickUpPickUpPot = new AnalogPotentiometer(0, 1.0, 0.0);
         //LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
 
+<<<<<<< HEAD
 
         //pickUpPortcullisSensor = new DigitalInput(8);
         //LiveWindow.addSensor("Pick Up", "Portcullis Sensor", pickUpPortcullisSensor);
 
+=======
+>>>>>>> refs/remotes/origin/master
         pickUpMidLimit = new DigitalInput(6);
         LiveWindow.addSensor("Pick Up", "mid", pickUpMidLimit);
 

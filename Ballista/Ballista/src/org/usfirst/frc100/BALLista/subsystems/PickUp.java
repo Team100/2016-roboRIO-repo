@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 /**
  *
  */
@@ -39,6 +40,7 @@ public class PickUp extends PIDSubsystem {
 	private final DigitalInput homeLimit = RobotMap.pickUpHomeLimit;
 	private final SpeedController armAngleMotor = RobotMap.pickUpArmAngleMotor;
 	private final AnalogPotentiometer pickUpPot = RobotMap.pickUpPickUpPot;
+
 
 	public void updateDashboard() {
 
@@ -55,24 +57,37 @@ public class PickUp extends PIDSubsystem {
 
 	}
 
+
+	private final static double DEFAULT_PICKUP_KP = 6.0;
+	private final static double DEFAULT_PICKUP_KI = 0.02;
+	private final static double DEFAULT_PICKUP_KD = 0.0;
+
+	private double pickup_kP;
+	private double pickup_kI;
+	private double pickup_kD;
+
 	// public PIDController pid;
+
 	public PickUp() {
-		super(6.0, .02, 0);
-		/*
-		 * pid = new PIDController(4.04, .5, 0, new PIDSource() { //.04 0 0 for
-		 * 180 // .04 .02 0 for like 1 degree PIDSourceType m_sourceType =
-		 * PIDSourceType.kDisplacement;
-		 *
-		 * public double pidGet() { return RobotMap.pickUpPickUpPot.get(); }
-		 *
-		 * @Override public void setPIDSourceType(PIDSourceType pidSource) {
-		 * m_sourceType = pidSource; }
-		 *
-		 * @Override public PIDSourceType getPIDSourceType() { return
-		 * m_sourceType; } }, new PIDOutput() { public void pidWrite(double d) {
-		 *
-		 * armAngleMotor.pidWrite(-d/4); // /2 }});
-		 */
+		super(DEFAULT_PICKUP_KP, DEFAULT_PICKUP_KI, DEFAULT_PICKUP_KD);
+
+
+		if (!Robot.prefs.containsKey("Pickup_kP")){
+			Robot.prefs.putDouble("Pickup_kP", DEFAULT_PICKUP_KP);
+		}
+		if (!Robot.prefs.containsKey("Pickup_kI")){
+			Robot.prefs.putDouble("Pickup_kI", DEFAULT_PICKUP_KI);
+		}
+		if (!Robot.prefs.containsKey("Pickup_kD")){
+			Robot.prefs.putDouble("Pickup_kD", DEFAULT_PICKUP_KD);
+		}
+
+		pickup_kP = Robot.prefs.getDouble("Pickup_kP", DEFAULT_PICKUP_KP);
+		pickup_kI = Robot.prefs.getDouble("Pickup_kI", DEFAULT_PICKUP_KI);
+		pickup_kD = Robot.prefs.getDouble("Pickup_kD", DEFAULT_PICKUP_KD);
+
+		getPIDController().setPID(pickup_kP, pickup_kI, pickup_kD);
+
 	}
 
 	// Put methods for controlling this subsystem

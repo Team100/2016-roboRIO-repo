@@ -37,13 +37,13 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 
 		RobotMap.init();
-
+		prefs = Preferences.getInstance();
 		driveTrain = new DriveTrain();
 		pickUp = new PickUp();
 		shooter = new Shooter();
 		moveRollIn = new MoveRollIn();
 
-		prefs = Preferences.getInstance();
+
 		prefs.putDouble("pValue", .04);
 		prefs.putDouble("iValue", 0);
 		prefs.putDouble("dValue", 0);
@@ -138,6 +138,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("armI", aI);
 		SmartDashboard.putNumber("armD", aD);
 		/*
+
 		SmartDashboard.putNumber("dist of counter",
 				RobotMap.shooterSpdCtr.getDistance());
 		SmartDashboard.putNumber("rate of counter",
@@ -162,7 +163,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("dist of left",
 				RobotMap.driveTrainLeftEncoder.getDistance());
 
-		SmartDashboard.putNumber("Posison", Robot.pickUp.getArmPosVal());
+		SmartDashboard.putNumber("PosIsOn", Robot.pickUp.getArmPosVal());
 		SmartDashboard.putNumber("rate of right",
 				RobotMap.driveTrainRightEncoder.getRate());
 		SmartDashboard
@@ -182,11 +183,5 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-
-	/*
-	 * public static double getP(){ return p = prefs.getDouble("pValue", .04); }
-	 * public static double getI(){ return i = prefs.getDouble("iValue", 0); }
-	 * public static double getD(){ return d = prefs.getDouble("dValue", 0); }
-	 */
 
 }
