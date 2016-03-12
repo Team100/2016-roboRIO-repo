@@ -18,9 +18,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
 public class DriveTrain extends Subsystem {
 
 	private final SpeedController left = RobotMap.driveTrainLeft;
@@ -31,6 +28,15 @@ public class DriveTrain extends Subsystem {
 	public PIDController pid;
 	private boolean driveDirection = true;
 	private int distances;
+
+
+	private static final double DEFAULT_DRIVE_TRAIN_KP = 0.004;
+	private static final double DEFAULT_DRIVE_TRAIN_KI = 0.0;
+	private static final double DEFAULT_DRIVE_TRAIN_KD = 0.0;
+
+	public double driveTrain_kP;
+	public double driveTrain_kI;
+	public double driveTrain_kD;
 
 	public void updateDashboard() {
 		SmartDashboard.putNumber("DriveTrain/LeftEncoder Raw", leftEncoder.getRaw());
@@ -60,10 +66,27 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public DriveTrain() {
-		pid = new PIDController(.04, 0, 0, new PIDSource() { // .04 0 0 for 180
-																// // .04 .02 0
-																// for like 1
-																// degree
+
+		if (!Robot.prefs.containsKey("driveTrain_kP")) {
+			Robot.prefs.putDouble("driveTrain_kP", DEFAULT_DRIVE_TRAIN_KP);
+		}
+		if (!Robot.prefs.containsKey("driveTrain_kI")) {
+			Robot.prefs.putDouble("driveTrain_kI", DEFAULT_DRIVE_TRAIN_KI);
+		}
+		if (!Robot.prefs.containsKey("driveTrain_kD")) {
+			Robot.prefs.putDouble("driveTrain_kD", DEFAULT_DRIVE_TRAIN_KD);
+		}
+
+		driveTrain_kP = Robot.prefs.getDouble("driveTrain_kP",
+				DEFAULT_DRIVE_TRAIN_KP);
+		driveTrain_kI = Robot.prefs.getDouble("driveTrain_kI",
+				DEFAULT_DRIVE_TRAIN_KI);
+		driveTrain_kD = Robot.prefs.getDouble("driveTrain_kD",
+				DEFAULT_DRIVE_TRAIN_KD);
+
+		pid = new PIDController(Robot.prefs.getDouble("driveTrain_kP",
+				DEFAULT_DRIVE_TRAIN_KP), Robot.prefs.getDouble("driveTrain_kD",
+				DEFAULT_DRIVE_TRAIN_KD), 0, new PIDSource() { // .04 0 0 for 180
 					PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 					public double pidGet() {
@@ -85,12 +108,11 @@ public class DriveTrain extends Subsystem {
 						left.pidWrite(-d); // /2
 					}
 				});
+
 	}
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-
 	public void initDefaultCommand() {
+
 		setDefaultCommand(new TankDrive());
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
@@ -99,10 +121,13 @@ public class DriveTrain extends Subsystem {
 	public void takeJoystickInputs(double x, double y) {
 		// twoMotorDrive.tankDrive(left, right);
 		twoMotorDrive.arcadeDrive(-x, y);
+
 	}
 
 	public void takeJoystickInputsReverse(double x, double y) {
+
 		twoMotorDrive.arcadeDrive(-x, y);
+
 	}
 
 	public boolean getDriveDirection(){
@@ -126,10 +151,16 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public double getAngles() {
+
 		return RobotMap.internalGyro.getAngle(); // add the gyro
+
 	}
 
 	public void drives() {
 		twoMotorDrive.drive(.15, -RobotMap.internalGyro.getAngle() * .03);// .getAngleOfGyro());
+		SmartDashboard.putNumber("heading",
+				RobotMap.internalGyro.getAngle() * 0.03);
+
 	}
+
 }

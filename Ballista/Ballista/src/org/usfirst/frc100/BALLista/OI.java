@@ -107,13 +107,11 @@ public class OI {
 		fastShoot = new JoystickButton(operator, 6);
 		fastShoot.whenPressed(new ShootingSpeed(.5));
 		top = new JoystickButton(operator, 1);
-		top.whenPressed(new MovePickUpWithPID(.403)); // .403
+		top.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_top", 0.413))); 
 		mid = new JoystickButton(operator, 4);
-		mid.whenPressed(new MovePickUpWithPID(.558));
+		mid.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_mid", 0.558))); 
 		bot = new JoystickButton(operator, 3);
-		bot.whenPressed(new MovePickUpWithPID(.658));
-	//	resetPidOfArm = new JoystickButton(operator, 2);
-		//resetPidOfArm.whenPressed(new MovePickUpWithPID(.8));
+		bot.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_bot", 0.658)));
 		hold = new JoystickButton(driverController1, 2);
 		hold.whileHeld(new holdCurrentGyroPosition());
 		turn90Right = new JoystickButton(driverController2, 5);
@@ -121,7 +119,7 @@ public class OI {
 		turn90Right = new JoystickButton(driverController2, 4);
 		turn90Right.whileHeld(new TurnToAngle(-90));
 		spinOut = new JoystickButton(driverController2, 1);
-		spinOut.whileHeld(new RollOut(-.1));
+		spinOut.whileHeld(new RollOut(Robot.prefs.getDouble("MoveRollIn_rolloutSpeed", -0.1)));
 
 		spinIn = new JoystickButton(driverController1, 1);
 		spinIn.whileHeld(new RollIn());

@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 	public static PickUpRoller moveRollIn;
 	public static Shooter shooter;
 	public static Preferences prefs;
-
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -42,11 +42,6 @@ public class Robot extends IterativeRobot {
 		pickUp = new PickUp();
 		shooter = new Shooter();
 		moveRollIn = new PickUpRoller();
-
-
-		prefs.putDouble("pValue", .04);
-		prefs.putDouble("iValue", 0);
-		prefs.putDouble("dValue", 0);
 		// int testValue = 5;
 
 		// OI must be constructed after subsystems. If the OI creates Commands
@@ -57,7 +52,8 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
 		autonomousCommand = new AutonomousCommand();
-		CameraServer.getInstance().startAutomaticCapture("cam0");
+		
+	   CameraServer.getInstance().startAutomaticCapture("cam0");
 	}
 
 	/**
