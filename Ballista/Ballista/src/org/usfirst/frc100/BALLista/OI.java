@@ -46,6 +46,7 @@ public class OI {
 	public JoystickButton top;
 	public JoystickButton mid;
 	public JoystickButton bot;
+	public JoystickButton resetPidOfArm;
 	public JoystickButton backwardOrientDrive;
 	public JoystickButton putBallInShooterPosition;
 	public JoystickButton putBallinDrivePosition;
@@ -103,14 +104,15 @@ public class OI {
 		fastShoot = new JoystickButton(operator, 6);
 		fastShoot.whenPressed(new ShootingSpeed(.5));
 		top = new JoystickButton(operator, 1);
-		top.whileHeld(new MovePickUpWithPID(.403)); // .403
+		top.whenPressed(new MovePickUpWithPID(.403)); // .403
 		mid = new JoystickButton(operator, 4);
-		mid.whileHeld(new MovePickUpWithPID(.558));
+		mid.whenPressed(new MovePickUpWithPID(.558));
 		bot = new JoystickButton(operator, 3);
-		bot.whileHeld(new MovePickUpWithPID(.658));
-
+		bot.whenPressed(new MovePickUpWithPID(.658));
+		resetPidOfArm = new JoystickButton(operator, 2);
+		resetPidOfArm.whenPressed(new MovePickUpWithPID(.8));
 		hold = new JoystickButton(driverController1, 2);
-		hold.whileHeld(new holdPosition());
+		hold.whileHeld(new holdCurrentGyroPosition());
 
 		spinOut = new JoystickButton(driverController2, 1);
 		spinOut.whileHeld(new RollOut(-.1));
@@ -119,7 +121,7 @@ public class OI {
 		spinIn.whileHeld(new RollIn());
 
 		turnAround = new JoystickButton(driverController2, 3);
-		turnAround.whileHeld(new Turn180(170));
+		turnAround.whileHeld(new TurnToAngle(170));
 
 		// movePickupArm = new JoystickButton(operator, 1);
 		// movePickupArm.whileHeld(new MovePickUp());
@@ -148,7 +150,7 @@ public class OI {
 
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
-		SmartDashboard.putData("Turn180", new Turn180());
+		SmartDashboard.putData("Turn180", new TurnToAngle());
 		SmartDashboard.putData("ChangeCameraOrientation",
 				new ChangeCameraOrientation());
 		SmartDashboard.putData("MovePickUp", new MovePickUp());

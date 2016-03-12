@@ -25,7 +25,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveTrain driveTrain;
 	public static PickUp pickUp;
-	public static MoveRollIn moveRollIn;
+	public static PickUpRoller moveRollIn;
 	public static Shooter shooter;
 	public static Preferences prefs;
 
@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 		driveTrain = new DriveTrain();
 		pickUp = new PickUp();
 		shooter = new Shooter();
-		moveRollIn = new MoveRollIn();
+		moveRollIn = new PickUpRoller();
 
 
 		prefs.putDouble("pValue", .04);
@@ -133,10 +133,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("p", p);
 		SmartDashboard.putNumber("i", i);
 		SmartDashboard.putNumber("d", d);
-
+		SmartDashboard.putNumber("rate of shooter", RobotMap.shooterSpdCtr.getRate());
 		SmartDashboard.putNumber("armP", aP);
 		SmartDashboard.putNumber("armI", aI);
 		SmartDashboard.putNumber("armD", aD);
+		SmartDashboard.putNumber("test", 123);
 		/*
 
 		SmartDashboard.putNumber("dist of counter",

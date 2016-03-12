@@ -24,19 +24,19 @@ import org.usfirst.frc100.BALLista.RobotMap;
 /**
  *
  */
-public class Turn180 extends Command {
+public class TurnToAngle extends Command {
 	int distances;
 	private final SpeedController left = RobotMap.driveTrainLeft;
     private final SpeedController right = RobotMap.driveTrainRight;
 
-	public Turn180()
+	public TurnToAngle()
 	{
 
 	 requires(Robot.driveTrain);
     
     
  }
-	public Turn180(int angles)
+	public TurnToAngle(int angles)
 	{
 	 distances = angles;
 	 requires(Robot.driveTrain);
@@ -47,7 +47,7 @@ public class Turn180 extends Command {
  // Called just before this Command runs the first time
  protected void initialize() {
  	// Get everything in a safe starting state.
-	 Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04), Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue", .00), 0);
+	// Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04), Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue", .00), 0);
 	 Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
 	 Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()+distances));  //Robot.driveTrain.getAngles+1
 	 Robot.driveTrain.pid.reset();

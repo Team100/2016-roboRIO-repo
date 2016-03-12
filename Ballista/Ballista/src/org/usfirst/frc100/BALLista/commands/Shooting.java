@@ -17,7 +17,7 @@ import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 
 /**
- *
+ *THIS IS AN UNUSED CLASS WE CAN DELETE THIS LATER IF WE DO NOT FIND A USE FOR IT!!!
  */
 public class Shooting extends PIDCommand {
 
