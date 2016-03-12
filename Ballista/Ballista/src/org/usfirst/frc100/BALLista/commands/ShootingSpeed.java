@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -23,50 +22,62 @@ import org.usfirst.frc100.BALLista.RobotMap;
 public class ShootingSpeed extends Command {
 
 	private double speed;
+	private double incrementingValue = 0.0008;
 	boolean incrementing = false;
-    public ShootingSpeed(double speeds) {
 
-    	this.speed = speeds;
-    	if (speeds > .4)
-    		incrementing = true;
-    	else
-    		incrementing = false;
+	public ShootingSpeed(double speeds) {
 
-        requires(Robot.shooter);
+		this.speed = speeds;
+		if (speeds > .4)
+			incrementing = true;
+		else
+			incrementing = false;
 
-    }
+		requires(Robot.shooter);
+
+	}
 
 	// Called just before this Command runs the first time
-    protected void initialize() {
-    	 // Robot.shooter.enable();
-         // Robot.shooter.setSetpoint(speed);
-    	//RobotMap.shooterFlyMotor.set(speed);
-    }
+	protected void initialize() {
+		// Robot.shooter.enable();
+		// Robot.shooter.setSetpoint(speed);
+		// RobotMap.shooterFlyMotor.set(speed);
+	}
+
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	/* 
+    	 if(incrementing){
+    	 if(setpoint <=1)
+    	 setpoint  += incrementing value
+    	 Robot.shooter.setSetpoint(speed);
+    	 }
+    	 */
     	if(incrementing){
-    	speed += 0.0008;
+    	speed += incrementingValue;
     	RobotMap.shooterFlyMotor.set(speed);
     	}
     	else
     	{
     		RobotMap.shooterFlyMotor.set(speed);
     	}
+    	SmartDashboard.putNumber("speed Value", speed);
+    	
     }
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-    	return false;//Robot.shooter.onTarget();
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;// Robot.shooter.onTarget();
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	RobotMap.shooterFlyMotor.set(0);
-    }
+	// Called once after isFinished returns true
+	protected void end() {
+		RobotMap.shooterFlyMotor.set(0);
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }

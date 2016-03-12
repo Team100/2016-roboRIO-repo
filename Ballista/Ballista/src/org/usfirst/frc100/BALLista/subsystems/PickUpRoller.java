@@ -11,12 +11,19 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class MoveRollIn extends Subsystem {
+public class PickUpRoller extends Subsystem {
 
     private final SpeedController pickUpRoller = RobotMap.moveRollInPickUpRoller;
     private final DigitalInput insideDetector = RobotMap.pickUpHomeLimit;
     private final boolean insideRobot = false;
-
+    
+    private static  final double MOVEROLLIN_ROLLOUTSPEED = -0.1;
+    
+    public PickUpRoller(){
+    	super();
+    	Robot.prefs.putDouble("MoveRollIn_rolloutSpeed", MOVEROLLIN_ROLLOUTSPEED);
+    }
+    
     public void updateDashboard() {
 
     	SmartDashboard.putNumber("MoveRollIn/PickUpRoller", pickUpRoller.get());
