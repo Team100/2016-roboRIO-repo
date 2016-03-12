@@ -31,7 +31,7 @@ public class ShootingSpeed extends Command {
     		incrementing = true;
     	else
     		incrementing = false;
-    	
+
         requires(Robot.shooter);
 
     }
@@ -53,8 +53,6 @@ public class ShootingSpeed extends Command {
     	{
     		RobotMap.shooterFlyMotor.set(speed);
     	}
-    	SmartDashboard.putNumber("spped Value", speed);
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
