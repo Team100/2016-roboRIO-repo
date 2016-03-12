@@ -3,6 +3,7 @@ package org.usfirst.frc100.BALLista.subsystems;
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 import org.usfirst.frc100.BALLista.commands.TankDrive;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -29,6 +30,8 @@ public class DriveTrain extends Subsystem {
 	private final Encoder leftEncoder = RobotMap.driveTrainLeftEncoder;
 	private final Encoder rightEncoder = RobotMap.driveTrainRightEncoder;
 	public PIDController pid;
+	private boolean driveDirection = true;
+	private int distances;
 
 	public void updateDashboard() {
 		SmartDashboard.putNumber("Drivetrain/LeftEncoder Raw", leftEncoder.getRaw());
@@ -42,6 +45,9 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Drivetrain/RateOfLeft", RobotMap.driveTrainLeftEncoder.getRate());
     	SmartDashboard.putNumber("Drivetrain/DistOfRight", RobotMap.driveTrainRightEncoder.getDistance());
     	SmartDashboard.putNumber("Drivetrain/DistOfLeft", RobotMap.driveTrainLeftEncoder.getDistance());
+    	SmartDashboard.putBoolean("orientation", driveDirection);
+    	SmartDashboard.putNumber("Difference of encoders:", Math.abs(RobotMap.driveTrainRightEncoder.getDistance() - RobotMap.driveTrainLeftEncoder.getDistance()));
+		SmartDashboard.putNumber("Difference of encoders Rate:", Math.abs(RobotMap.driveTrainRightEncoder.getRate() - RobotMap.driveTrainLeftEncoder.getRate()));
 
 		/*
 		// Acceleration code
@@ -98,6 +104,22 @@ public class DriveTrain extends Subsystem {
 
 	public void takeJoystickInputsReverse(double x, double y) {
 		twoMotorDrive.arcadeDrive(-x, y);
+	}
+
+	public boolean getDriveDirection(){
+		return driveDirection;
+	}
+
+	public void setDriveDirection(boolean input){
+		driveDirection = input;
+	}
+
+	public int getDistances(){
+		return distances;
+	}
+
+	public void setDistances(int input){
+		distances = input;
 	}
 
 	public void stop() {

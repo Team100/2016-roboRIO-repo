@@ -43,7 +43,6 @@ public class PickUp extends PIDSubsystem {
 
 
 	public void updateDashboard() {
-
 		SmartDashboard.putBoolean("PickUp/UpperLimit", upperLimit.get());
 		SmartDashboard.putBoolean("PickUp/LowerLimit", lowerLimit.get());
 		SmartDashboard.putBoolean("PickUp/HomeLimit", homeLimit.get());
@@ -53,8 +52,7 @@ public class PickUp extends PIDSubsystem {
     	SmartDashboard.putBoolean("PickUp/LowLimit", RobotMap.pickUpLowerLimit.get());
     	SmartDashboard.putNumber("PickUp/SetPoint", Robot.pickUp.getSetpoint());
     	SmartDashboard.putBoolean("PickUp/HomeLimit", RobotMap.pickUpHomeLimit.get());
-    	SmartDashboard.putNumber("PickUp/Posison",Robot.pickUp.getArmPosVal());
-
+    	SmartDashboard.putNumber("PickUp/PosIsOn",Robot.pickUp.getArmPosVal());
 	}
 
 
