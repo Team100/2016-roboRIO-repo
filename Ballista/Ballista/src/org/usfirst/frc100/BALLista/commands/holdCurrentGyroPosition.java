@@ -21,12 +21,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 
-public class holdPosition extends Command {
+public class holdCurrentGyroPosition extends Command {
 
 	private final SpeedController left = RobotMap.driveTrainLeft;
 	private final SpeedController right = RobotMap.driveTrainRight;
 
-	public holdPosition() {
+	public holdCurrentGyroPosition() {
 		requires(Robot.driveTrain);
 	}
 

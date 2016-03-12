@@ -96,15 +96,13 @@ public class Shooter extends PIDSubsystem {
 		// yourPot.getAverageVoltage() / kYourMaxVoltage;
 
 		return flyCounter.getRate();
-
 	}
-
-	protected void usePIDOutput(double output) {
-		// Use output to drive your system, like a motor
-		// e.g. yourMotor.set(output);
-
-		// flyMotor.pidWrite(output);
-
+	
+    protected void usePIDOutput(double output) {
+        // Use output to drive your system, like a motor
+        // e.g. yourMotor.set(output);
+    	RobotMap.shooterFlyMotor.pidWrite(output);
+       // flyMotor.pidWrite(output);
 	}
 
 	public void updateDashboard() {
