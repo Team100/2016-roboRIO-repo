@@ -106,13 +106,6 @@ public class RobotMap {
         pickUpPickUpPot = new AnalogPotentiometer(0, 1.0, 0.0);
         //LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
 
-<<<<<<< HEAD
-
-        //pickUpPortcullisSensor = new DigitalInput(8);
-        //LiveWindow.addSensor("Pick Up", "Portcullis Sensor", pickUpPortcullisSensor);
-
-=======
->>>>>>> refs/remotes/origin/master
         pickUpMidLimit = new DigitalInput(6);
         LiveWindow.addSensor("Pick Up", "mid", pickUpMidLimit);
 
