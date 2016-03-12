@@ -36,8 +36,7 @@ public class holdPosition extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// Get everything in a safe starting state.
-		Robot.driveTrain.pid.setPID(0.04, .002, 0, 0);
-		Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
+	   //	Robot.driveTrain.pid.setPID(0.04, .002, 0, 0);
 		Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()));
 		Robot.driveTrain.pid.reset();
 		Robot.driveTrain.pid.enable();
