@@ -103,17 +103,17 @@ public class OI {
 		fastShoot = new JoystickButton(operator, 6);
 		fastShoot.whenPressed(new ShootingSpeed(.5));
 		top = new JoystickButton(operator, 1);
-		top.whileHeld(new MovePickUpWithPID(.403)); // .403
+		top.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_top", 0.413))); 
 		mid = new JoystickButton(operator, 4);
-		mid.whileHeld(new MovePickUpWithPID(.558));
+		mid.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_mid", 0.558))); 
 		bot = new JoystickButton(operator, 3);
-		bot.whileHeld(new MovePickUpWithPID(.658));
+		bot.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_bot", 0.658)));
 
 		hold = new JoystickButton(driverController1, 2);
 		hold.whileHeld(new holdPosition());
 
 		spinOut = new JoystickButton(driverController2, 1);
-		spinOut.whileHeld(new RollOut(-.1));
+		spinOut.whileHeld(new RollOut(Robot.prefs.getDouble("MoveRollIn_rolloutSpeed", -0.1)));
 
 		spinIn = new JoystickButton(driverController1, 1);
 		spinIn.whileHeld(new RollIn());
