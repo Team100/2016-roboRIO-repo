@@ -3,19 +3,30 @@ package org.usfirst.frc100.BALLista.subsystems;
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 import org.usfirst.frc100.BALLista.commands.*;
+
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveRollIn extends Subsystem {
 
     private final SpeedController pickUpRoller = RobotMap.moveRollInPickUpRoller;
     private final DigitalInput insideDetector = RobotMap.pickUpHomeLimit;
-    boolean insideRobot = false;
+    private final boolean insideRobot = false;
+
+    public void updateDashboard() {
+
+    	SmartDashboard.putNumber("MoveRollIn/PickUpRoller", pickUpRoller.get());
+    	SmartDashboard.putBoolean("MoveRollIn/InsideDetector", insideDetector.get());
+    	SmartDashboard.putBoolean("MoveRollIn/InsideRobot", insideRobot);
+
+    }
 
     public void initDefaultCommand() {
-    	
+
     }
 
     public boolean hitDetector(){
@@ -56,13 +67,11 @@ public class MoveRollIn extends Subsystem {
     	pickUpRoller.set(speed);
     	//else
     	//pickUpRoller.set(0);
-
     }
 
     public void moveRollerBack(){
     	pickUpRoller.set(-.4);
     }
-
 
     public void stop(){
     	pickUpRoller.set(0);
