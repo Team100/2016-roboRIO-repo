@@ -114,7 +114,7 @@ public class PickUp extends PIDSubsystem {
 			if (Robot.oi.operator.getRawAxis(1) < 0) {
 				armAngleMotor.set(speed);
 			} else {
-				armAngleMotor.set(.1);
+				armAngleMotor.set(0.1);
 			}
 		} else {
 			armAngleMotor.set(speed);
@@ -128,7 +128,7 @@ public class PickUp extends PIDSubsystem {
 
 	public void goToTop() {
 		if (RobotMap.pickUpUpperLimit.get())
-			armAngleMotor.set(.3);
+			armAngleMotor.set(0.3);
 		else
 			armAngleMotor.set(0);
 
