@@ -118,13 +118,14 @@ public class PickUp extends PIDSubsystem {
 
 	public void manualControl(double speed) {
 
+
 		if (Robot.pickUp.hitUpper()) {
 			if (Robot.oi.operator.getRawAxis(1) > 0) {
 				armAngleMotor.set(speed);
 			} else {
 				Robot.pickUp.stop();
 			}
-		} else if (Robot.pickUp.hitLower()) { // || !Robot.pickUp.hitLower() &&
+		} else if (Robot.pickUp.hitLower() || RobotMap.pickUpPickUpPot.get() > 0.658) { // || !Robot.pickUp.hitLower() &&
 												// !Robot.pickUp.hitUpper() &&
 												// RobotMap.pickUpMidLimit.get()){
 			if (Robot.oi.operator.getRawAxis(1) < 0) {
@@ -135,6 +136,7 @@ public class PickUp extends PIDSubsystem {
 		} else {
 			armAngleMotor.set(speed);
 		}
+		
 
 		// armAngleMotor.set(speed);
 
@@ -158,6 +160,7 @@ public class PickUp extends PIDSubsystem {
 		 * if(RobotMap.pickUpLowerLimit.get()){ armAngleMotor.set(.5); } else {
 		 * armAngleMotor.set(0); }
 		 */
+		/*
 		if (RobotMap.pickUpUpperLimit.get())
 			armAngleMotor.set(.5);
 		if (!RobotMap.pickUpUpperLimit.get())
@@ -165,8 +168,10 @@ public class PickUp extends PIDSubsystem {
 		if (!RobotMap.pickUpMidLimit.get()) {
 			armAngleMotor.set(0);
 			// pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+			 * */
+			 
 		}
-	}
+	
 
 	public void goToBot() {
 		if (RobotMap.pickUpUpperLimit.get())

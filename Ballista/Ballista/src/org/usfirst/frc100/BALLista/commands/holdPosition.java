@@ -21,9 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 
-/**
- *
- */
 public class holdPosition extends Command {
 
 	private final SpeedController left = RobotMap.driveTrainLeft;
@@ -37,7 +34,7 @@ public class holdPosition extends Command {
 	protected void initialize() {
 		// Get everything in a safe starting state.
 	   //	Robot.driveTrain.pid.setPID(0.04, .002, 0, 0);
-		Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()));
+		Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles())); 
 		Robot.driveTrain.pid.reset();
 		Robot.driveTrain.pid.enable();
 	}
