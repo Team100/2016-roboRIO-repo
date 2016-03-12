@@ -71,20 +71,19 @@ public class PickUp extends PIDSubsystem {
 	public PickUp() {
 		super(DEFAULT_PICKUP_KP, DEFAULT_PICKUP_KI, DEFAULT_PICKUP_KD);
 
+		if (!Robot.prefs.containsKey("pickup_kP")){
+			Robot.prefs.putDouble("pickup_kP", DEFAULT_PICKUP_KP);
+		}
+		if (!Robot.prefs.containsKey("pickup_kI")){
+			Robot.prefs.putDouble("pickup_kI", DEFAULT_PICKUP_KI);
+		}
+		if (!Robot.prefs.containsKey("pickup_kD")){
+			Robot.prefs.putDouble("pickup_kD", DEFAULT_PICKUP_KD);
+		}
 
-		if (!Robot.prefs.containsKey("Pickup_kP")){
-			Robot.prefs.putDouble("Pickup_kP", DEFAULT_PICKUP_KP);
-		}
-		if (!Robot.prefs.containsKey("Pickup_kI")){
-			Robot.prefs.putDouble("Pickup_kI", DEFAULT_PICKUP_KI);
-		}
-		if (!Robot.prefs.containsKey("Pickup_kD")){
-			Robot.prefs.putDouble("Pickup_kD", DEFAULT_PICKUP_KD);
-		}
-
-		pickup_kP = Robot.prefs.getDouble("Pickup_kP", DEFAULT_PICKUP_KP);
-		pickup_kI = Robot.prefs.getDouble("Pickup_kI", DEFAULT_PICKUP_KI);
-		pickup_kD = Robot.prefs.getDouble("Pickup_kD", DEFAULT_PICKUP_KD);
+		pickup_kP = Robot.prefs.getDouble("pickup_kP", DEFAULT_PICKUP_KP);
+		pickup_kI = Robot.prefs.getDouble("pickup_kI", DEFAULT_PICKUP_KI);
+		pickup_kD = Robot.prefs.getDouble("pickup_kD", DEFAULT_PICKUP_KD);
 
 		getPIDController().setPID(pickup_kP, pickup_kI, pickup_kD);
 

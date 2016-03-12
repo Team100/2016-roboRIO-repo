@@ -37,14 +37,14 @@ public class DriveTrain extends Subsystem {
 
 	public DriveTrain() {
 
-		if (!Robot.prefs.containsKey("Pickup_kP")) {
-			Robot.prefs.putDouble("Pickup_kP", DEFAULT_DRIVE_TRAIN_KP);
+		if (!Robot.prefs.containsKey("driveTrain_kP")) {
+			Robot.prefs.putDouble("driveTrain_kP", DEFAULT_DRIVE_TRAIN_KP);
 		}
-		if (!Robot.prefs.containsKey("Pickup_kI")) {
-			Robot.prefs.putDouble("Pickup_kI", DEFAULT_DRIVE_TRAIN_KI);
+		if (!Robot.prefs.containsKey("driveTrain_kI")) {
+			Robot.prefs.putDouble("driveTrain_kI", DEFAULT_DRIVE_TRAIN_KI);
 		}
-		if (!Robot.prefs.containsKey("Pickup_kD")) {
-			Robot.prefs.putDouble("Pickup_kD", DEFAULT_DRIVE_TRAIN_KD);
+		if (!Robot.prefs.containsKey("driveTrain_kD")) {
+			Robot.prefs.putDouble("driveTrain_kD", DEFAULT_DRIVE_TRAIN_KD);
 		}
 
 		driveTrain_kP = Robot.prefs.getDouble("driveTrain_kP",
@@ -101,9 +101,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void stop() {
-
 		twoMotorDrive.drive(0, 0);
-
 	}
 
 	public double getAngles() {
@@ -120,8 +118,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void updateDashboard() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }
