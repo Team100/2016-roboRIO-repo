@@ -41,7 +41,7 @@ public class RollIn extends Command {
 	protected void execute() {
 		SmartDashboard.putNumber("pick up running", 123123);
 		if (RobotMap.pickUpHomeLimit.get())
-			Robot.moveRollIn.setRollerSpeed(Robot.oi.operator.getRawAxis(3)); //.5
+			Robot.moveRollIn.setRollerSpeed(.8); //.5
 		else
 			Robot.moveRollIn.setRollerSpeed(0);
 	}

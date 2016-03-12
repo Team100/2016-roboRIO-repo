@@ -62,7 +62,7 @@ public class RobotMap {
     	Robot.prefs.putDouble("driveTrainSensitivity", 0.5);
     	Robot.prefs.putDouble("driveTrainMaxOutput", 1.0);
     	Robot.prefs.putDouble("driveTrainDistancePerPulse", 1.0);
-	*/
+    	 */
     	internalGyro = new ADXRS450_Gyro();
         driveTrainLeft = new VictorSP(0);
         LiveWindow.addActuator("Drive Train", "Left", (VictorSP) driveTrainLeft);
@@ -85,7 +85,7 @@ public class RobotMap {
         driveTrainRightEncoder.setDistancePerPulse( 1.0);
         driveTrainLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
 
-      
+
         LiveWindow.addSensor("Drive Train", "Right Encoder", driveTrainRightEncoder);
         driveTrainRightEncoder.setDistancePerPulse( 1.0);
         driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kRate);

@@ -46,6 +46,13 @@ public class ShootingSpeed extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	/* 
+    	 if(incrementing){
+    	 if(setpoint <=1)
+    	 setpoint  += incrementing value
+    	 Robot.shooter.setSetpoint(speed);
+    	 }
+    	 */
     	if(incrementing){
     	speed += incrementingValue;
     	RobotMap.shooterFlyMotor.set(speed);

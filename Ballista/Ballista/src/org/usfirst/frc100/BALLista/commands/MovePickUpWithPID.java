@@ -35,7 +35,7 @@ public class MovePickUpWithPID extends Command {
 
  // Called just before this Command runs the first time
  protected void initialize() {
-	if(angles > .7){
+	if(Math.abs(Robot.oi.operator.getRawAxis(1)) == 0){
 	Robot.pickUp.enable();
  	Robot.pickUp.setAbsoluteTolerance(.001);
  	Robot.pickUp.setSetpoint(angles);

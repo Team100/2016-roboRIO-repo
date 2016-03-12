@@ -51,8 +51,11 @@ public class OI {
 	public JoystickButton putBallInShooterPosition;
 	public JoystickButton putBallinDrivePosition;
 	public JoystickButton putArmToGround;
+	public JoystickButton turn90Right;
+	public JoystickButton turn90Left;
 	public JoystickButton lineUpRobotWithGoal;
-
+	public JoystickButton overrideBottomLimit;
+	
 	public Joystick autoModeSelect;
 		public JoystickButton binary1;
 		public JoystickButton binary2;
@@ -81,7 +84,7 @@ public class OI {
 		// fastShoot = new JoystickButton(operator, 3);
 		// fastShoot.whileHeld(new ShootingSpeed(2600));
 
-		// //hold = new JoystickButton(driverController1, 2);
+		// //hold = new JoystickButton(driverController1, 2); 9/11
 		// //hold.whileHeld(new holdPosition());
 
 		driverController1 = new Joystick(1);
@@ -109,11 +112,14 @@ public class OI {
 		mid.whenPressed(new MovePickUpWithPID(.558));
 		bot = new JoystickButton(operator, 3);
 		bot.whenPressed(new MovePickUpWithPID(.658));
-		resetPidOfArm = new JoystickButton(operator, 2);
-		resetPidOfArm.whenPressed(new MovePickUpWithPID(.8));
+	//	resetPidOfArm = new JoystickButton(operator, 2);
+		//resetPidOfArm.whenPressed(new MovePickUpWithPID(.8));
 		hold = new JoystickButton(driverController1, 2);
 		hold.whileHeld(new holdCurrentGyroPosition());
-
+		turn90Right = new JoystickButton(driverController2, 5);
+		turn90Right.whileHeld(new TurnToAngle(90));
+		turn90Right = new JoystickButton(driverController2, 4);
+		turn90Right.whileHeld(new TurnToAngle(-90));
 		spinOut = new JoystickButton(driverController2, 1);
 		spinOut.whileHeld(new RollOut(-.1));
 
@@ -122,7 +128,10 @@ public class OI {
 
 		turnAround = new JoystickButton(driverController2, 3);
 		turnAround.whileHeld(new TurnToAngle(170));
-
+		reverseOrient = new JoystickButton(driverController1, 11);
+		forwardOrient = new JoystickButton(driverController1, 10);
+		reverseOrient.whenPressed(new TankDrive(true));
+		forwardOrient.whenPressed(new TankDrive(false));
 		// movePickupArm = new JoystickButton(operator, 1);
 		// movePickupArm.whileHeld(new MovePickUp());
 
