@@ -53,7 +53,7 @@ public class RobotMap {
     public static PIDController shooterShooterSpeedControllerPID;
     public static DigitalInput pickUpHomeLimit;
 
-   public static DoubleSolenoid pushUpPushUpPiston;
+    public static DoubleSolenoid pushUpPushUpPiston;
     public static ADXRS450_Gyro internalGyro;
 
     public static void init() {
@@ -77,7 +77,7 @@ public class RobotMap {
         driveTrainTwoMotorDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 
         driveTrainIRDistanceSensor = new AnalogInput(1);
-     //   LiveWindow.addSensor("Drive Train", "IR Distance Sensor", driveTrainIRDistanceSensor);
+        //LiveWindow.addSensor("Drive Train", "IR Distance Sensor", driveTrainIRDistanceSensor);
 
         driveTrainLeftEncoder = new Encoder(0, 1, true, EncodingType.k4X);
         LiveWindow.addSensor("Drive Train", "Left Encoder", driveTrainLeftEncoder);
@@ -90,10 +90,10 @@ public class RobotMap {
         driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kRate);
 
         pickUpUpperLimit = new DigitalInput(4);
-      //  LiveWindow.addSensor("Pick Up", "Upper Limit", pickUpUpperLimit);
+        //LiveWindow.addSensor("Pick Up", "Upper Limit", pickUpUpperLimit);
 
         pickUpLowerLimit = new DigitalInput(5);
-    //    LiveWindow.addSensor("Pick Up", "Lower Limit", pickUpLowerLimit);
+        //LiveWindow.addSensor("Pick Up", "Lower Limit", pickUpLowerLimit);
 
 
         pickUpHomeLimit = new DigitalInput(8);
@@ -101,10 +101,10 @@ public class RobotMap {
 
 
         pickUpArmAngleMotor = new VictorSP(2);
-    //   LiveWindow.addActuator("Pick Up", "Arm Angle Motor", (VictorSP) pickUpArmAngleMotor);
+        //LiveWindow.addActuator("Pick Up", "Arm Angle Motor", (VictorSP) pickUpArmAngleMotor);
 
         pickUpPickUpPot = new AnalogPotentiometer(0, 1.0, 0.0);
-       // LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
+        //LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
 
         pickUpMidLimit = new DigitalInput(6);
         LiveWindow.addSensor("Pick Up", "mid", pickUpMidLimit);
@@ -113,17 +113,17 @@ public class RobotMap {
         moveRollInPickUpRoller = new VictorSP(3);
         LiveWindow.addActuator("MoveRollIn", "Pick Up Roller", (VictorSP) moveRollInPickUpRoller);
 
-       // LiveWindow.addActuator("Loader Pinball", "Ball Handler Solenoid 1", loaderPinballBallHandlerSolenoid1);
+        //LiveWindow.addActuator("Loader Pinball", "Ball Handler Solenoid 1", loaderPinballBallHandlerSolenoid1);
 
-    //    LiveWindow.addActuator("Loader Pinball", "Ball Handler Solenoid 2", loaderPinballBallHandlerSolenoid2);
+        //LiveWindow.addActuator("Loader Pinball", "Ball Handler Solenoid 2", loaderPinballBallHandlerSolenoid2);
 
         shooterFlyMotor = new VictorSP(4);
         LiveWindow.addActuator("Shooter", "Fly Motor", (VictorSP) shooterFlyMotor);
 
         shooterSpdIn = new DigitalInput(7);
 
-      //  shooterFlyEncoder.setDistancePerPulse(1.0);
-      //  shooterFlyEncoder.setPIDSourceType(PIDSourceType.kRate);
+        //shooterFlyEncoder.setDistancePerPulse(1.0);
+        //shooterFlyEncoder.setPIDSourceType(PIDSourceType.kRate);
 
 
         LiveWindow.addSensor("Shooter", "Fly Counter", shooterSpdIn);
@@ -131,34 +131,32 @@ public class RobotMap {
         shooterSpdCtr = new Counter(shooterSpdIn);
         shooterSpdCtr.setUpSourceEdge(true, true);
 
-       // shooterSpdCtr.setDistancePerPulse(5);
-        //shooterSpdCtr.setUpSource(shooterSpdIn);
-        
-       // shooterShooterSpeedControllerPID = new PIDController(1.0, 0.0, 0.0, 0.0, shooterFlyEncoder, shooterFlyMotor, 0.02);
-        //LiveWindow.addActuator("Shooter", "Shooter Speed Controller PID", shooterShooterSpeedControllerPID);
-
-
-//        shooterShooterSpeedControllerPID.setContinuous(false);
-  //      shooterShooterSpeedControllerPID.setAbsoluteTolerance(0.2);
-    //    shooterShooterSpeedControllerPID.setOutputRange(-1.0, 1.0);
-     //   spinnerHorizontalPivot = new VictorSP(5);
-      //  LiveWindow.addActuator("Spinner", "Horizontal Pivot", (VictorSP) spinnerHorizontalPivot);
-
         /*
+       	shooterSpdCtr.setDistancePerPulse(5);
+        shooterSpdCtr.setUpSource(shooterSpdIn);
+
+       	shooterShooterSpeedControllerPID = new PIDController(1.0, 0.0, 0.0, 0.0, shooterFlyEncoder, shooterFlyMotor, 0.02);
+        LiveWindow.addActuator("Shooter", "Shooter Speed Controller PID", shooterShooterSpeedControllerPID);
+
+  		shooterShooterSpeedControllerPID.setContinuous(false);
+        shooterShooterSpeedControllerPID.setAbsoluteTolerance(0.2);
+        shooterShooterSpeedControllerPID.setOutputRange(-1.0, 1.0);
+        spinnerHorizontalPivot = new VictorSP(5);
+        LiveWindow.addActuator("Spinner", "Horizontal Pivot", (VictorSP) spinnerHorizontalPivot);
+
         spinnerLeftSideLimit = new DigitalInput(12);
         LiveWindow.addSensor("Spinner", "Left Side Limit", spinnerLeftSideLimit);
 
         spinnerRightSideLimit = new DigitalInput(13);
         LiveWindow.addSensor("Spinner", "Right Side Limit", spinnerRightSideLimit);
+
+        LiveWindow.addSensor("Spinner", "Pivot Encoder", spinnerPivotEncoder);
+
+       	LiveWindow.addActuator("Unbeatable Scaling Mechanism ", "Winch Motor", (VictorSP) unbeatableScalingMechanismWinchMotor);
+
+        LiveWindow.addActuator("Unbeatable Scaling Mechanism ", "Hook Extension", (VictorSP) unbeatableScalingMechanismHookExtension);
+
+       	LiveWindow.addSensor("Unbeatable Scaling Mechanism ", "Climber Limit", unbeatableScalingMechanismClimberLimit);
         */
-        
-        //LiveWindow.addSensor("Spinner", "Pivot Encoder", spinnerPivotEncoder);
-
-       // LiveWindow.addActuator("Unbeatable Scaling Mechanism ", "Winch Motor", (VictorSP) unbeatableScalingMechanismWinchMotor);
-
-       // LiveWindow.addActuator("Unbeatable Scaling Mechanism ", "Hook Extension", (VictorSP) unbeatableScalingMechanismHookExtension);
-
-      //  LiveWindow.addSensor("Unbeatable Scaling Mechanism ", "Climber Limit", unbeatableScalingMechanismClimberLimit);
-
     }
 }

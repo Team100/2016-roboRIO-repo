@@ -42,11 +42,11 @@ public class Robot extends IterativeRobot {
 		pickUp = new PickUp();
 		shooter = new Shooter();
 		moveRollIn = new MoveRollIn();
-
 		
 //		prefs.putDouble("pValue", .04);
 //		prefs.putDouble("iValue", 0);
 //		prefs.putDouble("dValue", 0);
+
 
 		// int testValue = 5;
 
@@ -93,6 +93,7 @@ public class Robot extends IterativeRobot {
 		default: new DoNothing(0).start();
 			break;
 		}
+		new UpdateDashboard().start();
 	}
 
 	/**
@@ -112,7 +113,8 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		// RobotMap.internalGyro.reset();
-
+		Scheduler.getInstance().removeAll();
+		new UpdateDashboard().start();
 	}
 
 	/**
@@ -123,19 +125,21 @@ public class Robot extends IterativeRobot {
 
 		Scheduler.getInstance().run();
 
-//		double p = prefs.getDouble("pValue", .04);
-//		double i = prefs.getDouble("iValue", 0);
-//		double d = prefs.getDouble("dValue", 0);
-//		double aP = prefs.getDouble("armP", 4.00);
-//		double aI = prefs.getDouble("armI", .4);
-//		double aD = prefs.getDouble("armD", .0);
-//		SmartDashboard.putNumber("p", p);
-//		SmartDashboard.putNumber("i", i);
-//		SmartDashboard.putNumber("d", d);
-//
-//		SmartDashboard.putNumber("armP", aP);
-//		SmartDashboard.putNumber("armI", aI);
-//		SmartDashboard.putNumber("armD", aD);
+		double p = prefs.getDouble("pValue", .04);
+		double i = prefs.getDouble("iValue", 0);
+		double d = prefs.getDouble("dValue", 0);
+		double aP = prefs.getDouble("armP", 4.00);
+		double aI = prefs.getDouble("armI", .4);
+		double aD = prefs.getDouble("armD", .0);
+		SmartDashboard.putNumber("p", p);
+		SmartDashboard.putNumber("i", i);
+		SmartDashboard.putNumber("d", d);
+
+		SmartDashboard.putNumber("armP", aP);
+		SmartDashboard.putNumber("armI", aI);
+		SmartDashboard.putNumber("armD", aD);
+		/*
+
 		SmartDashboard.putNumber("dist of counter",
 				RobotMap.shooterSpdCtr.getDistance());
 		SmartDashboard.putNumber("rate of counter",
@@ -170,6 +174,7 @@ public class Robot extends IterativeRobot {
 				.putBoolean("low sensor", RobotMap.pickUpLowerLimit.get());
 		SmartDashboard.putNumber("setPoint", Robot.pickUp.getSetpoint());
 		SmartDashboard.putBoolean("home value", RobotMap.pickUpHomeLimit.get());
+		*/
 	}
 
 	/**

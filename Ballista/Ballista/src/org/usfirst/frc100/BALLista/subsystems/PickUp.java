@@ -27,6 +27,8 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  *
@@ -38,7 +40,24 @@ public class PickUp extends PIDSubsystem {
 	private final DigitalInput homeLimit = RobotMap.pickUpHomeLimit;
 	private final SpeedController armAngleMotor = RobotMap.pickUpArmAngleMotor;
 	private final AnalogPotentiometer pickUpPot = RobotMap.pickUpPickUpPot;
-	
+
+
+	public void updateDashboard() {
+
+		SmartDashboard.putBoolean("PickUp/UpperLimit", upperLimit.get());
+		SmartDashboard.putBoolean("PickUp/LowerLimit", lowerLimit.get());
+		SmartDashboard.putBoolean("PickUp/HomeLimit", homeLimit.get());
+		SmartDashboard.putNumber("PickUp/ArmAngleMotor", armAngleMotor.get());
+		SmartDashboard.putNumber("PickUp/PickUpPot", pickUpPot.get());
+		SmartDashboard.putBoolean("PickUp/TopLimit", RobotMap.pickUpUpperLimit.get());
+    	SmartDashboard.putBoolean("PickUp/LowLimit", RobotMap.pickUpLowerLimit.get());
+    	SmartDashboard.putNumber("PickUp/SetPoint", Robot.pickUp.getSetpoint());
+    	SmartDashboard.putBoolean("PickUp/HomeLimit", RobotMap.pickUpHomeLimit.get());
+    	SmartDashboard.putNumber("PickUp/Posison",Robot.pickUp.getArmPosVal());
+
+	}
+
+
 	private final static double DEFAULT_PICKUP_KP = 6.0;
 	private final static double DEFAULT_PICKUP_KI = 0.02;
 	private final static double DEFAULT_PICKUP_KD = 0.0;
@@ -46,13 +65,13 @@ public class PickUp extends PIDSubsystem {
 	private double pickup_kP;
 	private double pickup_kI;
 	private double pickup_kD;
-	
+
 	// public PIDController pid;
 
 	public PickUp() {
 		super(DEFAULT_PICKUP_KP, DEFAULT_PICKUP_KI, DEFAULT_PICKUP_KD);
-		
-		
+
+
 		if (!Robot.prefs.containsKey("Pickup_kP")){
 			Robot.prefs.putDouble("Pickup_kP", DEFAULT_PICKUP_KP);
 		}
@@ -62,24 +81,22 @@ public class PickUp extends PIDSubsystem {
 		if (!Robot.prefs.containsKey("Pickup_kD")){
 			Robot.prefs.putDouble("Pickup_kD", DEFAULT_PICKUP_KD);
 		}
-		
+
 		pickup_kP = Robot.prefs.getDouble("Pickup_kP", DEFAULT_PICKUP_KP);
 		pickup_kI = Robot.prefs.getDouble("Pickup_kI", DEFAULT_PICKUP_KI);
 		pickup_kD = Robot.prefs.getDouble("Pickup_kD", DEFAULT_PICKUP_KD);
-		
+
 		getPIDController().setPID(pickup_kP, pickup_kI, pickup_kD);
+
 	}
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-
 	public void initDefaultCommand() {
-
 		setDefaultCommand(new MovePickUp());
 
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-
 	}
 
 	public void takeJoystickInputs(double op) {
@@ -123,7 +140,6 @@ public class PickUp extends PIDSubsystem {
 		// armAngleMotor.set(speed);
 
 		// Robot.pickUp.pickUpPot.get();
-
 	}
 
 	public void goToTop() {
@@ -151,7 +167,6 @@ public class PickUp extends PIDSubsystem {
 			armAngleMotor.set(0);
 			// pid.setSetpoint(Robot.pickUp.pickUpPot.get());
 		}
-
 	}
 
 	public void goToBot() {
@@ -180,6 +195,5 @@ public class PickUp extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		armAngleMotor.set(-output / 2); // /2
-
 	}
 }

@@ -5,6 +5,7 @@ import org.usfirst.frc100.BALLista.RobotMap;
 import org.usfirst.frc100.BALLista.commands.TankDrive;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
@@ -116,6 +117,11 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("heading",
 				RobotMap.internalGyro.getAngle() * 0.03);
 
+	}
+
+	public void updateDashboard() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

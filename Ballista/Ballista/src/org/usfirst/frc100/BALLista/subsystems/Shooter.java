@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -30,6 +31,16 @@ public class Shooter extends PIDSubsystem {
     private final SpeedController flyMotor = RobotMap.shooterFlyMotor;
     private final Counter flyCounter = RobotMap.shooterSpdCtr;
     private final PIDController shooterSpeedControllerPID = RobotMap.shooterShooterSpeedControllerPID;
+
+    public void updateDashboard() {
+
+		SmartDashboard.putNumber("Shooter/FlyMotor Raw", flyMotor.get());
+		SmartDashboard.putNumber("Shooter/FlyCounter Raw", flyCounter.getRate());
+		//SmartDashboard.putNumber("Shooter/ShooterSpeedControllerPID", shooterSpeedControllerPID.get());
+		SmartDashboard.putNumber("Shooter/DistOfCounter", RobotMap.shooterSpdCtr.getDistance());
+    	SmartDashboard.putNumber("Shooter/RateOfCounter", RobotMap.shooterSpdCtr.getRate());
+    	SmartDashboard.putBoolean("Shooter/ShooterSensor", RobotMap.shooterSpdIn.get());
+    }
 
     // Initialize your subsystem here
     public Shooter() {
