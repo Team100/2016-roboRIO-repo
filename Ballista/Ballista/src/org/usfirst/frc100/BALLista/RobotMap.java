@@ -57,11 +57,12 @@ public class RobotMap {
     public static ADXRS450_Gyro internalGyro;
 
     public static void init() {
+    	/*
     	Robot.prefs.putDouble("driveTrainExpiration", 0.1);
     	Robot.prefs.putDouble("driveTrainSensitivity", 0.5);
     	Robot.prefs.putDouble("driveTrainMaxOutput", 1.0);
     	Robot.prefs.putDouble("driveTrainDistancePerPulse", 1.0);
-
+    	*/
     	internalGyro = new ADXRS450_Gyro();
         driveTrainLeft = new VictorSP(0);
         LiveWindow.addActuator("Drive Train", "Left", (VictorSP) driveTrainLeft);
@@ -78,13 +79,13 @@ public class RobotMap {
 
         driveTrainIRDistanceSensor = new AnalogInput(1);
         //LiveWindow.addSensor("Drive Train", "IR Distance Sensor", driveTrainIRDistanceSensor);
-
+        driveTrainRightEncoder = new Encoder(2, 3, true, EncodingType.k4X);
         driveTrainLeftEncoder = new Encoder(0, 1, true, EncodingType.k4X);
         LiveWindow.addSensor("Drive Train", "Left Encoder", driveTrainLeftEncoder);
         driveTrainRightEncoder.setDistancePerPulse(Robot.prefs.getDouble("driveTrainDistancePerPulse", 1.0));
         driveTrainLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
 
-        driveTrainRightEncoder = new Encoder(2, 3, true, EncodingType.k4X);
+
         LiveWindow.addSensor("Drive Train", "Right Encoder", driveTrainRightEncoder);
         driveTrainRightEncoder.setDistancePerPulse(Robot.prefs.getDouble("driveTrainDistancePerPulse", 1.0));
         driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kRate);

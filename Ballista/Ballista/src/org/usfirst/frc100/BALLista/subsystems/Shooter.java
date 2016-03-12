@@ -36,9 +36,9 @@ public class Shooter extends PIDSubsystem {
 
 		SmartDashboard.putNumber("Shooter/FlyMotor Raw", flyMotor.get());
 		SmartDashboard.putNumber("Shooter/FlyCounter Raw", flyCounter.getRate());
-		SmartDashboard.putNumber("Shooter/ShooterSpeedControllerPID", shooterSpeedControllerPID.get());
-		SmartDashboard.putNumber("Shooter/DistOfCounter", RobotMap.shooterSpdCtr.getDistance());
-    	SmartDashboard.putNumber("Shooter/RateOfCounter", RobotMap.shooterSpdCtr.getRate());
+		//SmartDashboard.putNumber("Shooter/ShooterSpeedControllerPID", shooterSpeedControllerPID.get());
+		SmartDashboard.putNumber("Shooter/DistOfCounter", flyCounter.getDistance());
+    	SmartDashboard.putNumber("Shooter/RateOfCounter", flyCounter.getRate());
     	SmartDashboard.putBoolean("Shooter/ShooterSensor", RobotMap.shooterSpdIn.get());
     }
 

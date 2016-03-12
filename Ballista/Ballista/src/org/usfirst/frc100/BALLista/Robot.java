@@ -36,8 +36,8 @@ public class Robot extends IterativeRobot {
 
 	public void robotInit() {
 
-		RobotMap.init();
 		prefs = Preferences.getInstance();
+		RobotMap.init();
 		driveTrain = new DriveTrain();
 		pickUp = new PickUp();
 		shooter = new Shooter();
@@ -47,7 +47,6 @@ public class Robot extends IterativeRobot {
 		prefs.putDouble("pValue", .04);
 		prefs.putDouble("iValue", 0);
 		prefs.putDouble("dValue", 0);
-
 		// int testValue = 5;
 
 		// OI must be constructed after subsystems. If the OI creates Commands
