@@ -92,6 +92,7 @@ public class Robot extends IterativeRobot {
 		default: new DoNothing(0).start();
 			break;
 		}
+		new UpdateDashboard().start();
 	}
 
 	/**
@@ -111,7 +112,8 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		// RobotMap.internalGyro.reset();
-
+		Scheduler.getInstance().removeAll();
+		new UpdateDashboard().start();
 	}
 
 	/**
@@ -135,6 +137,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("armP", aP);
 		SmartDashboard.putNumber("armI", aI);
 		SmartDashboard.putNumber("armD", aD);
+		/*
 		SmartDashboard.putNumber("dist of counter",
 				RobotMap.shooterSpdCtr.getDistance());
 		SmartDashboard.putNumber("rate of counter",
@@ -169,6 +172,7 @@ public class Robot extends IterativeRobot {
 				.putBoolean("low sensor", RobotMap.pickUpLowerLimit.get());
 		SmartDashboard.putNumber("setPoint", Robot.pickUp.getSetpoint());
 		SmartDashboard.putBoolean("home value", RobotMap.pickUpHomeLimit.get());
+		*/
 	}
 
 	/**
