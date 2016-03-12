@@ -92,7 +92,7 @@ public class Robot extends IterativeRobot {
 		default: new DoNothing(0).start();
 			break;
 		}
-		new UpdateDashboard().start();
+	//	new UpdateDashboard().start();
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		// RobotMap.internalGyro.reset();
 		Scheduler.getInstance().removeAll();
-		new UpdateDashboard().start();
+		//new UpdateDashboard().start();
 	}
 
 	/**
