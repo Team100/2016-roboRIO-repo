@@ -9,7 +9,7 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc100.Robot2016.commands;
+package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -17,30 +17,28 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc100.Robot2016.Robot;
-import org.usfirst.frc100.Robot2016.RobotMap;
+
+import org.usfirst.frc100.BALLista.Robot;
+import org.usfirst.frc100.BALLista.RobotMap;
 
 /**
  *
  */
 public class Turn180 extends Command {
-	int distances;
-	private final SpeedController left = RobotMap.driveTrainLeft;
-    private final SpeedController right = RobotMap.driveTrainRight;
 
 	public Turn180()
 	{
 
 	 requires(Robot.driveTrain);
-    
-    
+
+
  }
 	public Turn180(int angles)
 	{
-	 distances = angles;
+		Robot.driveTrain.setDistances(angles);
 	 requires(Robot.driveTrain);
-    
-    
+
+
  }
 
  // Called just before this Command runs the first time
@@ -48,7 +46,7 @@ public class Turn180 extends Command {
  	// Get everything in a safe starting state.
 	 Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04), Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue", .00), 0);
 	 Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
-	 Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()+distances));  //Robot.driveTrain.getAngles+1
+	 Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()+Robot.driveTrain.getDistances()));  //Robot.driveTrain.getAngles+1
 	 Robot.driveTrain.pid.reset();
 	 Robot.driveTrain.pid.enable();
  }

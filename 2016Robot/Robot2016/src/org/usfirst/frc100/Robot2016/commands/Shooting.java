@@ -35,7 +35,10 @@ public class Shooting extends PIDCommand {
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
 
-        return RobotMap.shooterSpdCtr.pidGet();
+
+      
+    	return RobotMap.shooterSpdCtr.pidGet();
+
 
     }
 

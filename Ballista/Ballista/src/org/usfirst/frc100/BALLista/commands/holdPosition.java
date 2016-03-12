@@ -8,56 +8,58 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-package org.usfirst.frc100.Robot2016.commands;
+package org.usfirst.frc100.BALLista.commands;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc100.Robot2016.Robot;
-import org.usfirst.frc100.Robot2016.RobotMap;
+import org.usfirst.frc100.BALLista.Robot;
+import org.usfirst.frc100.BALLista.RobotMap;
 
 /**
  *
  */
-public class RollOut extends Command {
+public class holdPosition extends Command {
 
-	boolean rollOutDirection = true;
-	double speed; 
+	private final SpeedController left = RobotMap.driveTrainLeft;
+	private final SpeedController right = RobotMap.driveTrainRight;
 
-	public RollOut() {
-        requires(Robot.moveRollIn);
-	}
-	public RollOut(double speed){
-		requires(Robot.moveRollIn);
-		this.speed = speed;
-	}
-
-	public RollOut(boolean rollerOut) {
-		rollOutDirection = rollerOut;
+	public holdPosition() {
+		requires(Robot.driveTrain);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-
+		// Get everything in a safe starting state.
+		Robot.driveTrain.pid.setPID(0.04, .002, 0, 0);
+		Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
+		Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()));
+		Robot.driveTrain.pid.reset();
+		Robot.driveTrain.pid.enable();
 	}
 
+
 	// Called repeatedly when this Command is scheduled to run
+
 	protected void execute() {
 
-		//if(RobotMap.pickUpHomeLimit.get())
-		Robot.moveRollIn.setRollerSpeed(speed);
-		//else
-			//obot.moveRollIn.setRollerSpeed(0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return Robot.driveTrain.pid.onTarget();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.moveRollIn.stop();
+		// Stop PID and the wheels
+		Robot.driveTrain.pid.disable();
+		Robot.driveTrain.stop();
 	}
 
 	// Called when another command which requires one or more of the same
@@ -65,4 +67,5 @@ public class RollOut extends Command {
 	protected void interrupted() {
 		end();
 	}
+
 }

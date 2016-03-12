@@ -8,13 +8,13 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-package org.usfirst.frc100.Robot2016.commands;
+package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc100.Robot2016.Robot;
-import org.usfirst.frc100.Robot2016.RobotMap;
+import org.usfirst.frc100.BALLista.Robot;
+import org.usfirst.frc100.BALLista.RobotMap;
 
 /**
  *

@@ -9,47 +9,68 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc100.Robot2016.commands;
+package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc100.Robot2016.Robot;
-import org.usfirst.frc100.Robot2016.RobotMap;
-//import org.usfirst.frc100.SlideWinder.SlideWinder;
+import org.usfirst.frc100.BALLista.Robot;
+import org.usfirst.frc100.BALLista.RobotMap;
 
 /**
  *
  */
-public class AutonomousDriveForward extends Command {
-	double distance;
-    public AutonomousDriveForward(int distance) {
-    	this.distance = distance;
-        requires(Robot.driveTrain);
+public class MovePickUp extends Command {
+	int angles; 
+    public MovePickUp() {
 
+        requires(Robot.pickUp);
+
+    }
+    public MovePickUp(int  angle){
+    	angles = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	RobotMap.driveTrainRightEncoder.reset();
-    	RobotMap.driveTrainRightEncoder.reset();
+    	
+    	/*
+    	Robot.pickUp.pid.enable();
+    	Robot.pickUp.pid.setPID(Robot.prefs.getDouble("armP", .04), Robot.prefs.getDouble("armI", .00), Robot.prefs.getDouble("armD", .00), 0);
+    	Robot.pickUp.pid.setAbsoluteTolerance(.001);
+    	Robot.pickUp.pid.setSetpoint(angles);
+    	*/
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.drives();
+    			if(angles > 0)
+    			Robot.pickUp.goToTop();
+    			else
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1)/4);
+
+
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (!((RobotMap.driveTrainRightEncoder.getDistance() +RobotMap.driveTrainLeftEncoder.getDistance()/2) >= distance));
+       return false;
+      
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	RobotMap.driveTrainTwoMotorDrive.drive(0, 0);
+    	Robot.pickUp.stop();
     }
+
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
+
+    //public static void moveArm(double rawAxis, double d) {
+	//	  Robot.pickUp.takeJoystickInputs(Robot.oi.getDriverController1(), Robot.oi.getDriverController2());
+	//}
 }

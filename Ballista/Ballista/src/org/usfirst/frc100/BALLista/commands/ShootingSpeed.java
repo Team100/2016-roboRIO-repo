@@ -9,45 +9,62 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc100.Robot2016.commands;
+package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc100.Robot2016.Robot;
-import org.usfirst.frc100.Robot2016.RobotMap;
-//import org.usfirst.frc100.SlideWinder.SlideWinder;
+import org.usfirst.frc100.BALLista.Robot;
+import org.usfirst.frc100.BALLista.RobotMap;
 
 /**
  *
  */
-public class AutonomousDriveForward extends Command {
-	double distance;
-    public AutonomousDriveForward(int distance) {
-    	this.distance = distance;
-        requires(Robot.driveTrain);
+public class ShootingSpeed extends Command {
+
+	private double speed;
+	boolean incrementing = false;
+    public ShootingSpeed(double speeds) {
+
+    	this.speed = speeds;
+    	if (speeds > .4)
+    		incrementing = true;
+    	else
+    		incrementing = false;
+
+        requires(Robot.shooter);
 
     }
 
-    // Called just before this Command runs the first time
+	// Called just before this Command runs the first time
     protected void initialize() {
-    	RobotMap.driveTrainRightEncoder.reset();
-    	RobotMap.driveTrainRightEncoder.reset();
+    	 // Robot.shooter.enable();
+         // Robot.shooter.setSetpoint(speed);
+    	//RobotMap.shooterFlyMotor.set(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.drives();
+    	if(incrementing){
+    	speed += 0.0008;
+    	RobotMap.shooterFlyMotor.set(speed);
+    	}
+    	else
+    	{
+    		RobotMap.shooterFlyMotor.set(speed);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (!((RobotMap.driveTrainRightEncoder.getDistance() +RobotMap.driveTrainLeftEncoder.getDistance()/2) >= distance));
+    	return false;//Robot.shooter.onTarget();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	RobotMap.driveTrainTwoMotorDrive.drive(0, 0);
+    	RobotMap.shooterFlyMotor.set(0);
     }
+
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {

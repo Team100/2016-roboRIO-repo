@@ -8,32 +8,27 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-package org.usfirst.frc100.Robot2016.commands;
+package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc100.Robot2016.Robot;
-import org.usfirst.frc100.Robot2016.RobotMap;
+import org.usfirst.frc100.BALLista.Robot;
+import org.usfirst.frc100.BALLista.RobotMap;
 
 /**
  *
  */
-public class RollOut extends Command {
+public class RollIn extends Command {
 
-	boolean rollOutDirection = true;
-	double speed; 
+	boolean rollInDirection = true;
 
-	public RollOut() {
-        requires(Robot.moveRollIn);
-	}
-	public RollOut(double speed){
+	public RollIn() {
 		requires(Robot.moveRollIn);
-		this.speed = speed;
 	}
 
-	public RollOut(boolean rollerOut) {
-		rollOutDirection = rollerOut;
+	public RollIn(boolean rollerIn) {
+		rollInDirection = rollerIn;
 	}
 
 	// Called just before this Command runs the first time
@@ -42,12 +37,13 @@ public class RollOut extends Command {
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
 
-		//if(RobotMap.pickUpHomeLimit.get())
-		Robot.moveRollIn.setRollerSpeed(speed);
-		//else
-			//obot.moveRollIn.setRollerSpeed(0);
+	protected void execute() {
+		SmartDashboard.putNumber("pick up running", 123123);
+		if (RobotMap.pickUpHomeLimit.get())
+			Robot.moveRollIn.setRollerSpeed(.5);
+		else
+			Robot.moveRollIn.setRollerSpeed(0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

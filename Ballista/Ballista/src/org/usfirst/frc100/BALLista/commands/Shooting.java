@@ -9,47 +9,59 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc100.Robot2016.commands;
+package org.usfirst.frc100.BALLista.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.PIDCommand;
 
-import org.usfirst.frc100.Robot2016.Robot;
-import org.usfirst.frc100.Robot2016.RobotMap;
-//import org.usfirst.frc100.SlideWinder.SlideWinder;
+import org.usfirst.frc100.BALLista.Robot;
+import org.usfirst.frc100.BALLista.RobotMap;
 
 /**
  *
  */
-public class AutonomousDriveForward extends Command {
-	double distance;
-    public AutonomousDriveForward(int distance) {
-    	this.distance = distance;
-        requires(Robot.driveTrain);
+public class Shooting extends PIDCommand {
 
+    public Shooting() {
+        super("Shooting", 1.0, 0.0, 0.0, 0.02);
+        getPIDController().setContinuous(false);
+        getPIDController().setAbsoluteTolerance(0.2);
+
+        requires(Robot.shooter);
+    }
+
+    protected double returnPIDInput() {
+        // Return your input value for the PID loop
+        // e.g. a sensor, like a potentiometer:
+        // yourPot.getAverageVoltage() / kYourMaxVoltage;
+    	return RobotMap.shooterSpdCtr.pidGet();
+    }
+
+    protected void usePIDOutput(double output) {
+        // Use output to drive your system, like a motor
+        // e.g. yourMotor.set(output);
+        RobotMap.shooterFlyMotor.pidWrite(output);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	RobotMap.driveTrainRightEncoder.reset();
-    	RobotMap.driveTrainRightEncoder.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.drives();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (!((RobotMap.driveTrainRightEncoder.getDistance() +RobotMap.driveTrainLeftEncoder.getDistance()/2) >= distance));
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	RobotMap.driveTrainTwoMotorDrive.drive(0, 0);
     }
+
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+
 }

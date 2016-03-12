@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -66,8 +67,8 @@ public class DriveTrain extends Subsystem {
                      }
                  },
                  new PIDOutput() { public void pidWrite(double d) {
-                     right.pidWrite(d/2); // /2
-                     left.pidWrite(-d/2); // /2
+                     right.pidWrite(d); // /2
+                     left.pidWrite(-d); // /2
                  }});
     	 
     }
@@ -108,6 +109,13 @@ public class DriveTrain extends Subsystem {
     	return RobotMap.internalGyro.getAngle(); //add the gyro
 
     }
+    public void drives()
+    {
+    	twoMotorDrive.drive(.15, -RobotMap.internalGyro.getAngle()*.03);//.getAngleOfGyro());
+		SmartDashboard.putNumber("heading", RobotMap.internalGyro.getAngle()*0.03);
+
+    }
+   
     
 }
 
