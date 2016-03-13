@@ -102,10 +102,10 @@ public class OI {
 		slowShoot.whenPressed(new ShootingSpeed(.25));
 
 		mediumshoot = new JoystickButton(operator, 8);
-		mediumshoot.whenPressed(new ShootingSpeed(0));
+		mediumshoot.whenPressed(new ShootingSpeed(1));
 
 		fastShoot = new JoystickButton(operator, 6);
-		fastShoot.whenPressed(new ShootingSpeed(.5));
+		fastShoot.whenPressed(new ShootingSpeed(1));//.5
 		top = new JoystickButton(operator, 1);
 		top.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_top", 0.413))); 
 		mid = new JoystickButton(operator, 4);
@@ -139,8 +139,8 @@ public class OI {
 		// reverseOrient = new JoystickButton(driverController1, 1);
 		// reverseOrient.whileHeld(new ChangeCameraOrientation());
 
-		backwardOrientDrive = new JoystickButton(driverController1, 3);
-		backwardOrientDrive.whileHeld(new TankDrive(false));
+	//	backwardOrientDrive = new JoystickButton(driverController1, 3);
+		//backwardOrientDrive.whileHeld(new TankDrive(false));
 
 		autoModeSelect = new Joystick(3);
 		{

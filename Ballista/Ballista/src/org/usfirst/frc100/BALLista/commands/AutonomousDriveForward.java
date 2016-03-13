@@ -21,8 +21,10 @@ import org.usfirst.frc100.BALLista.RobotMap;
  */
 public class AutonomousDriveForward extends Command {
 	double distance;
-    public AutonomousDriveForward(int distance) {
+	double speed;
+    public AutonomousDriveForward(int distance, double speed) {
     	this.distance = distance;
+    	this.speed = speed;
         requires(Robot.driveTrain);
 
     }
@@ -35,7 +37,7 @@ public class AutonomousDriveForward extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.drives();
+    	Robot.driveTrain.drives( speed );
     }
 
     // Make this return true when this Command no longer needs to run execute()

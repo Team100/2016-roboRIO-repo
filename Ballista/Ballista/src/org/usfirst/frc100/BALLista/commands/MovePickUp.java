@@ -47,7 +47,7 @@ public class MovePickUp extends Command {
     	//if(angles > 0)
 			//Robot.pickUp.goToTop();
 			//else
-    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1)/14);
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1));
 
 
 

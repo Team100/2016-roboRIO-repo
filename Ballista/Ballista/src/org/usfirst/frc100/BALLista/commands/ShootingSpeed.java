@@ -20,9 +20,10 @@ import org.usfirst.frc100.BALLista.RobotMap;
  *
  */
 public class ShootingSpeed extends Command {
-
+	private int count = 0;
+	private double xValue = 0;
 	private double speed;
-	private double incrementingValue = 0.0008;
+	private double incrementingValue = 0.0008; 
 	boolean incrementing = false;
 
 	public ShootingSpeed(double speeds) {
@@ -39,7 +40,7 @@ public class ShootingSpeed extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		// Robot.shooter.enable();
+		 Robot.shooter.enable();
 		// Robot.shooter.setSetpoint(speed);
 		// RobotMap.shooterFlyMotor.set(speed);
 	}
@@ -53,7 +54,7 @@ public class ShootingSpeed extends Command {
     	 setpoint  += incrementing value
     	 Robot.shooter.setSetpoint(speed);
     	 }
-    	 */
+    	 
     	if(incrementing){
     	speed += incrementingValue;
     	RobotMap.shooterFlyMotor.set(speed);
@@ -63,7 +64,25 @@ public class ShootingSpeed extends Command {
     		RobotMap.shooterFlyMotor.set(speed);
     	}
     	SmartDashboard.putNumber("speed Value", speed);
+    	*/
+    	Robot.shooter.setSetpoint(speed);
     	
+    	if(speed < 730){
+    	if(count < 10)
+    	count++;
+    	else
+    	count = 0;
+    	if(count == 10){
+    		xValue += 0.1;
+    	speed += .1;
+    		}
+    	}
+    	
+    	
+    	SmartDashboard.putNumber("x", xValue);
+    	SmartDashboard.putNumber("speedsss", speed);
+    	SmartDashboard.putNumber("counter", count);
+    	SmartDashboard.putNumber("rate of encoder", RobotMap.shooterSpdCtr.getRate());
     }
 
 	// Make this return true when this Command no longer needs to run execute()

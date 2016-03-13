@@ -29,6 +29,6 @@ public class autoBreachPortcullis extends CommandGroup {
     	requires(Robot.driveTrain);
     	requires(Robot.pickUp);
        	addSequential(new MovePickUpWithPID(.658));
-    	addSequential(new AutonomousDriveForward( 400));
+    	addSequential(new AutonomousDriveForward( 400, .5));
     }
 }

@@ -156,8 +156,8 @@ public class DriveTrain extends Subsystem {
 
 	}
 
-	public void drives() {
-		twoMotorDrive.drive(.15, -RobotMap.internalGyro.getAngle() * .03);// .getAngleOfGyro());
+	public void drives(double speed) {
+		twoMotorDrive.drive(speed, -RobotMap.internalGyro.getAngle() * .03);// .getAngleOfGyro());
 		SmartDashboard.putNumber("heading",
 				RobotMap.internalGyro.getAngle() * 0.03);
 
