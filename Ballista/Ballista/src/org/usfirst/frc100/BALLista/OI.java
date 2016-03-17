@@ -136,17 +136,18 @@ public class OI {
 		reverseOrient.whenPressed(new TankDrive(false));
 		forwardOrient.whenPressed(new TankDrive(true));
 
+
 		testUpDPad = new InternalButton();
-		testUpDPad.whenPressed(new DoNothing(83210973));
+		//testUpDPad.whenPressed(new DoNothing(1111111111));
 
 		testRightDPad = new InternalButton();
-		testRightDPad.whenPressed(new DoNothing(83210973));
+		//testRightDPad.whenPressed(new DoNothing(2222222));
 
 		testDownDPad = new InternalButton();
-		testDownDPad.whenPressed(new DoNothing(83210973));
+		//testDownDPad.whenPressed(new DoNothing(3333343));
 
 		testLeftDPad = new InternalButton();
-		testLeftDPad.whenPressed(new DoNothing(83210973));
+		//testLeftDPad.whenPressed(new DoNothing(444));
 
 
 		// movePickupArm = new JoystickButton(operator, 1);
