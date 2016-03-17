@@ -10,74 +10,58 @@
 
 package org.usfirst.frc100.BALLista.commands;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 
-/**
- *
- */
-public class ShootingSpeed extends Command {
+public class holdCurrentGyroPosition extends Command {
 
-	private double speed;
-	private double incrementingValue = 0.0008;
-	boolean incrementing = false;
+	private final SpeedController left = RobotMap.driveTrainLeft;
+	private final SpeedController right = RobotMap.driveTrainRight;
 
-	public ShootingSpeed(double speeds) {
-
-		this.speed = speeds;
-		if (speeds > .4)
-			incrementing = true;
-		else
-			incrementing = false;
-
-		requires(Robot.shooter);
-
+	public holdCurrentGyroPosition() {
+		requires(Robot.driveTrain);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		// Robot.shooter.enable();
-		// Robot.shooter.setSetpoint(speed);
-		// RobotMap.shooterFlyMotor.set(speed);
+		// Get everything in a safe starting state.
+	   //	Robot.driveTrain.pid.setPID(0.04, .002, 0, 0);
+		Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles())); 
+		Robot.driveTrain.pid.reset();
+		Robot.driveTrain.pid.enable();
 	}
 
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	/* 
-    	 if(incrementing){
-    	 if(setpoint <=1)
-    	 setpoint  += incrementing value
-    	 Robot.shooter.setSetpoint(speed);
-    	 }
-    	 */
-    	if(incrementing){
-    	speed += incrementingValue;
-    	RobotMap.shooterFlyMotor.set(speed);
-    	}
-    	else
-    	{
-    		RobotMap.shooterFlyMotor.set(speed);
-    	}
-    	SmartDashboard.putNumber("speed Value", speed);
-    	
-    }
+	// Called repeatedly when this Command is scheduled to run
+
+	protected void execute() {
+
+	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;// Robot.shooter.onTarget();
+		return Robot.driveTrain.pid.onTarget();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		RobotMap.shooterFlyMotor.set(0);
+		// Stop PID and the wheels
+		Robot.driveTrain.pid.disable();
+		Robot.driveTrain.stop();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		end();
 	}
+
 }

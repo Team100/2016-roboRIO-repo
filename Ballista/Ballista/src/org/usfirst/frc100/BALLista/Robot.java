@@ -25,10 +25,10 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveTrain driveTrain;
 	public static PickUp pickUp;
-	public static MoveRollIn moveRollIn;
+	public static PickUpRoller moveRollIn;
 	public static Shooter shooter;
 	public static Preferences prefs;
-
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -36,18 +36,12 @@ public class Robot extends IterativeRobot {
 
 	public void robotInit() {
 
+		prefs = Preferences.getInstance();
 		RobotMap.init();
-
 		driveTrain = new DriveTrain();
 		pickUp = new PickUp();
 		shooter = new Shooter();
-		moveRollIn = new MoveRollIn();
-
-		prefs = Preferences.getInstance();
-		prefs.putDouble("pValue", .04);
-		prefs.putDouble("iValue", 0);
-		prefs.putDouble("dValue", 0);
-
+		moveRollIn = new PickUpRoller();
 		// int testValue = 5;
 
 		// OI must be constructed after subsystems. If the OI creates Commands
@@ -58,7 +52,8 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
 		autonomousCommand = new AutonomousCommand();
-		CameraServer.getInstance().startAutomaticCapture("cam0");
+		
+	   CameraServer.getInstance().startAutomaticCapture("cam0");
 	}
 
 	/**
@@ -92,6 +87,7 @@ public class Robot extends IterativeRobot {
 		default: new DoNothing(0).start();
 			break;
 		}
+	//	new UpdateDashboard().start();
 	}
 
 	/**
@@ -111,7 +107,8 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		// RobotMap.internalGyro.reset();
-
+		Scheduler.getInstance().removeAll();
+		//new UpdateDashboard().start();
 	}
 
 	/**
@@ -119,56 +116,7 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
-
 		Scheduler.getInstance().run();
-
-		double p = prefs.getDouble("pValue", .04);
-		double i = prefs.getDouble("iValue", 0);
-		double d = prefs.getDouble("dValue", 0);
-		double aP = prefs.getDouble("armP", 4.00);
-		double aI = prefs.getDouble("armI", .4);
-		double aD = prefs.getDouble("armD", .0);
-		SmartDashboard.putNumber("p", p);
-		SmartDashboard.putNumber("i", i);
-		SmartDashboard.putNumber("d", d);
-
-		SmartDashboard.putNumber("armP", aP);
-		SmartDashboard.putNumber("armI", aI);
-		SmartDashboard.putNumber("armD", aD);
-		SmartDashboard.putNumber("dist of counter",
-				RobotMap.shooterSpdCtr.getDistance());
-		SmartDashboard.putNumber("rate of counter",
-				RobotMap.shooterSpdCtr.getRate());
-
-		SmartDashboard.putNumber("rate of right",
-				RobotMap.driveTrainRightEncoder.getRate());
-		SmartDashboard.putNumber("rate of left",
-				RobotMap.driveTrainLeftEncoder.getRate());
-
-		SmartDashboard.putNumber(
-				"Difference of encoders:",
-				Math.abs(RobotMap.driveTrainRightEncoder.getDistance()
-						- RobotMap.driveTrainLeftEncoder.getDistance()));
-		SmartDashboard.putNumber(
-				"Difference of encoders Rate:",
-				Math.abs(RobotMap.driveTrainRightEncoder.getRate()
-						- RobotMap.driveTrainLeftEncoder.getRate()));
-
-		SmartDashboard.putNumber("dist of right",
-				RobotMap.driveTrainRightEncoder.getDistance());
-		SmartDashboard.putNumber("dist of left",
-				RobotMap.driveTrainLeftEncoder.getDistance());
-
-		SmartDashboard.putNumber("Posison", Robot.pickUp.getArmPosVal());
-		SmartDashboard.putNumber("rate of right",
-				RobotMap.driveTrainRightEncoder.getRate());
-		SmartDashboard
-				.putBoolean("shooter sensor", RobotMap.shooterSpdIn.get());
-		SmartDashboard.putBoolean("top", RobotMap.pickUpUpperLimit.get());
-		SmartDashboard
-				.putBoolean("low sensor", RobotMap.pickUpLowerLimit.get());
-		SmartDashboard.putNumber("setPoint", Robot.pickUp.getSetpoint());
-		SmartDashboard.putBoolean("home value", RobotMap.pickUpHomeLimit.get());
 	}
 
 	/**
@@ -178,11 +126,5 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-
-	/*
-	 * public static double getP(){ return p = prefs.getDouble("pValue", .04); }
-	 * public static double getI(){ return i = prefs.getDouble("iValue", 0); }
-	 * public static double getD(){ return d = prefs.getDouble("dValue", 0); }
-	 */
 
 }

@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc100.BALLista.subsystems;
 
 import org.usfirst.frc100.BALLista.Robot;
@@ -28,6 +27,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -36,162 +36,166 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class PickUp extends PIDSubsystem {
 
 	private final DigitalInput upperLimit = RobotMap.pickUpUpperLimit;
-    private final DigitalInput lowerLimit = RobotMap.pickUpLowerLimit;
-    private final DigitalInput homeLimit = RobotMap.pickUpHomeLimit;
-    private final SpeedController armAngleMotor = RobotMap.pickUpArmAngleMotor;
-    private final AnalogPotentiometer pickUpPot = RobotMap.pickUpPickUpPot;
-    private final DigitalInput portcullisSensor = RobotMap.pickUpPortcullisSensor;
-   // public PIDController pid;
-	public PickUp(){
-		super(6.0, .02, 0);
-		/*
-	 pid = new PIDController(4.04, .5, 0,
-            new PIDSource() {                   //.04 0 0  for 180 // .04 .02 0 for like 1 degree
-                PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+	private final DigitalInput lowerLimit = RobotMap.pickUpLowerLimit;
+	private final DigitalInput homeLimit = RobotMap.pickUpHomeLimit;
+	private final SpeedController armAngleMotor = RobotMap.pickUpArmAngleMotor;
+	private final AnalogPotentiometer pickUpPot = RobotMap.pickUpPickUpPot;
 
-                public double pidGet() {
-               	 return RobotMap.pickUpPickUpPot.get();
-                }
 
-                @Override
-                public void setPIDSourceType(PIDSourceType pidSource) {
-                  m_sourceType = pidSource;
-                }
-
-                @Override
-                public PIDSourceType getPIDSourceType() {
-                    return m_sourceType;
-                }
-            },
-            new PIDOutput() { public void pidWrite(double d) {
-                
-                armAngleMotor.pidWrite(-d/4); // /2
-            }});
-            */
+	public void updateDashboard() {
+		SmartDashboard.putBoolean("PickUp/UpperLimit", upperLimit.get());
+		SmartDashboard.putBoolean("PickUp/LowerLimit", lowerLimit.get());
+		SmartDashboard.putBoolean("PickUp/HomeLimit", homeLimit.get());
+		SmartDashboard.putNumber("PickUp/ArmAngleMotor", armAngleMotor.get());
+		SmartDashboard.putNumber("PickUp/PickUpPot", pickUpPot.get());
+		SmartDashboard.putBoolean("PickUp/TopLimit", RobotMap.pickUpUpperLimit.get());
+    	SmartDashboard.putBoolean("PickUp/LowLimit", RobotMap.pickUpLowerLimit.get());
+    	SmartDashboard.putNumber("PickUp/SetPoint", Robot.pickUp.getSetpoint());
+    	SmartDashboard.putBoolean("PickUp/HomeLimit", RobotMap.pickUpHomeLimit.get());
+    	SmartDashboard.putNumber("PickUp/PosIsOn",Robot.pickUp.getArmPosVal());
 	}
 
 
+	private final static double DEFAULT_PICKUP_KP = 6.0;
+	private final static double DEFAULT_PICKUP_KI = 0.02;
+	private final static double DEFAULT_PICKUP_KD = 0.0;
+
+	private double pickup_kP;
+	private double pickup_kI;
+	private double pickup_kD;
+
+	// public PIDController pid;
+
+	public PickUp() {
+		super(DEFAULT_PICKUP_KP, DEFAULT_PICKUP_KI, DEFAULT_PICKUP_KD);
+
+		if (!Robot.prefs.containsKey("pickup_kP")){
+			Robot.prefs.putDouble("pickup_kP", DEFAULT_PICKUP_KP);
+		}
+		if (!Robot.prefs.containsKey("pickup_kI")){
+			Robot.prefs.putDouble("pickup_kI", DEFAULT_PICKUP_KI);
+		}
+		if (!Robot.prefs.containsKey("pickup_kD")){
+			Robot.prefs.putDouble("pickup_kD", DEFAULT_PICKUP_KD);
+		}
+
+		pickup_kP = Robot.prefs.getDouble("pickup_kP", DEFAULT_PICKUP_KP);
+		pickup_kI = Robot.prefs.getDouble("pickup_kI", DEFAULT_PICKUP_KI);
+		pickup_kD = Robot.prefs.getDouble("pickup_kD", DEFAULT_PICKUP_KD);
+
+		getPIDController().setPID(pickup_kP, pickup_kI, pickup_kD);
+
+	}
+
+	// Put methods for controlling this subsystem
+	// here. Call these from Commands.
+	public void initDefaultCommand() {
+		setDefaultCommand(new MovePickUp());
+
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
+
+	public void takeJoystickInputs(double op) {
+		armAngleMotor.set(op);
+	}
+
+	public double getArmAngleMotor() {
+		return armAngleMotor.get();
+	}
+
+	public boolean hitUpper() {
+		return !upperLimit.get(); // on testborad the polarity of the limit
+									// swiches is normally true
+	}
+
+	public boolean hitLower() {
+		return !lowerLimit.get(); // on testborad the polarity of the limit
+									// swiches is normally true
+	}
+
+	public void manualControl(double speed) {
+
+
+		if (Robot.pickUp.hitUpper()) {
+			if (Robot.oi.operator.getRawAxis(1) > 0) {
+				armAngleMotor.set(speed);
+			} else {
+				Robot.pickUp.stop();
+			}
+		} else if (Robot.pickUp.hitLower() || RobotMap.pickUpPickUpPot.get() > 0.658) { // || !Robot.pickUp.hitLower() &&
+												// !Robot.pickUp.hitUpper() &&
+												// RobotMap.pickUpMidLimit.get()){
+			if (Robot.oi.operator.getRawAxis(1) < 0) {
+				armAngleMotor.set(speed);
+			} else {
+				armAngleMotor.set(0.1);
+			}
+		} else {
+			armAngleMotor.set(speed);
+		}
+		
+
+		// armAngleMotor.set(speed);
+
+		// Robot.pickUp.pickUpPot.get();
+	}
+
+	public void goToTop() {
+		if (RobotMap.pickUpUpperLimit.get())
+			armAngleMotor.set(0.3);
+		else
+			armAngleMotor.set(0);
+
+		if (!RobotMap.pickUpUpperLimit.get()) {
+			// pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+		}
+	}
+
+	public void goToMid() {
+		/*
+		 * if(RobotMap.pickUpUpperLimit.get()){ armAngleMotor.set(-.5); } else
+		 * if(RobotMap.pickUpLowerLimit.get()){ armAngleMotor.set(.5); } else {
+		 * armAngleMotor.set(0); }
+		 */
+		/*
+		if (RobotMap.pickUpUpperLimit.get())
+			armAngleMotor.set(.5);
+		if (!RobotMap.pickUpUpperLimit.get())
+			armAngleMotor.set(-.5);
+		if (!RobotMap.pickUpMidLimit.get()) {
+			armAngleMotor.set(0);
+			// pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+			 * */
+			 
+		}
 	
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 
-    public void initDefaultCommand() {
+	public void goToBot() {
+		if (RobotMap.pickUpUpperLimit.get())
+			armAngleMotor.set(-.5);
+		if (!RobotMap.pickUpLowerLimit.get()) {
+			armAngleMotor.set(0);
+			// pid.setSetpoint(Robot.pickUp.pickUpPot.get());
+		}
+	}
 
-        setDefaultCommand(new MovePickUp());
+	public void stop() {
+		armAngleMotor.set(0);
+	}
 
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
-
-    }
-
-    public void takeJoystickInputs(double op){
-    	armAngleMotor.set(op);
-    }
-
-    public double getArmAngleMotor(){
-    	return armAngleMotor.get();
-    }
-
-    public boolean hitUpper(){
-    	return !upperLimit.get();	//on testborad the polarity of the limit swiches is normally true
-    }
-
-    public boolean hitLower(){
-    	return !lowerLimit.get();	//on testborad the polarity of the limit swiches is normally true
-    }
-
-    public void manualControl(double speed){
-
-    	
-    	if(Robot.pickUp.hitUpper()){
-    		if(Robot.oi.operator.getRawAxis(1) > 0){
-    			armAngleMotor.set(speed);
-    		}else{
-    			Robot.pickUp.stop();
-    		}
-    	}else if(Robot.pickUp.hitLower()){ //|| !Robot.pickUp.hitLower() && !Robot.pickUp.hitUpper() && RobotMap.pickUpMidLimit.get()){
-    		if(Robot.oi.operator.getRawAxis(1) < 0){
-    			armAngleMotor.set(speed);
-    		}else{
-    			armAngleMotor.set(.1);
-    		}
-    	}else{
-    		armAngleMotor.set(speed);
-    	}
-    	
-    	//armAngleMotor.set(speed);
-
-    	//Robot.pickUp.pickUpPot.get();
-
-    }
-    public void goToTop(){
-    	if(RobotMap.pickUpUpperLimit.get())
-    	armAngleMotor.set(.3);
-    	else
-    		armAngleMotor.set(0);
-    
-    if(!RobotMap.pickUpUpperLimit.get()){
-    	//pid.setSetpoint(Robot.pickUp.pickUpPot.get());
-    	}
-    }
-    public void goToMid(){
-    	/*
-    	if(RobotMap.pickUpUpperLimit.get()){
-        	armAngleMotor.set(-.5);
-    	}
-    	else if(RobotMap.pickUpLowerLimit.get()){
-    		armAngleMotor.set(.5);
-    	}
-    	else
-    	{
-    		armAngleMotor.set(0);
-    	}
-    	*/
-    	if(RobotMap.pickUpUpperLimit.get())
-        	armAngleMotor.set(.5);
-    	if(!RobotMap.pickUpUpperLimit.get())
-    		armAngleMotor.set(-.5);
-    	if(!RobotMap.pickUpMidLimit.get()){
-        		armAngleMotor.set(0);
-        		//pid.setSetpoint(Robot.pickUp.pickUpPot.get());
-    	}
-    	
-    }
-    public void goToBot(){
-    	if(RobotMap.pickUpUpperLimit.get())
-        	armAngleMotor.set(-.5);
-    	 if(!RobotMap.pickUpLowerLimit.get()){
-    		 armAngleMotor.set(0);
- 	    	//pid.setSetpoint(Robot.pickUp.pickUpPot.get());
- 	}
-    }
-
-    public void stop(){
-    	armAngleMotor.set(0);
-    }
-
-
-    public double getArmPosVal(){
-    	return pickUpPot.get();
-    }
-
-
+	public double getArmPosVal() {
+		return pickUpPot.get();
+	}
 
 	@Override
 	protected double returnPIDInput() {
 		// TODO Auto-generated method stub
-		  return RobotMap.pickUpPickUpPot.get();
+		return RobotMap.pickUpPickUpPot.get();
 	}
-
-
 
 	@Override
 	protected void usePIDOutput(double output) {
-		 armAngleMotor.set(-output/2); // /2
-		
+		armAngleMotor.set(-output / 2); // /2
 	}
-
-	
-	}
-	
-
+}
