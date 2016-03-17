@@ -57,6 +57,11 @@ public class OI {
 	public JoystickButton overrideBottomLimit;
 	public JoystickButton defultArmJoystick;
 
+	public InternalButton testUpDPad;
+	public InternalButton testRightDPad;
+	public InternalButton testDownDPad;
+	public InternalButton testLeftDPad;
+
 	public Joystick autoModeSelect;
 		public JoystickButton binary1;
 		public JoystickButton binary2;
@@ -130,6 +135,20 @@ public class OI {
 		forwardOrient = new JoystickButton(driverController1, 10);
 		reverseOrient.whenPressed(new TankDrive(false));
 		forwardOrient.whenPressed(new TankDrive(true));
+
+		testUpDPad = new InternalButton();
+		testUpDPad.whenPressed(new DoNothing(83210973));
+
+		testRightDPad = new InternalButton();
+		testRightDPad.whenPressed(new DoNothing(83210973));
+
+		testDownDPad = new InternalButton();
+		testDownDPad.whenPressed(new DoNothing(83210973));
+
+		testLeftDPad = new InternalButton();
+		testLeftDPad.whenPressed(new DoNothing(83210973));
+
+
 		// movePickupArm = new JoystickButton(operator, 1);
 		// movePickupArm.whileHeld(new MovePickUp());
 
@@ -217,11 +236,16 @@ public class OI {
 		if(stick.getPOV() < 0) {
 			return -1;
 		} else {
-			return stick.getPOV() / 45;
+			return stick.getPOV()/45;
 		}
 	}
 
 	public void updateDPad() {
 		int value = getDPad(operator);
+
+		testUpDPad.setPressed(value == 0);
+		testRightDPad.setPressed(value == 2);
+		testDownDPad.setPressed(value == 4);
+		testLeftDPad.setPressed(value == 6);
 	}
 }
