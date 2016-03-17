@@ -1,11 +1,7 @@
 package edu.wpi.first.smartdashboard.gui.elements;
 
 //import edu.wpi.first.smartdashboard.gui.DashboardPrefs;
-import edu.wpi.first.smartdashboard.gui.StaticWidget;
-import edu.wpi.first.smartdashboard.properties.IntegerProperty;
-import edu.wpi.first.smartdashboard.properties.Property;
-import edu.wpi.first.smartdashboard.properties.StringProperty;
-
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -17,8 +13,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
+
+import edu.wpi.first.smartdashboard.gui.StaticWidget;
+import edu.wpi.first.smartdashboard.properties.IntegerProperty;
+import edu.wpi.first.smartdashboard.properties.Property;
+import edu.wpi.first.smartdashboard.properties.StringProperty;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  *
@@ -31,191 +34,268 @@ public class Team100CameraViewer extends StaticWidget {
 
 	public static final String NAME = "Team 100 Camera Viewer";
 
+	public NetworkTable table = NetworkTable
+			.getTable("GRIP/myContoursrReport/");
 
-    private static final int[] START_BYTES = new int[]{0xFF, 0xD8};
-    private static final int[] END_BYTES = new int[]{0xFF, 0xD9};
+	private static final int[] START_BYTES = new int[] { 0xFF, 0xD8 };
+	private static final int[] END_BYTES = new int[] { 0xFF, 0xD9 };
 
-    private boolean ipChanged = true;
-    private String ipString = null;
-    private double rotateAngleRad = 0;
-    private long lastFPSCheck = 0;
-    private int lastFPS = 0;
-    private int fpsCounter = 0;
-    public class BGThread extends Thread {
+	private boolean ipChanged = true;
+	private String ipString = null;
+	private double rotateAngleRad = 0;
+	private long lastFPSCheck = 0;
+	private int lastFPS = 0;
+	private int fpsCounter = 0;
 
-        boolean destroyed = false;
+	public double[] empty = {};
 
-        public BGThread() {
-            super("Camera Viewer Background");
-        }
+	public class BGThread extends Thread {
 
-        long lastRepaint = 0;
-        @Override
-        public void run() {
-            URLConnection connection = null;
-            InputStream stream = null;
-            ByteArrayOutputStream imageBuffer = new ByteArrayOutputStream();
-            while (!destroyed) {
-                try{
-                    System.out.println("Connecting to camera");
-                    ipChanged = false;
-                    URL url = new URL("http://"+ipString+"/mjpg/video.mjpg");
-                    connection = url.openConnection();
-                    connection.setReadTimeout(250);
-                    stream = connection.getInputStream();
+		boolean destroyed = false;
 
-                    while(!destroyed && !ipChanged){
-                        while(System.currentTimeMillis()-lastRepaint<10){
-                            stream.skip(stream.available());
-                            Thread.sleep(1);
-                        }
-                        stream.skip(stream.available());
+		public BGThread() {
+			super("Camera Viewer Background");
+		}
 
-                        imageBuffer.reset();
-                        for(int i = 0; i<START_BYTES.length;){
-                            int b = stream.read();
-                            if(b==START_BYTES[i])
-                                i++;
-                            else
-                                i = 0;
-                        }
-                        for(int i = 0; i<START_BYTES.length;++i)
-                            imageBuffer.write(START_BYTES[i]);
+		long lastRepaint = 0;
 
-                        for(int i = 0; i<END_BYTES.length;){
-                            int b = stream.read();
-                            imageBuffer.write(b);
-                            if(b==END_BYTES[i])
-                                i++;
-                            else
-                                i = 0;
-                        }
+		@Override
+		public void run() {
+			URLConnection connection = null;
+			InputStream stream = null;
+			ByteArrayOutputStream imageBuffer = new ByteArrayOutputStream();
+			while (!destroyed) {
+				try {
+					System.out.println("Connecting to camera");
+					ipChanged = false;
+					URL url = new URL("http://" + ipString + "/mjpg/video.mjpg");
+					connection = url.openConnection();
+					connection.setReadTimeout(250);
+					stream = connection.getInputStream();
 
-                        fpsCounter++;
-                        if(System.currentTimeMillis()-lastFPSCheck>500){
-                            lastFPSCheck = System.currentTimeMillis();
-                            lastFPS = fpsCounter*2;
-                            fpsCounter = 0;
-                        }
+					while (!destroyed && !ipChanged) {
+						while (System.currentTimeMillis() - lastRepaint < 10) {
+							stream.skip(stream.available());
+							Thread.sleep(1);
+						}
+						stream.skip(stream.available());
 
-                        lastRepaint = System.currentTimeMillis();
-                        ByteArrayInputStream tmpStream = new ByteArrayInputStream(imageBuffer.toByteArray());
-                        imageToDraw = ImageIO.read(tmpStream);
-                        System.out.println(System.currentTimeMillis()-lastRepaint);
-                        repaint();
-                    }
+						imageBuffer.reset();
+						for (int i = 0; i < START_BYTES.length;) {
+							int b = stream.read();
+							if (b == START_BYTES[i])
+								i++;
+							else
+								i = 0;
+						}
+						for (int i = 0; i < START_BYTES.length; ++i)
+							imageBuffer.write(START_BYTES[i]);
 
-                } catch(Exception e){
-                    imageToDraw = null;
-                    repaint();
-                    e.printStackTrace();
-                }
+						for (int i = 0; i < END_BYTES.length;) {
+							int b = stream.read();
+							imageBuffer.write(b);
+							if (b == END_BYTES[i])
+								i++;
+							else
+								i = 0;
+						}
 
-                if(!ipChanged){
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {}
-                }
-            }
+						fpsCounter++;
+						if (System.currentTimeMillis() - lastFPSCheck > 500) {
+							lastFPSCheck = System.currentTimeMillis();
+							lastFPS = fpsCounter * 2;
+							fpsCounter = 0;
+						}
 
-        }
+						lastRepaint = System.currentTimeMillis();
+						ByteArrayInputStream tmpStream = new ByteArrayInputStream(
+								imageBuffer.toByteArray());
+						imageToDraw = ImageIO.read(tmpStream);
+						// System.out.println(System.currentTimeMillis()-lastRepaint);
+						repaint();
+					}
 
-        @Override
-        public void destroy() {
-            destroyed = true;
-        }
-    }
-    private BufferedImage imageToDraw;
-    private BGThread bgThread = new BGThread();
-    public final StringProperty ipProperty = new StringProperty(this, "Camera IP Address or mDNS name", "axis-camera.local");
-    public final IntegerProperty rotateProperty = new IntegerProperty(this, "Degrees Rotation", 0);
-    
-    @Override
-    public void init() {
-        setPreferredSize(new Dimension(100, 100));
-        ipString = ipProperty.getSaveValue();
-        rotateAngleRad = Math.toRadians(rotateProperty.getValue());
-        bgThread.start();
-        revalidate();
-        repaint();
-    }
+				} catch (Exception e) {
+					imageToDraw = null;
+					repaint();
+					e.printStackTrace();
+				}
 
-    @Override
-    public void propertyChanged(Property property) {
-        if (property == ipProperty) {
-            ipString = ipProperty.getSaveValue();
-            ipChanged = true;
-        }
-        if (property == rotateProperty) {
-            rotateAngleRad = Math.toRadians(rotateProperty.getValue());
-        }
+				if (!ipChanged) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException ex) {
+					}
+				}
+			}
 
-    }
+		}
 
-    @Override
-    public void disconnect() {
-        bgThread.destroy();
-        super.disconnect();
-    }
+		@Override
+		public void destroy() {
+			destroyed = true;
+		}
+	}
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        BufferedImage drawnImage = imageToDraw; 
-        
-        if (drawnImage != null) {
-        	// cast the Graphics context into a Graphics2D
-            Graphics2D g2d = (Graphics2D)g;
-            
-            // get the existing Graphics transform and copy it so that we can perform scaling and rotation
-            AffineTransform origXform = g2d.getTransform();
-            AffineTransform newXform = (AffineTransform)(origXform.clone());
-            
-            // find the center of the original image
-            int origImageWidth = drawnImage.getWidth();
-            int origImageHeight = drawnImage.getHeight();
-            int imageCenterX = origImageWidth/2;
-            int imageCenterY = origImageHeight/2;
-            
-            // perform the desired scaling
-            double panelWidth = getBounds().width;
-            double panelHeight = getBounds().height;
-            double panelCenterX = panelWidth/2.0;
-            double panelCenterY = panelHeight/2.0;
-            double rotatedImageWidth = origImageWidth * Math.abs(Math.cos(rotateAngleRad)) + origImageHeight * Math.abs(Math.sin(rotateAngleRad));
-            double rotatedImageHeight = origImageWidth * Math.abs(Math.sin(rotateAngleRad)) + origImageHeight * Math.abs(Math.cos(rotateAngleRad));         
-            		
-            // compute scaling needed
-            double scale = Math.min(panelWidth / rotatedImageWidth, panelHeight / rotatedImageHeight);
-                      
-            // set the transform before drawing the image
-            // 1 - translate the origin to the center of the panel
-            // 2 - perform the desired rotation (rotation will be about origin)
-            // 3 - perform the desired scaling (will scale centered about origin)
-            newXform.translate(panelCenterX,  panelCenterY);
-            newXform.rotate(rotateAngleRad);
-            newXform.scale(scale, scale);
-            g2d.setTransform(newXform);
+	private BufferedImage imageToDraw;
+	private BGThread bgThread = new BGThread();
+	public final StringProperty ipProperty = new StringProperty(this,
+			"Camera IP Address or mDNS name", "10.1.0.11");
+	public final IntegerProperty rotateProperty = new IntegerProperty(this,
+			"Degrees Rotation", 0);
 
-            // draw image so that the center of the image is at the "origin"; the transform will take care of the rotation and scaling
-            g2d.drawImage(drawnImage, -imageCenterX, -imageCenterY, null);
-            
-            // restore the original transform
-            g2d.setTransform(origXform);
-            
-            g.setColor(Color.PINK);
-            g.drawString("FPS: "+lastFPS, 10, 10);
-            
-            // DRAW HERE
-            
-           g2d.setColor(Color.RED);
-           g2d.drawLine(0, getHeight()/2, getWidth(), getHeight()/2);
-           g2d.drawLine(getWidth()/2, 0, getWidth()/2, getHeight());
-           
-        } else {
-            g.setColor(Color.PINK);
-            g.fillRect(0, 0, getBounds().width, getBounds().height);
-            g.setColor(Color.BLACK);
-            g.drawString("NO CONNECTION", 10, 10);
-        }
-    }
+	@Override
+	public void init() {
+		setPreferredSize(new Dimension(100, 100));
+		ipString = ipProperty.getSaveValue();
+		rotateAngleRad = Math.toRadians(rotateProperty.getValue());
+		bgThread.start();
+		revalidate();
+		repaint();
+	}
+
+	@Override
+	public void propertyChanged(Property property) {
+		if (property == ipProperty) {
+			ipString = ipProperty.getSaveValue();
+			ipChanged = true;
+		}
+		if (property == rotateProperty) {
+			rotateAngleRad = Math.toRadians(rotateProperty.getValue());
+		}
+
+	}
+
+	@Override
+	public void disconnect() {
+		bgThread.destroy();
+		super.disconnect();
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		BufferedImage drawnImage = imageToDraw;
+
+		if (drawnImage != null) {
+			// cast the Graphics context into a Graphics2D
+			Graphics2D g2d = (Graphics2D) g;
+
+			// get the existing Graphics transform and copy it so that we can
+			// perform scaling and rotation
+			AffineTransform origXform = g2d.getTransform();
+			AffineTransform newXform = (AffineTransform) (origXform.clone());
+
+			// find the center of the original image
+			int origImageWidth = drawnImage.getWidth();
+			int origImageHeight = drawnImage.getHeight();
+			int imageCenterX = origImageWidth / 2;
+			int imageCenterY = origImageHeight / 2;
+
+			// perform the desired scaling
+			double panelWidth = getBounds().width;
+			double panelHeight = getBounds().height;
+			double panelCenterX = panelWidth / 2.0;
+			double panelCenterY = panelHeight / 2.0;
+			double rotatedImageWidth = origImageWidth
+					* Math.abs(Math.cos(rotateAngleRad)) + origImageHeight
+					* Math.abs(Math.sin(rotateAngleRad));
+			double rotatedImageHeight = origImageWidth
+					* Math.abs(Math.sin(rotateAngleRad)) + origImageHeight
+					* Math.abs(Math.cos(rotateAngleRad));
+
+			// compute scaling needed
+			double scale = Math.min(panelWidth / rotatedImageWidth, panelHeight
+					/ rotatedImageHeight);
+
+			// set the transform before drawing the image
+			// 1 - translate the origin to the center of the panel
+			// 2 - perform the desired rotation (rotation will be about origin)
+			// 3 - perform the desired scaling (will scale centered about
+			// origin)
+			newXform.translate(panelCenterX, panelCenterY);
+			newXform.rotate(rotateAngleRad);
+			newXform.scale(scale, scale);
+			g2d.setTransform(newXform);
+
+			// draw image so that the center of the image is at the "origin";
+			// the transform will take care of the rotation and scaling
+			g2d.drawImage(drawnImage, -imageCenterX, -imageCenterY, null);
+
+			// restore the original transform
+			g2d.setTransform(origXform);
+
+			g.setColor(Color.PINK);
+			g.drawString("FPS: " + lastFPS, 10, 10);
+
+			// DRAW HERE
+
+			/*
+			 * g2d.setColor(Color.RED); g2d.drawLine(0, getHeight()/2,
+			 * getWidth(), getHeight()/2); g2d.drawLine(getWidth()/2, 0,
+			 * getWidth()/2, getHeight());
+			 */
+
+			g2d.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND,
+					BasicStroke.JOIN_ROUND));
+			g2d.setColor(Color.RED);
+			
+			 System.out.println(table.getTable("centerX"));
+
+			double[] x1 = table.getNumberArray("x1", empty);
+
+			for (int i = 0; i < x1.length; i++) {
+				g2d.drawLine(0, 0, 200, 0);
+			}
+
+			/*
+			 * if (table.getKeys().containsAll(Arrays.asList("x1", "x2", "y1",
+			 * "y2"))) { // If the subtable has four equal-length number arrays
+			 * called x1, y1, x2, and y2, then draw a line for // each element
+			 * in the arrays
+			 * 
+			 * double[] x1 = table.getNumberArray("x1", empty); double[] x2 =
+			 * table.getNumberArray("x2", empty); double[] y1 =
+			 * table.getNumberArray("y1", empty); double[] y2 =
+			 * table.getNumberArray("y2", empty);
+			 * 
+			 * if (x1.length == x2.length && x1.length == y1.length && x1.length
+			 * == y2.length) { for (int i = 0; i < x1.length; i++) {
+			 * g2d.drawLine((int) x1[i], (int) y1[i], (int) x2[i], (int) y2[i]);
+			 * } } } else if (table.getKeys().containsAll(Arrays.asList("x",
+			 * "y", "size"))) { // If the subtable has three equal-length arrays
+			 * called x, y, and size, draw a circle for each element double[] x
+			 * = table.getNumberArray("x", empty); double[] y =
+			 * table.getNumberArray("y", empty); double[] size =
+			 * table.getNumberArray("size", empty);
+			 * 
+			 * if (x.length == y.length) { for (int i = 0; i < x.length; i++) {
+			 * g2d.drawOval((int) (x[i] - size[i] / 2), (int) (y[i] - size[i] /
+			 * 2), (int) size[i], (int) size[i]); g2d.drawLine((int) (x[i] - 8),
+			 * (int) y[i], (int) (x[i] + 8), (int) y[i]); g2d.drawLine((int)
+			 * x[i], (int) (y[i] - 8), (int) x[i], (int) (y[i] + 8)); } } } else
+			 * if (table.getKeys().containsAll(Arrays.asList("centerX",
+			 * "centerY", "width", "height"))) { // If the subtable has x, y,
+			 * width, and height, draw rectangles. This really means GRIP is
+			 * publishing // contours, but it doesn't publish the full contour
+			 * data. double x[] = table.getNumberArray("centerX", empty); double
+			 * y[] = table.getNumberArray("centerY", empty); double width[] =
+			 * table.getNumberArray("width", empty); double height[] =
+			 * table.getNumberArray("height", empty);
+			 * 
+			 * if (x.length == y.length && x.length == width.length && x.length
+			 * == height.length) { for (int i = 0; i < x.length; i++) {
+			 * g2d.drawRect((int) (x[i] - width[i] / 2), (int) (y[i] - height[i]
+			 * / 2), (int) width[i], (int) height[i]); g2d.drawLine((int) (x[i]
+			 * - 8), (int) y[i], (int) (x[i] + 8), (int) y[i]);
+			 * g2d.drawLine((int) x[i], (int) (y[i] - 8), (int) x[i], (int)
+			 * (y[i] + 8)); } } }
+			 */
+
+		} else {
+			g.setColor(Color.PINK);
+			g.fillRect(0, 0, getBounds().width, getBounds().height);
+			g.setColor(Color.BLACK);
+			g.drawString("NO CONNECTION", 10, 10);
+		}
+	}
 }
