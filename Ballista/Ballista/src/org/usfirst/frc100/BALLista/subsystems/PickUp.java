@@ -40,8 +40,6 @@ public class PickUp extends PIDSubsystem {
 	private final DigitalInput homeLimit = RobotMap.pickUpHomeLimit;
 	private final SpeedController armAngleMotor = RobotMap.pickUpArmAngleMotor;
 	private final AnalogPotentiometer pickUpPot = RobotMap.pickUpPickUpPot;
-	private boolean reverseJoysticksAndByPassLimits = false;
-
 
 	public void updateDashboard() {
 		SmartDashboard.putBoolean("PickUp/UpperLimit", upperLimit.get());
@@ -117,7 +115,6 @@ public class PickUp extends PIDSubsystem {
 
 	public void manualControl(double speed) {
 
-		if(reverseJoysticksAndByPassLimits == false){
 			if (Robot.pickUp.hitUpper()) {
 				if (Robot.oi.operator.getRawAxis(3) > 0) {
 					armAngleMotor.set(speed);
@@ -135,17 +132,6 @@ public class PickUp extends PIDSubsystem {
 			} else {
 				armAngleMotor.set(speed);
 			}
-		}else if(reverseJoysticksAndByPassLimits == true){
-			if (Robot.pickUp.hitUpper()) {
-				if (Robot.oi.operator.getRawAxis(1) > 0) {
-					armAngleMotor.set(speed);
-				} else {
-					Robot.pickUp.stop();
-				}
-			} else {
-				armAngleMotor.set(speed);
-			}
-		}
 
 		// armAngleMotor.set(speed);
 
@@ -208,24 +194,5 @@ public class PickUp extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		armAngleMotor.set(-output / 2); // /2
-	}
-
-	public boolean getReverseJoysticksAndByPassLimits(){
-		return reverseJoysticksAndByPassLimits;
-	}
-
-	public void setReverseJoysticksAndByPassLimits(boolean input){
-		reverseJoysticksAndByPassLimits = input;
-	}
-
-	public void ReverseJoysticksAndByPassLimits() {
-		reverseJoysticksAndByPassLimits = true;
-
-	}
-
-	public void JoysticksAndByPassLimits() {
-
-		reverseJoysticksAndByPassLimits = false;
-
 	}
 }

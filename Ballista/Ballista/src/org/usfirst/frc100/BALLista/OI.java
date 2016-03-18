@@ -178,14 +178,6 @@ public class OI {
 		putArmToGround = new JoystickButton(driverController1, 11);
 		lineUpRobotWithGoal = new JoystickButton(driverController1, 12);
 
-		overrideBottomLimit = new JoystickButton(operator, 11);
-		overrideBottomLimit.whenPressed(new OverrideBottomLimit(true));
-
-		defultArmJoystick = new JoystickButton(operator, 12);
-		defultArmJoystick.whenPressed(new OverrideBottomLimit(false));
-
-
-
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
 		SmartDashboard.putData("Turn180", new TurnToAngle());
