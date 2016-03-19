@@ -19,10 +19,10 @@ public class Shooter extends PIDSubsystem {
 	private final Counter flyCounter = RobotMap.shooterSpdCtr;
 	private final PIDController shooterSpeedControllerPID = RobotMap.shooterShooterSpeedControllerPID;
 
-	private static final double DEFAULT_SHOOTER_KP = 1.0;
-	private static final double DEFAULT_SHOOTER_KI = 0.0;
+	private static final double DEFAULT_SHOOTER_KP = .003;
+	private static final double DEFAULT_SHOOTER_KI = 0.02;
 	private static final double DEFAULT_SHOOTER_KD = 0.0;
-	private static final double DEFAULT_SHOOTER_KF = 0.0;
+	private static final double DEFAULT_SHOOTER_KF = 0.1;
 
 	private double shooter_kP;
 	private double shooter_kI;
@@ -70,7 +70,7 @@ public class Shooter extends PIDSubsystem {
 			Robot.prefs.putDouble("shooter_bot", SHOOTER_BOT);
 		}
 
-		setAbsoluteTolerance(50);
+		setAbsoluteTolerance(.002);
 		// getPIDController().setContinuous(true);
 		LiveWindow.addActuator("Shooter", "PIDSubsystem Controller",
 				getPIDController());
@@ -94,13 +94,14 @@ public class Shooter extends PIDSubsystem {
 		// Return your input value for the PID loop
 		// e.g. a sensor, like a potentiometer:
 		// yourPot.getAverageVoltage() / kYourMaxVoltage;
-
+		SmartDashboard.putNumber("rate", flyCounter.getRate());
 		return flyCounter.getRate();
 	}
 	
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
+    	SmartDashboard.putNumber("output value", output);
     	RobotMap.shooterFlyMotor.pidWrite(output);
        // flyMotor.pidWrite(output);
 	}
