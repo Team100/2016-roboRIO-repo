@@ -23,11 +23,13 @@ public class ShootingSpeed extends Command {
 	private int count = 0;
 	private double xValue = 0;
 	private double speed;
-	private double incrementingValue = 0.0008; 
+	public static  double maxSetpoint; 
+	private double incrementingValue = 0.0008;
 	boolean incrementing = false;
+	public static double incrementValue = 0.1;
 
-	public ShootingSpeed(double speeds) {
-
+	public ShootingSpeed(double speeds, int maxValue) {
+		maxSetpoint = maxValue;
 		this.speed = speeds;
 		if (speeds > .4)
 			incrementing = true;
@@ -40,50 +42,39 @@ public class ShootingSpeed extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		 Robot.shooter.enable();
-		// Robot.shooter.setSetpoint(speed);
-		// RobotMap.shooterFlyMotor.set(speed);
+		Robot.shooter.enable();
+		//Robot.shooter.setSetpoint(700);
+		Robot.shooter.setAbsoluteTolerance(.05);
 	}
 
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		/*
+		 * if(incrementing){ if(setpoint <=1) setpoint += incrementing value
+		 * Robot.shooter.setSetpoint(speed); }
+		 * 
+		 * if(incrementing){ speed += incrementingValue;
+		 * RobotMap.shooterFlyMotor.set(speed); } else {
+		 * RobotMap.shooterFlyMotor.set(speed); } SmartDashboard.putNumber(
+		 * "speed Value", speed);
+		 */
+		Robot.shooter.setSetpoint(speed);
+		if (speed < maxSetpoint) {
+			if (count < 10)
+				count++;
+			else
+				count = 0;
+			if (count == 10) {
+				xValue += incrementValue;
+				speed += incrementValue;
+			}
+		}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	/* 
-    	 if(incrementing){
-    	 if(setpoint <=1)
-    	 setpoint  += incrementing value
-    	 Robot.shooter.setSetpoint(speed);
-    	 }
-    	 
-    	if(incrementing){
-    	speed += incrementingValue;
-    	RobotMap.shooterFlyMotor.set(speed);
-    	}
-    	else
-    	{
-    		RobotMap.shooterFlyMotor.set(speed);
-    	}
-    	SmartDashboard.putNumber("speed Value", speed);
-    	*/
-    	Robot.shooter.setSetpoint(speed);
-    	
-    	if(speed < 730){
-    	if(count < 10)
-    	count++;
-    	else
-    	count = 0;
-    	if(count == 10){
-    		xValue += 0.1;
-    	speed += .1;
-    		}
-    	}
-    	
-    	
-    	SmartDashboard.putNumber("x", xValue);
-    	SmartDashboard.putNumber("speedsss", speed);
-    	SmartDashboard.putNumber("counter", count);
-    	SmartDashboard.putNumber("rate of encoder", RobotMap.shooterSpdCtr.getRate());
-    }
+		SmartDashboard.putNumber("x", xValue);
+		SmartDashboard.putNumber("speedsss", speed);
+		SmartDashboard.putNumber("counter", count);
+		SmartDashboard.putNumber("rate of encoder", RobotMap.shooterSpdCtr.getRate());
+	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {

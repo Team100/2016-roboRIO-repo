@@ -59,7 +59,7 @@ public class PickUp extends PIDSubsystem {
 	private final static double DEFAULT_PICKUP_KP = 6.0;
 	private final static double DEFAULT_PICKUP_KI = 0.02;
 	private final static double DEFAULT_PICKUP_KD = 0.0;
-
+	
 	private double pickup_kP;
 	private double pickup_kI;
 	private double pickup_kD;
@@ -114,7 +114,7 @@ public class PickUp extends PIDSubsystem {
 									// swiches is normally true
 	}
 
-	public void manualControl(double speed) {
+	public void manualControl(double speed, boolean obeyLowerLimit) {
 
 
 		if (Robot.pickUp.hitUpper()) {
@@ -123,7 +123,7 @@ public class PickUp extends PIDSubsystem {
 			} else {
 				Robot.pickUp.stop();
 			}
-		} else if (Robot.pickUp.hitLower() || RobotMap.pickUpPickUpPot.get() > 0.658) { // || !Robot.pickUp.hitLower() &&
+		} else if ((Robot.pickUp.hitLower() || RobotMap.pickUpPickUpPot.get() > 0.658) && obeyLowerLimit) { // || !Robot.pickUp.hitLower() &&
 												// !Robot.pickUp.hitUpper() &&
 												// RobotMap.pickUpMidLimit.get()){
 			if (Robot.oi.operator.getRawAxis(1) < 0) {

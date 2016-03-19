@@ -37,7 +37,13 @@ public class AutonomousDriveForward extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.drives( speed );
+    	//Robot.driveTrain.drives( speed );
+    	Robot.driveTrain.pidLeft.enable();
+    	Robot.driveTrain.pidRight.enable();
+    	Robot.driveTrain.pidLeft.setAbsoluteTolerance(.05);
+    	Robot.driveTrain.pidRight.setAbsoluteTolerance(.05);
+    	Robot.driveTrain.pidLeft.setSetpoint(speed);
+    	Robot.driveTrain.pidRight.setSetpoint(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -47,7 +53,8 @@ public class AutonomousDriveForward extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	RobotMap.driveTrainTwoMotorDrive.drive(0, 0);
+    	Robot.driveTrain.pidLeft.disable();
+    	Robot.driveTrain.pidRight.disable();
     }
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
