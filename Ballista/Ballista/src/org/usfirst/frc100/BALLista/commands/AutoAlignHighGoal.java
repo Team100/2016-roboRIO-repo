@@ -1,7 +1,3 @@
-/**
- * This method 
- **/
-
 package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,9 +6,6 @@ import edu.wpi.first.wpilibj.Preferences;
 
 import org.usfirst.frc100.BALLista.Robot;
 
-/**
- *
- */
 
 
 public class AutoAlignHighGoal extends Command {
@@ -24,6 +17,7 @@ public class AutoAlignHighGoal extends Command {
     public AutoAlignHighGoal() {
 
         requires(Robot.driveTrain);
+        visionTable = NetworkTable.getTable("GRIP/myContoursReport"); 	
 
     }
 
@@ -41,15 +35,14 @@ public class AutoAlignHighGoal extends Command {
         double[] defaultValue = new double[0];
         double xTarget, maxArea;
         int i, max_i;
-        final double CAMERA_FOV = 56.0;  // Guess at Lifecam horizontal Field of View
+        final double CAMERA_FOV = 50.3;  // Lifecam horizontal Field of View
         final double CAMERA_HORZ_PIXELS = 320.0;
-        final double MIN_TURN_RES = 0.25;  // Maybe too stringent?
+        final double MIN_TURN_RES = 0.5;  // Maybe too stringent?
         double pixelAimingPt, xAngleToTurn;
         int angleToTurn;
         
         	
         // Get target information from Network Tables
-        visionTable = NetworkTable.getTable("GRIP/myContoursReport"); 	
         
         xTargets = visionTable.getNumberArray("centerX", defaultValue);
         areas = visionTable.getNumberArray("area", defaultValue);
@@ -81,9 +74,9 @@ public class AutoAlignHighGoal extends Command {
         }
          	
         // Turn Robot to point to target    	
-    	Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04), Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue", .00), 0);
+//    	Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04), Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue", .00), 0);
    	 	Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
- //  	Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()+distances));  //Robot.driveTrain.getAngles+1
+        Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles() + angleToTurn));  //Robot.driveTrain.getAngles+1
    	 	Robot.driveTrain.pid.reset();
    	 	Robot.driveTrain.pid.enable();
     }
@@ -105,6 +98,9 @@ public class AutoAlignHighGoal extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	// Stop PID and the wheels
+   	 	Robot.driveTrain.pid.disable();
+        Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
