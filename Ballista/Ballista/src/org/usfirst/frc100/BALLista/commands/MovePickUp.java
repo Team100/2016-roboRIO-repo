@@ -54,9 +54,9 @@ public class MovePickUp extends Command {
     protected void execute() {
 
     		if(!goPastLowerLimit)
-    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(3)/14, true);
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(3)/14, true, 3);
     		else
-    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1)/14, false);
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1)/14, false, 1);
     		
     		
     		SmartDashboard.putBoolean("lower Limit obey", goPastLowerLimit);

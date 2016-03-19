@@ -113,10 +113,10 @@ public class PickUp extends PIDSubsystem {
 									// swiches is normally true
 	}
 
-	public void manualControl(double speed, boolean obeyLowerLimit) {
+	public void manualControl(double speed, boolean obeyLowerLimit, int joyNumber) {
 
 			if (Robot.pickUp.hitUpper()) {
-				if (Robot.oi.operator.getRawAxis(3) > 0) {
+				if (Robot.oi.operator.getRawAxis(joyNumber) > 0) {
 					armAngleMotor.set(speed);
 				} else {
 					Robot.pickUp.stop();
@@ -124,7 +124,7 @@ public class PickUp extends PIDSubsystem {
 			} else if ((Robot.pickUp.hitLower() || RobotMap.pickUpPickUpPot.get() > 0.658) && obeyLowerLimit) { // || !Robot.pickUp.hitLower() &&
 													// !Robot.pickUp.hitUpper() &&
 													// RobotMap.pickUpMidLimit.get()){
-				if (Robot.oi.operator.getRawAxis(3) < 0) {
+				if (Robot.oi.operator.getRawAxis(joyNumber) < 0) {
 					armAngleMotor.set(speed);
 				} else {
 					armAngleMotor.set(0.1);
