@@ -94,7 +94,7 @@ public class RobotMap {
         //LiveWindow.addSensor("Pick Up", "Lower Limit", pickUpLowerLimit);
 
 
-        pickUpHomeLimit = new DigitalInput(8);
+        pickUpHomeLimit = new DigitalInput(6);
         LiveWindow.addSensor("Pick Up", "Indide Detector", pickUpHomeLimit);
 
 
@@ -104,9 +104,10 @@ public class RobotMap {
         pickUpPickUpPot = new AnalogPotentiometer(0, 1.0, 0.0);
         //LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
 
-        pickUpMidLimit = new DigitalInput(6);
+        /*
+        pickUpMidLimit = new DigitalInput(8);
         LiveWindow.addSensor("Pick Up", "mid", pickUpMidLimit);
-
+		*/
 
         moveRollInPickUpRoller = new VictorSP(3);
         LiveWindow.addActuator("MoveRollIn", "Pick Up Roller", (VictorSP) moveRollInPickUpRoller);
@@ -130,7 +131,7 @@ public class RobotMap {
         //shooterSpdCtr.setUpSourceEdge(true, true);
       	shooterSpdCtr.setDistancePerPulse(1);
         /*
-     
+
         shooterSpdCtr.setUpSource(shooterSpdIn);
 
        	shooterShooterSpeedControllerPID = new PIDController(1.0, 0.0, 0.0, 0.0, shooterFlyEncoder, shooterFlyMotor, 0.02);

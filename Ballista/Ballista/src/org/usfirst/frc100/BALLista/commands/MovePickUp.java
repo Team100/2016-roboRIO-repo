@@ -27,13 +27,7 @@ public class MovePickUp extends Command {
 	boolean check = true;
 
     public MovePickUp() {
-    	/*
-    	if(!goPastLowerLimit)
-    		goPastLowerLimit = true;
-    	else
-    		goPastLowerLimit = false; 
-    		*/
-    	//goPastLowerLimit = false;
+ 
         requires(Robot.pickUp);
 
     }
@@ -47,7 +41,7 @@ public class MovePickUp extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+
     	/*
     	Robot.pickUp.pid.enable();
     	Robot.pickUp.pid.setPID(Robot.prefs.getDouble("armP", .04), Robot.prefs.getDouble("armI", .00), Robot.prefs.getDouble("armD", .00), 0);
@@ -58,10 +52,11 @@ public class MovePickUp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+
     		if(!goPastLowerLimit)
-    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(3), true);
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(3)/14, true);
     		else
-    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1), false);
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1)/14, false);
     		
     		
     		SmartDashboard.putBoolean("lower Limit obey", goPastLowerLimit);
@@ -74,7 +69,7 @@ public class MovePickUp extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
        return false;
-      
+
     }
 
     // Called once after isFinished returns true
