@@ -56,7 +56,7 @@ public class OI {
 	public JoystickButton lineUpRobotWithGoal;
 	public JoystickButton overrideBottomLimit;
 	public JoystickButton defultArmJoystick;
-
+	public JoystickButton disableAline;
 	public InternalButton testUpDPad;
 	public InternalButton testRightDPad;
 	public InternalButton testDownDPad;
@@ -76,8 +76,10 @@ public class OI {
 		// shoot = new JoystickButton(operator, 3);
 		// shoot.whenPressed(new Shooting());
 
-		// autoLine = new JoystickButton(operator, 1);
-		// autoLine.whenPressed(new AutoAlignHighGoal());
+		 autoLine = new JoystickButton(driverController2, 8);
+		 autoLine.whenPressed(new AutoAlignHighGoal(true));
+		 disableAline = new JoystickButton(driverController2, 9);
+		 disableAline.whenPressed(new AutoAlignHighGoal(false));
 
 		// slowShoot = new JoystickButton(operator, 1);
 		// slowShoot.whileHeld(new ShootingSpeed(0));
@@ -97,7 +99,8 @@ public class OI {
 		// moveAway.whileHeld(new MovePickUpWithPID(.4));
 
 		reverseshoot = new JoystickButton(operator, 10);
-		reverseshoot.whenPressed(new ShootingSpeed(-.2));
+		//reverseshoot.whenPressed(new ShootingSpeed(-.2));
+		reverseshoot.whenPressed(new AutoAlignHighGoal());
 
 		// autoLine = new JoystickButton(operator, 1);
 		// autoLine.whenPressed(new AutoAlignHighGoal());
