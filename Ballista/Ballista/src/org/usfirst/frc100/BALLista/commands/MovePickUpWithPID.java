@@ -22,20 +22,25 @@ import org.usfirst.frc100.BALLista.RobotMap;
 */
 public class MovePickUpWithPID extends Command {
 	double angles; 
+	boolean disablePID = false;
  public MovePickUpWithPID() {
 
      requires(Robot.pickUp);
 
  }
  public MovePickUpWithPID(double angle){
-	
+	if(angle > .1)
+		disablePID = false;
+	else
+		disablePID = true;
  	angles = angle;
  	requires(Robot.pickUp);
  }
 
  // Called just before this Command runs the first time
  protected void initialize() {
-	if(Math.abs(Robot.oi.operator.getRawAxis(1)) == 0){
+//	if(Math.abs(Robot.oi.operator.getRawAxis(1)) == 0){
+	if(!disablePID){
 	Robot.pickUp.enable();
  	Robot.pickUp.setAbsoluteTolerance(.001);
  	Robot.pickUp.setSetpoint(angles);
@@ -43,6 +48,11 @@ public class MovePickUpWithPID extends Command {
 	else{
 	Robot.pickUp.disable();
 	}
+ 	
+//	}
+	//else{
+	//Robot.pickUp.disable();
+	//}
  }
 
  // Called repeatedly when this Command is scheduled to run

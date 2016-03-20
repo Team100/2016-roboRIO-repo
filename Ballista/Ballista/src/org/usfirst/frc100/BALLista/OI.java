@@ -54,7 +54,8 @@ public class OI {
 	public JoystickButton turn90Right;
 	public JoystickButton turn90Left;
 	public JoystickButton lineUpRobotWithGoal;
-	public JoystickButton overrideBottomLimit;
+	public JoystickButton toggleLimit;
+	public JoystickButton disableArmPID;
 	public JoystickButton defultArmJoystick;
 	public JoystickButton disableAline;
 	public InternalButton testUpDPad;
@@ -62,7 +63,9 @@ public class OI {
 	public InternalButton testDownDPad;
 	public InternalButton testLeftDPad;
 
+
 	public Joystick autoModeSelect;
+	public JoystickButton obeyLimit;
 		public JoystickButton binary1;
 		public JoystickButton binary2;
 		public JoystickButton binary3;
@@ -97,22 +100,32 @@ public class OI {
 		// LoadBall.whileHeld(new MovePickUpWithPID(.5));
 		// moveAway = new JoystickButton(operator, 9);
 		// moveAway.whileHeld(new MovePickUpWithPID(.4));
+		disableArmPID = new JoystickButton(operator, 2);
+		disableArmPID.whenPressed(new MovePickUpWithPID(.0));
+		toggleLimit = new JoystickButton(operator, 12); //12
+		toggleLimit.whenPressed(new MovePickUp(true));
+		obeyLimit = new JoystickButton(operator, 11); //12
+		obeyLimit.whenPressed(new MovePickUp(false));
+		
+
 
 		reverseshoot = new JoystickButton(operator, 10);
-		//reverseshoot.whenPressed(new ShootingSpeed(-.2));
-		reverseshoot.whenPressed(new AutoAlignHighGoal());
+
+		reverseshoot.whenPressed(new ShootingSpeed(-50, -500));
+
+
 
 		// autoLine = new JoystickButton(operator, 1);
 		// autoLine.whenPressed(new AutoAlignHighGoal());
-
+		
 		slowShoot = new JoystickButton(operator, 9);
-		slowShoot.whenPressed(new ShootingSpeed(.25));
+		slowShoot.whenPressed(new ShootingSpeed(100, 500)); //start value of setpoint, end value
 
 		mediumshoot = new JoystickButton(operator, 8);
-		mediumshoot.whenPressed(new ShootingSpeed(0));
+		mediumshoot.whenPressed(new ShootingSpeed(300, 1000));
 
 		fastShoot = new JoystickButton(operator, 6);
-		fastShoot.whenPressed(new ShootingSpeed(.5));
+		fastShoot.whenPressed(new ShootingSpeed(800, 2000));//.5
 
 		top = new JoystickButton(operator, 1);
 		top.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_top", 0.413)));
@@ -162,6 +175,9 @@ public class OI {
 		// reverseOrient = new JoystickButton(driverController1, 1);
 		// reverseOrient.whileHeld(new ChangeCameraOrientation());
 
+
+	//	backwardOrientDrive = new JoystickButton(driverController1, 3);
+		//backwardOrientDrive.whileHeld(new TankDrive(false));
 		// backwardOrientDrive = new JoystickButton(driverController1, 3);
 		// backwardOrientDrive.whileHeld(new TankDrive(false));
 		//hey michael wassup

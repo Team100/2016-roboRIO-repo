@@ -25,6 +25,9 @@ public class DriveTrain extends Subsystem {
 	private final RobotDrive twoMotorDrive = RobotMap.driveTrainTwoMotorDrive;
 	private final Encoder leftEncoder = RobotMap.driveTrainLeftEncoder;
 	private final Encoder rightEncoder = RobotMap.driveTrainRightEncoder;
+	public PIDController pidRight;
+	public PIDController pidLeft;
+	
 	public PIDController pid;
 	private boolean driveDirection = true;
 	private int distances;
@@ -108,7 +111,54 @@ public class DriveTrain extends Subsystem {
 						left.pidWrite(-d); // /2
 					}
 				});
+		pidRight = new PIDController(Robot.prefs.getDouble("driveTrain_kP",
+				DEFAULT_DRIVE_TRAIN_KP), Robot.prefs.getDouble("driveTrain_kD",
+				DEFAULT_DRIVE_TRAIN_KD), 0, new PIDSource() { // .04 0 0 for 180
+					PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
+					public double pidGet() {
+						return RobotMap.driveTrainRightEncoder.getRate();
+					}
+
+					@Override
+					public void setPIDSourceType(PIDSourceType pidSource) {
+						m_sourceType = pidSource;
+					}
+
+					@Override
+					public PIDSourceType getPIDSourceType() {
+						return m_sourceType;
+					}
+				}, new PIDOutput() {
+					public void pidWrite(double d) {
+						right.pidWrite(d); // /2
+						
+					}
+				});
+		pidLeft = new PIDController(Robot.prefs.getDouble("driveTrain_kP",
+				DEFAULT_DRIVE_TRAIN_KP), Robot.prefs.getDouble("driveTrain_kD",
+				DEFAULT_DRIVE_TRAIN_KD), 0, new PIDSource() { // .04 0 0 for 180
+					PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+
+					public double pidGet() {
+					 return RobotMap.driveTrainLeftEncoder.getRate();
+					}
+
+					@Override
+					public void setPIDSourceType(PIDSourceType pidSource) {
+						m_sourceType = pidSource;
+					}
+
+					@Override
+					public PIDSourceType getPIDSourceType() {
+						return m_sourceType;
+					}
+				}, new PIDOutput() {
+					public void pidWrite(double d) {
+						
+						left.pidWrite(d); // /2
+					}
+				});
 	}
 
 	public void initDefaultCommand() {
@@ -156,8 +206,8 @@ public class DriveTrain extends Subsystem {
 
 	}
 
-	public void drives() {
-		twoMotorDrive.drive(.15, -RobotMap.internalGyro.getAngle() * .03);// .getAngleOfGyro());
+	public void drives(double speed) {
+		twoMotorDrive.drive(speed, -RobotMap.internalGyro.getAngle() * .03);// .getAngleOfGyro());
 		SmartDashboard.putNumber("heading",
 				RobotMap.internalGyro.getAngle() * 0.03);
 

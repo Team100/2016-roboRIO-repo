@@ -11,6 +11,7 @@
 
 package org.usfirst.frc100.BALLista.commands;
 
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,14 +22,21 @@ import org.usfirst.frc100.BALLista.RobotMap;
  *
  */
 public class MovePickUp extends Command {
-	int angles;
-    public MovePickUp() {
+	int angles; 
+	boolean goPastLowerLimit = false;
+	boolean check = true;
 
+    public MovePickUp() {
+ 
         requires(Robot.pickUp);
 
     }
     public MovePickUp(int  angle){
     	angles = angle;
+    }
+    public MovePickUp(boolean obey){
+    	goPastLowerLimit = obey;
+    	requires(Robot.pickUp);
     }
 
     // Called just before this Command runs the first time
@@ -44,10 +52,15 @@ public class MovePickUp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//if(angles > 0)
-			//Robot.pickUp.goToTop();
-			//else
-    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(3)/14);
+
+    		if(!goPastLowerLimit)
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(3)/14, true, 3);
+    		else
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1)/14, false, 1);
+    		
+    		
+    		SmartDashboard.putBoolean("lower Limit obey", goPastLowerLimit);
+
 
 
 
