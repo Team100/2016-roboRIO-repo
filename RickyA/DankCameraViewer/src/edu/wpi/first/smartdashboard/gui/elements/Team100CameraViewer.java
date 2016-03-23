@@ -1,10 +1,12 @@
 package edu.wpi.first.smartdashboard.gui.elements;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -41,6 +43,8 @@ public class Team100CameraViewer extends StaticWidget implements ITableListener 
     private long lastFPSCheck = 0;
     private int lastFPS = 0;
     private int fpsCounter = 0;
+    
+    public final Stroke stroke = new BasicStroke(3);
     
     double[] empty = {};
     
@@ -211,6 +215,7 @@ public class Team100CameraViewer extends StaticWidget implements ITableListener 
             // restore the original transform
             
             g2d.setColor(Color.BLUE);
+            g2d.setStroke(stroke);
             // draw here
         
            final double aspectRatio = (double) drawnImage.getHeight(null) / drawnImage.getWidth(null);
