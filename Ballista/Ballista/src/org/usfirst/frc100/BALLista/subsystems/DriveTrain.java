@@ -33,8 +33,8 @@ public class DriveTrain extends Subsystem {
 	private int distances;
 
 
-	private static final double DEFAULT_DRIVE_TRAIN_KP = 0.004;
-	private static final double DEFAULT_DRIVE_TRAIN_KI = 0.0;
+	private static final double DEFAULT_DRIVE_TRAIN_KP = 180.04; //.004
+	private static final double DEFAULT_DRIVE_TRAIN_KI = 0.00;
 	private static final double DEFAULT_DRIVE_TRAIN_KD = 0.0;
 
 	public double driveTrain_kP;

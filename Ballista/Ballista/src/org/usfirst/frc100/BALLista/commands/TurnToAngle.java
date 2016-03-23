@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -17,58 +16,58 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 
-
 public class TurnToAngle extends Command {
 
+	public TurnToAngle() {
 
-	public TurnToAngle()
-	{
+		requires(Robot.driveTrain);
 
-	 requires(Robot.driveTrain);
+	}
 
-
- }
-	public TurnToAngle(int angles)
-	{
+	public TurnToAngle(int angles) {
 		Robot.driveTrain.setDistances(angles);
-	 requires(Robot.driveTrain);
+		requires(Robot.driveTrain);
 
+	}
 
- }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		// Get everything in a safe starting state.
+		// Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04),
+		// Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue",
+		// .00), 0);
+		Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
+		Robot.driveTrain.pid
+				.setSetpoint((Robot.driveTrain.getAngles() + Robot.driveTrain
+						.getDistances())); // Robot.driveTrain.getAngles+1
+		Robot.driveTrain.pid.reset();
+		Robot.driveTrain.pid.enable();
+	}
 
- // Called just before this Command runs the first time
- protected void initialize() {
- 	// Get everything in a safe starting state.
-	// Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04), Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue", .00), 0);
-	 Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
-	 Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()+Robot.driveTrain.getDistances()));  //Robot.driveTrain.getAngles+1
-	 Robot.driveTrain.pid.reset();
-	 Robot.driveTrain.pid.enable();
- }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
 
- // Called repeatedly when this Command is scheduled to run
- protected void execute() {}
+	}
 
- // Make this return true when this Command no longer needs to run execute()
- protected boolean isFinished() {
-     return Robot.driveTrain.pid.onTarget();
- }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return Robot.driveTrain.pid.onTarget();
+	}
 
- // Called once after isFinished returns true
- protected void end() {
- 	// Stop PID and the wheels
-	 Robot.driveTrain.pid.disable();
-     Robot.driveTrain.stop();
- }
+	// Called once after isFinished returns true
+	protected void end() {
+		// Stop PID and the wheels
+		Robot.driveTrain.pid.disable();
+		Robot.driveTrain.stop();
+	}
 
- // Called when another command which requires one or more of the same
- // subsystems is scheduled to run
- protected void interrupted() {
-     end();
- }
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+		end();
+	}
 
 }

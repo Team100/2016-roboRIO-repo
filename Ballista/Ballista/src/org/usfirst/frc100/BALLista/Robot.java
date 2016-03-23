@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
 
 		autonomousCommand = new AutonomousCommand();
 
-	   CameraServer.getInstance().startAutomaticCapture("cam0");
+	  // CameraServer.getInstance().startAutomaticCapture("cam0");
 	}
 
 	/**
@@ -118,6 +118,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		oi.updateDPad();
+		SmartDashboard.putNumber("gyro", Robot.driveTrain.getAngles());
 	}
 
 	/**
