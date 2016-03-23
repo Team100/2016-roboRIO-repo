@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -11,7 +12,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+
 import javax.imageio.ImageIO;
+
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.IntegerProperty;
 import edu.wpi.first.smartdashboard.properties.Property;
@@ -22,9 +25,8 @@ import edu.wpi.first.wpilibj.tables.ITableListener;
 
 /**
  *
- * @author Ricky Avina
+ * @author Greg Granito
  */
-
 public class Team100CameraViewer extends StaticWidget implements ITableListener {
 	private static final long serialVersionUID = 1L;
 
@@ -48,8 +50,7 @@ public class Team100CameraViewer extends StaticWidget implements ITableListener 
     	double[] width = table.getNumberArray("width", empty);
     	double[] height = table.getNumberArray("height", empty);
     	
-    public class BGThread extends Thread {
-
+    public class BGThread extends Thread {    	
         boolean destroyed = false;
 
         public BGThread() {
@@ -158,7 +159,6 @@ public class Team100CameraViewer extends StaticWidget implements ITableListener 
         if (property == rotateProperty) {
             rotateAngleRad = Math.toRadians(rotateProperty.getValue());
         }
-
     }
 
     @Override
@@ -209,20 +209,35 @@ public class Team100CameraViewer extends StaticWidget implements ITableListener 
             g2d.drawImage(drawnImage, -imageCenterX, -imageCenterY, null);
             
             // restore the original transform
-            g2d.setTransform(origXform);
             
-            g.setColor(Color.PINK);
-            g.drawString("FPS: "+lastFPS, 10, 10);
-            
-            g2d.setColor(Color.RED);
+            g2d.setColor(Color.BLUE);
             // draw here
-          
-         //   g2d.drawRect(0, 0, 100, 100);
+        
+           final double aspectRatio = (double) drawnImage.getHeight(null) / drawnImage.getWidth(null);
+            int x = 0, y = 0, w = getWidth(), h = getHeight();
+
+            // Preserve the image's aspect ratio.  If this component is too wide, make the image less wide and center
+            // it horizontally.  If it's too tall, make the image shorter and center it vertically.
+            if (w * aspectRatio > h) {
+                w = (int) (getHeight() / aspectRatio);
+                x = (getWidth() - w) / 2;
+            } else {
+                h = (int) (getWidth() * aspectRatio);
+                y = (getHeight() - h) / 2;
+            }
             
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            
+            if (centerX.length == centerY.length && width.length == height.length && centerX.length == width.length && centerY.length == height.length){
            for (int i = 0; i < centerX.length; i++){
-            	g2d.drawRect((int)centerX[i], (int)centerY[i], (int)(centerX[i] + width[i]), (int)(centerY[i] + height[i]));
+            g2d.drawRect((int) (centerX[i] - (width[i]/2) - imageCenterX), (int) (centerY[i] - (height[i]/2) - imageCenterY), (int)(width[i]), (int)(height[i]));
            }
-            
+           
+           g2d.setTransform(origXform);
+           
+           g.setColor(Color.PINK);
+           g.drawString("FPS: "+lastFPS, 10, 10);
+            }
         } else {
             g.setColor(Color.PINK);
             g.fillRect(0, 0, getBounds().width, getBounds().height);
@@ -234,9 +249,6 @@ public class Team100CameraViewer extends StaticWidget implements ITableListener 
 	@Override
 	public void valueChanged(ITable source, String key, Object value,
 			boolean isNew) {
-		
-		//source.getNumberArray(key, empty);
-		
     	 centerX = table.getNumberArray("centerX", empty);
     	 centerY = table.getNumberArray("centerY", empty);
     	 width = table.getNumberArray("width", empty);
