@@ -58,7 +58,7 @@ public class PickUp extends PIDSubsystem {
 	private final static double DEFAULT_PICKUP_KP = 6.0;
 	private final static double DEFAULT_PICKUP_KI = 0.02;
 	private final static double DEFAULT_PICKUP_KD = 0.0;
-
+	
 	private double pickup_kP;
 	private double pickup_kI;
 	private double pickup_kD;
@@ -113,30 +113,35 @@ public class PickUp extends PIDSubsystem {
 									// swiches is normally true
 	}
 
-	public void manualControl(double speed) {
+	public void manualControl(double speed, boolean obeyLowerLimit, int joyNumber) {
 
 			if (Robot.pickUp.hitUpper()) {
-				if (Robot.oi.operator.getRawAxis(3) > 0) {
+				if (Robot.oi.operator.getRawAxis(joyNumber) > 0) {
 					armAngleMotor.set(speed);
 				} else {
 					Robot.pickUp.stop();
 				}
-			} else if (Robot.pickUp.hitLower() || RobotMap.pickUpPickUpPot.get() > 0.658) { // || !Robot.pickUp.hitLower() &&
+			} else if ((Robot.pickUp.hitLower() || RobotMap.pickUpPickUpPot.get() > 0.658) && obeyLowerLimit) { // || !Robot.pickUp.hitLower() &&
 													// !Robot.pickUp.hitUpper() &&
 													// RobotMap.pickUpMidLimit.get()){
-				if (Robot.oi.operator.getRawAxis(3) < 0) {
+				if (Robot.oi.operator.getRawAxis(joyNumber) < 0) {
 					armAngleMotor.set(speed);
 				} else {
 					armAngleMotor.set(0.1);
 				}
 			} else {
-				armAngleMotor.set(speed);
+
+				Robot.pickUp.stop();
 			}
+			armAngleMotor.set(speed);
+		} 
+				
+			
 
 		// armAngleMotor.set(speed);
 
 		// Robot.pickUp.pickUpPot.get();
-	}
+	
 
 	public void goToTop() {
 		if (RobotMap.pickUpUpperLimit.get())

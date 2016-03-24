@@ -11,10 +11,12 @@ import org.usfirst.frc100.BALLista.Robot;
 public class AutoAlignHighGoal extends Command {
 	
 	NetworkTable visionTable;
-//	Preferences prefs;
 	boolean skipTurn;
 	final double DEFAULT_PIXEL_AIMING_POINT = 160;
-	
+//	Preferences prefs;
+	boolean skipTurn = false;
+	boolean enableLoop = true;
+
     public AutoAlignHighGoal() {
 
         requires(Robot.driveTrain);
@@ -24,6 +26,11 @@ public class AutoAlignHighGoal extends Command {
 		}
 
     }
+   public AutoAlignHighGoal(boolean enable){
+	   requires(Robot.driveTrain);
+	   enableLoop = enable;
+	   visionTable = NetworkTable.getTable("GRIP/myContoursReport"); 	
+   }
 
         protected void initialize() {
         	
@@ -72,6 +79,8 @@ public class AutoAlignHighGoal extends Command {
         
         // Convert target pixel coordinate to 'degrees from AimingPoint'
         pixelAimingPt = Robot.prefs.getDouble("pixelAimingPoint", CAMERA_HORZ_PIXELS/2.0); // default: aim at middle 
+   //     pixelAimingPt = prefs.getDouble("pixelAimingPoint", CAMERA_HORZ_PIXELS/2.0); // default: aim at middle 
+   //     pixelAimingPt = 160.0;
         xAngleToTurn = (pixelAimingPt - xTarget) / (CAMERA_HORZ_PIXELS/CAMERA_FOV);
         angleToTurn = (int) Math.round(xAngleToTurn);
         
@@ -86,10 +95,14 @@ public class AutoAlignHighGoal extends Command {
         // Turn Robot to point to target    	
 //    	Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04), Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue", .00), 0);
    	 	Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
-        Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles() + angleToTurn));  //Robot.driveTrain.getAngles+1
+        Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles() + xAngleToTurn));  //Robot.driveTrain.getAngles+1
    	 	Robot.driveTrain.pid.reset();
+   	 //	if(enableLoop)
    	 	Robot.driveTrain.pid.enable();
         }
+   	 //	if(!enableLoop)
+   	 	//Robot.driveTrain.pid.disable();
+   	 	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -99,12 +112,13 @@ public class AutoAlignHighGoal extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (skipTurn || Robot.driveTrain.pid.onTarget()) {
+    	if (skipTurn || Robot.driveTrain.pid.onTarget() || !enableLoop) {
     		return true;
     	}
     	else {
     		return false;
     	}
+    	
     }
 
     // Called once after isFinished returns true
