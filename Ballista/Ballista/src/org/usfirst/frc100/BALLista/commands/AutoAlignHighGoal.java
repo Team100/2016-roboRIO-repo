@@ -2,7 +2,7 @@ package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.Preferences;
+// import edu.wpi.first.wpilibj.Preferences;
 
 import org.usfirst.frc100.BALLista.Robot;
 
@@ -11,7 +11,9 @@ import org.usfirst.frc100.BALLista.Robot;
 public class AutoAlignHighGoal extends Command {
 	
 	NetworkTable visionTable;
-	Preferences prefs;
+	boolean skipTurn;
+	final double DEFAULT_PIXEL_AIMING_POINT = 160;
+//	Preferences prefs;
 	boolean skipTurn = false;
 	boolean enableLoop = true;
 
@@ -19,6 +21,9 @@ public class AutoAlignHighGoal extends Command {
 
         requires(Robot.driveTrain);
         visionTable = NetworkTable.getTable("GRIP/myContoursReport"); 	
+        if (!Robot.prefs.containsKey("pixelAimingPoint")) {
+			Robot.prefs.putDouble("pixelAimingPoint", DEFAULT_PIXEL_AIMING_POINT);
+		}
 
     }
    public AutoAlignHighGoal(boolean enable){
@@ -50,8 +55,14 @@ public class AutoAlignHighGoal extends Command {
         	
         // Get target information from Network Tables
         
+        skipTurn = false;
         xTargets = visionTable.getNumberArray("centerX", defaultValue);
         areas = visionTable.getNumberArray("area", defaultValue);
+        
+        if(xTargets.length == 0) {  // We didn't find a target, so don't turn robot
+        	skipTurn = true;
+        	return;
+        } else { // if we didn't find target skip rest of processing in intialize()
         
         // Find x-coordinate of target with largest area
         i = 0;
@@ -67,8 +78,9 @@ public class AutoAlignHighGoal extends Command {
         xTarget = xTargets[max_i]; // This should be x-coordinate of largest target.
         
         // Convert target pixel coordinate to 'degrees from AimingPoint'
+        pixelAimingPt = Robot.prefs.getDouble("pixelAimingPoint", CAMERA_HORZ_PIXELS/2.0); // default: aim at middle 
    //     pixelAimingPt = prefs.getDouble("pixelAimingPoint", CAMERA_HORZ_PIXELS/2.0); // default: aim at middle 
-        pixelAimingPt = 160.0;
+   //     pixelAimingPt = 160.0;
         xAngleToTurn = (pixelAimingPt - xTarget) / (CAMERA_HORZ_PIXELS/CAMERA_FOV);
         angleToTurn = (int) Math.round(xAngleToTurn);
         
@@ -87,15 +99,14 @@ public class AutoAlignHighGoal extends Command {
    	 	Robot.driveTrain.pid.reset();
    	 //	if(enableLoop)
    	 	Robot.driveTrain.pid.enable();
+        }
    	 //	if(!enableLoop)
    	 	//Robot.driveTrain.pid.disable();
    	 	
-   	 
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    
     	
     }
 
