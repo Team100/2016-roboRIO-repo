@@ -15,7 +15,8 @@ public class RPiCameraControl extends Command {
     public RPiCameraControl(double brightness) {
         // Use requires() here to declare subsystem dependencies
      
-    	rPiCamTable = NetworkTable.getTable("RPiCamControl"); // We will send information to RPi in this table
+    	//rPiCamTable = NetworkTable.getTable("RPiCamControl"); // We will send information to RPi in this table
+    	rPiCamTable = NetworkTable.getTable("SmartDashboard"); // We will send information to RPi in this table
     	m_brightness = brightness;
     }
 
@@ -23,7 +24,7 @@ public class RPiCameraControl extends Command {
     // Brightness value
     protected void initialize() {
     	
-    	rPiCamTable.putNumber("camBrightness", m_brightness);
+    	rPiCamTable.putNumber("camBright", m_brightness);
     }
 
     // Called repeatedly when this Command is scheduled to run
