@@ -11,11 +11,12 @@ import org.usfirst.frc100.BALLista.Robot;
 public class AutoAlignHighGoal extends Command {
 	
 	NetworkTable visionTable;
-	boolean skipTurn;
+	//boolean skipTurn;
 	final double DEFAULT_PIXEL_AIMING_POINT = 160;
 //	Preferences prefs;
 	boolean skipTurn = false;
 	boolean enableLoop = true;
+	boolean finishPID = false;
 
     public AutoAlignHighGoal() {
 
@@ -83,13 +84,18 @@ public class AutoAlignHighGoal extends Command {
    //     pixelAimingPt = 160.0;
         xAngleToTurn = (pixelAimingPt - xTarget) / (CAMERA_HORZ_PIXELS/CAMERA_FOV);
         angleToTurn = (int) Math.round(xAngleToTurn);
-        
+     //   if(angleToTurn <= 1){
+       // 	finishPID = true;
+        //}
+        //else{
+        	//finishPID = false;
+       // }
         // Check if we need to turn robot
         // If we are already pointing at target, then we're done
         
         if (xAngleToTurn < MIN_TURN_RES) {
         	skipTurn = true;
-        	return;
+        	 return;
         }
          	
         // Turn Robot to point to target    	
@@ -97,22 +103,22 @@ public class AutoAlignHighGoal extends Command {
    	 	Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
         Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles() + xAngleToTurn));  //Robot.driveTrain.getAngles+1
    	 	Robot.driveTrain.pid.reset();
-   	 //	if(enableLoop)
+   	 	//if(enableLoop)
    	 	Robot.driveTrain.pid.enable();
+        //}
         }
-   	 //	if(!enableLoop)
    	 	//Robot.driveTrain.pid.disable();
    	 	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	System.out.println("AutoAlignHighGoal() running");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (skipTurn || Robot.driveTrain.pid.onTarget() || !enableLoop) {
+    	if (skipTurn || Robot.driveTrain.pid.onTarget()) {//||  !finishPID){ //|| !enableLoop) {
     		return true;
     	}
     	else {

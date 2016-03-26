@@ -102,7 +102,7 @@ public class Shooter extends PIDSubsystem {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
     	SmartDashboard.putNumber("output value", output);
-    	RobotMap.shooterFlyMotor.pidWrite(output);
+    	RobotMap.shooterFlyMotor.pidWrite(-output);
        // flyMotor.pidWrite(output);
 	}
 
