@@ -62,7 +62,7 @@ public class OI {
 	public InternalButton testRightDPad;
 	public InternalButton testDownDPad;
 	public InternalButton testLeftDPad;
-
+	public JoystickButton reverseShooter;
 
 	public Joystick autoModeSelect;
 	public JoystickButton obeyLimit;
@@ -83,6 +83,8 @@ public class OI {
 		 autoLine.whenPressed(new AutoAlignHighGoal(true));
 		 disableAline = new JoystickButton(driverController2, 9);
 		 disableAline.whenPressed(new AutoAlignHighGoal(false));
+		 reverseShooter = new JoystickButton(operator, 10);
+		 reverseShooter.whileHeld(new ShootingSpeed(-20, -20));
 
 		// slowShoot = new JoystickButton(operator, 1);
 		// slowShoot.whileHeld(new ShootingSpeed(0));
@@ -101,7 +103,7 @@ public class OI {
 		// moveAway = new JoystickButton(operator, 9);
 		// moveAway.whileHeld(new MovePickUpWithPID(.4));
 		disableArmPID = new JoystickButton(operator, 2);
-		disableArmPID.whenPressed(new MovePickUpWithPID(.0));
+		disableArmPID.whenPressed(new MovePickUpWithPID(.1));
 		toggleLimit = new JoystickButton(operator, 12); //12
 		toggleLimit.whenPressed(new MovePickUp(true));
 		obeyLimit = new JoystickButton(operator, 11); //12
@@ -109,9 +111,9 @@ public class OI {
 		
 
 
-		reverseshoot = new JoystickButton(operator, 10);
+		reverseshoot = new JoystickButton(driverController1, 3);
 
-		reverseshoot.whenPressed(new ShootingSpeed(-50, -500));
+		reverseshoot.whileHeld(new RollOut(-.2));
 
 
 
@@ -119,31 +121,31 @@ public class OI {
 		// autoLine.whenPressed(new AutoAlignHighGoal());
 		
 		slowShoot = new JoystickButton(operator, 9);
-		slowShoot.whenPressed(new ShootingSpeed(100, 500)); //start value of setpoint, end value
+		slowShoot.whenPressed(new ShootingSpeed(0, 0)); //start value of setpoint, end value
 
 		mediumshoot = new JoystickButton(operator, 8);
-		mediumshoot.whenPressed(new ShootingSpeed(300, 1000));
+		mediumshoot.whenPressed(new ShootingSpeed(20,50));
 
 		fastShoot = new JoystickButton(operator, 6);
-		fastShoot.whenPressed(new ShootingSpeed(800, 2000));//.5
+		fastShoot.whenPressed(new ShootingSpeed(20, 35));//.5
 
 		top = new JoystickButton(operator, 1);
-		top.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_top", 0.413)));
+		top.whenPressed(new MovePickUpWithPID( 0.438)); //Robot.prefs.getDouble("shooter_top",
 		mid = new JoystickButton(operator, 4);
-		mid.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_mid", 0.558)));
+		mid.whenPressed(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_mid", 0.558)));
 		bot = new JoystickButton(operator, 3);
-		bot.whileHeld(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_bot", 0.658)));
+		bot.whenPressed(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_bot", 0.658)));
 		hold = new JoystickButton(driverController1, 2);
 		hold.whileHeld(new holdCurrentGyroPosition());
 		turn90Right = new JoystickButton(driverController2, 5);
 		turn90Right.whileHeld(new TurnToAngle(90));
 		turn90Left = new JoystickButton(driverController2, 4);
 		turn90Left.whileHeld(new TurnToAngle(-90));
-		spinOut = new JoystickButton(driverController1, 1);
-		spinOut.whileHeld(new RollOut(Robot.prefs.getDouble("MoveRollIn_rolloutSpeed", -0.1)));
+		spinOut = new JoystickButton(operator, 5);
+		spinOut.whileHeld(new RollOut( -1)); //Robot.prefs.getDouble("MoveRollIn_rolloutSpeed",
 
-		spinIn = new JoystickButton(driverController2, 1);
-		spinIn.whileHeld(new RollIn());
+		spinIn = new JoystickButton(operator, 7);
+		spinIn.whileHeld(new RollOut(.5));
 
 		turn180 = new JoystickButton(driverController2, 3);
 		turn180.whileHeld(new TurnToAngle(170));

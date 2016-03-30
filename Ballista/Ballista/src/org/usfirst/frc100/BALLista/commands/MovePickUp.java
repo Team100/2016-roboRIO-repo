@@ -53,12 +53,12 @@ public class MovePickUp extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
-    		if(!goPastLowerLimit)
-    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(3)/14, true, 3);
-    		else
-    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(1)/14, false, 1);
+    	//	if(!goPastLowerLimit)
+    	  ///  	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(3)/14, true, 3);
+    		//else
+    	    	Robot.pickUp.manualControl(-Robot.oi.operator.getRawAxis(3)/3, false, 1);
     		
-    		
+    	//RobotMap.shooterFlyMotor.set(Robot.oi.operator.getRawAxis(1));
     		SmartDashboard.putBoolean("lower Limit obey", goPastLowerLimit);
 
 

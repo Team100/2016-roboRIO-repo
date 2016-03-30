@@ -45,7 +45,10 @@ public class RollOut extends Command {
 	protected void execute() {
 
 		//if(RobotMap.pickUpHomeLimit.get())
+		//if(Math.abs(speed) > 0)
 		Robot.moveRollIn.setRollerSpeed(speed);
+	//	else
+		//Robot.moveRollIn.stop();
 		//else
 			//obot.moveRollIn.setRollerSpeed(0);
 	}
