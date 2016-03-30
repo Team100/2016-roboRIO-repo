@@ -29,7 +29,7 @@ public class MovePickUpWithPID extends Command {
 
  }
  public MovePickUpWithPID(double angle){
-	if(angle > .1)
+	if(angle != .1)
 		disablePID = false;
 	else
 		disablePID = true;
@@ -40,14 +40,15 @@ public class MovePickUpWithPID extends Command {
  // Called just before this Command runs the first time
  protected void initialize() {
 //	if(Math.abs(Robot.oi.operator.getRawAxis(1)) == 0){
-	if(!disablePID){
+	
 	Robot.pickUp.enable();
+	
  	Robot.pickUp.setAbsoluteTolerance(.001);
  	Robot.pickUp.setSetpoint(angles);
-	}
-	else{
-	Robot.pickUp.disable();
-	}
+	//}
+	//else{
+	//Robot.pickUp.disable();
+	//}
  	
 //	}
 	//else{
@@ -60,13 +61,15 @@ public class MovePickUpWithPID extends Command {
 
  }
 
- // Make this return true when this Command no longer needs to run execute()
+ // Make this return true when this Command no longer needs to run execute()eee
  protected boolean isFinished() {
-    return Robot.pickUp.onTarget();
+     if (disablePID == true) return true;
+     return false;
  }
 
  // Called once after isFinished returns true
  protected void end() {
+	 
 	 Robot.pickUp.disable();
  	Robot.pickUp.stop();
  }

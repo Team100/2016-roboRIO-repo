@@ -43,6 +43,7 @@ public class ShootingSpeed extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.shooter.enable();
+		if(speed == 0){ Robot.shooter.disable();}
 		//Robot.shooter.setSetpoint(700);
 		Robot.shooter.setAbsoluteTolerance(.05);
 	}
@@ -58,18 +59,21 @@ public class ShootingSpeed extends Command {
 		 * RobotMap.shooterFlyMotor.set(speed); } SmartDashboard.putNumber(
 		 * "speed Value", speed);
 		 */
-		Robot.shooter.setSetpoint(speed);
+		if(speed != 0){
+		Robot.shooter.setSetpoint(speed*-1);
 		if (speed < maxSetpoint) {
 			if (count < 10)
 				count++;
 			else
 				count = 0;
-			if (count == 10) {
+			if (count == 100) {
 				xValue += incrementValue;
 				speed += incrementValue;
 			}
 		}
-
+	} else{ Robot.shooter.setSetpoint(0);}
+		
+		//RobotMap.shooterFlyMotor.set(Robot.oi.operator.getRawAxis(1));
 		SmartDashboard.putNumber("x", xValue);
 		SmartDashboard.putNumber("speedsss", speed);
 		SmartDashboard.putNumber("counter", count);
@@ -78,7 +82,8 @@ public class ShootingSpeed extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;// Robot.shooter.onTarget();
+		 if( speed == 0) return true;
+		 return false;
 	}
 
 	// Called once after isFinished returns true

@@ -22,13 +22,17 @@ import org.usfirst.frc100.BALLista.RobotMap;
 public class RollIn extends Command {
 
 	boolean rollInDirection = true;
-
+	double speed;
 	public RollIn() {
 		requires(Robot.moveRollIn);
 	}
 
 	public RollIn(boolean rollerIn) {
 		rollInDirection = rollerIn;
+	}
+	public RollIn(double speed){
+		this.speed = speed;
+		requires(Robot.moveRollIn);
 	}
 
 	// Called just before this Command runs the first time
@@ -44,6 +48,7 @@ public class RollIn extends Command {
 			Robot.moveRollIn.setRollerSpeed(.8); //.5
 		else
 			Robot.moveRollIn.setRollerSpeed(0);
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
