@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveTrain driveTrain;
 	public static PickUp pickUp;
-	public static PickUpRoller moveRollIn;
+	public static PickUpRoller pickUpRoller;
 	public static Shooter shooter;
 	public static Preferences prefs;
 
@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
 		driveTrain = new DriveTrain();
 		pickUp = new PickUp();
 		shooter = new Shooter();
-		moveRollIn = new PickUpRoller();
+		pickUpRoller = new PickUpRoller();
 		// int testValue = 5;
 
 		// OI must be constructed after subsystems. If the OI creates Commands

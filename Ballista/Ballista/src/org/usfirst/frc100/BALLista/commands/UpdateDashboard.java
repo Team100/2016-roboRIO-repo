@@ -24,7 +24,7 @@ public class UpdateDashboard extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.driveTrain.updateDashboard();
-		Robot.moveRollIn.updateDashboard();
+		Robot.pickUpRoller.updateDashboard();
 		Robot.pickUp.updateDashboard();
 		Robot.shooter.updateDashboard();
 	}
