@@ -11,7 +11,6 @@ import org.usfirst.frc100.BALLista.Robot;
 public class AutoAlignHighGoal extends Command {
 	
 	NetworkTable visionTable;
-	boolean skipTurn;
 	final double DEFAULT_PIXEL_AIMING_POINT = 160;
 //	Preferences prefs;
 	boolean skipTurn = false;
