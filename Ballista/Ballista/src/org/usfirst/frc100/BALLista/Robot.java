@@ -27,10 +27,10 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveTrain driveTrain;
 	public static PickUp pickUp;
-	public static PickUpRoller moveRollIn;
+	public static PickUpRoller pickUpRoller;
 	public static Shooter shooter;
 	public static Preferences prefs;
-	
+
 	public static Relay spike = new Relay(0);
 
 	/**
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void robotInit() {
-		
+
 		prefs = Preferences.getInstance();
 		RobotMap.init();
 		RobotMap.driveTrainLeftEncoder.reset();
@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
 		driveTrain = new DriveTrain();
 		pickUp = new PickUp();
 		shooter = new Shooter();
-		moveRollIn = new PickUpRoller();
+		pickUpRoller = new PickUpRoller();
 		// int testValue = 5;
 
 		// OI must be constructed after subsystems. If the OI creates Commands
@@ -89,7 +89,7 @@ public class Robot extends IterativeRobot {
 		switch (modeSelect) {
 		case 0: new autoBreachPortcullis().start();
 			break;
-		case 1:		// rock wall 
+		case 1:		// rock wall
 		// new AutonomousDriveForward(10, .5).start();
 		new AutonomousDriveForward(19000, .8).start();
 		 //new AutonomousDriveForward(800, .558).start();
@@ -105,7 +105,7 @@ public class Robot extends IterativeRobot {
 		default: new DoNothing(0).start();
 			break;
 		}
-	//	new UpdateDashboard().start();
+		new UpdateDashboard().start();
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("distance", RobotMap.driveTrainLeftEncoder.getDistance());
 		//Robot.driveTrain.drives(.5);
-		
+
 	}
 
 	public void teleopInit() {
@@ -131,7 +131,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().removeAll();
 		RobotMap.driveTrainLeftEncoder.reset();
 		RobotMap.driveTrainRightEncoder.reset();
-		//new UpdateDashboard().start();
+		new UpdateDashboard().start();
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-	
-	
+
+
 
 }

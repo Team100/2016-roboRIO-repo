@@ -16,7 +16,7 @@ public class UpdateDashboard extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		SmartDashboard.putString("DriveTrain/~TYPE~", "SubSystem");
-		SmartDashboard.putString("MoveRollIn/~TYPE~", "SubSystem");
+		SmartDashboard.putString("PickUpRollers/~TYPE~", "SubSystem");
 		SmartDashboard.putString("PickUp/~TYPE~", "SubSystem");
 		SmartDashboard.putString("Shooter/~TYPE~", "SubSystem");
 	}
@@ -24,7 +24,7 @@ public class UpdateDashboard extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.driveTrain.updateDashboard();
-		Robot.moveRollIn.updateDashboard();
+		Robot.pickUpRoller.updateDashboard();
 		Robot.pickUp.updateDashboard();
 		Robot.shooter.updateDashboard();
 	}

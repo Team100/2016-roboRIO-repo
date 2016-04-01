@@ -22,13 +22,13 @@ import org.usfirst.frc100.BALLista.RobotMap;
 public class RollOut extends Command {
 
 	boolean rollOutDirection = true;
-	double speed; 
+	double speed;
 
 	public RollOut() {
-        requires(Robot.moveRollIn);
+        requires(Robot.pickUpRoller);
 	}
 	public RollOut(double speed){
-		requires(Robot.moveRollIn);
+		requires(Robot.pickUpRoller);
 		this.speed = speed;
 	}
 
@@ -46,7 +46,7 @@ public class RollOut extends Command {
 
 		//if(RobotMap.pickUpHomeLimit.get())
 		//if(Math.abs(speed) > 0)
-		Robot.moveRollIn.setRollerSpeed(speed);
+		Robot.pickUpRoller.setRollerSpeed(speed);
 	//	else
 		//Robot.moveRollIn.stop();
 		//else
@@ -60,7 +60,7 @@ public class RollOut extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.moveRollIn.stop();
+		Robot.pickUpRoller.stop();
 	}
 
 	// Called when another command which requires one or more of the same

@@ -16,19 +16,19 @@ public class PickUpRoller extends Subsystem {
     private final SpeedController pickUpRoller = RobotMap.moveRollInPickUpRoller;
     private final DigitalInput insideDetector = RobotMap.pickUpHomeLimit;
     private final boolean insideRobot = false;
-    
+
     private static  final double MOVEROLLIN_ROLLOUTSPEED = -0.1;
-    
+
     public PickUpRoller(){
     	super();
     	Robot.prefs.putDouble("MoveRollIn_rolloutSpeed", MOVEROLLIN_ROLLOUTSPEED);
     }
-    
+
     public void updateDashboard() {
 
-    	SmartDashboard.putNumber("MoveRollIn/PickUpRoller", pickUpRoller.get());
-    	SmartDashboard.putBoolean("MoveRollIn/InsideDetector", insideDetector.get());
-    	SmartDashboard.putBoolean("MoveRollIn/InsideRobot", insideRobot);
+    	SmartDashboard.putNumber("PickUpRollers/PickUpRoller", pickUpRoller.get());
+    	SmartDashboard.putBoolean("PickUpRollers/InsideDetector", insideDetector.get());
+    	SmartDashboard.putBoolean("PickUpRollers/InsideRobot", insideRobot);
 
     }
 
