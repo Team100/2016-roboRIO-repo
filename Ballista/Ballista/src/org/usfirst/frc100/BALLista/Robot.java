@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot {
 			break;
 		case 3: new DoNothing(3).start();
 			break;
-		case 4: new DoNothing(4).start();
+		case 4: new AutoLowBar(1600, 0.6);
 			break;
 		default: new DoNothing(0).start();
 			break;
