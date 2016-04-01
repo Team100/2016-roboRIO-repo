@@ -30,16 +30,19 @@ void loop() {
   whyy = analogRead(analogInPin1);
   xValue = map(ecks, 0, 1023, -1, 1);
   yValue = map(whyy, 0, 1023, -1, 1);
-
+  
   Joystick.setXAxis(xValue);
   Joystick.setYAxis(yValue);
   Mouse.move(xValue,0,0);
   Mouse.move(0,yValue,0);
   buttonState = digitalRead(buttonPin);
-  if (buttonState == HIGH) {
-    Mouse.press();
-  } else {
-    Mouse.release();
+  for (i=0;i<1;i++) {
+    if (i=buttonState) {
+      Mouse.press();
+    } else {
+      Mouse.release();
+    }
+    
   }
   
 }
