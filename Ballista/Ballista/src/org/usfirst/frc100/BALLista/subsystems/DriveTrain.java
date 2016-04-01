@@ -27,7 +27,7 @@ public class DriveTrain extends Subsystem {
 	private final Encoder rightEncoder = RobotMap.driveTrainRightEncoder;
 	public PIDController pidRight;
 	public PIDController pidLeft;
-	
+
 	public PIDController pid;
 	private boolean driveDirection = true;
 	private int distances;
@@ -132,7 +132,7 @@ public class DriveTrain extends Subsystem {
 				}, new PIDOutput() {
 					public void pidWrite(double d) {
 						right.pidWrite(d); // /2
-						
+
 					}
 				});
 		pidLeft = new PIDController(Robot.prefs.getDouble("driveTrain_kP",
@@ -155,7 +155,7 @@ public class DriveTrain extends Subsystem {
 					}
 				}, new PIDOutput() {
 					public void pidWrite(double d) {
-						
+
 						left.pidWrite(d); // /2
 					}
 				});
