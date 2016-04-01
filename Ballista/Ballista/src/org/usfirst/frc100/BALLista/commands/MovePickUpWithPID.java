@@ -22,56 +22,54 @@ import org.usfirst.frc100.BALLista.RobotMap;
 */
 public class MovePickUpWithPID extends Command {
 	double angles; 
+	boolean disablePID = false;
  public MovePickUpWithPID() {
 
      requires(Robot.pickUp);
 
  }
  public MovePickUpWithPID(double angle){
-	
+	if(angle != .1)
+		disablePID = false;
+	else
+		disablePID = true;
  	angles = angle;
  	requires(Robot.pickUp);
  }
 
  // Called just before this Command runs the first time
  protected void initialize() {
-	 Robot.pickUp.enable();
- 	//Robot.pickUp.pid.setPID(Robot.prefs.getDouble("armP", 1.04), Robot.prefs.getDouble("armI", .01), Robot.prefs.getDouble("armD", .00), 0);
+//	if(Math.abs(Robot.oi.operator.getRawAxis(1)) == 0){
+	
+	Robot.pickUp.enable();
+	
  	Robot.pickUp.setAbsoluteTolerance(.001);
  	Robot.pickUp.setSetpoint(angles);
- 	//Robot.pickUp.getPIDController().setPID(Robot.prefs.getDouble("armP", 4.00), Robot.prefs.getDouble("armI", .4), Robot.prefs.getDouble("armD", .00), 0);
+	//}
+	//else{
+	//Robot.pickUp.disable();
+	//}
  	
- 	/*if(angles.equals("top"))
-		Robot.pickUp.goToTop();
-	else if(angles.equals("mid"))
-		Robot.pickUp.goToMid();
-	else
-		Robot.pickUp.goToBot();
-		*/
-	
-
- 	//Robot.pickUp.pid.setSetpoint(angles);
+//	}
+	//else{
+	//Robot.pickUp.disable();
+	//}
  }
 
  // Called repeatedly when this Command is scheduled to run
  protected void execute() {
-	// Robot.pickUp.(Robot.prefs.getDouble("armP", 2.04), Robot.prefs.getDouble("armI", .01), Robot.prefs.getDouble("armD", .00), 0);
-	 
- 	//Robot.pickUp.manualControl(Robot.oi.operator.getRawAxis(1)/4);
-
-
 
  }
 
- // Make this return true when this Command no longer needs to run execute()
+ // Make this return true when this Command no longer needs to run execute()eee
  protected boolean isFinished() {
-	//Robot.pickUp.pid.disable();
-	// Robot.pickUp.disable();
-    return Robot.pickUp.onTarget();
+     if (disablePID == true) return true;
+     return false;
  }
 
  // Called once after isFinished returns true
  protected void end() {
+	 
 	 Robot.pickUp.disable();
  	Robot.pickUp.stop();
  }
@@ -81,9 +79,5 @@ public class MovePickUpWithPID extends Command {
  protected void interrupted() {
  	end();
  }
-
- //public static void moveArm(double rawAxis, double d) {
-	//	  Robot.pickUp.takeJoystickInputs(Robot.oi.getDriverController1(), Robot.oi.getDriverController2());
-	//}
 }
 

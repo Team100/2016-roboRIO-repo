@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,52 +20,79 @@ import org.usfirst.frc100.BALLista.RobotMap;
  *
  */
 public class ShootingSpeed extends Command {
-
+	private int count = 0;
+	private double xValue = 0;
 	private double speed;
+	public static  double maxSetpoint; 
+	private double incrementingValue = 0.0008;
 	boolean incrementing = false;
-    public ShootingSpeed(double speeds) {
+	public static double incrementValue = 0.1;
 
-    	this.speed = speeds;
-    	if (speeds > .4)
-    		incrementing = true;
-    	else
-    		incrementing = false;
+	public ShootingSpeed(double speeds, int maxValue) {
+		maxSetpoint = maxValue;
+		this.speed = speeds;
+		if (speeds > .4)
+			incrementing = true;
+		else
+			incrementing = false;
 
-        requires(Robot.shooter);
+		requires(Robot.shooter);
 
-    }
+	}
 
 	// Called just before this Command runs the first time
-    protected void initialize() {
-    	 // Robot.shooter.enable();
-         // Robot.shooter.setSetpoint(speed);
-    	//RobotMap.shooterFlyMotor.set(speed);
-    }
+	protected void initialize() {
+		Robot.shooter.enable();
+		if(speed == 0){ Robot.shooter.disable();}
+		//Robot.shooter.setSetpoint(700);
+		Robot.shooter.setAbsoluteTolerance(.05);
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	if(incrementing){
-    	speed += 0.0008;
-    	RobotMap.shooterFlyMotor.set(speed);
-    	}
-    	else
-    	{
-    		RobotMap.shooterFlyMotor.set(speed);
-    	}
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		/*
+		 * if(incrementing){ if(setpoint <=1) setpoint += incrementing value
+		 * Robot.shooter.setSetpoint(speed); }
+		 * 
+		 * if(incrementing){ speed += incrementingValue;
+		 * RobotMap.shooterFlyMotor.set(speed); } else {
+		 * RobotMap.shooterFlyMotor.set(speed); } SmartDashboard.putNumber(
+		 * "speed Value", speed);
+		 */
+		if(speed != 0){
+		Robot.shooter.setSetpoint(speed*-1);
+		if (speed < maxSetpoint) {
+			if (count < 10)
+				count++;
+			else
+				count = 0;
+			if (count == 100) {
+				xValue += incrementValue;
+				speed += incrementValue;
+			}
+		}
+	} else{ Robot.shooter.setSetpoint(0);}
+		
+		//RobotMap.shooterFlyMotor.set(Robot.oi.operator.getRawAxis(1));
+		SmartDashboard.putNumber("x", xValue);
+		SmartDashboard.putNumber("speedsss", speed);
+		SmartDashboard.putNumber("counter", count);
+		SmartDashboard.putNumber("rate of encoder", RobotMap.shooterSpdCtr.getRate());
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-    	return false;//Robot.shooter.onTarget();
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		 if( speed == 0) return true;
+		 return false;
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	RobotMap.shooterFlyMotor.set(0);
-    }
+	// Called once after isFinished returns true
+	protected void end() {
+		RobotMap.shooterFlyMotor.set(0);
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }

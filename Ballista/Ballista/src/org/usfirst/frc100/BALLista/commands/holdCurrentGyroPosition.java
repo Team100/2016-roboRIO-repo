@@ -21,24 +21,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 
-/**
- *
- */
-public class holdPosition extends Command {
+public class holdCurrentGyroPosition extends Command {
 
 	private final SpeedController left = RobotMap.driveTrainLeft;
 	private final SpeedController right = RobotMap.driveTrainRight;
 
-	public holdPosition() {
+	public holdCurrentGyroPosition() {
 		requires(Robot.driveTrain);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// Get everything in a safe starting state.
-		Robot.driveTrain.pid.setPID(0.04, .002, 0, 0);
-		Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
-		Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles()));
+	   //	Robot.driveTrain.pid.setPID(0.04, .002, 0, 0);
+		Robot.driveTrain.pid.setSetpoint((Robot.driveTrain.getAngles())); 
 		Robot.driveTrain.pid.reset();
 		Robot.driveTrain.pid.enable();
 	}

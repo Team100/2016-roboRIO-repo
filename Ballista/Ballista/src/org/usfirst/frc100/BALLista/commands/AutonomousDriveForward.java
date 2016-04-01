@@ -12,6 +12,7 @@
 package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
@@ -21,31 +22,50 @@ import org.usfirst.frc100.BALLista.RobotMap;
  */
 public class AutonomousDriveForward extends Command {
 	double distance;
-    public AutonomousDriveForward(int distance) {
+	double speed;
+    public AutonomousDriveForward(int distance, double speed) {
     	this.distance = distance;
+    	this.speed = speed;
+    	  requires(Robot.pickUp);
         requires(Robot.driveTrain);
-
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    //	new MovePickUpWithPID(.413).start();
+    	Robot.pickUp.enable();
     	RobotMap.driveTrainRightEncoder.reset();
     	RobotMap.driveTrainRightEncoder.reset();
+    	//Robot.driveTrain.pidLeft.enable();
+    	//Robot.driveTrain.pidRight.enable();
+    //	Robot.driveTrain.drives(speed);
+    	Robot.driveTrain.pidLeft.setAbsoluteTolerance(.05);
+    	Robot.driveTrain.pidRight.setAbsoluteTolerance(.05);
+    //	Robot.driveTrain.pidLeft.setSetpoint(distance);
+    	//Robot.driveTrain.pidRight.setSetpoint(distance);
+    	
+    	
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.drives();
-    }
+    	if(RobotMap.driveTrainRightEncoder.getDistance() < distance)
+    	Robot.pickUp.setSetpoint(.413);
+    	Robot.driveTrain.drives(speed);
+    	SmartDashboard.putNumber("distance traveled", RobotMap.driveTrainLeftEncoder.getDistance());
+    	    }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (!((RobotMap.driveTrainRightEncoder.getDistance() +RobotMap.driveTrainLeftEncoder.getDistance()/2) >= distance));
+      if(RobotMap.driveTrainRightEncoder.getDistance() < distance)return false;
+      return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	RobotMap.driveTrainTwoMotorDrive.drive(0, 0);
+    	Robot.driveTrain.pidLeft.disable();
+    	Robot.driveTrain.pidRight.disable();
     }
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run

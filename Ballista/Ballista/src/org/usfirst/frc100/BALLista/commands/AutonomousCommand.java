@@ -22,8 +22,10 @@ import org.usfirst.frc100.BALLista.Robot;
 public class AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
-    	addSequential(new AutonomousDriveForward(2000));
-    	addSequential(new Turn180( 45));
+    	 addParallel(new ShootingSpeed(20, 75));
+    	 addParallel(new AutonomousDriveForward(8000, .5));
+    	 addSequential(new TurnToAngle(45));
+    	 addSequential(new RollIn());
 
     }
 
