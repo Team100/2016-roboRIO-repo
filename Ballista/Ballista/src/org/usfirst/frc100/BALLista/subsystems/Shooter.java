@@ -97,27 +97,23 @@ public class Shooter extends PIDSubsystem {
 		SmartDashboard.putNumber("rate", flyCounter.getRate());
 		return flyCounter.getRate();
 	}
-	
+
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
     	SmartDashboard.putNumber("output value", output);
-    	RobotMap.shooterFlyMotor.pidWrite(output);
+    	RobotMap.shooterFlyMotor.pidWrite(-output);
        // flyMotor.pidWrite(output);
 	}
 
 	public void updateDashboard() {
 
 		SmartDashboard.putNumber("Shooter/FlyMotor Raw", flyMotor.get());
-		SmartDashboard
-				.putNumber("Shooter/FlyCounter Raw", flyCounter.getRate());
+		SmartDashboard.putNumber("Shooter/FlyCounter Raw", flyCounter.getRate());
 		// SmartDashboard.putNumber("Shooter/ShooterSpeedControllerPID",
 		// shooterSpeedControllerPID.get());
-		SmartDashboard.putNumber("Shooter/DistOfCounter",
-				RobotMap.shooterSpdCtr.getDistance());
-		SmartDashboard.putNumber("Shooter/RateOfCounter",
-				RobotMap.shooterSpdCtr.getRate());
-		SmartDashboard.putBoolean("Shooter/ShooterSensor",
-				RobotMap.shooterSpdIn.get());
+		SmartDashboard.putNumber("Shooter/DistOfCounter", RobotMap.shooterSpdCtr.getDistance());
+		SmartDashboard.putNumber("Shooter/RateOfCounter", RobotMap.shooterSpdCtr.getRate());
+		SmartDashboard.putBoolean("Shooter/ShooterSensor", RobotMap.shooterSpdIn.get());
 	}
 }

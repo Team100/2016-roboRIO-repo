@@ -33,8 +33,8 @@ public class DriveTrain extends Subsystem {
 	private int distances;
 
 
-	private static final double DEFAULT_DRIVE_TRAIN_KP = 0.004;
-	private static final double DEFAULT_DRIVE_TRAIN_KI = 0.0;
+	private static final double DEFAULT_DRIVE_TRAIN_KP = 180.04; //.004
+	private static final double DEFAULT_DRIVE_TRAIN_KI = 0.00;
 	private static final double DEFAULT_DRIVE_TRAIN_KD = 0.0;
 
 	public double driveTrain_kP;
@@ -117,7 +117,7 @@ public class DriveTrain extends Subsystem {
 					PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 					public double pidGet() {
-						return RobotMap.driveTrainRightEncoder.getRate();
+						return Math.abs(RobotMap.driveTrainLeftEncoder.getDistance());
 					}
 
 					@Override
@@ -141,7 +141,7 @@ public class DriveTrain extends Subsystem {
 					PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 					public double pidGet() {
-					 return RobotMap.driveTrainLeftEncoder.getRate();
+					 return Math.abs(RobotMap.driveTrainLeftEncoder.getDistance());
 					}
 
 					@Override
@@ -207,9 +207,10 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void drives(double speed) {
-		twoMotorDrive.drive(speed, -RobotMap.internalGyro.getAngle() * .03);// .getAngleOfGyro());
-		SmartDashboard.putNumber("heading",
-				RobotMap.internalGyro.getAngle() * 0.03);
+		//twoMotorDrive.drive(speed, -1*(RobotMap.internalGyro.getAngle() * .03));
+		twoMotorDrive.tankDrive(-speed, speed);// .getAngleOfGyro());
+		//SmartDashboard.putNumber("heading",
+			//	(-RobotMap.internalGyro.getAngle()) * 0.03);
 
 	}
 

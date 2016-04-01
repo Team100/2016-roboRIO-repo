@@ -5,7 +5,6 @@ package org.usfirst.frc100.BALLista;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -13,6 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -55,7 +55,8 @@ public class RobotMap {
 
     public static DoubleSolenoid pushUpPushUpPiston;
     public static ADXRS450_Gyro internalGyro;
-
+    
+ 
     public static void init() {
 
     	internalGyro = new ADXRS450_Gyro();
@@ -69,7 +70,7 @@ public class RobotMap {
         driveTrainTwoMotorDrive.setSafetyEnabled(true);
         driveTrainTwoMotorDrive.setExpiration( 0.1);
 
-        driveTrainTwoMotorDrive.setSensitivity(0.5);
+        driveTrainTwoMotorDrive.setSensitivity(2);
         driveTrainTwoMotorDrive.setMaxOutput(1.0);
 
         driveTrainTwoMotorDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
@@ -92,7 +93,7 @@ public class RobotMap {
 
         pickUpLowerLimit = new DigitalInput(5);
         //LiveWindow.addSensor("Pick Up", "Lower Limit", pickUpLowerLimit);
-
+        
 
         pickUpHomeLimit = new DigitalInput(6);
         LiveWindow.addSensor("Pick Up", "Indide Detector", pickUpHomeLimit);
@@ -103,6 +104,7 @@ public class RobotMap {
 
         pickUpPickUpPot = new AnalogPotentiometer(0, 1.0, 0.0);
         //LiveWindow.addSensor("Pick Up", "PickUpPot", pickUpPickUpPot);
+        
 
         /*
         pickUpMidLimit = new DigitalInput(8);
