@@ -1,6 +1,6 @@
 package org.usfirst.frc100.BALLista;
 
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Team100CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Relay;
@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 		autonomousCommand = new AutonomousCommand();
 
 		spike.set(Relay.Value.kForward);
-	//   CameraServer.getInstance().startAutomaticCapture("cam0");
+	    Team100CameraServer.getInstance().startAutomaticCapture("cam2");
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class Robot extends IterativeRobot {
 		default: new DoNothing(0).start();
 			break;
 		}
-	//	new UpdateDashboard().start();
+	//new UpdateDashboard().start();
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		// RobotMap.internalGyro.reset();
+		//RobotMap.internalGyro.reset();
 		Scheduler.getInstance().removeAll();
 		RobotMap.driveTrainLeftEncoder.reset();
 		RobotMap.driveTrainRightEncoder.reset();
