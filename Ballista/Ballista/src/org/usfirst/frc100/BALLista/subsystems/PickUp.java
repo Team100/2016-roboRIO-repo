@@ -127,7 +127,7 @@ public class PickUp extends PIDSubsystem {
 				if (Robot.oi.operator.getRawAxis(joyNumber) < 0) {
 					armAngleMotor.set(speed);
 				} else {
-					armAngleMotor.set(0.1);
+					armAngleMotor.set(0.2);
 				}
 			} else {
 
