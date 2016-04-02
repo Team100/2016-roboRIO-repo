@@ -33,8 +33,8 @@ public class TankDrive extends Command {
 		if (!Robot.prefs.containsKey("filterNumber")) {
 			Robot.prefs.putDouble("filterNumber", 0.01);
 		}
-		double FilteredPosition = (Robot.prefs.getDouble("filterNumber", 0.01) * RawValueReadFromHw)
-				+ ((1.0 - Robot.prefs.getDouble("filterNumber", 0.01)) * OutputOldY);
+		double filteringNumber = Robot.prefs.getDouble("filterNumber", 0.01);
+		double FilteredPosition = (filteringNumber * RawValueReadFromHw) + ((1.0 - filteringNumber) * OutputOldY);
 		OutputOldY = FilteredPosition;
 		return FilteredPosition;
 	}
