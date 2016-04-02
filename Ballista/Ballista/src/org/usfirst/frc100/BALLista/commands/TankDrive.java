@@ -33,8 +33,8 @@ public class TankDrive extends Command {
 		if (!Robot.prefs.containsKey("filterNumber")) {
 			Robot.prefs.putDouble("filterNumber", 0.01);
 		}
-		double FilteredPosition = (Robot.prefs.getDouble("filterNumber", 0.01) * RawValueReadFromHw)
-				+ ((1 - Robot.prefs.getDouble("filterNumber", 0.01)) * OutputOldY);
+		double filteringNumber = Robot.prefs.getDouble("filterNumber", 0.01);
+		double FilteredPosition = (filteringNumber * RawValueReadFromHw) + ((1.0 - filteringNumber) * OutputOldY);
 		OutputOldY = FilteredPosition;
 		return FilteredPosition;
 	}
@@ -45,25 +45,23 @@ public class TankDrive extends Command {
 		double localX = Robot.oi.getDriverController1().getX();
 		double localY = Robot.oi.getDriverController2().getY();
 		double filteredLocalY = GetPositionFiltered(localY);
-		double filteredLocalX = GetPositionFiltered(localX);
+
 
 		if (Robot.driveTrain.getDriveDirection()) {
-			Robot.driveTrain
-					.takeJoystickInputs(filteredLocalX, -filteredLocalY);
+			Robot.driveTrain.takeJoystickInputs(-localX, -filteredLocalY);
 		} else {
-			Robot.driveTrain.takeJoystickInputsReverse(filteredLocalX,
-					filteredLocalY);
+			Robot.driveTrain.takeJoystickInputsReverse(localX, filteredLocalY);
 		}
 
+
 		/*
-		 * if(Robot.driveTrain.getDriveDirection()){
-		 * Robot.driveTrain.takeJoystickInputs
-		 * (Robot.oi.getDriverController1().getX(),
-		 * -Robot.oi.getDriverController2().getY()); }else{
-		 * Robot.driveTrain.takeJoystickInputsReverse
-		 * (Robot.oi.getDriverController1().getX(),
-		 * Robot.oi.getDriverController2().getY()); }
-		 */
+		if(Robot.driveTrain.getDriveDirection()){
+			Robot.driveTrain.takeJoystickInputs(localX,-localY);
+		}else{
+			Robot.driveTrain.takeJoystickInputsReverse(localX,localY);
+		}
+		*/
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
