@@ -63,7 +63,7 @@ public class OI {
 	public InternalButton testDownDPad;
 	public InternalButton testLeftDPad;
 	public JoystickButton reverseShooter;
-
+	public JoystickButton disableDriveTrainPID;
 	public Joystick autoModeSelect;
 	public JoystickButton obeyLimit;
 		public JoystickButton binary1;
@@ -148,7 +148,9 @@ public class OI {
 		spinIn.whileHeld(new RollOut(.5));
 
 		turn180 = new JoystickButton(driverController2, 3);
-		turn180.whileHeld(new TurnToAngle(170));
+		turn180.whenPressed(new TurnToAngle(180));
+		disableDriveTrainPID = new JoystickButton(driverController1, 3);
+		disableDriveTrainPID.whenPressed(new TurnToAngle(360));
 		reverseOrient = new JoystickButton(driverController1, 11);
 		forwardOrient = new JoystickButton(driverController1, 10);
 		reverseOrient.whenPressed(new TankDrive(false));
