@@ -20,7 +20,7 @@ import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 
 public class TurnToAngle extends Command {
-
+	boolean cancelPID;
 	public TurnToAngle() {
 
 		requires(Robot.driveTrain);
@@ -28,7 +28,13 @@ public class TurnToAngle extends Command {
 	}
 
 	public TurnToAngle(int angles) {
-		Robot.driveTrain.setDistances(angles);
+		if(angles > 300){
+			cancelPID = true;
+		}else{
+			cancelPID = false;
+			Robot.driveTrain.setDistances(angles);
+		}
+		
 		requires(Robot.driveTrain);
 
 	}
@@ -39,11 +45,11 @@ public class TurnToAngle extends Command {
 		// Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04),
 		// Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue",
 		// .00), 0);
-		Robot.driveTrain.pid.setAbsoluteTolerance(0.2);
+		Robot.driveTrain.pid.setAbsoluteTolerance(0.3);
 		Robot.driveTrain.pid
 				.setSetpoint((Robot.driveTrain.getAngles() + Robot.driveTrain
 						.getDistances())); // Robot.driveTrain.getAngles+1
-		Robot.driveTrain.pid.reset();
+		//Robot.driveTrain.pid.reset();
 		Robot.driveTrain.pid.enable();
 	}
 
@@ -54,7 +60,8 @@ public class TurnToAngle extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.driveTrain.pid.onTarget();
+		if(Robot.driveTrain.pid.onTarget() || cancelPID == true) return true;
+		return false;
 	}
 
 	// Called once after isFinished returns true
