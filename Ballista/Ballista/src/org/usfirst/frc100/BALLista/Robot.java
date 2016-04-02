@@ -1,6 +1,6 @@
 package org.usfirst.frc100.BALLista;
 
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Team100CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Relay;
@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 		autonomousCommand = new AutonomousCommand();
 
 		spike.set(Relay.Value.kForward);
-	//   CameraServer.getInstance().startAutomaticCapture("cam0");
+		Team100CameraServer.getInstance().startAutomaticCapture("cam2");
 	}
 
 	/**
@@ -78,31 +78,35 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		RobotMap.driveTrainRightEncoder.reset();
-    	RobotMap.driveTrainRightEncoder.reset();
+		RobotMap.driveTrainRightEncoder.reset();
 		// schedule the autonomous command (example)
-	//	if (autonomousCommand != null)
-		//	autonomousCommand.start();
+		// if (autonomousCommand != null)
+		// autonomousCommand.start();
 
-	//	new AutonomousDriveForward(44, .5);
-		//Robot.driveTrain.drives(.5);
+		// new AutonomousDriveForward(44, .5);
+		// Robot.driveTrain.drives(.5);
 		int modeSelect = oi.selector();
 		switch (modeSelect) {
-		case 0: new autoBreachPortcullis().start();
+		case 0:
+			new autoBreachPortcullis().start();
 			break;
-		case 1:		// rock wall
-		// new AutonomousDriveForward(10, .5).start();
-		new AutonomousDriveForward(19000, .8).start();
-		 //new AutonomousDriveForward(800, .558).start();
+		case 1: // rock wall
+			// new AutonomousDriveForward(10, .5).start();
+			new AutonomousDriveForward(19000, .8).start();
+			// new AutonomousDriveForward(800, .558).start();
 			break;
-		case 2: 		// moat
+		case 2: // moat
 			new AutonomousDriveForward(16000, .6).start();
 			new AutonomousDriveForward(3000, .99).start();
 			break;
-		case 3: new DoNothing(3).start();
+		case 3:
+			new DoNothing(3).start();
 			break;
-		case 4: new AutoLowBar(1600, 0.6);
+		case 4:
+			new AutoLowBar(1600, 0.6);
 			break;
-		default: new DoNothing(0).start();
+		default:
+			new DoNothing(0).start();
 			break;
 		}
 		new UpdateDashboard().start();
@@ -114,8 +118,9 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("distance", RobotMap.driveTrainLeftEncoder.getDistance());
-		//Robot.driveTrain.drives(.5);
+		SmartDashboard.putNumber("distance",
+				RobotMap.driveTrainLeftEncoder.getDistance());
+		// Robot.driveTrain.drives(.5);
 
 	}
 
@@ -142,10 +147,13 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		oi.updateDPad();
 		SmartDashboard.putNumber("gyro", Robot.driveTrain.getAngles());
-		SmartDashboard.putNumber("rate of encoder right", RobotMap.driveTrainRightEncoder.getDistance());
-		SmartDashboard.putNumber("rate of encoder left", RobotMap.driveTrainLeftEncoder.getDistance());
+		SmartDashboard.putNumber("rate of encoder right",
+				RobotMap.driveTrainRightEncoder.getDistance());
+		SmartDashboard.putNumber("rate of encoder left",
+				RobotMap.driveTrainLeftEncoder.getDistance());
 		SmartDashboard.putNumber("pot value", RobotMap.pickUpPickUpPot.get());
-		SmartDashboard.putNumber("get setpoint drive train", Robot.driveTrain.pid.getSetpoint());
+		SmartDashboard.putNumber("get setpoint drive train",
+				Robot.driveTrain.pid.getSetpoint());
 	}
 
 	/**
@@ -155,7 +163,5 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-
-
 
 }
