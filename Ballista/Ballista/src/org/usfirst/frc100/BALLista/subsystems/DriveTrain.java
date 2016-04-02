@@ -87,9 +87,7 @@ public class DriveTrain extends Subsystem {
 		driveTrain_kD = Robot.prefs.getDouble("driveTrain_kD",
 				DEFAULT_DRIVE_TRAIN_KD);
 
-		pid = new PIDController(Robot.prefs.getDouble("driveTrain_kP",
-				DEFAULT_DRIVE_TRAIN_KP), Robot.prefs.getDouble("driveTrain_kD",
-				DEFAULT_DRIVE_TRAIN_KD), 0, new PIDSource() { // .04 0 0 for 180
+		pid = new PIDController(driveTrain_kP, driveTrain_kI, driveTrain_kD, new PIDSource() { // .04 0 0 for 180
 					PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 					public double pidGet() {
@@ -107,10 +105,11 @@ public class DriveTrain extends Subsystem {
 					}
 				}, new PIDOutput() {
 					public void pidWrite(double d) {
-						right.pidWrite(d); // /2
-						left.pidWrite(-d); // /2
+						right.pidWrite(d/2); // /2
+						left.pidWrite(-d/2); // /2
 					}
 				});
+		//pid.setPID(p, i, d);
 		pidRight = new PIDController(Robot.prefs.getDouble("driveTrain_kP",
 				DEFAULT_DRIVE_TRAIN_KP), Robot.prefs.getDouble("driveTrain_kD",
 				DEFAULT_DRIVE_TRAIN_KD), 0, new PIDSource() { // .04 0 0 for 180
