@@ -27,7 +27,7 @@ public class DriveTrain extends Subsystem {
 	private final Encoder rightEncoder = RobotMap.driveTrainRightEncoder;
 	public PIDController pidRight;
 	public PIDController pidLeft;
-	
+
 	public PIDController pid;
 	private boolean driveDirection = true;
 	private int distances;
@@ -42,20 +42,20 @@ public class DriveTrain extends Subsystem {
 	public double driveTrain_kD;
 
 	public void updateDashboard() {
-		SmartDashboard.putNumber("DriveTrain/LeftEncoder Raw", leftEncoder.getRaw());
-		SmartDashboard.putNumber("DriveTrain/RightEncoder Raw", rightEncoder.getRaw());
-		SmartDashboard.putNumber("DriveTrain/LeftEncoder", leftEncoder.getDistance());
-		SmartDashboard.putNumber("DriveTrain/RightEncoder", rightEncoder.getDistance());
-		SmartDashboard.putNumber("DriveTrain/Gyro", RobotMap.internalGyro.getAngle());
+		SmartDashboard.putNumber("DriveTrain/Left Encoder Raw", leftEncoder.getRaw());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Raw", rightEncoder.getRaw());
+		SmartDashboard.putNumber("DriveTrain/Left Encoder Count", leftEncoder.get());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Count", rightEncoder.get());
+		SmartDashboard.putNumber("DriveTrain/Left Encoder Distance", leftEncoder.getDistance());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Distance", rightEncoder.getDistance());
+    	SmartDashboard.putNumber("DriveTrain/Left Encoder Rate", leftEncoder.getRate());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Rate", rightEncoder.getRate());
+		SmartDashboard.putNumber("DriveTrain/Gyro Angle", RobotMap.internalGyro.getAngle());
 		SmartDashboard.putNumber("DriveTrain/Heading", RobotMap.internalGyro.getAngle() * 0.03);
 		SmartDashboard.putNumber("DriveTrain/HoldItValue", Robot.driveTrain.pid.getSetpoint());
-		SmartDashboard.putNumber("DriveTrain/RateOfRight", RobotMap.driveTrainRightEncoder.getRate());
-    	SmartDashboard.putNumber("DriveTrain/RateOfLeft", RobotMap.driveTrainLeftEncoder.getRate());
-    	SmartDashboard.putNumber("DriveTrain/DistOfRight", RobotMap.driveTrainRightEncoder.getDistance());
-    	SmartDashboard.putNumber("DriveTrain/DistOfLeft", RobotMap.driveTrainLeftEncoder.getDistance());
     	SmartDashboard.putBoolean("DriveTrain/Orientation", driveDirection);
-    	SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersDistance:", Math.abs(RobotMap.driveTrainRightEncoder.getDistance() - RobotMap.driveTrainLeftEncoder.getDistance()));
-		SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersRate:", Math.abs(RobotMap.driveTrainRightEncoder.getRate() - RobotMap.driveTrainLeftEncoder.getRate()));
+    	SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersDistance:", Math.abs(rightEncoder.getDistance() - leftEncoder.getDistance()));
+		SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersRate:", Math.abs(rightEncoder.getRate() - leftEncoder.getRate()));
 
 		/*
 		// Acceleration code
@@ -131,7 +131,7 @@ public class DriveTrain extends Subsystem {
 				}, new PIDOutput() {
 					public void pidWrite(double d) {
 						right.pidWrite(d); // /2
-						
+
 					}
 				});
 		pidLeft = new PIDController(Robot.prefs.getDouble("driveTrain_kP",
@@ -154,7 +154,7 @@ public class DriveTrain extends Subsystem {
 					}
 				}, new PIDOutput() {
 					public void pidWrite(double d) {
-						
+
 						left.pidWrite(d); // /2
 					}
 				});
