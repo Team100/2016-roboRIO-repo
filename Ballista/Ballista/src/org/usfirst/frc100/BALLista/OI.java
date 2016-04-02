@@ -212,6 +212,7 @@ public class OI {
 		SmartDashboard.putData("AutoAlignHighGoal", new AutoAlignHighGoal());
 		// SmartDashboard.putData("ShootingSpeed", new ShootingSpeed());
 		SmartDashboard.putData("Shooting", new Shooting());
+		SmartDashboard.putData("Update Preferences", new updatePreferneces());
 	}
 
 	public Joystick getDriverController1() {
