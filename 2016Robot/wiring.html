@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Wiring</title>
+    <style type="text/css" media="screen">
+      table {
+          text-align: left;
+          width: 400px;
+
+          border-top: 2px solid black;
+          border-bottom: 2px solid black;
+          border-collapse:collapse;
+          border-spacing:0px;
+      }
+      th {
+          border-top: 2px solid black;
+          border-bottom: 2px solid black;
+      }
+      .pound {
+          width: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wiring</h1>
+                    <h2>DIO</h2>
+	    <table><tr>
+	        <th class="pound">#</th>
+	        <th>Sensor</th></tr>
+	                                               <tr><td>0</td><td>Drive Train Left Encoder</td><td></td></tr>
+            	                                         <tr><td>1</td><td>Drive Train Left Encoder</td><td></td></tr>
+            	                                         <tr><td>2</td><td>Drive Train Right Encoder</td><td></td></tr>
+            	                                         <tr><td>3</td><td>Drive Train Right Encoder</td><td></td></tr>
+            	                                         <tr><td>4</td><td>Pick Up Upper Limit</td><td></td></tr>
+            	                                         <tr><td>5</td><td>Pick Up Lower Limit</td><td></td></tr>
+            	                                         <tr><td>6</td><td>Pick Up Portcullis Sensor</td><td></td></tr>
+            	                                         <tr><td>7</td><td>Loader Pinball Loaded</td><td></td></tr>
+            	                                         <tr><td>8</td><td>Shooter Fly Encoder</td><td></td></tr>
+            	                                         <tr><td>9</td><td>Shooter Fly Encoder</td><td></td></tr>
+            	                                                                 <tr><td>12</td><td>Turret Left Side Limit</td><td></td></tr>
+            	                                         <tr><td>13</td><td>Turret Right Side Limit</td><td></td></tr>
+            	                                         <tr><td>14</td><td>Turret Pivot Encoder</td><td></td></tr>
+            	                                         <tr><td>15</td><td>Turret Pivot Encoder</td><td></td></tr>
+            	                                         <tr><td>16</td><td>Unbeatable Scaling Mechanism  Climber Limit</td><td></td></tr>
+            	                                                                                                                 	    </table>
+                    <h2>PWMs</h2>
+	    <table><tr>
+	        <th class="pound">#</th>
+	        <th>Motor</th>
+                <th>Type</th></tr>
+	                                               <tr><td>0</td><td>Drive Train Left</td><td>VictorSP</td></tr>
+            	                                         <tr><td>1</td><td>Drive Train Right</td><td>VictorSP</td></tr>
+            	                                         <tr><td>2</td><td>Pick Up Arm Angle Motor</td><td>VictorSP</td></tr>
+            	                                         <tr><td>3</td><td>MoveRollIn Pick Up Roller</td><td>VictorSP</td></tr>
+            	                                         <tr><td>4</td><td>Shooter Fly Motor</td><td>VictorSP</td></tr>
+            	                                         <tr><td>5</td><td>Turret Horizontal Pivot</td><td>VictorSP</td></tr>
+            	                                         <tr><td>6</td><td>Unbeatable Scaling Mechanism  Winch Motor</td><td>VictorSP</td></tr>
+            	                                         <tr><td>7</td><td>Unbeatable Scaling Mechanism  Hook Extension</td><td>VictorSP</td></tr>
+            	                                                                                                                                                                                                                             	    </table>
+     
+        
+            
+                    <h2>Analog Inputs</h2>
+	    <table><tr>
+	        <th class="pound">#</th>
+	        <th>Sensor</th></tr>
+	                                               <tr><td>0</td><td>Pick Up PickUpPot</td><td></td></tr>
+            	                                         <tr><td>1</td><td>Drive Train IR Distance Sensor</td><td></td></tr>
+            	                                                                                                                                                                                                                                                                                                     	    </table>
+    
+                    <h2>PCM 0</h2>
+	    <table><tr>
+	        <th class="pound">#</th>
+	        <th>Solenoid</th></tr>
+	                                               <tr><td>0</td><td>Loader Pinball Ball Handler Solenoid 1 Forward </td><td></td></tr>
+            	                                         <tr><td>1</td><td>Loader Pinball Ball Handler Solenoid 1 Reverse </td><td></td></tr>
+            	                                         <tr><td>2</td><td>Loader Pinball Ball Handler Solenoid 2 Forward </td><td></td></tr>
+            	                                         <tr><td>3</td><td>Loader Pinball Ball Handler Solenoid 2 Reverse </td><td></td></tr>
+            	                                                                                                                                                                                                                                                                             	    </table>
+                                                                                                                                                                                                                                                    
+                <h2>Compressor</h2>
+	<table><tr>
+	<th class="pound">PCM</th>
+	<th>Device</th></tr>
+	                                         <tr><td>0</td><td>Pneumatics Compressor</td><td></td></tr>
+            	                                                                                                                                                                                                                                                                                                                 	</table>
+      </body>
+</html>
