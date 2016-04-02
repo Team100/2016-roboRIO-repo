@@ -12,49 +12,72 @@ import org.usfirst.frc100.BALLista.RobotMap;
 
 public class TankDrive extends Command {
 
-    public TankDrive() {
+	private static double OutputOldY;
 
-        requires(Robot.driveTrain);
+	public TankDrive() {
 
-    }
-    public TankDrive(boolean direction){
-    	Robot.driveTrain.setDriveDirection(direction);
-    	requires(Robot.driveTrain);
-    }
+		requires(Robot.driveTrain);
 
-    protected void initialize() {
-    }
+	}
+	public TankDrive(boolean direction) {
+		Robot.driveTrain.setDriveDirection(direction);
+		requires(Robot.driveTrain);
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	if(Robot.driveTrain.getDriveDirection()){
-    	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getX(), -Robot.oi.getDriverController2().getY());
-    	}
-    	else{
-    	Robot.driveTrain.takeJoystickInputsReverse(Robot.oi.getDriverController1().getX(), Robot.oi.getDriverController2().getY());
-    	}
+	protected void initialize() {
+		OutputOldY = 0;
+	}
 
-    	if(Robot.driveTrain.getDriveDirection()){
-    	Robot.driveTrain.takeJoystickInputs(Robot.oi.getDriverController1().getX(), -Robot.oi.getDriverController2().getY());
-    	}else{
-    	Robot.driveTrain.takeJoystickInputsReverse(Robot.oi.getDriverController1().getX(), Robot.oi.getDriverController2().getY());
-    	}
-    }
+	public double GetPositionFiltered(double RawValueReadFromHw) {
+		// double tempFilterNumber = 0.01;
+		if (!Robot.prefs.containsKey("filterNumber")) {
+			Robot.prefs.putDouble("filterNumber", 0.01);
+		}
+		double filteringNumber = Robot.prefs.getDouble("filterNumber", 0.01);
+		double FilteredPosition = (filteringNumber * RawValueReadFromHw) + ((1.0 - filteringNumber) * OutputOldY);
+		OutputOldY = FilteredPosition;
+		return FilteredPosition;
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-    	return false;
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	Robot.driveTrain.stop();
+		double localX = Robot.oi.getDriverController1().getX();
+		double localY = Robot.oi.getDriverController2().getY();
+		double filteredLocalY = GetPositionFiltered(localY);
 
-    }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	end();
-    }
+		if (Robot.driveTrain.getDriveDirection()) {
+			Robot.driveTrain.takeJoystickInputs(localX, -filteredLocalY);
+		} else {
+			Robot.driveTrain.takeJoystickInputsReverse(-localX, filteredLocalY);
+		}
+
+
+		/*
+		if(Robot.driveTrain.getDriveDirection()){
+			Robot.driveTrain.takeJoystickInputs(localX,-localY);
+		}else{
+			Robot.driveTrain.takeJoystickInputsReverse(localX,localY);
+		}
+		*/
+
+	}
+
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;
+	}
+
+	// Called once after isFinished returns true
+	protected void end() {
+		Robot.driveTrain.stop();
+
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+		end();
+	}
 }

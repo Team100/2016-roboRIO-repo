@@ -22,13 +22,17 @@ import org.usfirst.frc100.BALLista.RobotMap;
 public class RollIn extends Command {
 
 	boolean rollInDirection = true;
-
+	double speed;
 	public RollIn() {
-		requires(Robot.moveRollIn);
+		requires(Robot.pickUpRoller);
 	}
 
 	public RollIn(boolean rollerIn) {
 		rollInDirection = rollerIn;
+	}
+	public RollIn(double speed){
+		this.speed = speed;
+		requires(Robot.pickUpRoller);
 	}
 
 	// Called just before this Command runs the first time
@@ -41,9 +45,10 @@ public class RollIn extends Command {
 	protected void execute() {
 		SmartDashboard.putNumber("pick up running", 123123);
 		if (RobotMap.pickUpHomeLimit.get())
-			Robot.moveRollIn.setRollerSpeed(.8); //.5
+			Robot.pickUpRoller.setRollerSpeed(.8); //.5
 		else
-			Robot.moveRollIn.setRollerSpeed(0);
+			Robot.pickUpRoller.setRollerSpeed(0);
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -53,7 +58,7 @@ public class RollIn extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.moveRollIn.stop();
+		Robot.pickUpRoller.stop();
 	}
 
 	// Called when another command which requires one or more of the same
