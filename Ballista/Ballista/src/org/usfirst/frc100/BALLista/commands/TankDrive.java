@@ -48,9 +48,9 @@ public class TankDrive extends Command {
 
 
 		if (Robot.driveTrain.getDriveDirection()) {
-			Robot.driveTrain.takeJoystickInputs(-localX, -filteredLocalY);
+			Robot.driveTrain.takeJoystickInputs(localX, -filteredLocalY);
 		} else {
-			Robot.driveTrain.takeJoystickInputsReverse(localX, filteredLocalY);
+			Robot.driveTrain.takeJoystickInputsReverse(-localX, filteredLocalY);
 		}
 
 
