@@ -16,7 +16,7 @@ public class NetTableReader implements NetworkTablesJNI.EntryListenerFunction, R
 	public static final char PATH_SEPARATOR = '/';
 	private static final String sDefaultIpAddress = "roborio-100-frc.local";
 	private static final String sDefaultTableName = "SmartDashboard";
-	private static final String sDefaultFileName = "";
+	private static final String sDefaultFileName = "fileCapture.txt";
 	
 	private String mIpAddress;
 	private String mTableName;	
