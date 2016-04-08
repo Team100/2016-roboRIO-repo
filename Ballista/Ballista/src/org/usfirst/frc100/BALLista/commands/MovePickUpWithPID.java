@@ -43,7 +43,7 @@ public class MovePickUpWithPID extends Command {
 	
 	Robot.pickUp.enable();
 	
- 	Robot.pickUp.setAbsoluteTolerance(.001);
+ 	Robot.pickUp.setAbsoluteTolerance(.01);
  	Robot.pickUp.setSetpoint(angles);
 	//}
 	//else{
@@ -63,7 +63,7 @@ public class MovePickUpWithPID extends Command {
 
  // Make this return true when this Command no longer needs to run execute()eee
  protected boolean isFinished() {
-     if (disablePID == true) return true;
+     if (disablePID == true || Robot.pickUp.onTarget() == true) return true;
      return false;
  }
 

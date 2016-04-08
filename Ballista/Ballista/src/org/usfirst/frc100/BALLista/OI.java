@@ -124,15 +124,15 @@ public class OI {
 		slowShoot.whenPressed(new ShootingSpeed(0, 0)); //start value of setpoint, end value
 
 		mediumshoot = new JoystickButton(operator, 8);
-		mediumshoot.whenPressed(new ShootingSpeed(20,50));
+		mediumshoot.whenPressed(new ShootingSpeed(20,40));
 
 		fastShoot = new JoystickButton(operator, 6);
 		fastShoot.whenPressed(new ShootingSpeed(20, 35));//.5
 
 		top = new JoystickButton(operator, 1);
-		top.whenPressed(new MovePickUpWithPID( 0.438)); //Robot.prefs.getDouble("shooter_top",
+		top.whenPressed(new MovePickUpWithPID( 0.464)); //Robot.prefs.getDouble("shooter_top",
 		mid = new JoystickButton(operator, 4);
-		mid.whenPressed(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_mid", 0.558)));
+		mid.whenPressed(new MovePickUpWithPID(.594));//(Robot.prefs.getDouble("shooter_mid", 0.558)));
 		bot = new JoystickButton(operator, 3);
 		bot.whenPressed(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_bot", 0.658)));
 		hold = new JoystickButton(driverController1, 2);
@@ -145,7 +145,7 @@ public class OI {
 		spinOut.whileHeld(new RollOut( -1)); //Robot.prefs.getDouble("MoveRollIn_rolloutSpeed",
 
 		spinIn = new JoystickButton(operator, 7);
-		spinIn.whileHeld(new RollOut(.5));
+		spinIn.whileHeld(new RollOut(.6));
 
 		turn180 = new JoystickButton(driverController2, 3);
 		turn180.whenPressed(new TurnToAngle(180));
