@@ -16,7 +16,7 @@ public class LowerArm extends Command{
 	@Override
 	protected void initialize() {
 		Robot.pickUp.enable();
-		Robot.pickUp.goToBot();
+		//Robot.pickUp.
 	}
 
 	public void execute() {

@@ -33,9 +33,9 @@ public class AutonomousDriveForward extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     //	new MovePickUpWithPID(.413).start();
-    	Robot.pickUp.enable();
+    	//Robot.pickUp.enable();
     	RobotMap.driveTrainRightEncoder.reset();
-    	RobotMap.driveTrainRightEncoder.reset();
+    	RobotMap.driveTrainLeftEncoder.reset();
     	//Robot.driveTrain.pidLeft.enable();
     	//Robot.driveTrain.pidRight.enable();
     //	Robot.driveTrain.drives(speed);
@@ -51,9 +51,9 @@ public class AutonomousDriveForward extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(RobotMap.driveTrainRightEncoder.getDistance() < distance)
-    	Robot.pickUp.setSetpoint(.413);
+    	//Robot.pickUp.setSetpoint(.413);
     	Robot.driveTrain.drives(speed);
-    	SmartDashboard.putNumber("distance traveled", RobotMap.driveTrainLeftEncoder.getDistance());
+    	SmartDashboard.putNumber("distance traveled", RobotMap.driveTrainRightEncoder.getDistance());
     	    }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -43,7 +43,7 @@ public class MovePickUpWithPID extends Command {
 	
 	Robot.pickUp.enable();
 	
- 	Robot.pickUp.setAbsoluteTolerance(.01);
+ 	Robot.pickUp.setAbsoluteTolerance(.001);
  	Robot.pickUp.setSetpoint(angles);
 	//}
 	//else{

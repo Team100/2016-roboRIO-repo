@@ -130,11 +130,11 @@ public class OI {
 		fastShoot.whenPressed(new ShootingSpeed(20, 35));//.5
 
 		top = new JoystickButton(operator, 1);
-		top.whenPressed(new MovePickUpWithPID( 0.464)); //Robot.prefs.getDouble("shooter_top",
+		top.whenPressed(new MovePickUpWithPID( 0.376)); //Robot.prefs.getDouble("shooter_top",
 		mid = new JoystickButton(operator, 4);
-		mid.whenPressed(new MovePickUpWithPID(.594));//(Robot.prefs.getDouble("shooter_mid", 0.558)));
+		mid.whenPressed(new MovePickUpWithPID(.526));//(Robot.prefs.getDouble("shooter_mid", 0.526)));
 		bot = new JoystickButton(operator, 3);
-		bot.whenPressed(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_bot", 0.658)));
+		bot.whenPressed(new MovePickUpWithPID(.610));//(Robot.prefs.getDouble("shooter_bot", 0.610)));
 		hold = new JoystickButton(driverController1, 2);
 		hold.whileHeld(new holdCurrentGyroPosition());
 		turn90Right = new JoystickButton(driverController2, 5);
