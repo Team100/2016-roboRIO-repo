@@ -63,7 +63,7 @@ public class MovePickUpWithPID extends Command {
 
  // Make this return true when this Command no longer needs to run execute()eee
  protected boolean isFinished() {
-     if (disablePID == true) return true;
+     if (disablePID == true || Robot.pickUp.onTarget() == true) return true;
      return false;
  }
 

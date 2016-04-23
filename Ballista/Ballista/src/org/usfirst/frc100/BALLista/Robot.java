@@ -1,9 +1,11 @@
 package org.usfirst.frc100.BALLista;
 
 //import edu.wpi.first.wpilibj.Team100CameraServer;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Team100CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -60,7 +62,9 @@ public class Robot extends IterativeRobot {
 		autonomousCommand = new AutonomousCommand();
 
 		spike.set(Relay.Value.kForward);
-		//Team100CameraServer.getInstance().startAutomaticCapture("cam2");
+		Team100CameraServer.getInstance().startAutomaticCapture("cam0");
+		RobotMap.driveTrainRightEncoder.reset();
+		RobotMap.driveTrainRightEncoder.reset();
 	}
 
 	/**
@@ -78,7 +82,7 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		RobotMap.driveTrainRightEncoder.reset();
-		RobotMap.driveTrainRightEncoder.reset();
+		RobotMap.driveTrainLeftEncoder.reset();
 		// schedule the autonomous command (example)
 		// if (autonomousCommand != null)
 		// autonomousCommand.start();
@@ -92,18 +96,18 @@ public class Robot extends IterativeRobot {
 			break;
 		case 1: // rock wall
 			// new AutonomousDriveForward(10, .5).start();
-			new AutonomousDriveForward(19000, .8).start();
+			new AutonomousDriveForward(19000, 1).start();
 			// new AutonomousDriveForward(800, .558).start();
 			break;
 		case 2: // moat
 			new AutonomousDriveForward(16000, .6).start();
 			new AutonomousDriveForward(3000, .99).start();
 			break;
-		case 3:
+		case 3:	
 			new DoNothing(3).start();
 			break;
-		case 4:
-			new AutoLowBar(1600, 0.6);
+		case 4:		// low bar
+			new AutoLowBar(19000, 0.8).start();
 			break;
 		default:
 			new DoNothing(0).start();
