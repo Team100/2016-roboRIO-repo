@@ -1,0 +1,52 @@
+		Approaches to FIRST Stronghold Vision Processing
+		
+Motivation for robotic vision system: Identifying and orienting to a 'target' 
+is often a part of FRC games.  In the 2016 game, it would be helpful for the 
+robot to auto-align on the high goal reliably and quickly.  Retro-reflective 
+tape outlines high goals.  We would like to find these vision targets using 
+the camera and return location information so that the robot can be aimed at 
+the target.  There are two approaches making use of a Raspberry Pi as a vision 
+co-processor that were considered.
+
+First Approach:  Develop a GRIP program for finding the vision targets 
+that can be deployed on the RPi.  The GRIP program sets the pixel coordinates 
+of the vision target(s) in Network Tables that can be accessed by targeting 
+code running on the RoboRIO.  This program takes these pixel coordinates and 
+converts to an angle that the robot should be rotated through so that it is 
+aimed at the target.
+
+The vision target retro-reflective tape is illuminated by a LED light ring.
+We need to be able discriminate vision targets from objects in the background
+by the following strategies: a) reduce the brightness parameter of the camera
+to darken the image.  This helps the vision target to stand out from the 
+background. b) Threshold on the color of the light ring in the GRIP filtering.
+c) Use the GRIP 'Solidity' measure.  Solidity is defined as the ration of the
+area of the detected object to the area of its bounding rectangle.  In the case 
+of this year's vision target, this ratio is about 31%.  This eliminates many 
+false targets.
+
+The retro-reflective targets can be made to stand out from the background better
+by changing the camera parameters.  This can be done via the v4l2-crtl command 
+on Linux to change the camera brightness/exposure.  Since we will likely need 
+to change the brightness of the camera image to drive versus targeting, we 
+need a means send commands to the RPi from RoboRIO to change brightness.  
+This can be done using Network Tables.
+
+Second Approach:  This is similar to the First Approach in using the Raspberry Pi 
+as a vision co-processor.  In this approach, instead of using a GRIP process
+for vision processing, we would use a Java or Python OpenCV program to do custom 
+vision processing.  This allows for greater control of target selection.  Also, 
+it allows for the vision processing to largely eliminate the background from the 
+target by subtracting an image with the light ring turned off from an image 
+with the light ring turned on.  This should result in fewer false targets.
+
+
+
+-----------------------------------------------------------------------------------------
+
+
+An alternative approach to the above filtering is take two image snapshots 
+close in time, one with the light ring on and the second with the light ring 
+off.  Taking the difference of the two images should leave mostly the retro-
+reflective targets.  We did not implement this approach, but it might be useful
+in the future.

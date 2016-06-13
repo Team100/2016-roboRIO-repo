@@ -1,0 +1,2 @@
+#!/bin/bash
+env LD_LIBRARY_PATH=/usr/local/lib:LD_LIBRARY_PATH mjpg_streamer -o "output_http.so -w ./www -p 1180" -i "input_uvc.so -d /dev/video0 -f 15 -r 240x180 -q 50 -y -n"
