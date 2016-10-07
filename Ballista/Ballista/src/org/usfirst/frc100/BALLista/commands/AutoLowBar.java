@@ -18,7 +18,7 @@ public class AutoLowBar extends CommandGroup{
 		requires(Robot.pickUp);
 		requires(Robot.driveTrain);
 		Robot.pickUp.enable();
-		Robot.pickUp.setSetpoint(.560);
+		Robot.pickUp.setSetpoint(.526);
 		//addSequential(new MovePickUpWithPID(.560));
 		addParallel(new AutonomousDriveForward((int)distance, speed));
 	}
