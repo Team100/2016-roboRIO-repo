@@ -148,7 +148,7 @@ public class OI {
 		spinIn.whileHeld(new RollOut(.6));
 
 		turn180 = new JoystickButton(driverController2, 3);
-		turn180.whenPressed(new TurnToAngle(180));
+		turn180.whenPressed(new TurnToAngle(30));
 		disableDriveTrainPID = new JoystickButton(driverController1, 3);
 		disableDriveTrainPID.whenPressed(new TurnToAngle(360));
 		reverseOrient = new JoystickButton(driverController1, 11);
