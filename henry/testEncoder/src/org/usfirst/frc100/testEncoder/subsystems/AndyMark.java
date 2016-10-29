@@ -22,6 +22,10 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -35,21 +39,67 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class AndyMark extends PIDSubsystem {
-	private static Encoder encoder;
+public class AndyMark extends Subsystem {
+	public PIDController pidRight;
+	public PIDController pidLeft;
 	private static double stuff = 0;
-    private final SpeedController encoderMotor = RobotMap.andyMarkencoderMotor;
+    //private final SpeedController encoderMotor = RobotMap.andyMarkencoderMotor;
 
-    private static final double kP_real = 0, kI_real = 0.00,
+    private static final double kP_real = 0, kI_real = 0.00, kD_real = 0.0,
     kP_simulation = 0.004, kI_simulation = 0.0;
 
     public AndyMark() {
-        super(kP_real, kI_real, 0);
-        getPIDController().setPID(kP_simulation, kI_simulation, 0, 0);
-        setAbsoluteTolerance(0.0001);
-        encoder = new Encoder(2,3);
-        LiveWindow.addActuator("encoder", "PID", getPIDController());
-        LiveWindow.addSensor("AndyMark", "encoder rate", encoder);
+    	pidRight = new PIDController(kP_real, kI_real, kD_real, new PIDSource() { // .04 0 0 for 180
+			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+
+			public double pidGet() {
+				return RobotMap.encoderR.getRate();
+			}
+
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				m_sourceType = pidSource;
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return m_sourceType;
+			}
+		}, new PIDOutput() {
+			public void pidWrite(double d) {
+				RobotMap.right.pidWrite(d/2); // /2
+				RobotMap.left.pidWrite(-d/2); // /2
+			}
+		});
+    	
+    	pidLeft = new PIDController(kP_real, kI_real, kD_real, new PIDSource() { // .04 0 0 for 180
+			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+
+			public double pidGet() {
+				return RobotMap.encoderL.getRate();
+			}
+
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				m_sourceType = pidSource;
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return m_sourceType;
+			}
+		}, new PIDOutput() {
+			public void pidWrite(double d) {
+				RobotMap.right.pidWrite(d/2); // /2
+				RobotMap.left.pidWrite(-d/2); // /2
+			}
+		});
+       // super(kP_real, kI_real, 0);
+       // getPIDController().setPID(kP_simulation, kI_simulation, 0, 0);
+        //setAbsoluteTolerance(0.01);
+
+       // LiveWindow.addActuator("encoder", "PID", getPIDController());
+       // LiveWindow.addSensor("AndyMark", "encoder rate", encoder);
     }
 
     public void initDefaultCommand() {}
@@ -59,21 +109,19 @@ public class AndyMark extends PIDSubsystem {
      
     }
 
-   protected double returnPIDInput() {
-       return encoder.getRate()/1.5;
-       
-    }
+   
 
     protected void usePIDOutput(double d) {
     	//d=-d/4;
     	//d +=.5;
     
-    RobotMap.andyMarkencoderMotor.set(-d);
-       ;
+    //RobotMap.andyMarkencoderMotor.set(-d);
+       
     }
     
     public void driveJoy(Joystick stick)
     {
+    	RobotMap.driveTrainTwoMotorDrive.arcadeDrive(stick.getRawAxis(1), stick.getRawAxis(2));
     	//RobotMap.andyMarkencoderMotor.set(stick.getRawAxis(3));
     	//robotDrive41.arcadeDrive(stick.getRawAxis(1), -stick.getRawAxis(2));
     	//robotDrive41.arcadeDrive(-stick.getRawAxis(1), stick.getRawAxis(2));
@@ -84,9 +132,9 @@ public class AndyMark extends PIDSubsystem {
     }
     public  static double returnSpeed()
     {
-      return encoder.getRate();
+      return 1; //encoder.getRate();
     }
-    }
+  }
     
    
 

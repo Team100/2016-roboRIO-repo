@@ -33,18 +33,25 @@ public class DriveMotor extends Command {
 
 	    // Called just before this Command runs the first time
 	    protected void initialize() {
-	        Robot.andyMark.enable();
-	       Robot.andyMark.setSetpoint(setpoint);
+	    	Robot.andyMark.pidRight.setAbsoluteTolerance(0.3);
+	    	Robot.andyMark.pidLeft.setAbsoluteTolerance(0.3);
+			Robot.andyMark.pidRight.setSetpoint(this.setpoint);
+			Robot.andyMark.pidLeft.setSetpoint(this.setpoint);
+			Robot.andyMark.pidRight.enable();
+			Robot.andyMark.pidLeft.enable();
 
 	    }
 
 	    // Called repeatedly when this Command is scheduled to run
 	    public void execute() {
 	    	//SmartDashboard.putNumber("setpoint", setpoint);
-	    	SmartDashboard.putNumber("rate of d value", AndyMark.returnD());
-	    	SmartDashboard.putNumber("rate of motor", AndyMark.returnSpeed());
+	    //	SmartDashboard.putNumber("rate of d value", AndyMark.returnD());
+	    	//SmartDashboard.putNumber("rate of motor", AndyMark.returnSpeed());
 	    	//Robot.andyMark.driveJoy(Robot.oi.joystick1);
-	    	Robot.andyMark.returnSpeed();
+	    	//Robot.andyMark.returnSpeed();
+	    	SmartDashboard.putNumber("rightEncoder", RobotMap.encoderR.getRate());
+	    	SmartDashboard.putNumber("leftEncoder", RobotMap.encoderL.getRate());
+	    	Robot.andyMark.driveJoy(Robot.oi.joystick1);
 	    
 	    }
 	    
@@ -52,7 +59,7 @@ public class DriveMotor extends Command {
 	    // Make this return true when this Command no longer needs to run execute()
 	    protected boolean isFinished() {
 	    	
-	        return Robot.andyMark.onTarget();
+	        return Robot.andyMark.pidLeft.onTarget();
 	       
 	    }
 
