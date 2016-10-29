@@ -43,7 +43,8 @@ public class TankDrive extends Command {
 	protected void execute() {
 
 		double localX = Robot.oi.getDriverController1().getX();
-		double localY = Robot.oi.getDriverController2().getY();
+		double localY = Robot.oi.getDriverController1().getY();
+	//	double localY = Robot.oi.getDriverController2().getY();
 		double filteredLocalY = GetPositionFiltered(localY);
 
 

@@ -135,8 +135,8 @@ public class OI {
 		mid.whenPressed(new MovePickUpWithPID(.660));//(Robot.prefs.getDouble("shooter_mid", 0.526)));
 		bot = new JoystickButton(operator, 3);
 		bot.whenPressed(new MovePickUpWithPID(.76));//(Robot.prefs.getDouble("shooter_bot", 0.610)));
-		hold = new JoystickButton(driverController1, 2);
-		hold.whileHeld(new holdCurrentGyroPosition());
+		//hold = new JoystickButton(driverController1, 2);
+	//	hold.whileHeld(new holdCurrentGyroPosition());
 		turn90Right = new JoystickButton(driverController2, 5);
 		turn90Right.whileHeld(new TurnToAngle(90));
 		turn90Left = new JoystickButton(driverController2, 4);
@@ -147,7 +147,7 @@ public class OI {
 		spinIn = new JoystickButton(operator, 7);
 		spinIn.whileHeld(new RollOut(.6));
 
-		turn180 = new JoystickButton(driverController2, 3);
+		turn180 = new JoystickButton(driverController1, 2); //contoler 2 --- 3
 		turn180.whenPressed(new TurnToAngle(30));
 		disableDriveTrainPID = new JoystickButton(driverController1, 3);
 		disableDriveTrainPID.whenPressed(new TurnToAngle(360));

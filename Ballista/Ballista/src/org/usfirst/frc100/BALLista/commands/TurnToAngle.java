@@ -20,6 +20,7 @@ import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 
 public class TurnToAngle extends Command {
+	int turnAngle;
 	boolean cancelPID;
 	public TurnToAngle() {
 
@@ -32,6 +33,7 @@ public class TurnToAngle extends Command {
 			cancelPID = true;
 		}else{
 			cancelPID = false;
+			turnAngle = angles;
 			Robot.driveTrain.setDistances(angles);
 		}
 		
@@ -46,9 +48,7 @@ public class TurnToAngle extends Command {
 		// Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue",
 		// .00), 0);
 		Robot.driveTrain.pid.setAbsoluteTolerance(0.3);
-		Robot.driveTrain.pid
-				.setSetpoint((Robot.driveTrain.getAngles() + Robot.driveTrain
-						.getDistances())); // Robot.driveTrain.getAngles+1
+		Robot.driveTrain.pid.setSetpoint((turnAngle + RobotMap.internalGyro.getAngle())); // Robot.driveTrain.getAngles+1
 		//Robot.driveTrain.pid.reset();
 		Robot.driveTrain.pid.enable();
 	}
