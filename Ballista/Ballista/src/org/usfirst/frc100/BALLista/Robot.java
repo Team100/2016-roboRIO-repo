@@ -141,6 +141,8 @@ public class Robot extends IterativeRobot {
 		RobotMap.driveTrainLeftEncoder.reset();
 		RobotMap.driveTrainRightEncoder.reset();
 		new UpdateDashboard().start();
+		SmartDashboard.putNumber("driveTrainP", Robot.driveTrain.driveTrain_kP);
+		
 	}
 
 	/**

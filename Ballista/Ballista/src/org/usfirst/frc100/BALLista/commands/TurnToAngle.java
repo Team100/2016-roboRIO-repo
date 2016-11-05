@@ -43,6 +43,9 @@ public class TurnToAngle extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		//Robot.driveTrain.driveTrain_kP = Robot.prefs.getDouble("driveTrain_kP",
+		//		1);
+		//Robot.driveTrain.pid.setPID(Robot.driveTrain.driveTrain_kP, Robot.driveTrain.driveTrain_kI, Robot.driveTrain.driveTrain_kD);
 		// Get everything in a safe starting state.
 		// Robot.driveTrain.pid.setPID(Robot.prefs.getDouble("pValue", .04),
 		// Robot.prefs.getDouble("iValue", .00), Robot.prefs.getDouble("dValue",
