@@ -74,18 +74,9 @@ public class  TankDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	 Robot.driveTrain.updateSetpoint(incrementalAngle);
-    	 Robot.driveTrain.enable();
-    	// RobotMap.internalGyro.reset();
-       //  Robot.driveTrain.update(this.setpoint);
-    	 // Robot.driveTrain.setSetpoint(incrementalAngle);
-    	// ultra.setAutomaticMode(true);
+    	// Robot.driveTrain.updateSetpoint(incrementalAngle);
+    	// Robot.driveTrain.enable();
     	Robot.driveTrain.initiGyro();
-    	//RobotMap.gyro.calibrate();
-    //	SmartDashboard.putNumber("numbers", iValue2);
-
-    	//RobotMap.internalGyro.reset();
-    	//Robot.driveTrain.setSetpoint(setpoint);    	
     }
     
     
@@ -93,41 +84,10 @@ public class  TankDrive extends Command {
    
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.driveTrain.tankIt(Robot.oi.joystick1);
     	SmartDashboard.putNumber("angle", RobotMap.internalGyro.getAngle());
     	SmartDashboard.putNumber("number", Robot.driveTrain.getSetpoint());
-    	//if(direction){Robot.driveTrain.tankIt(Robot.oi.joystick1);}
-    	//else{Robot.driveTrain.tankItReverse(Robot.oi.joystick1);}
     	
-    	/////////////////////////////////////////////////////////////////////////////////////////
-    //	SmartDashboard.putNumber("distance", (RobotMap.encoderRight.getDistance() + RobotMap.encoderLeft.getDistance()) /2 ); //12.6 inches per revolution 
-    	/*
-    	SmartDashboard.putNumber("angle", RobotMap.gyro.getAngle());
-    	SmartDashboard.putNumber("Rate Right Side", RobotMap.encoderRight.getRate());
-    	SmartDashboard.putNumber("left encoder rate", RobotMap.encoderLeft.getRate());
-    	SmartDashboard.putNumber("right side", RobotMap.driveTrainSpeedController1.get());
-    	SmartDashboard.putNumber("left side", RobotMap.driveTrainSpeedController3.get());
-    	//System.out.println("hi");
-    	//SmartDashboard.
-    	SmartDashboard.putNumber("voltage", RobotMap.gyron.getVoltage());
-    	SmartDashboard.putNumber("center", RobotMap.gyro.getCenter());
-    	SmartDashboard.putNumber("offset", RobotMap.gyro.getOffset());
-    	//SmartDashboard.putNumber("rightsidepowerdraw", RobotMap.powerPanel.getCurrent(15));
-    	//SmartDashboard.putNumber("leftsidepowerdraw", RobotMap.powerPanel.getCurrent(12));
-    	//SmartDashboard.putNumber("total energy", RobotMap.powerPanel.getTotalEnergy());
-    	//Robot.driveTrain.goToAngle(goToAngles);
-    	if(direction){Robot.driveTrain.tankIt(Robot.oi.joystick1);}
-    	else{Robot.driveTrain.tankItReverse(Robot.oi.joystick1);}
-    	
-    	if(RobotMap.gyro.getAngle() > 339 || RobotMap.gyro.getAngle() < -339)
-    	{
-    		RobotMap.gyro.reset();
-    	}
-    	
-    	//SmartDashboard.putNumber("voltage of 0", pdp.getCurrent(0));
-    	//SmartDashboard.putNumber("voltage of 1", pdp.getCurrent(1));
-    	//}
-    	 
-    	 */
     }
 
     // Make this return true when this Command no longer needs to run execute()
