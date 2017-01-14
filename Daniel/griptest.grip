@@ -1,0 +1,185 @@
+<edu.wpi.grip.core.Pipeline>
+  <sources>
+    <edu.wpi.grip.core.sources.MultiImageFileSource>
+      <property name="path[2]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH2ftD0Angle0Brightness.jpg"/>
+      <property name="path[5]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH3ftD0Angle0Brightness.jpg"/>
+      <property name="path[8]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH4ftD2Angle0Brightness.jpg"/>
+      <property name="path[12]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH5ftD3Angle0Brightness.jpg"/>
+      <property name="path[15]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH8ftD0Angle0Brightness.jpg"/>
+      <property name="index" value="0"/>
+      <property name="path[0]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH1ftD0Angle0Brightness.jpg"/>
+      <property name="path[3]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH2ftD1Angle0Brightness.jpg"/>
+      <property name="path[6]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH3ftD2Angle0Brightness.jpg"/>
+      <property name="path[9]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH4ftD3Angle0Brightness.jpg"/>
+      <property name="path[10]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH5ftD0Angle0Brightness.jpg"/>
+      <property name="path[13]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH6ftD0Angle0Brightness.jpg"/>
+      <property name="path[16]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH9ftD0Angle0Brightness.jpg"/>
+      <property name="numImages" value="17"/>
+      <property name="path[1]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH1ftD1Angle0Brightness.jpg"/>
+      <property name="path[4]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH2ftD2Angle0Brightness.jpg"/>
+      <property name="path[7]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH4ftD0Angle0Brightness.jpg"/>
+      <property name="path[11]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH5ftD2Angle0Brightness.jpg"/>
+      <property name="path[14]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Peg\1ftH7ftD0Angle0Brightness.jpg"/>
+    </edu.wpi.grip.core.sources.MultiImageFileSource>
+    <edu.wpi.grip.core.sources.MultiImageFileSource>
+      <property name="path[31]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH150ftD0Angle0Brightness.jpg"/>
+      <property name="path[2]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH3ftD2Angle0Brightness.jpg"/>
+      <property name="path[5]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH4ftD1Angle0Brightness.jpg"/>
+      <property name="path[8]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH5ftD1Angle0Brightness.jpg"/>
+      <property name="path[20]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH9ftD2Angle0Brightness.jpg"/>
+      <property name="path[23]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH10ftD2Angle0Brightness.jpg"/>
+      <property name="path[26]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH11ftD3Angle0Brightness.jpg"/>
+      <property name="path[29]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH13ftD3Angle0Brightness.jpg"/>
+      <property name="path[12]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH6ftD3Angle0Brightness.jpg"/>
+      <property name="path[15]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH7ftD3Angle0Brightness.jpg"/>
+      <property name="index" value="15"/>
+      <property name="path[18]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH8ftD3Angle0Brightness.jpg"/>
+      <property name="path[0]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH2ftD0Angle0Brightness.jpg"/>
+      <property name="path[3]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH3ftD3Angle0Brightness.jpg"/>
+      <property name="path[6]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH4ftD2Angle0Brightness.jpg"/>
+      <property name="path[9]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH5ftD2Angle0Brightness.jpg"/>
+      <property name="path[21]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH9ftD3Angle0Brightness.jpg"/>
+      <property name="path[24]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH10ftD3Angle0Brightness.jpg"/>
+      <property name="path[27]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH12ftD2Angle0Brightness.jpg"/>
+      <property name="path[10]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH5ftD3Angle0Brightness.jpg"/>
+      <property name="path[13]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH7ftD1Angle0Brightness.jpg"/>
+      <property name="path[16]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH8ftD1Angle0Brightness.jpg"/>
+      <property name="path[19]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH9ftD1Angle0Brightness.jpg"/>
+      <property name="numImages" value="32"/>
+      <property name="path[30]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH14ftD3Angle0Brightness.jpg"/>
+      <property name="path[1]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH3ftD0Angle0Brightness.jpg"/>
+      <property name="path[4]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH4ftD0Angle0Brightness.jpg"/>
+      <property name="path[7]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH4ftD3Angle0Brightness.jpg"/>
+      <property name="path[22]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH10ftD1Angle0Brightness.jpg"/>
+      <property name="path[25]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH11ftD2Angle0Brightness.jpg"/>
+      <property name="path[28]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH12ftD3Angle0Brightness.jpg"/>
+      <property name="path[11]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH6ftD1Angle0Brightness.jpg"/>
+      <property name="path[14]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH7ftD2Angle0Brightness.jpg"/>
+      <property name="path[17]" value="C:\Users\Team 100\Downloads\2017VisionExample\Vision Images\LED Boiler\1ftH8ftD2Angle0Brightness.jpg"/>
+    </edu.wpi.grip.core.sources.MultiImageFileSource>
+  </sources>
+  <steps>
+    <edu.wpi.grip.core.Step name="HSL Threshold">
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="0"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="1">
+        <value>
+          <double>74.13730032922814</double>
+          <double>90.54096475698566</double>
+        </value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="2">
+        <value>
+          <double>156.0734463276836</double>
+          <double>255.0</double>
+        </value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="3">
+        <value>
+          <double>18.45328821688412</double>
+          <double>255.0</double>
+        </value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="0" socket="0" previewed="true"/>
+    </edu.wpi.grip.core.Step>
+    <edu.wpi.grip.core.Step name="HSV Threshold">
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="0"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="1">
+        <value>
+          <double>63.129496402877706</double>
+          <double>106.27986348122867</double>
+        </value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="2">
+        <value>
+          <double>123.83093525179855</double>
+          <double>255.0</double>
+        </value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="3">
+        <value>
+          <double>32.10431654676259</double>
+          <double>181.02389078498294</double>
+        </value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="false"/>
+    </edu.wpi.grip.core.Step>
+    <edu.wpi.grip.core.Step name="Find Contours">
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="1">
+        <value>false</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="2" socket="0" previewed="false"/>
+    </edu.wpi.grip.core.Step>
+    <edu.wpi.grip.core.Step name="Filter Contours">
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="0"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="1">
+        <value>0.0</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="2">
+        <value>0</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="3">
+        <value>0</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="4">
+        <value>1000</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="5">
+        <value>0</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="6">
+        <value>1000</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="7">
+        <value>
+          <double>0.0</double>
+          <double>100.0</double>
+        </value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="8">
+        <value>1000000</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="9">
+        <value>0.0</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="10">
+        <value>0</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="11">
+        <value>1000</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="3" socket="0" previewed="true"/>
+    </edu.wpi.grip.core.Step>
+  </steps>
+  <connections>
+    <edu.wpi.grip.core.Connection>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl source="0" socket="0" previewed="true"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="0"/>
+    </edu.wpi.grip.core.Connection>
+    <edu.wpi.grip.core.Connection>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="false"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
+    </edu.wpi.grip.core.Connection>
+    <edu.wpi.grip.core.Connection>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="2" socket="0" previewed="false"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="0"/>
+    </edu.wpi.grip.core.Connection>
+  </connections>
+  <settings>
+    <teamNumber>0</teamNumber>
+    <publishAddress>roboRIO-0-FRC.local</publishAddress>
+    <deployAddress>roboRIO-0-FRC.local</deployAddress>
+    <deployDir>/home/lvuser</deployDir>
+    <deployUser>lvuser</deployUser>
+    <deployJavaHome>/usr/local/frc/JRE/</deployJavaHome>
+    <deployJvmOptions>-Xmx50m -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError -XX:MaxNewSize=16m</deployJvmOptions>
+  </settings>
+  <codeGenerationSettings>
+    <language>Java</language>
+    <className>GripPipeline</className>
+    <implementWpilibPipeline>false</implementWpilibPipeline>
+    <saveDir>C:\Users\Team 100\GRIP</saveDir>
+    <packageName></packageName>
+    <moduleName>grip</moduleName>
+  </codeGenerationSettings>
+</edu.wpi.grip.core.Pipeline>
