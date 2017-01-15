@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+//adding a comment 
 
 /**
  *
@@ -127,7 +127,7 @@ public class PickUp extends PIDSubsystem {
 				if (Robot.oi.operator.getRawAxis(joyNumber) < 0) {
 					armAngleMotor.set(speed);
 				} else {
-					armAngleMotor.set(0.1);
+					armAngleMotor.set(0.2);
 				}
 			} else {
 

@@ -63,7 +63,7 @@ public class OI {
 	public InternalButton testDownDPad;
 	public InternalButton testLeftDPad;
 	public JoystickButton reverseShooter;
-
+	public JoystickButton disableDriveTrainPID;
 	public Joystick autoModeSelect;
 	public JoystickButton obeyLimit;
 		public JoystickButton binary1;
@@ -124,17 +124,17 @@ public class OI {
 		slowShoot.whenPressed(new ShootingSpeed(0, 0)); //start value of setpoint, end value
 
 		mediumshoot = new JoystickButton(operator, 8);
-		mediumshoot.whenPressed(new ShootingSpeed(20,50));
+		mediumshoot.whenPressed(new ShootingSpeed(20,40));
 
 		fastShoot = new JoystickButton(operator, 6);
 		fastShoot.whenPressed(new ShootingSpeed(20, 35));//.5
 
 		top = new JoystickButton(operator, 1);
-		top.whenPressed(new MovePickUpWithPID( 0.438)); //Robot.prefs.getDouble("shooter_top",
+		top.whenPressed(new MovePickUpWithPID( 0.526)); //Robot.prefs.getDouble("shooter_top",
 		mid = new JoystickButton(operator, 4);
-		mid.whenPressed(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_mid", 0.558)));
+		mid.whenPressed(new MovePickUpWithPID(.660));//(Robot.prefs.getDouble("shooter_mid", 0.526)));
 		bot = new JoystickButton(operator, 3);
-		bot.whenPressed(new MovePickUpWithPID(Robot.prefs.getDouble("shooter_bot", 0.658)));
+		bot.whenPressed(new MovePickUpWithPID(.76));//(Robot.prefs.getDouble("shooter_bot", 0.610)));
 		hold = new JoystickButton(driverController1, 2);
 		hold.whileHeld(new holdCurrentGyroPosition());
 		turn90Right = new JoystickButton(driverController2, 5);
@@ -145,10 +145,12 @@ public class OI {
 		spinOut.whileHeld(new RollOut( -1)); //Robot.prefs.getDouble("MoveRollIn_rolloutSpeed",
 
 		spinIn = new JoystickButton(operator, 7);
-		spinIn.whileHeld(new RollOut(.5));
+		spinIn.whileHeld(new RollOut(.6));
 
 		turn180 = new JoystickButton(driverController2, 3);
-		turn180.whileHeld(new TurnToAngle(170));
+		turn180.whenPressed(new TurnToAngle(180));
+		disableDriveTrainPID = new JoystickButton(driverController1, 3);
+		disableDriveTrainPID.whenPressed(new TurnToAngle(360));
 		reverseOrient = new JoystickButton(driverController1, 11);
 		forwardOrient = new JoystickButton(driverController1, 10);
 		reverseOrient.whenPressed(new TankDrive(false));
@@ -210,6 +212,7 @@ public class OI {
 		SmartDashboard.putData("AutoAlignHighGoal", new AutoAlignHighGoal());
 		// SmartDashboard.putData("ShootingSpeed", new ShootingSpeed());
 		SmartDashboard.putData("Shooting", new Shooting());
+		SmartDashboard.putData("Update Preferences", new updatePreferneces());
 	}
 
 	public Joystick getDriverController1() {
