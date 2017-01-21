@@ -1,8 +1,6 @@
 package org.usfirst.frc100.BALLista.commands;
 
 import org.usfirst.frc100.BALLista.Robot;
-import org.usfirst.frc100.BALLista.RobotMap;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class LowerArm extends Command{

@@ -10,21 +10,10 @@
 
 package org.usfirst.frc100.BALLista.commands;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc100.BALLista.Robot;
-import org.usfirst.frc100.BALLista.RobotMap;
 
 public class holdCurrentGyroPosition extends Command {
-
-	private final SpeedController left = RobotMap.driveTrainLeft;
-	private final SpeedController right = RobotMap.driveTrainRight;
 
 	public holdCurrentGyroPosition() {
 		requires(Robot.driveTrain);

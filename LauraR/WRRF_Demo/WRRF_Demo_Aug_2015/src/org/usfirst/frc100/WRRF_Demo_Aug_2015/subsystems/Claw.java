@@ -12,7 +12,6 @@
 package org.usfirst.frc100.WRRF_Demo_Aug_2015.subsystems;
 
 import org.usfirst.frc100.WRRF_Demo_Aug_2015.RobotMap;
-import org.usfirst.frc100.WRRF_Demo_Aug_2015.commands.*;
 import edu.wpi.first.wpilibj.*;
 
 import edu.wpi.first.wpilibj.command.Subsystem;

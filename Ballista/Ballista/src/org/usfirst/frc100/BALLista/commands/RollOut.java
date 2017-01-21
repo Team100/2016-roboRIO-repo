@@ -11,10 +11,7 @@
 package org.usfirst.frc100.BALLista.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc100.BALLista.Robot;
-import org.usfirst.frc100.BALLista.RobotMap;
 
 /**
  *

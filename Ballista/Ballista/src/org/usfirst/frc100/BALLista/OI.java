@@ -11,8 +11,6 @@
 package org.usfirst.frc100.BALLista;
 
 import org.usfirst.frc100.BALLista.commands.*;
-import org.usfirst.frc100.BALLista.subsystems.*;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;

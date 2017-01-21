@@ -5,11 +5,7 @@ import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
 import org.usfirst.frc100.BALLista.commands.TankDrive;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;

@@ -51,7 +51,8 @@ public class AutoAlignHighGoal extends Command {
         final double CAMERA_HORZ_PIXELS = 320.0;
         final double MIN_TURN_RES = 0.5;  // Maybe too stringent?
         double pixelAimingPt, xAngleToTurn;
-        int angleToTurn;
+        @SuppressWarnings("unused")
+		int angleToTurn;
         
         	
         // Get target information from Network Tables

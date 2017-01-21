@@ -2,12 +2,8 @@ package org.usfirst.frc100.BALLista.subsystems;
 
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
-import org.usfirst.frc100.BALLista.commands.*;
-
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

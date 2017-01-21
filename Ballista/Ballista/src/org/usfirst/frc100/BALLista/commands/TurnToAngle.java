@@ -10,14 +10,8 @@
 
 package org.usfirst.frc100.BALLista.commands;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.BALLista.Robot;
-import org.usfirst.frc100.BALLista.RobotMap;
 
 public class TurnToAngle extends Command {
 	boolean cancelPID;

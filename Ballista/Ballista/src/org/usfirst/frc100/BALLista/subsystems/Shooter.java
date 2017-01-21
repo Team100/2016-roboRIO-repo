@@ -2,11 +2,7 @@ package org.usfirst.frc100.BALLista.subsystems;
 
 import org.usfirst.frc100.BALLista.Robot;
 import org.usfirst.frc100.BALLista.RobotMap;
-import org.usfirst.frc100.BALLista.commands.*;
-
 import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -17,6 +13,7 @@ public class Shooter extends PIDSubsystem {
 
 	private final SpeedController flyMotor = RobotMap.shooterFlyMotor;
 	private final Counter flyCounter = RobotMap.shooterSpdCtr;
+	@SuppressWarnings("unused")
 	private final PIDController shooterSpeedControllerPID = RobotMap.shooterShooterSpeedControllerPID;
 
 	private static final double DEFAULT_SHOOTER_KP = .003;

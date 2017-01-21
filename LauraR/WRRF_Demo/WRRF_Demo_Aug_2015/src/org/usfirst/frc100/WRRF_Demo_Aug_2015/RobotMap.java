@@ -14,7 +14,6 @@ package org.usfirst.frc100.WRRF_Demo_Aug_2015;
 import edu.wpi.first.wpilibj.*;
 
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import java.util.Vector;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into

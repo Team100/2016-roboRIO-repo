@@ -24,6 +24,7 @@ public class ShootingSpeed extends Command {
 	private double xValue = 0;
 	private double speed;
 	public static  double maxSetpoint; 
+	@SuppressWarnings("unused")
 	private double incrementingValue = 0.0008;
 	boolean incrementing = false;
 	public static double incrementValue = 0.1;

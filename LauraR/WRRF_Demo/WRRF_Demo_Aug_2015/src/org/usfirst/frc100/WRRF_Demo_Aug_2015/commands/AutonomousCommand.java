@@ -12,7 +12,6 @@
 package org.usfirst.frc100.WRRF_Demo_Aug_2015.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc100.WRRF_Demo_Aug_2015.Robot;
 
 /**
  *
