@@ -210,4 +210,9 @@ public class DriveTrain extends Subsystem {
 
 	}
 
+	public void shift(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
