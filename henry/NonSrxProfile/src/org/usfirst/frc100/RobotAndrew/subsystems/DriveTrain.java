@@ -90,8 +90,10 @@ public class DriveTrain extends Subsystem {
 				double output = d;
 				if(output > maxOutput) {
 					output = maxOutput;
+					System.out.println("The position output: " + "output");
+					System.out.println("The velocity output: " + "maxOutput"); 
 				}
-				right.pidWrite(output); // /2
+				right.pidWrite(maxOutput); // /2
 
 			}
 		});
