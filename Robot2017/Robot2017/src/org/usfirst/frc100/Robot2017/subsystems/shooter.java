@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -50,5 +51,14 @@ public class shooter extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+
+	public void updateDashboard() {
+		// TODO Auto-generated method stub
+		SmartDashboard.putNumber("Shooter/Motor: ", moter.get());
+		SmartDashboard.putNumber("Shooter/Encoder Rate: ", incoder.getRate());
+		SmartDashboard.putNumber("Shooter/Encoder Distance: ", incoder.getDistance());
+		SmartDashboard.putNumber("Shooter/Encoder Count: ", incoder.get());
+		
+	}
 }
 
