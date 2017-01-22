@@ -75,8 +75,8 @@ public class  TankDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	 Robot.driveTrain.updateSetpoint(incrementalAngle);
-    	 Robot.driveTrain.enable();
+    	// Robot.driveTrain.updateSetpoint(incrementalAngle);
+    	// Robot.driveTrain.enable();
     	// RobotMap.internalGyro.reset();
        //  Robot.driveTrain.update(this.setpoint);
     	 // Robot.driveTrain.setSetpoint(incrementalAngle);
@@ -129,6 +129,7 @@ public class  TankDrive extends Command {
     	//}
     	 
     	 */
+    	Robot.driveTrain.tankIt(Robot.oi.joystick1);
     }
 
     // Make this return true when this Command no longer needs to run execute()

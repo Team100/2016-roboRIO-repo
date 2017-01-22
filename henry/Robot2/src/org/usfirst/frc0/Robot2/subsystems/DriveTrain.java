@@ -91,7 +91,7 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	public void stop() {
-		robotDrive41.tankDrive(0.0, 0.0);
+		robotDrive41.arcadeDrive(0.0, 0.0);
 	}
 
 	public void drives(double d, double e) {
