@@ -34,9 +34,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DriveTrain extends Subsystem {
-	private static final double DEFAULT_DRIVE_TRAIN_KP = 1; //.004
+	private static final double DEFAULT_DRIVE_TRAIN_KP = .9; //.004
 	private static final double DEFAULT_DRIVE_TRAIN_KI = 0.00;
-	private static final double DEFAULT_DRIVE_TRAIN_KF = 0.0;
+	private static final double DEFAULT_DRIVE_TRAIN_KF = .58823;
 
 	public double driveTrain_kP;
 	public double driveTrain_kI;
@@ -98,7 +98,7 @@ public class DriveTrain extends Subsystem {
 			}
 		});
 //pid.setPID(p, i, d);
-    	pidPos = new PIDController(.5, .01 , 0, .58823, new PIDSource() { // .58823
+    	pidPos = new PIDController(driveTrain_kP, driveTrain_kI , 0, driveTrain_kF, new PIDSource() { // .58823
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			public double pidGet() {
@@ -126,7 +126,16 @@ public class DriveTrain extends Subsystem {
 				if(maxSpeedReached < output){
 					maxSpeedReached = output;
 				}
-				SmartDashboard.putNumber("maxSpped", maxSpeedReached);
+				/*
+				if(output < .102 && output > 0){
+					output = .102;
+				}
+				
+				if(output < -.132 && output < 0){
+					output = -.132;
+				}
+				*/
+				SmartDashboard.putNumber("output to motor", output);
 				right.pidWrite(output); // /2 
 				count++;
 			}
@@ -150,8 +159,9 @@ public class DriveTrain extends Subsystem {
     	
     //}
 
-	public void driveRobot(Joystick joystick1) {
-		robotDrive.arcadeDrive(joystick1.getRawAxis(1), -joystick1.getRawAxis(2));
+	public void driveRobot(Joystick joy) {
+		robotDrive.arcadeDrive(joy.getRawAxis(1), joy.getRawAxis(2));
+		SmartDashboard.putNumber("joystick output",joy.getRawAxis(1));//, -joystick1.getRawAxis(2));
 		// TODO Auto-generated method stub
 		
 	}

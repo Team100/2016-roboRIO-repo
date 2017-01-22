@@ -22,7 +22,7 @@ public class FollowMotionProfile extends Command{
 	public void initialize() {
 		count = 0;
 		//Robot.driveTrain.pidVel.setAbsoluteTolerance(0.05);
-		Robot.driveTrain.pidPos.setAbsoluteTolerance(0.05);
+		Robot.driveTrain.pidPos.setAbsoluteTolerance(0.1);
 		
 		//Robot.driveTrain.pidVel.enable();
 		Robot.driveTrain.pidPos.enable();
