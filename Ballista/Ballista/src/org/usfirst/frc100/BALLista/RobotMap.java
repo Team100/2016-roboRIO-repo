@@ -53,6 +53,7 @@ public class RobotMap {
     public static DigitalInput pickUpHomeLimit;
 
     public static DoubleSolenoid pushUpPushUpPiston;
+    public static DoubleSolenoid shift;
     public static ADXRS450_Gyro internalGyro;
     
  

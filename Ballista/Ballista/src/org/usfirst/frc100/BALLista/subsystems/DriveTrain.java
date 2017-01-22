@@ -28,6 +28,8 @@ public class DriveTrain extends Subsystem {
 	public PIDController pid;
 	private boolean driveDirection = true;
 	private int distances;
+	public boolean highGear;
+	public boolean lowGear;
 
 
 	private static final double DEFAULT_DRIVE_TRAIN_KP = 180.04; //.004
@@ -212,7 +214,12 @@ public class DriveTrain extends Subsystem {
 
 	public void shift(boolean b) {
 		// TODO Auto-generated method stub
-		
+		if(!b){
+			highGear = b;
+			lowGear = !b;
+		}else{
+			highGear = !b;
+			lowGear = b;
+		}
 	}
-
 }
