@@ -11,12 +11,13 @@ Users need to:
 """
 
 import cv2
+import numpy as np
+
 from networktables import NetworkTable
 
 from grip import GripPipeline  # TODO change the default module and class, if needed
 
 ip = '127.0.0.1'
-
 
 #cv2.namedWindow("Display")
 myImage = cv2.imread("C:/Users/Team 100/GRIP/CardboardVisionTarget/files/myPic.jpg", cv2.IMREAD_COLOR)
@@ -42,7 +43,7 @@ def main():
         NetworkTable.setClientMode()
         NetworkTable.initialize()
     except:
-        print("Already Initialized")
+        print "Already Initialized"
     
     sd = NetworkTable.getTable('SmartDashboard')
     sd.putNumber('sampleNumber', 123)
@@ -50,6 +51,7 @@ def main():
     cap = cv2.VideoCapture(1)
     pipeline = GripPipeline()
     
+    #pipeline.process(myImage)
     while True:
         #ret, frame = cap.read()
         #cv2.imshow("myFrame", frame)

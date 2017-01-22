@@ -10,9 +10,14 @@ class GripPipeline:
         """initializes all values to presets or None if need to be set
         """
         
-        self.__hsv_threshold_hue = [43.516564308384375, 142.49291906075982]
-        self.__hsv_threshold_saturation = [0.0, 18.13416355055556]
-        self.__hsv_threshold_value = [210.97122302158272, 255.0]
+        self.__hsv_threshold_hue = [78, 176]
+        #self.__hsv_threshold_hue = [43.516564308384375, 142.49291906075982]
+
+       # self.__hsv_threshold_saturation = [0.0, 18.13416355055556]
+        self.__hsv_threshold_saturation = [180, 255]
+
+        self.__hsv_threshold_value = [91.0, 255.0]
+        #self.__hsv_threshold_value = [210.97122302158272, 255.0]
 
         self.hsv_threshold_output = None
 
@@ -42,10 +47,6 @@ class GripPipeline:
         Runs the pipeline and sets all outputs to new values.
         """
         
-        cv2.namedWindow("Display2")
-        cv2.imshow("Display2", source0)
-        cv2.waitKey(0)
-        
         # Step HSV_Threshold0:
         self.__hsv_threshold_input = source0
         (self.hsv_threshold_output) = self.__hsv_threshold(self.__hsv_threshold_input, self.__hsv_threshold_hue, self.__hsv_threshold_saturation, self.__hsv_threshold_value)
@@ -70,8 +71,11 @@ class GripPipeline:
         Returns:
             A black and white numpy.ndarray.
         """
+        
         out = cv2.cvtColor(input, cv2.COLOR_BGR2HSV)
-        return cv2.inRange(out, (hue[0], sat[0], val[0]),  (hue[1], sat[1], val[1]))
+        testVar = cv2.inRange(out, (hue[0], sat[0], val[0]),  (hue[1], sat[1], val[1]))
+        
+        return testVar
 
     @staticmethod
     def __find_contours(input, external_only):
@@ -82,17 +86,17 @@ class GripPipeline:
         Return:
             A list of numpy.ndarray where each one represents a contour.
         """
-        
-        """if(external_only):
+        cv2.namedWindow("Eureka")
+        cv2.imshow("Eureka", input)
+        cv2.waitKey(0)
+                                
+        if(external_only):
             mode = cv2.RETR_EXTERNAL
         else:
             mode = cv2.RETR_LIST
         method = cv2.CHAIN_APPROX_SIMPLE
-        """
-        print("Got here")
-        #print(mode)
-
-        im2, contours, hierarchy = cv2.findContours(input, mode=cv2.RETR_LIST, method=cv2.CHAIN_APPROX_SIMPLE)
+        
+        contours, hierarchy = cv2.findContours(input, mode=mode, method=method)
         return contours
 
     @staticmethod
@@ -138,5 +142,6 @@ class GripPipeline:
             if (ratio < min_ratio or ratio > max_ratio):
                 continue
             output.append(contour)
+            print(output)
         return output
 # end Pipeline
