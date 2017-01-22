@@ -5,9 +5,27 @@
 # Created: Sat Jan 21 13:02:26 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
-# WARNING! All changes made in this file will be lost!
-
+# WARNING! All changes made in this file will be lost
+# WARNING! All changes made in this file will be lost
 from PyQt4 import QtCore, QtGui
+
+import sys
+import time
+from networktables import NetworkTables
+
+# To see messages from networktables, you must setup logging
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+if len(sys.argv) != 2:
+    print("Error: specify an IP to connect to!")
+    exit(0)
+        
+ip = sys.argv[1]
+    
+NetworkTables.initialize(server=ip)
+
+namesToAdd = list()
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -69,7 +87,7 @@ class Ui_MainWindow(object):
         self.table.setAlternatingRowColors(True)
         self.table.setWordWrap(True)
         self.table.setObjectName(_fromUtf8("table"))
-        self.table.setColumnCount(2)
+        self.table.setColumnCount(30)
         self.table.setRowCount(2)
         item = QtGui.QTableWidgetItem()
         self.table.setVerticalHeaderItem(0, item)
@@ -119,6 +137,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "app", None))
         self.tree.headerItem().setText(0, _translate("MainWindow", "SubSystems", None))
@@ -131,14 +150,12 @@ class Ui_MainWindow(object):
         self.tree.topLevelItem(1).child(0).setText(0, _translate("MainWindow", "item3", None))
         self.tree.topLevelItem(1).child(1).setText(0, _translate("MainWindow", "item4", None))
         self.tree.setSortingEnabled(__sortingEnabled)
-        item = self.table.verticalHeaderItem(0)
-        item.setText(_translate("MainWindow", "row1", None))
-        item = self.table.verticalHeaderItem(1)
-        item.setText(_translate("MainWindow", "row2", None))
-        item = self.table.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "column1", None))
-        item = self.table.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "column2", None))
+        
+    
+        
+        #item.setText(_translate("MainWindow", "column1", None))
+        #item = self.table.horizontalHeaderItem(1)
+        #item.setText(_translate("MainWindow", "column2", None))
         __sortingEnabled = self.table.isSortingEnabled()
         self.table.setSortingEnabled(False)
         self.table.setSortingEnabled(__sortingEnabled)
@@ -146,7 +163,18 @@ class Ui_MainWindow(object):
         self.actionOpen.setText(_translate("MainWindow", "Open", None))
         self.actionSave.setText(_translate("MainWindow", "Save", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
-
+def valueChanged(key, value, isNew):
+                 
+    print("valueChanged: key: '%s'; value: %s; isNew: %s" % (key, value, isNew))
+    
+    #print namesToAdd
+    if isNew == True:
+        namesToAdd.append(key)
+#        i = 0
+#        item = ui.table.verticalHeaderItem(i)
+#        i = i+1
+#        item.setText(_translate("MainWindow", "column"+str(i), None))   
+    
 from PyQt4 import Qwt5
 
 if __name__ == "__main__":
@@ -156,5 +184,7 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    NetworkTables.addGlobalListener(valueChanged)
     sys.exit(app.exec_())
+
 
