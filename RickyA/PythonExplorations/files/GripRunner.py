@@ -17,13 +17,14 @@ from networktables import NetworkTable
 
 from grip import GripPipeline  # TODO change the default module and class, if needed
 
+cx = None
 ip = '127.0.0.1'
+piLoc = 'http://raspberrypi.local:5802/?action=stream'
 
 #cv2.namedWindow("Display")
-myImage = cv2.imread("C:/Users/Team 100/GRIP/CardboardVisionTarget/files/myPic.jpg", cv2.IMREAD_COLOR)
+#myImage = cv2.imread("C:/Users/Team 100/GRIP/CardboardVisionTarget/files/myPic.jpg", cv2.IMREAD_COLOR)
 #cv2.imshow("Display", myImage)
 #cv2.waitKey(0)
-
 
 #def extra_processing(pipeline: GripPipeline):
  #   """
@@ -43,23 +44,28 @@ def main():
         NetworkTable.setClientMode()
         NetworkTable.initialize()
     except:
-        print "Already Initialized"
+        pass
+        #print("Already Initialized")
     
     sd = NetworkTable.getTable('SmartDashboard')
-    sd.putNumber('sampleNumber', 123)
     
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(piLoc)
     pipeline = GripPipeline()
-    
-    #pipeline.process(myImage)
+                
     while True:
-        #ret, frame = cap.read()
-        #cv2.imshow("myFrame", frame)
+        ret, frame = cap.read()
         
-        #cv2.WaitKey(0)
-        #if ret:
-        pipeline.process(myImage)  # TODO add extra parameters if the pipeline takes more than just a single image
+        if ret:
+            pipeline.process(frame)  # TODO add extra parameters if the pipeline takes more than just a single image
+            if pipeline.cx != None:
+                sd.putNumber("centerX", pipeline.cx)
+                sd.putNumber("centerY", pipeline.cy)
+            
             #extra_processing(pipeline)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break;
+    # When everything done, release the capture
+    cap.release()
 
 if __name__ == '__main__':
     main()
