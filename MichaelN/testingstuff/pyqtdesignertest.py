@@ -25,7 +25,7 @@ ip = sys.argv[1]
     
 NetworkTables.initialize(server=ip)
 
-namesToAdd = list()
+namesToAdd = []
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -87,17 +87,20 @@ class Ui_MainWindow(object):
         self.table.setAlternatingRowColors(True)
         self.table.setWordWrap(True)
         self.table.setObjectName(_fromUtf8("table"))
-        self.table.setColumnCount(30)
+        self.table.setColumnCount(len(namesToAdd))
         self.table.setRowCount(2)
         item = QtGui.QTableWidgetItem()
+        for i in enumerate(namesToAdd):
+            self.table.setHorizontalHeaderItem(i[0], item)
+            item = QtGui.QTableWidgetItem()
         self.table.setVerticalHeaderItem(0, item)
         item = QtGui.QTableWidgetItem()
         self.table.setVerticalHeaderItem(1, item)
         item = QtGui.QTableWidgetItem()
-        self.table.setHorizontalHeaderItem(0, item)
-        item = QtGui.QTableWidgetItem()
-        self.table.setHorizontalHeaderItem(1, item)
-        item = QtGui.QTableWidgetItem()
+        #self.table.setHorizontalHeaderItem(0, item)
+        #item = QtGui.QTableWidgetItem()
+        #self.table.setHorizontalHeaderItem(1, item)
+        #item = QtGui.QTableWidgetItem()
         item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)
         self.table.setItem(0, 0, item)
         item = QtGui.QTableWidgetItem()
@@ -150,8 +153,14 @@ class Ui_MainWindow(object):
         self.tree.topLevelItem(1).child(0).setText(0, _translate("MainWindow", "item3", None))
         self.tree.topLevelItem(1).child(1).setText(0, _translate("MainWindow", "item4", None))
         self.tree.setSortingEnabled(__sortingEnabled)
+                
+        for name in enumerate(namesToAdd):
+            print(name[0])
+            item = self.table.horizontalHeaderItem(name[0])
+            item.setText(_translate("MainWindow", namesToAdd[name[0]], None))
+            
+            
         
-    
         
         #item.setText(_translate("MainWindow", "column1", None))
         #item = self.table.horizontalHeaderItem(1)
@@ -167,9 +176,11 @@ def valueChanged(key, value, isNew):
                  
     print("valueChanged: key: '%s'; value: %s; isNew: %s" % (key, value, isNew))
     
-    #print namesToAdd
+    #add namesToAdd
     if isNew == True:
         namesToAdd.append(key)
+        
+            
 #        i = 0
 #        item = ui.table.verticalHeaderItem(i)
 #        i = i+1
@@ -179,12 +190,16 @@ from PyQt4 import Qwt5
 
 if __name__ == "__main__":
     import sys
+    NetworkTables.addGlobalListener(valueChanged)
+    time.sleep(1)
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    NetworkTables.addGlobalListener(valueChanged)
+    print(len(namesToAdd))
+    
+    
     sys.exit(app.exec_())
 
 
