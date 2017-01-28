@@ -42,6 +42,7 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_MainWindow(object):
+    
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(1422, 1324)
@@ -154,7 +155,7 @@ class Ui_MainWindow(object):
         for name in enumerate(namesToAdd):
             item = QtGui.QTableWidgetItem()
             i = name[0]            
-            print(i)
+            #print(i)
             self.table.setHorizontalHeaderItem(i, item)
             sep = namesToAdd[i].split('/')
             item = self.table.horizontalHeaderItem(i)
@@ -163,11 +164,14 @@ class Ui_MainWindow(object):
             item_0.setCheckState(0, QtCore.Qt.Unchecked)
             item_0.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)
             self.tree.topLevelItem(i).setText(0, _translate("MainWindow", sep[1], None))
-            for leng in range(2,len(sep)):
+            print(self.tree.topLevelItem(i))
+            for leng in range(2,3):
+                print(leng)
                 item_1 = QtGui.QTreeWidgetItem(item_0)
                 item_1.setCheckState(0, QtCore.Qt.Unchecked)
                 item_1.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)
-                self.tree.topLevelItem(i).child(leng).setText(0, _translate("MainWindow", sep[leng], None))
+                self.tree.topLevelItem(i).child(leng-2).setText(0, _translate("MainWindow", sep[leng], None))
+                
             
             
             
@@ -183,13 +187,13 @@ class Ui_MainWindow(object):
         self.actionOpen.setText(_translate("MainWindow", "Open", None))
         self.actionSave.setText(_translate("MainWindow", "Save", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
-    def valueChanged(key, value, isNew):
+def valueChanged(key, value, isNew):
                      
-        print("valueChanged: key: '%s'; value: %s; isNew: %s" % (key, value, isNew))
+    print("valueChanged: key: '%s'; value: %s; isNew: %s" % (key, value, isNew))
         
         #add namesToAdd
-        if isNew:
-            namesToAdd.append(key)
+    if isNew:
+        namesToAdd.append(key)
         
             
 #        i = 0
@@ -205,7 +209,7 @@ if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
     ui = Ui_MainWindow()
-    NetworkTables.addGlobalListener(ui.valueChanged)
+    NetworkTables.addGlobalListener(valueChanged)
     time.sleep(1)
     ui.setupUi(MainWindow)
     MainWindow.show()
