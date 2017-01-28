@@ -26,6 +26,7 @@ ip = sys.argv[1]
 NetworkTables.initialize(server=ip)
 
 namesToAdd = []
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -63,7 +64,7 @@ class Ui_MainWindow(object):
         self.tree.setObjectName(_fromUtf8("tree"))
 #        item_0 = QtGui.QTreeWidgetItem(self.tree)
 #        item_0.setCheckState(0, QtCore.Qt.Unchecked)
-#        item_0.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)       
+#        item_0.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)
 #        item_1 = QtGui.QTreeWidgetItem(item_0)
 #        item_1.setCheckState(0, QtCore.Qt.Unchecked)
 #        item_1.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)
@@ -86,12 +87,9 @@ class Ui_MainWindow(object):
         self.table.setAlternatingRowColors(True)
         self.table.setWordWrap(True)
         self.table.setObjectName(_fromUtf8("table"))
-        #self.table.setColumnCount(len(namesToAdd))
+        self.table.setColumnCount(len(namesToAdd))
         self.table.setRowCount(2)
         item = QtGui.QTableWidgetItem()
-       # for i in enumerate(namesToAdd):
-       #     self.table.setHorizontalHeaderItem(i[0], item)
-       #     item = QtGui.QTableWidgetItem()
         self.table.setVerticalHeaderItem(0, item)
         item = QtGui.QTableWidgetItem()
         self.table.setVerticalHeaderItem(1, item)
@@ -135,61 +133,42 @@ class Ui_MainWindow(object):
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionExit)
         self.menubar.addAction(self.menuFile.menuAction())
-        
-        def valueChanged(key, value, isNew):
-                        
-            print("valueChanged: key: '%s'; value: %s; isNew: %s" % (key, value, isNew))
-            
-            #add namesToAdd
-            if isNew:
-#                
-#                item = QtGui.QTableWidgetItem()
-#                self.table.setColumnCount(i+1)                
-#                self.table.setHorizontalHeaderItem(i, item)
-                namesToAdd.append(key)
-#                __sortingEnabled = self.tree.isSortingEnabled()
-#                self.tree.setSortingEnabled(False)
-#                
-#                for nValue in namesToAdd:
-#                    
-#                    sep = nValue.split('/')
-#                    
-#                    item_0 = QtGui.QTreeWidgetItem(self.tree)
-#                    item_0.setCheckState(0, QtCore.Qt.Unchecked)
-#                    item_0.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)
-#                    self.tree.topLevelItem(i).setText(0, _translate("MainWindow", sep[1], None))
-##                    for childnum in range(0,len(sep)-1):
-#                    item_1 = QtGui.QTreeWidgetItem(item_0)
-#                    item_1.setCheckState(0, QtCore.Qt.Unchecked)
-#                    item_1.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)
-#                    self.tree.topLevelItem(i).child(0).setText(0, _translate('MainWindow', sep[2], None))
-#                    namesToAdd.pop(0)
-#                i+=1
-#                    
-#                self.tree.setSortingEnabled(__sortingEnabled)
-                
-        NetworkTables.addGlobalListener(valueChanged)
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "app", None))
-#        self.tree.headerItem().setText(0, _translate("MainWindow", "SubSystems", None))
-#        __sortingEnabled = self.tree.isSortingEnabled()
-#        self.tree.setSortingEnabled(False)
+        self.tree.headerItem().setText(0, _translate("MainWindow", "SubSystems", None))
+        __sortingEnabled = self.tree.isSortingEnabled()
+        self.tree.setSortingEnabled(False)
 #        self.tree.topLevelItem(0).setText(0, _translate("MainWindow", "headerItem1", None))
 #        self.tree.topLevelItem(0).child(0).setText(0, _translate("MainWindow", "Item1", None))
 #        self.tree.topLevelItem(0).child(1).setText(0, _translate("MainWindow", "Item2", None))
 #        self.tree.topLevelItem(1).setText(0, _translate("MainWindow", "headerItem2", None))
 #        self.tree.topLevelItem(1).child(0).setText(0, _translate("MainWindow", "item3", None))
 #        self.tree.topLevelItem(1).child(1).setText(0, _translate("MainWindow", "item4", None))
-#        self.tree.setSortingEnabled(__sortingEnabled)
+        self.tree.setSortingEnabled(__sortingEnabled)
                 
         for name in enumerate(namesToAdd):
-            print(name[0])
-            item = self.table.horizontalHeaderItem(name[0])
-            item.setText(_translate("MainWindow", namesToAdd[name[0]], None))
+            item = QtGui.QTableWidgetItem()
+            i = name[0]            
+            print(i)
+            self.table.setHorizontalHeaderItem(i, item)
+            sep = namesToAdd[i].split('/')
+            item = self.table.horizontalHeaderItem(i)
+            item.setText(_translate("MainWindow", namesToAdd[i], None))
+            item_0 = QtGui.QTreeWidgetItem(self.tree)
+            item_0.setCheckState(0, QtCore.Qt.Unchecked)
+            item_0.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)
+            self.tree.topLevelItem(i).setText(0, _translate("MainWindow", sep[1], None))
+            for leng in range(2,len(sep)):
+                item_1 = QtGui.QTreeWidgetItem(item_0)
+                item_1.setCheckState(0, QtCore.Qt.Unchecked)
+                item_1.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDragEnabled|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)
+                self.tree.topLevelItem(i).child(leng).setText(0, _translate("MainWindow", sep[leng], None))
+            
             
             
         
@@ -204,7 +183,13 @@ class Ui_MainWindow(object):
         self.actionOpen.setText(_translate("MainWindow", "Open", None))
         self.actionSave.setText(_translate("MainWindow", "Save", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
-
+    def valueChanged(key, value, isNew):
+                     
+        print("valueChanged: key: '%s'; value: %s; isNew: %s" % (key, value, isNew))
+        
+        #add namesToAdd
+        if isNew:
+            namesToAdd.append(key)
         
             
 #        i = 0
@@ -217,15 +202,14 @@ from PyQt4 import Qwt5
 if __name__ == "__main__":
     import sys
 
-    time.sleep(1)
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
     ui = Ui_MainWindow()
+    NetworkTables.addGlobalListener(ui.valueChanged)
+    time.sleep(1)
     ui.setupUi(MainWindow)
     MainWindow.show()
     print(len(namesToAdd))
     
     
     sys.exit(app.exec_())
-
-
