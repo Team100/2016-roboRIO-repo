@@ -49,7 +49,7 @@ def main():
     
     sd = NetworkTable.getTable('SmartDashboard')
     
-    cap = cv2.VideoCapture(piLoc)
+    cap = cv2.VideoCapture(1)
     pipeline = GripPipeline()
                 
     while True:
@@ -57,10 +57,11 @@ def main():
         
         if ret:
             pipeline.process(frame)  # TODO add extra parameters if the pipeline takes more than just a single image
-            if pipeline.cx != None:
-                sd.putNumber("centerX", pipeline.cx)
-                sd.putNumber("centerY", pipeline.cy)
-            
+            if pipeline.center != None:
+                sd.putNumberArray("Center", pipeline.center)
+                cv2.rectangle(frame, (pipeline.center[0]-5, pipeline.center[1]-5), (pipeline.center[0]+5, pipeline.center[1]+5), (0,0,255), 1)
+                cv2.imshow("myFrame", frame)
+               
             #extra_processing(pipeline)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break;

@@ -9,15 +9,15 @@ class GripPipeline:
     def __init__(self):
         """initializes all values to presets or None if need to be set
         """
-        #self.__hsv_threshold_hue = [43.516564308384375, 142.49291906075982]
-       # self.__hsv_threshold_saturation = [0.0, 18.13416355055556]
-        #self.__hsv_threshold_value = [210.97122302158272, 255.0]
-        self.cx = None
-        self.cy = None
+        self.__hsv_threshold_hue = [43.516564308384375, 142.49291906075982]
+        self.__hsv_threshold_saturation = [0.0, 40.13416355055556] # 0, 18
+        self.__hsv_threshold_value = [210.97122302158272, 255.0]
+        
+        self.center = None
                 
-        self.__hsv_threshold_hue = [44, 142]
-        self.__hsv_threshold_saturation = [0, 17.2]
-        self.__hsv_threshold_value = [91.0, 255.0]
+        #self.__hsv_threshold_hue = [44, 142]
+        #self.__hsv_threshold_saturation = [0, 17.2]
+        #self.__hsv_threshold_value = [91.0, 255.0]
 
         self.hsv_threshold_output = None
 
@@ -60,13 +60,54 @@ class GripPipeline:
         (self.filter_contours_output) = self.__filter_contours(self.__filter_contours_contours, self.__filter_contours_min_area, self.__filter_contours_min_perimeter, self.__filter_contours_min_width, self.__filter_contours_max_width, self.__filter_contours_min_height, self.__filter_contours_max_height, self.__filter_contours_solidity, self.__filter_contours_max_vertices, self.__filter_contours_min_vertices, self.__filter_contours_min_ratio, self.__filter_contours_max_ratio)
         
         try:
-            cnt = self.filter_contours_output[0]
-            M = cv2.moments(cnt)
-            
-            self.cx = int(M['m10']/M['m00'])
-            self.cy = int(M['m01']/M['m00'])
+            #print("Number of contours: " + str(len(self.filter_contours_output)))
+            if (len(self.filter_contours_output) == 2):
+                 #cnt = self.filter_contours_output[1]
+                 #M = cv2.moments(cnt)
+                foundContours = [self.filter_contours_output[0], self.filter_contours_output[1]]
+                momentOne = cv2.moments(foundContours[0])
+                momentTwo = cv2.moments(foundContours[1])
+                 #print("Number of contours: " + str(len(foundContours)))
+                 
+                
+                cx = [(int(momentOne['m10']/momentOne['m00'])), (int(momentTwo['m10']/momentTwo['m00']))]
+                cy = [(int(momentOne['m01']/momentOne['m00'])), (int(momentTwo['m01']/momentTwo['m00']))]
+                
+                #self.cx.append(int(momentTwo['m10']/momentTwo['m00']))
+                #self.cy.append(int(momentTwo['m01']/momentTwo['m00']))  
+                
+                centerX = (cx[0] + cx[1]) / 2
+                centerY = (cy[0] + cy[1]) / 2
+                
+                self.center = [centerX, centerY]
+                print("Center: (" + str(self.center[0]) + ", " + str(self.center[1]) + ")")
+                
+                #print(self.cy[0])
+                 
+           # self.cx = int(M['m10']/M['m00'])
+            #self.cy = int(M['m01']/M['m00'])
             
             #print "Center: (" + str(self.cx) + ", " + str(self.cy) + ")"
+            
+            """ 
+            To find distance from camera to object, use triangle similarity:
+                W = width of object at known distance
+                Z = Known Distance
+                wp= Width in Pixels of apparent object
+                
+                f = focal length of camera and f = wp*Z/W
+                and by triangle similarity... Z = W*f/wp 
+                where z is the objects current distance from camera."""
+            
+            """widthOfObject = 4 #inches
+            knownDistance = 24 #inches
+            widthInPixels = 2
+            focalPoint = widthInPixels*knownDistance/widthOfObject
+            
+            distanceFromObject = widthOfObject*focalPoint/widthInPixels
+            print("Distance From Object: " + distanceFromObject)"""
+                
+                
         except:
             pass
             #print("NO CONTOUR DETECTED")
@@ -82,6 +123,9 @@ class GripPipeline:
         Returns:
             A black and white numpy.ndarray.
         """
+        #cv2.namedWindow("HSV")
+        #cv2.imshow("HSV", input)
+        #cv2.waitKey(0)
         
         out = cv2.cvtColor(input, cv2.COLOR_BGR2HSV)
         testVar = cv2.inRange(out, (hue[0], sat[0], val[0]),  (hue[1], sat[1], val[1]))
