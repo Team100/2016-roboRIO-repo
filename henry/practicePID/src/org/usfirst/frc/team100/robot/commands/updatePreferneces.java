@@ -18,7 +18,7 @@ public class updatePreferneces extends Command {
 	protected void initialize() {
 		p = Robot.prefs.getDouble("driveTrain_kP",0);
 		i = Robot.prefs.getDouble("driveTrain_kI",0);
-		f = Robot.prefs.getDouble("driveTrain_kF",0);
+		f = Robot.prefs.getDouble("driveTrain_kD",0);
 		Robot.drive.pid.setPID(p, i, f);
 		
 	}

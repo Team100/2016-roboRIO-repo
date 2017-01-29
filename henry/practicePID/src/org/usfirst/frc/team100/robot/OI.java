@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team100.robot.commands.Drive;
+import org.usfirst.frc.team100.robot.commands.updatePreferneces;
 //import org.usfirst.frc.team100.robot.commands.SetElevatorSetpoint;
 //import org.usfirst.frc.team100.robot.commands.SetElevatorSetpoint;
 //import org.usfirst.frc100.RobotAndrew.Robot;
@@ -20,6 +21,7 @@ public class OI {
 	 public JoystickButton start; 
 	 public double shooter_speed;
 	 public JoystickButton stop;
+	 public JoystickButton update;
 	 public OI()
 	 {
 		 /*
@@ -37,8 +39,10 @@ public class OI {
 	     go2.whenPressed(new Drive(-90));
 	     */
 		 //go.whenPressed(new Drive(0.2)); 
+		  JoystickButton update = new JoystickButton(joy, 3);
+		  update.whenPressed(new updatePreferneces());
 		  JoystickButton start = new JoystickButton(joy, 1);
-		  start.whenPressed((new Drive(10)));
+		  start.whenPressed((new Drive(55)));
 		  
 		  JoystickButton stop = new JoystickButton(joy, 2);
 		  stop.whenPressed((new Drive(true)));

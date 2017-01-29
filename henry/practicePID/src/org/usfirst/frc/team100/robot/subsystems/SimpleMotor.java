@@ -67,7 +67,7 @@ public class SimpleMotor extends Subsystem  {
 		driveTrain_kD = Robot.prefs.getDouble("driveTrain_kD",
 				DEFAULT_DRIVE_TRAIN_KD);
 		
-    	pid = new PIDController(.1, 0.0, 0.0, new PIDSource() { // .04 0 0 for 180
+    	pid = new PIDController(driveTrain_kP, driveTrain_kI,  driveTrain_kD, 0.0, new PIDSource() { // .04 0 0 for 180
 			PIDSourceType m_sourceType = PIDSourceType.kRate;
 
 			public double pidGet() {
@@ -85,7 +85,7 @@ public class SimpleMotor extends Subsystem  {
 			}
 		}, new PIDOutput() {
 			public void pidWrite(double d) {
-				shooter.pidWrite(d); // /2
+				shooter.pidWrite(-d); // /2
 				//left.pidWrite(-d/2); // /2
 			}
 		});

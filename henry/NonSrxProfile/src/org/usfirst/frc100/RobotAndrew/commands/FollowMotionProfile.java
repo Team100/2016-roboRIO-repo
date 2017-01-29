@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FollowMotionProfile extends Command{
 	int count = 0;
+	int changevalue = 0;
+	double setP;
+	double setPP;
 	private static final String SmartDashoard = null;
 
 	public FollowMotionProfile() {
@@ -21,39 +24,53 @@ public class FollowMotionProfile extends Command{
 	
 	public void initialize() {
 		count = 0;
-		//Robot.driveTrain.pidVel.setAbsoluteTolerance(0.05);
-		Robot.driveTrain.pidPos.setAbsoluteTolerance(0.1);
+		RobotMap.encoderLeft.reset();
+		RobotMap.encoderRight.reset();
+	//	//Robot.driveTrain.pidVel.setAbsoluteTolerance(0.05);
+		Robot.driveTrain.pidPosRight.setAbsoluteTolerance(0.1);
+		Robot.driveTrain.pidPosLeft.setAbsoluteTolerance(0.1);
 		
 		//Robot.driveTrain.pidVel.enable();
-		Robot.driveTrain.pidPos.enable();
+		Robot.driveTrain.pidPosRight.enable();
+		Robot.driveTrain.pidPosLeft.enable();
 		
 	}
 	
 	public void execute() {
-		 
-		if(count < MotionProfile.Points.length) {
-			
-			//Robot.driveTrain.pidVel.setSetpoint(MotionProfile.Points[count][1]);
-			Robot.driveTrain.pidPos.setSetpoint(MotionProfile.Points[count][0]);
+		if(count == 0){
+			Robot.driveTrain.pidPosLeft.setSetpoint(MotionProfile.Points[count][0]);
+			Robot.driveTrain.pidPosRight.setSetpoint(MotionProfile.Points[count][0]);
 			count++;
-		} else {
-			SmartDashboard.putNumber("count", count);
-			//Robot.driveTrain.pidVel.disable();
-			//Robot.driveTrain.pidPos.disable();
 		}
+		if(count < MotionProfile.Points.length && count > 0){
+			if(changevalue == 0 ){//&& changevalue == 0) {
+				setP = ((MotionProfile.Points[count-1][0]) + (MotionProfile.Points[count][0]))/2;
+				//setPP =( MotionProfile.Points[count][0]) - setP;
+				Robot.driveTrain.pidPosRight.setSetpoint(setP);
+				Robot.driveTrain.pidPosLeft.setSetpoint(setP);
+				changevalue++; 
+			} else {
+				Robot.driveTrain.pidPosRight.setSetpoint(MotionProfile.Points[count][0]);
+				Robot.driveTrain.pidPosLeft.setSetpoint(MotionProfile.Points[count][0]);
+				count++;
+				changevalue = 0;
+				
+			}
+		}
+		SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPosLeft.getSetpoint());
 		
-		SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPos.getSetpoint());
-		SmartDashboard.putNumber("error", Robot.driveTrain.pidPos.getError());
+		SmartDashboard.putNumber("change", changevalue);
+	//	SmartDashboard.putNumber("error", Robot.driveTrain.pidPos.getError());
 	}
 
 	protected boolean isFinished() {
 		
-		return Robot.driveTrain.pidPos.onTarget();
+		return Robot.driveTrain.pidPosRight.onTarget();
 	}
 	protected void end(){
 		
-		Robot.driveTrain.pidVel.disable();
-		Robot.driveTrain.pidPos.disable();
+		Robot.driveTrain.pidPosLeft.disable();
+		Robot.driveTrain.pidPosRight.disable();
 		Robot.driveTrain.stop();
 	}
 
