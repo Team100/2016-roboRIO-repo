@@ -51,14 +51,17 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	private double getDistance() {
 		return 0;
 	}
+	
+	
 
-	@Override
-	public void startLiveWindowMode() {
-	}
-
-	@Override
-	public void stopLiveWindowMode() {
-	}
+//	@Override
+//	public void startLiveWindowMode() {
+//		
+//	}
+//
+//	@Override
+//	public void stopLiveWindowMode() {
+//	}
 	
 	public enum VL6180xRegister{
 		VL6180X_IDENTIFICATION_MODEL_ID				((int)0x0000),
@@ -135,7 +138,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 
 		  if(data != 1) return VL6180x_FAILURE_RESET;
 		  
-		  VL6180x_setRegister((enum VL6180xRegister)0x0207, 0x01);
+		  VL6180x_setRegister(0x0207, 0x01);
 		  VL6180x_setRegister(0x0208, 0x01);
 		  VL6180x_setRegister(0x0096, 0x00);
 		  VL6180x_setRegister(0x0097, 0xfd);
@@ -207,6 +210,15 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  Wire.endTransmission(); //Send address and register address bytes
 	  */
 	}
+	public void VL6180x_setRegister(int reg, int data){
+		/*
+	  write( _i2caddress ); // Address set on class instantiation
+	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
+	  Wire.write(registerAddr & 0xFF); //LSB of register address
+	  Wire.write(data); // Data/setting to be sent to device.
+	  Wire.endTransmission(); //Send address and register address bytes
+	  */
+	}
 
 	public void VL6180x_setRegister16bit(VL6180xRegister vl6180xSysrangeEarlyConvergenceEstimate, int data){
 	  /*
@@ -220,5 +232,17 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  Wire.write(temp); // Data/setting to be sent to device
 	  Wire.endTransmission(); //Send address and register address bytes
 	  */
+	}
+
+	@Override
+	public void startLiveWindowMode() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stopLiveWindowMode() {
+		// TODO Auto-generated method stub
+		
 	}
 }
