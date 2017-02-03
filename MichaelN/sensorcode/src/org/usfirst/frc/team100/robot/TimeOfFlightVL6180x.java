@@ -243,13 +243,17 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	
 	public void startDistance(){
 		setRegister(VL6180xRegister.SYSRANGE_START, 0x01);
+		isFinishedMeasure();
 	}
 	
-	public void checkDistance(){
-		
+	public boolean isFinishedMeasure(){
+		if(true){
+			return true;
+		}
+		return false;
 	}
 	
 	public double readDistance(){
-		return 0;
+		return getRegister(VL6180xRegister.RESULT_RANGE_VAL);
 	}
 }
