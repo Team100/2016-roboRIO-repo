@@ -12,6 +12,8 @@
 package org.usfirst.frc100.RobotAndrew.subsystems;
 
 
+import java.util.Timer;
+
 import org.usfirst.frc100.RobotAndrew.Robot;
 import org.usfirst.frc100.RobotAndrew.RobotMap;
 import org.usfirst.frc100.RobotAndrew.commands.*;
@@ -99,29 +101,20 @@ public class DriveTrain extends Subsystem {
 		}, new PIDOutput() {
 			public void pidWrite(double v) {
 				double o = v;
-				//Robot.driveTrain.pidVel.calculateFeedForward();
-			
-				//RobotMap.leftMaster.pidWrite(o);
+				if(countTwo > 0 && countR == 0 && o >((MotionProfile.Points[countTwo-1][1]+MotionProfile.Points[countTwo][1])/2)){
+					o = ((MotionProfile.Points[countTwo-1][1]+MotionProfile.Points[countTwo][1])/2);
+					countL = 1;
 				
-				if(countTwo < MotionProfile.Points.length&& o > MotionProfile.Points[countTwo][1] ){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
+				} else if(countTwo < MotionProfile.Points.length&& o > MotionProfile.Points[countTwo][1] && countR == 1){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
 					o = (MotionProfile.Points[countTwo][1]);
+					countL = 0;
 					// maxOutput MotionProfile.Points[count][1];	
 				}
 				if(countTwo < MotionProfile.Points.length){
 				countTwo++;
 				}
-				SmartDashboard.putNumber("counttwo", countTwo);/*else if(o > MotionProfile.Points[countTwo][1]&& countR == 1){
-					o = (MotionProfile.Points[countTwo][1]/2);
-					countL++;
-				} else if(o > MotionProfile.Points[countTwo][1]&& countR == 2){
-					o = (MotionProfile.Points[countTwo][1]/1.333);
-					countL++; 
-				} *//*else if(o > MotionProfile.Points[countTwo][1]&& countR == 1){
-					o = MotionProfile.Points[countTwo][1];
-					countL = 0;
-					countTwo++;
-					*/
-				//}
+				SmartDashboard.putNumber("counttwo", countTwo);///*else if(o > MotionProfile.Points[countTwo][1]&& countR == 1){
+			
 				
 				RobotMap.leftMaster.pidWrite(o);
 				//RobotMap.rightFollwer.set(RobotMap.rightMaster.getDeviceID());//(v);
@@ -149,15 +142,27 @@ public class DriveTrain extends Subsystem {
 				//double output = Math.abs(d);
 				
 				double output  = d;
+				if(count > 0 && countL == 0 && output >((MotionProfile.Points[countTwo-1][1]+MotionProfile.Points[countTwo][1])/2)){
+					output = ((MotionProfile.Points[countTwo-1][1]+MotionProfile.Points[countTwo][1])/2);
+					countL = 1;
+				
+				} else if(countTwo < MotionProfile.Points.length&& output > MotionProfile.Points[countTwo][1] && countL == 1){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
+					output = (MotionProfile.Points[countTwo][1]);
+					countL = 0;
+					// maxOutput MotionProfile.Points[count][1];	
+				}
+				/*
 				if(count < MotionProfile.Points.length &&output > MotionProfile.Points[count][1]  ){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
 					output = (MotionProfile.Points[count][1]);
 					
 					
 				} 
+				*/
 				if(count < MotionProfile.Points.length){
 					count++;
 				}
 				//count++;
+				
 				
 				if(maxSpeedReached < output){
 					maxSpeedReached = output;
