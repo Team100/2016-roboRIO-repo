@@ -30,6 +30,8 @@ public class OI {
     public JoystickButton start; 
     public JoystickButton update;
     public JoystickButton calcDead;
+    public JoystickButton openknewmatics;
+    public JoystickButton closeknewmatics;
 
     public OI() {
         joystick1 = new Joystick(0);
@@ -40,6 +42,11 @@ public class OI {
         update.whenPressed(new updatePreferneces());
         
         calcDead = new JoystickButton(joystick1, 2);
+        
+        openknewmatics = new JoystickButton(joystick1, 5);
+        openknewmatics.whenPressed(new OpenGear());
+        closeknewmatics = new JoystickButton(joystick1, 6);
+        closeknewmatics.whenPressed(new CloseGear());
 
         SmartDashboard.putData("ArcadeDrive", new ArcadeDrive());
     }

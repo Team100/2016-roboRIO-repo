@@ -37,6 +37,7 @@ public class Robot extends IterativeRobot {
     public static Gear gear;
 	public static Preferences prefs;
 	public static updatePreferneces up;
+	
 
     /**
      * This function is run when the robot is first started up and should be
@@ -50,6 +51,7 @@ public class Robot extends IterativeRobot {
         gear = new Gear();
         oi = new OI();
         RobotMap.encoderRight.reset();
+        
 
         autonomousCommand = new AutonomousCommand();
     }

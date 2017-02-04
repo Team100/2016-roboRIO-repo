@@ -11,16 +11,18 @@
 
 package org.usfirst.frc100.KitBotPneumatics;
 
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -45,6 +47,8 @@ public class RobotMap {
     public static CANTalon leftMaster;
     public static CANTalon leftFollower;
   //..  public static CANTalon right;
+    
+    //public static Compressor pneumaticsCompressor;
     
     public static DoubleSolenoid leftPiston;
     public static DoubleSolenoid rightPiston;
@@ -90,8 +94,10 @@ public class RobotMap {
         driveTrainRobotDrive.setMaxOutput(1.0);
 
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+        
+        //pneumaticsCompressor = new Compressor(0);
 
-        leftPiston = new DoubleSolenoid(0, 1, 2);
-        rightPiston = new DoubleSolenoid(0, 3, 4);
+        leftPiston = new DoubleSolenoid(0, 0, 1);
+        rightPiston = new DoubleSolenoid(0, 2, 3);
     }
 }
