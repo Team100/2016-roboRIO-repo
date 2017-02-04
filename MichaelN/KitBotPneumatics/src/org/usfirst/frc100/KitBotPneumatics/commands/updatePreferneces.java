@@ -1,6 +1,7 @@
 
-package org.usfirst.frc100.RobotAndrew.commands;
-import org.usfirst.frc100.RobotAndrew.Robot;
+package org.usfirst.frc100.KitBotPneumatics.commands;
+import org.usfirst.frc100.KitBotPneumatics.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,8 +15,6 @@ public class updatePreferneces extends Command {
 		p = Robot.prefs.getDouble("driveTrain_kP",0);
 		i = Robot.prefs.getDouble("driveTrain_kI",0);
 		f = Robot.prefs.getDouble("driveTrain_kF",0);
-		Robot.driveTrain.pidPosRight.setPID(p, i, f);
-		Robot.driveTrain.pidPosLeft.setPID(p, i, f);
 		
 	}
 
