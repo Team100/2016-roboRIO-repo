@@ -37,6 +37,12 @@ public class FollowMotionProfile extends Command{
 	}
 	
 	public void execute() {
+		if(count< MotionProfile.Points.length){
+			Robot.driveTrain.pidPosLeft.setSetpoint(MotionProfile.Points[count][0]);
+			Robot.driveTrain.pidPosRight.setSetpoint(MotionProfile.Points[count][0]);
+			count++;
+		}
+		/*
 		if(count == 0){
 			Robot.driveTrain.pidPosLeft.setSetpoint(MotionProfile.Points[count][0]);
 			Robot.driveTrain.pidPosRight.setSetpoint(MotionProfile.Points[count][0]);
@@ -57,6 +63,7 @@ public class FollowMotionProfile extends Command{
 				
 			}
 		}
+		*/
 		SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPosLeft.getSetpoint());
 		
 		SmartDashboard.putNumber("change", changevalue);
