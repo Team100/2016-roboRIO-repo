@@ -217,3 +217,6 @@ if __name__ == "__main__":
     
     
     sys.exit(app.exec_())
+
+while True:
+    ui.retranslateUi()
