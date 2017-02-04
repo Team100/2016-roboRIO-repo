@@ -14,8 +14,6 @@ package org.usfirst.frc100.KitBotPneumatics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc100.KitBotPneumatics.commands.*;
-import org.usfirst.frc100.KitBotPneumatics.subsystems.*;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 

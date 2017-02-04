@@ -43,7 +43,8 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public void robotInit() {
+    @Override
+	public void robotInit() {
     
     	RobotMap.init();
     	prefs = Preferences.getInstance();
@@ -60,26 +61,31 @@ public class Robot extends IterativeRobot {
      * This function is called when the disabled button is hit.
      * You can use it to reset subsystems before shutting down.
      */
-    public void disabledInit(){
+    @Override
+	public void disabledInit(){
 
     }
 
-    public void disabledPeriodic() {
+    @Override
+	public void disabledPeriodic() {
         Scheduler.getInstance().run();
     }
 
-    public void autonomousInit() {
+    @Override
+	public void autonomousInit() {
         if (autonomousCommand != null) autonomousCommand.start();
     }
 
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
+    @Override
+	public void autonomousPeriodic() {
         Scheduler.getInstance().run();
     }
 
-    public void teleopInit() {
+    @Override
+	public void teleopInit() {
     	RobotMap.encoderRight.reset();
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
@@ -92,6 +98,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
 
+	@Override
 	public void teleopPeriodic() {
 
 
@@ -110,7 +117,8 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during test mode
      */
-    public void testPeriodic() {
+    @Override
+	public void testPeriodic() {
         LiveWindow.run();
     }
 }
