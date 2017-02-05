@@ -214,7 +214,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  Wire.write(data); // Data/setting to be sent to device.
 	  Wire.endTransmission(); //Send address and register address bytes
 	  */
-	  ByteBuffer temp = ByteBuffer.allocate(3);
+	  ByteBuffer temp = ByteBuffer.allocateDirect(3);
 	  temp.put((byte) ((reg >> 8) & 0xFF));
 	  temp.put((byte) (reg & 0xFF));
 	  temp.put((byte) (data & 0xFF));
