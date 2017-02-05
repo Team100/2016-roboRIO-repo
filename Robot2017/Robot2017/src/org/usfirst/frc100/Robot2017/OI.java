@@ -14,6 +14,8 @@ package org.usfirst.frc100.Robot2017;
 import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 import org.usfirst.frc100.Robot2017.subsystems.*;
 
 
@@ -53,11 +55,19 @@ public class OI {
     public Joystick leftController;
     public Joystick rightController;
     public Joystick operater;
-    public Joystick customControllers;
+    public Joystick autoModeSelect;
+ 	public JoystickButton binary1;
+ 	public JoystickButton binary2;
+ 	public JoystickButton binary3;
+ 	public JoystickButton binary4;
+
+ 	
 
     public OI() {
 
-        customControllers = new Joystick(3);
+
+
+        autoModeSelect = new Joystick(3);
         operater = new Joystick(2);
         rightController = new Joystick(1);
         leftController = new Joystick(0);
@@ -67,7 +77,10 @@ public class OI {
         SmartDashboard.putData("Collect", new Collect());
         SmartDashboard.putData("Dump", new Dump());
         SmartDashboard.putData("Command 1", new TankDrive());
-
+        binary1 = new JoystickButton(autoModeSelect, 1);
+      	binary2 = new JoystickButton(autoModeSelect, 2);
+      	binary3 = new JoystickButton(autoModeSelect, 3);
+      	binary4 = new JoystickButton(autoModeSelect, 4);
     }
 
     public Joystick getleftController() {
@@ -82,10 +95,32 @@ public class OI {
         return operater;
     }
 
-    public Joystick getcustomControllers() {
-        return customControllers;
+    public Joystick getautoModeSelect() {
+        return autoModeSelect;
     }
 
+
+	public int selector() {
+		boolean bin1Val = binary1.get();
+		boolean bin2Val = binary2.get();
+		boolean bin3Val = binary3.get();
+		boolean bin4Val = binary4.get();
+		int total = 0;
+
+		if (bin1Val) {
+			total += 1;
+		}
+		if (bin2Val) {
+			total += 2;
+		}
+		if (bin3Val) {
+			total += 4;
+		}
+		if (bin4Val) {
+			total += 8;
+		}
+		return total;
+	}
 
 
 }
