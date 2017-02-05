@@ -1,4 +1,4 @@
-package org.usfirst.frc.team100.robot;
+package org.usfirst.frc.team100.TOFRangeFinder;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -9,7 +9,10 @@ import edu.wpi.first.wpilibj.I2C.Port;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+
+
 public class RobotMap {
+	public static TimeOfFlightVL6180x sensor = new TimeOfFlightVL6180x(I2C.Port.kOnboard);
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
@@ -19,5 +22,4 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
-	TimeOfFlightVL6180x sensor = new TimeOfFlightVL6180x();
 }

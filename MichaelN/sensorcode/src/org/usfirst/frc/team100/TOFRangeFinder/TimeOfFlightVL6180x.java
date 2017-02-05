@@ -1,4 +1,6 @@
-package org.usfirst.frc.team100.robot;
+package org.usfirst.frc.team100.TOFRangeFinder;
+
+import java.nio.ByteBuffer;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SensorBase;
@@ -193,7 +195,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  setRegister(VL6180xRegister.FIRMWARE_RESULT_SCALER,0x01);
 	}
 	
-	public void setRegister(VL6180xRegister vl6180xSystemInterruptConfigGpio, int data){
+	public void setRegister(VL6180xRegister reg, int data){
 	  /*
 	  write( _i2caddress ); // Address set on class instantiation
 	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
@@ -201,6 +203,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  Wire.write(data); // Data/setting to be sent to device.
 	  Wire.endTransmission(); //Send address and register address bytes
 	  */
+	  setRegister(reg.value,data);
 	}
 	
 	public void setRegister(int reg, int data){
@@ -211,9 +214,14 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  Wire.write(data); // Data/setting to be sent to device.
 	  Wire.endTransmission(); //Send address and register address bytes
 	  */
+	  ByteBuffer temp = ByteBuffer.allocate(3);
+	  temp.put((byte) ((reg >> 8) & 0xFF));
+	  temp.put((byte) (reg & 0xFF));
+	  temp.put((byte) (data & 0xFF));
+	  m_i2c.writeBulk(temp, 3);
 	}
 
-	public void setRegister16bit(VL6180xRegister vl6180xSysrangeEarlyConvergenceEstimate, int data){
+	public void setRegister16bit(VL6180xRegister reg, int data){
 	  /*
 	  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
 	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
@@ -227,7 +235,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  */
 	}
 	
-	public void setRegister16bit(int vl6180xSysrangeEarlyConvergenceEstimate, int data){
+	public void setRegister16bit(int reg, int data){
 	  /*
 	  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
 	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
@@ -239,6 +247,47 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  Wire.write(temp); // Data/setting to be sent to device
 	  Wire.endTransmission(); //Send address and register address bytes
 	  */
+	}
+	
+	public byte VL6180x_getRegister(int registerAddr){
+	  /*
+	  uint8_t data;
+	  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
+	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
+	  Wire.write(registerAddr & 0xFF); //LSB of register address
+	  Wire.endTransmission(false); //Send address and register address bytes
+	  Wire.requestFrom( _i2caddress , 1);
+	  data = Wire.read(); //Read Data from selected register
+	  return data;
+	  */
+		ByteBuffer rawData = ByteBuffer.allocateDirect(1);
+		ByteBuffer index = ByteBuffer.allocateDirect(2);
+		index.put((byte) ((registerAddr >> 8) & 0xFF));
+		index.put((byte) (registerAddr & 0xFF));
+		m_i2c.transaction(index, 2, rawData, 1);
+	  return rawData.get();
+	}
+	
+	public int VL6180x_getRegister16bit(int registerAddr)
+	{
+	  /*	
+	  uint8_t data_low;
+	  uint8_t data_high;
+	  uint16_t data;
+
+	  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
+	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
+	  Wire.write(registerAddr & 0xFF); //LSB of register address
+	  Wire.endTransmission(false); //Send address and register address bytes
+
+	  Wire.requestFrom( _i2caddress, 2);
+	  data_high = Wire.read(); //Read Data from selected register
+	  data_low = Wire.read(); //Read Data from selected register
+	  data = (data_high << 8)|data_low;
+
+	  return data;
+	  */
+	  return -1;
 	}
 	
 	public void startDistance(){

@@ -1,8 +1,8 @@
-package org.usfirst.frc.team100.robot.commands;
+package org.usfirst.frc.team100.TOFRangeFinder.commands;
+
+import org.usfirst.frc.team100.TOFRangeFinder.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc.team100.robot.Robot;
 
 /**
  *
