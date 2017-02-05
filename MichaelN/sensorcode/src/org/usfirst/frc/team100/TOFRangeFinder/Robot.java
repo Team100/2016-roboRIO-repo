@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static TimeOfFlightVL6180x sensor;
+	public double sensorValue = -1;
 
 	Command autonomousCommand;
 	//SendableChooser<Command> chooser = new SendableChooser<>();
@@ -35,6 +36,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		sensor = RobotMap.sensor;
+		sensor.VL6180xInit();
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", chooser);
@@ -99,17 +101,6 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null){
 			autonomousCommand.cancel();
 		}
-		double sensorValue = -1;
-		
-		if(sensor.isFinishedMeasure()){
-			sensorValue = sensor.readDistance();
-			sensor.startDistance();
-			if(sensor.isFinishedMeasure()){
-				sensorValue = sensor.readDistance();
-			}
-		}
-		
-		SmartDashboard.putNumber("sensorValue", sensorValue);
 	}
 
 	/**
@@ -118,6 +109,22 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		if(sensor.isInilised()){
+			if(sensor.isFinishedMeasure()){
+				sensorValue = sensor.readDistance();
+				sensor.updateTable();
+				sensor.startDistance();
+			}
+		}else{
+			sensor.VL6180xInit();
+			if(sensor.isInilised()){
+				sensor.VL6180xDefautSettings();
+				sensor.startDistance();
+			}
+		}
+		
+		SmartDashboard.putNumber("sensorValue", sensorValue);
 	}
 
 	/**

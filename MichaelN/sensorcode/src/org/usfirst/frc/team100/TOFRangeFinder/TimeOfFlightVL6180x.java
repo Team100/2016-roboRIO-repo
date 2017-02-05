@@ -13,6 +13,9 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	private static final byte VL6180x_FAILURE_RESET = 0;
 	protected I2C m_i2c;
 	private ITable m_table;
+	private boolean status;
+	private byte data;
+	private boolean isInit = false;
 	
 	public TimeOfFlightVL6180x(I2C.Port port) {
 		this(port, kAddress);
@@ -124,43 +127,52 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		      this.value = value;
 		}
 	}
+	
+	public boolean isInilised(){
+		return isInit;
+	}
+	
 	public byte VL6180xInit(){
-		byte data; //for temp data storage
+		int data; //for temp data storage
 
 		data = getRegister(VL6180xRegister.SYSTEM_FRESH_OUT_OF_RESET);
-
-		if(data != 1) return VL6180x_FAILURE_RESET;
-		  
-		setRegister(0x0207, 0x01);
-		setRegister(0x0208, 0x01);
-		setRegister(0x0096, 0x00);
-		setRegister(0x0097, 0xfd);
-		setRegister(0x00e3, 0x00);
-		setRegister(0x00e4, 0x04);
-		setRegister(0x00e5, 0x02);
-		setRegister(0x00e6, 0x01);
-		setRegister(0x00e7, 0x03);
-		setRegister(0x00f5, 0x02);
-		setRegister(0x00d9, 0x05);
-		setRegister(0x00db, 0xce);
-		setRegister(0x00dc, 0x03);
-		setRegister(0x00dd, 0xf8);
-		setRegister(0x009f, 0x00);
-		setRegister(0x00a3, 0x3c);
-		setRegister(0x00b7, 0x00);
-		setRegister(0x00bb, 0x3c);
-		setRegister(0x00b2, 0x09);
-		setRegister(0x00ca, 0x09);  
-		setRegister(0x0198, 0x01);
-		setRegister(0x01b0, 0x17);
-		setRegister(0x01ad, 0x00);
-		setRegister(0x00ff, 0x05);
-		setRegister(0x0100, 0x05);
-		setRegister(0x0199, 0x05);
-		setRegister(0x01a6, 0x1b);
-		setRegister(0x01ac, 0x3e);
-		setRegister(0x01a7, 0x1f);
-		setRegister(0x0030, 0x00);
+		
+		if(data == 1){
+			
+			setRegister(0x0207, 0x01);
+			setRegister(0x0208, 0x01);
+			setRegister(0x0096, 0x00);
+			setRegister(0x0097, 0xfd);
+			setRegister(0x00e3, 0x00);
+			setRegister(0x00e4, 0x04);
+			setRegister(0x00e5, 0x02);
+			setRegister(0x00e6, 0x01);
+			setRegister(0x00e7, 0x03);
+			setRegister(0x00f5, 0x02);
+			setRegister(0x00d9, 0x05);
+			setRegister(0x00db, 0xce);
+			setRegister(0x00dc, 0x03);
+			setRegister(0x00dd, 0xf8);
+			setRegister(0x009f, 0x00);
+			setRegister(0x00a3, 0x3c);
+			setRegister(0x00b7, 0x00);
+			setRegister(0x00bb, 0x3c);
+			setRegister(0x00b2, 0x09);
+			setRegister(0x00ca, 0x09);  
+			setRegister(0x0198, 0x01);
+			setRegister(0x01b0, 0x17);
+			setRegister(0x01ad, 0x00);
+			setRegister(0x00ff, 0x05);
+			setRegister(0x0100, 0x05);
+			setRegister(0x0199, 0x05);
+			setRegister(0x01a6, 0x1b);
+			setRegister(0x01ac, 0x3e);
+			setRegister(0x01a7, 0x1f);
+			setRegister(0x0030, 0x00);
+			
+			setRegister(0x016,0x00);
+			isInit = true;
+		}
 		
 		return 0;
 	}
@@ -169,7 +181,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		return getRegister(reg.value);
 	}
 	
-	private void VL6180xDefautSettings(){
+	public void VL6180xDefautSettings(){
 
 	  setRegister(VL6180xRegister.SYSTEM_INTERRUPT_CONFIG_GPIO, (4 << 3)|(4) ); // Set GPIO1 high when sample complete
 
@@ -218,6 +230,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  temp.put((byte) ((reg >> 8) & 0xFF));
 	  temp.put((byte) (reg & 0xFF));
 	  temp.put((byte) (data & 0xFF));
+	  System.out.println("setRegister: reg: 0x"+Integer.toHexString(reg)+", data: 0x"+Integer.toHexString(data)+"|");
 	  m_i2c.writeBulk(temp, 3);
 	}
 
@@ -272,8 +285,17 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		ByteBuffer index = ByteBuffer.allocateDirect(2);
 		index.put((byte) ((registerAddr >> 8) & 0xFF));
 		index.put((byte) (registerAddr & 0xFF));
-		m_i2c.transaction(index, 2, rawData, 1);
-	  return rawData.get();
+		status = false;
+		//status = m_i2c.transaction(index, 2, rawData, 1);
+		status = m_i2c.writeBulk(index, 2);
+		System.out.println("getRegister: status Write= "+status);
+		status = m_i2c.readOnly(rawData, 1);
+		System.out.println("getRegister: status Read= "+status);
+		
+		data = rawData.get();
+		System.out.println("getRegister: address: 0x" +Integer.toHexString(registerAddr)+", rawData: "+Integer.toHexString(data)+"|");
+		
+	  return data;
 	}
 	
 	public int getRegister16bit(int registerAddr)
@@ -299,15 +321,17 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		ByteBuffer index = ByteBuffer.allocateDirect(2);
 		index.put((byte) ((registerAddr >> 8) & 0xFF));
 		index.put((byte) (registerAddr & 0xFF));
-		m_i2c.transaction(index, 2, rawData, 2);
+		status = false;
+		status = m_i2c.transaction(index, 2, rawData, 2);
+		System.out.println("status of the transaction in getRegister16Bit:" + status);
 		int temp = rawData.getInt() & 0xFFFF;
+		System.out.println("value of temp in getRegister16Bit:"+temp);
 		return temp;
 
 	}
 	
 	public void startDistance(){
 		setRegister(VL6180xRegister.SYSRANGE_START, 0x01);
-		isFinishedMeasure();
 	}
 	
 	public boolean isFinishedMeasure(){
@@ -320,6 +344,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	}
 	
 	public double readDistance(){
+		System.out.println("value of RESULT_RANGE_VAL in readDistance:"+getRegister(VL6180xRegister.RESULT_RANGE_VAL));
 		return getRegister(VL6180xRegister.RESULT_RANGE_VAL);
 	}
 }
