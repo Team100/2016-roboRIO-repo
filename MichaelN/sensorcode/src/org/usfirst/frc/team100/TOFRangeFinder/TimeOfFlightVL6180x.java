@@ -166,7 +166,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	}
 
 	private byte getRegister(VL6180xRegister reg) {
-		return 0;
+		return getRegister(reg.value);
 	}
 	
 	private void VL6180xDefautSettings(){
@@ -233,6 +233,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  Wire.write(temp); // Data/setting to be sent to device
 	  Wire.endTransmission(); //Send address and register address bytes
 	  */
+		setRegister16bit(reg.value, data);
 	}
 	
 	public void setRegister16bit(int reg, int data){
@@ -247,9 +248,16 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  Wire.write(temp); // Data/setting to be sent to device
 	  Wire.endTransmission(); //Send address and register address bytes
 	  */
+		ByteBuffer raw = ByteBuffer.allocateDirect(4);
+		raw.put((byte) ((reg >> 8) & 0xFF));
+		raw.put((byte) ((reg & 0xFF)));
+		raw.put((byte) ((data >> 8) & 0xFF));
+		raw.put(((byte) ((data & 0xFF))));
+		m_i2c.writeBulk(raw, 4);	
+	
 	}
 	
-	public byte VL6180x_getRegister(int registerAddr){
+	public byte getRegister(int registerAddr){
 	  /*
 	  uint8_t data;
 	  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
@@ -268,7 +276,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  return rawData.get();
 	}
 	
-	public int VL6180x_getRegister16bit(int registerAddr)
+	public int getRegister16bit(int registerAddr)
 	{
 	  /*	
 	  uint8_t data_low;
@@ -287,7 +295,14 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 
 	  return data;
 	  */
-	  return -1;
+		ByteBuffer rawData = ByteBuffer.allocateDirect(2);
+		ByteBuffer index = ByteBuffer.allocateDirect(2);
+		index.put((byte) ((registerAddr >> 8) & 0xFF));
+		index.put((byte) (registerAddr & 0xFF));
+		m_i2c.transaction(index, 2, rawData, 2);
+		int temp = rawData.getInt() & 0xFFFF;
+		return temp;
+
 	}
 	
 	public void startDistance(){
@@ -296,7 +311,9 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	}
 	
 	public boolean isFinishedMeasure(){
-		if(true){
+		byte status;
+		status = getRegister(VL6180xRegister.RESULT_INTERRUPT_STATUS_GPIO);
+		if((status & 0x07)==0x04){
 			return true;
 		}
 		return false;
