@@ -34,7 +34,6 @@ public class AutoGenerate {
 		while(position < distance){
 			
 			time = (timeInterval*loopCount)/1000;
-		//	System.out.println(time);
 			velocity = kTwo*(1-Math.cos(kOne*(time)));
 			velocityArr.add(velocity);
 			//------------------------------
@@ -42,8 +41,6 @@ public class AutoGenerate {
 			positionArr.add(position);
 			//------------------------------
 			loopCount++;
-			//System.out.println(positionArr);
-			SmartDashboard.putNumber("loop", loopCount);
 		}
 	}
 	public ArrayList<Double> returnVel(){

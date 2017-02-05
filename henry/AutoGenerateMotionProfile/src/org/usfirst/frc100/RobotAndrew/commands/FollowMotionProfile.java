@@ -2,6 +2,7 @@ package org.usfirst.frc100.RobotAndrew.commands;
 
 
 import java.util.ArrayList;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -18,8 +19,8 @@ public class FollowMotionProfile extends Command{
 	int changevalue = 0;
 	double setP;
 	double setPP;
-	public ArrayList<Double> position; //= new ArrayList<Double>();
-	public ArrayList<Double> velocity; //= new ArrayList<Double>();
+	public static ArrayList<Double> position; //= new ArrayList<Double>();
+	public static ArrayList<Double> velocity; //= new ArrayList<Double>();
 	public AutoGenerate profile; 
 	static Timer timer = new Timer();
 	private static final String SmartDashoard = null;
@@ -29,7 +30,7 @@ public class FollowMotionProfile extends Command{
 	}
 	
 	public void initialize() {
-		profile = new AutoGenerate(5, 3.5);
+		profile = new AutoGenerate(10, 3.5); //3.5
 		profile.generateProfile();
 		position = profile.returnPos();
 		velocity = profile.returnVel();
@@ -38,28 +39,32 @@ public class FollowMotionProfile extends Command{
 		RobotMap.encoderRight.reset();
 		Robot.driveTrain.pidPosRight.setAbsoluteTolerance(0.1);
 		Robot.driveTrain.pidPosLeft.setAbsoluteTolerance(0.1);
-		//Robot.driveTrain.pidPosRight.enable();
-		//Robot.driveTrain.pidPosLeft.enable();
+		Robot.driveTrain.pidVelRight.setAbsoluteTolerance(0.01);
+		Robot.driveTrain.pidVelLeft.setAbsoluteTolerance(0.01);
+		Robot.driveTrain.pidPosRight.enable();
+		Robot.driveTrain.pidPosLeft.enable();
+		//Robot.driveTrain.pidVelLeft.enable();
+		//Robot.driveTrain.pidVelRight.enable();
 		//System.out.println("hi");
 	}
 	
 	
 	public void execute() {
-		//SmartDashboard.putString("called?","hi");//, value)
-		//SmartDashboard.putNumber("size", position.size());
 		timer.schedule(new TimerTask() {
 		    @Override
 		    public void run() {
 		    	if(count < position.size()){
-		    		//SmartDashboard.putNumber("currentPosValue", position.get(count));
 		    		System.out.println(position.get(count) + " : " + velocity.get(count));
-		    		//System.out.println(count);
+		    		Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
+		    		Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));
+		    		Robot.driveTrain.pidVelLeft.setSetpoint(velocity.get(count));
+		    		Robot.driveTrain.pidVelRight.setSetpoint(velocity.get(count));
 		    		count++;
 		    	}
 		    }
-		}, 0, 20);
+		}, 0, 2000);
 		
-		//SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPosLeft.getSetpoint());
+		SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPosLeft.getSetpoint());
 	}
 
 	protected boolean isFinished() {
