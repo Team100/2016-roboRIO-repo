@@ -37,6 +37,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		sensor = RobotMap.sensor;
 		sensor.VL6180xInit();
+		sensor.VL6180xDefaultSettings();
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", chooser);
@@ -109,21 +110,19 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		System.out.println("in Teleop Periodic");
 		
-		if(sensor.isInilised()){
+		if(sensor.isInitialized()){
 			if(sensor.isFinishedMeasure()){
 				sensorValue = sensor.readDistance();
 				sensor.updateTable();
 				sensor.startDistance();
 			}
 		}else{
-			sensor.VL6180xInit();
-			if(sensor.isInilised()){
-				sensor.VL6180xDefautSettings();
-				sensor.startDistance();
-			}
+
+			sensor.startDistance();
 		}
-		
+
 		SmartDashboard.putNumber("sensorValue", sensorValue);
 	}
 

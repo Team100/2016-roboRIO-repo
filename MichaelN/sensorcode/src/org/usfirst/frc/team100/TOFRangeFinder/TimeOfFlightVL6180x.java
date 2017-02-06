@@ -9,11 +9,10 @@ import edu.wpi.first.wpilibj.tables.ITable;
 
 public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendable{
 
-	private static final byte kAddress = 0x1D;
+	private static final byte kAddress = 0x29;
 	private static final byte VL6180x_FAILURE_RESET = 0;
 	protected I2C m_i2c;
 	private ITable m_table;
-	private boolean status;
 	private byte data;
 	private boolean isInit = false;
 	
@@ -128,7 +127,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		}
 	}
 	
-	public boolean isInilised(){
+	public boolean isInitialized(){
 		return isInit;
 	}
 	
@@ -171,17 +170,16 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 			setRegister(0x0030, 0x00);
 			
 			setRegister(0x016,0x00);
-			isInit = true;
+			
 		}
+
 		
 		return 0;
 	}
 
-	private byte getRegister(VL6180xRegister reg) {
-		return getRegister(reg.value);
-	}
+
 	
-	public void VL6180xDefautSettings(){
+	public void VL6180xDefaultSettings(){
 
 	  setRegister(VL6180xRegister.SYSTEM_INTERRUPT_CONFIG_GPIO, (4 << 3)|(4) ); // Set GPIO1 high when sample complete
 
@@ -208,59 +206,23 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	}
 	
 	public void setRegister(VL6180xRegister reg, int data){
-	  /*
-	  write( _i2caddress ); // Address set on class instantiation
-	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
-	  Wire.write(registerAddr & 0xFF); //LSB of register address
-	  Wire.write(data); // Data/setting to be sent to device.
-	  Wire.endTransmission(); //Send address and register address bytes
-	  */
 	  setRegister(reg.value,data);
 	}
 	
 	public void setRegister(int reg, int data){
-	  /*
-	  write( _i2caddress ); // Address set on class instantiation
-	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
-	  Wire.write(registerAddr & 0xFF); //LSB of register address
-	  Wire.write(data); // Data/setting to be sent to device.
-	  Wire.endTransmission(); //Send address and register address bytes
-	  */
 	  ByteBuffer temp = ByteBuffer.allocateDirect(3);
 	  temp.put((byte) ((reg >> 8) & 0xFF));
 	  temp.put((byte) (reg & 0xFF));
 	  temp.put((byte) (data & 0xFF));
-	  System.out.println("setRegister: reg: 0x"+Integer.toHexString(reg)+", data: 0x"+Integer.toHexString(data)+"|");
+	  System.out.println("setRegister: reg: 0x"+Integer.toHexString(reg)+", data: 0x"+Integer.toHexString(data));
 	  m_i2c.writeBulk(temp, 3);
 	}
 
 	public void setRegister16bit(VL6180xRegister reg, int data){
-	  /*
-	  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
-	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
-	  Wire.write(registerAddr & 0xFF); //LSB of register address
-	  byte temp;
-	  temp = (byte) ((data >> 8) & 0xff);
-	  Wire.write(temp); // Data/setting to be sent to device
-	  temp = (byte) (data & 0xff);
-	  Wire.write(temp); // Data/setting to be sent to device
-	  Wire.endTransmission(); //Send address and register address bytes
-	  */
 		setRegister16bit(reg.value, data);
 	}
 	
 	public void setRegister16bit(int reg, int data){
-	  /*
-	  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
-	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
-  	  Wire.write(registerAddr & 0xFF); //LSB of register address
-	  byte temp;
-	  temp = (byte) ((data >> 8) & 0xff);
-	  Wire.write(temp); // Data/setting to be sent to device
-	  temp = (byte) (data & 0xff);
-	  Wire.write(temp); // Data/setting to be sent to device
-	  Wire.endTransmission(); //Send address and register address bytes
-	  */
 		ByteBuffer raw = ByteBuffer.allocateDirect(4);
 		raw.put((byte) ((reg >> 8) & 0xFF));
 		raw.put((byte) ((reg & 0xFF)));
@@ -270,68 +232,46 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	
 	}
 	
+	private byte getRegister(VL6180xRegister reg) {
+		return getRegister(reg.value);
+	}
+	
 	public byte getRegister(int registerAddr){
-	  /*
-	  uint8_t data;
-	  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
-	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
-	  Wire.write(registerAddr & 0xFF); //LSB of register address
-	  Wire.endTransmission(false); //Send address and register address bytes
-	  Wire.requestFrom( _i2caddress , 1);
-	  data = Wire.read(); //Read Data from selected register
-	  return data;
-	  */
-		ByteBuffer rawData = ByteBuffer.allocateDirect(1);
 		ByteBuffer index = ByteBuffer.allocateDirect(2);
+		ByteBuffer rawData = ByteBuffer.allocateDirect(1);
 		index.put((byte) ((registerAddr >> 8) & 0xFF));
 		index.put((byte) (registerAddr & 0xFF));
-		status = false;
-		//status = m_i2c.transaction(index, 2, rawData, 1);
-		status = m_i2c.writeBulk(index, 2);
-		System.out.println("getRegister: status Write= "+status);
-		status = m_i2c.readOnly(rawData, 1);
-		System.out.println("getRegister: status Read= "+status);
-		
+		boolean status = m_i2c.transaction(index, 2, rawData, 1);
 		data = rawData.get();
-		System.out.println("getRegister: address: 0x" +Integer.toHexString(registerAddr)+", rawData: "+Integer.toHexString(data)+"|");
+		System.out.println("getRegister:  status: " + status + 
+				" address: 0x" + Integer.toHexString(registerAddr) +
+				" rawData: 0x"+ Integer.toHexString((int)data & 0xFF));
 		
 	  return data;
 	}
 	
+
 	public int getRegister16bit(int registerAddr)
 	{
-	  /*	
-	  uint8_t data_low;
-	  uint8_t data_high;
-	  uint16_t data;
 
-	  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
-	  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
-	  Wire.write(registerAddr & 0xFF); //LSB of register address
-	  Wire.endTransmission(false); //Send address and register address bytes
-
-	  Wire.requestFrom( _i2caddress, 2);
-	  data_high = Wire.read(); //Read Data from selected register
-	  data_low = Wire.read(); //Read Data from selected register
-	  data = (data_high << 8)|data_low;
-
-	  return data;
-	  */
 		ByteBuffer rawData = ByteBuffer.allocateDirect(2);
 		ByteBuffer index = ByteBuffer.allocateDirect(2);
-		index.put((byte) ((registerAddr >> 8) & 0xFF));
+		index.put((byte)((registerAddr >> 8) & 0xFF));
 		index.put((byte) (registerAddr & 0xFF));
-		status = false;
-		status = m_i2c.transaction(index, 2, rawData, 2);
-		System.out.println("status of the transaction in getRegister16Bit:" + status);
-		int temp = rawData.getInt() & 0xFFFF;
-		System.out.println("value of temp in getRegister16Bit:"+temp);
+		boolean status = m_i2c.transaction(index, 2, rawData, 2);
+		int hi = (int) rawData.get() & 0xFF;
+		int lo = (int) rawData.get() & 0xFF;
+		int temp = hi << 8 + lo;
+		System.out.println("getRegister16bit:  status: " + status + 
+				" address: 0x" + Integer.toHexString(registerAddr) +
+				" rawData: 0x"+ Integer.toHexString(temp));
 		return temp;
 
 	}
 	
 	public void startDistance(){
 		setRegister(VL6180xRegister.SYSRANGE_START, 0x01);
+		isInit = true;
 	}
 	
 	public boolean isFinishedMeasure(){
@@ -344,7 +284,9 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	}
 	
 	public double readDistance(){
-		System.out.println("value of RESULT_RANGE_VAL in readDistance:"+getRegister(VL6180xRegister.RESULT_RANGE_VAL));
-		return getRegister(VL6180xRegister.RESULT_RANGE_VAL);
+		int val = (int) getRegister(VL6180xRegister.RESULT_RANGE_VAL) & 0xFF;
+		System.out.println("readDistance  raw: 0x" + Integer.toHexString(val) +
+				"Converted : " + (double) val);
+		return ((double) val);
 	}
 }
