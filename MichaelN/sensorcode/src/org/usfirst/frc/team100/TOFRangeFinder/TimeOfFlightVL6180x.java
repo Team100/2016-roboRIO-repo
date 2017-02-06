@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.tables.ITable;
 
 public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendable{
 
-	private static final byte kAddress = 0x1D;
+	private static final byte kAddress = 0x29;
 	private static final byte VL6180x_FAILURE_RESET = 0;
 	protected I2C m_i2c;
 	private ITable m_table;
