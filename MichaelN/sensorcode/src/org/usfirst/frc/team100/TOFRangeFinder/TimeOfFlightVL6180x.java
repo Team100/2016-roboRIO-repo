@@ -19,6 +19,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	private boolean isInit = false;
 	private double m_period;
 	private java.util.Timer m_pollLoop;
+	private int m_deviceAddress;
 	
 	public class VL6180xMeasurement {
 		public double m_distance;
@@ -37,20 +38,38 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	private VL6180xMeasurement m_CurrentMeasurement;
 	
 	public TimeOfFlightVL6180x(I2C.Port port) {
-		this(port, kAddress);
+		this(port, kAddress, kDefaultPeriod);
 	}
-
+	
 	public TimeOfFlightVL6180x(I2C.Port port, int deviceAddress) {
-		m_i2c = new I2C(port, deviceAddress);
-		// verify sensor is there
-		
-		m_CurrentMeasurement = new VL6180xMeasurement();
-		VL6180xInit();
-		VL6180xDefaultSettings();
-		m_period = kDefaultPeriod;
+		this(port, deviceAddress, kDefaultPeriod);
+	}
+	
+	public TimeOfFlightVL6180x(I2C.Port port, double period) {
+		this(port, kAddress, period);
+	}
+	public TimeOfFlightVL6180x(I2C.Port port, int deviceAddress, double period) {
+		if (instances < 1) {
+			m_i2c = new I2C(port, deviceAddress);
+			// verify sensor is there
+			byte id = getRegister(VL6180xRegister.IDENTIFICATION_MODEL_ID);
+			if (id == (byte)0xB4) {
+				instances ++;
+				m_deviceAddress = deviceAddress;
+				m_CurrentMeasurement = new VL6180xMeasurement();
+				VL6180xInit();
+				VL6180xDefaultSettings();
+				m_period = period;
 
-	    m_pollLoop = new java.util.Timer();
-	    m_pollLoop.schedule(new PollVL6180xTask(this), 0L, (long) (m_period * 1000));
+				m_pollLoop = new java.util.Timer();
+				m_pollLoop.schedule(new PollVL6180xTask(this), 0L, (long) (m_period * 1000));
+			} else {
+				System.out.println("Can't Find the VL6180X");
+			}
+		} else {
+			System.out.println("Can't have multiple VL6180X at the same address");
+		}
+
 	}
 	
 	/**
@@ -192,7 +211,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		return isInit;
 	}
 	
-	public byte VL6180xInit(){
+	private byte VL6180xInit(){
 		int data; //for temp data storage
 
 		data = getRegister(VL6180xRegister.SYSTEM_FRESH_OUT_OF_RESET);
@@ -240,7 +259,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 
 
 	
-	public void VL6180xDefaultSettings(){
+	private void VL6180xDefaultSettings(){
 
 	  setRegister(VL6180xRegister.SYSTEM_INTERRUPT_CONFIG_GPIO, (4 << 3)|(4) ); // Set GPIO1 high when sample complete
 
@@ -298,7 +317,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		return getRegister(reg.value);
 	}
 	
-	public byte getRegister(int registerAddr){
+	private byte getRegister(int registerAddr){
 		ByteBuffer index = ByteBuffer.allocateDirect(2);
 		ByteBuffer rawData = ByteBuffer.allocateDirect(1);
 		index.put((byte) ((registerAddr >> 8) & 0xFF));
@@ -313,7 +332,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	}
 	
 
-	public int getRegister16bit(int registerAddr)
+	private int getRegister16bit(int registerAddr)
 	{
 
 		ByteBuffer rawData = ByteBuffer.allocateDirect(2);
@@ -331,12 +350,12 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 
 	}
 	
-	public void startDistance(){
+	private void startDistance(){
 		setRegister(VL6180xRegister.SYSRANGE_START, 0x01);
 		isInit = true;
 	}
 	
-	public boolean isFinishedMeasure(){
+	private boolean isFinishedMeasure(){
 		byte status;
 		status = getRegister(VL6180xRegister.RESULT_INTERRUPT_STATUS_GPIO);
 		if((status & 0x07)==0x04){
@@ -345,7 +364,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		return false;
 	}
 	
-	public double readDistance(){
+	private double readDistance(){
 		// read result
 		int val = (int) getRegister(VL6180xRegister.RESULT_RANGE_VAL) & 0xFF; 
 		// read RESULT_RANGE_STATUS register to get error code (bits 7:4)
