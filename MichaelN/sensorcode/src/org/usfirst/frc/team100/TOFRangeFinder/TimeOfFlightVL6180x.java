@@ -58,6 +58,25 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		
 	}
 	
+	public static String[] VL6180xErrors = {
+		"No Error",
+		"VCSEL Continuity Test",
+		"VCSEL Watchdog Test",
+		"VCSEL Watchdog",
+		"PLL1 Lock",
+		"PLL2 Lock",
+		"Early Convergence Estimate",
+		"Max Convergence",
+		"No Target Ignore",
+		"not used",
+		"not used",
+		"Max Signal to Noise Ratio",
+		"Raw Ranging Algo Underflow",
+		"Raw Ranging Algo Overflow",
+		"Ranging Algo Underflow",
+		"Ranging Algo Overflow"
+	};
+	
 	public enum VL6180xRegister{
 		IDENTIFICATION_MODEL_ID				((int)0x0000),
 		IDENTIFICATION_MODEL_REV_MAJOR		((int)0x0001),
@@ -284,9 +303,14 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	}
 	
 	public double readDistance(){
-		int val = (int) getRegister(VL6180xRegister.RESULT_RANGE_VAL) & 0xFF;
+		// read result
+		int val = (int) getRegister(VL6180xRegister.RESULT_RANGE_VAL) & 0xFF; 
+		// read RESULT_RANGE_STATUS register to get error code (bits 7:4)
+		int err = ((int) getRegister(VL6180xRegister.RESULT_RANGE_STATUS) >> 4) & 0xF;
+		// clear interrupt
+		setRegister(VL6180xRegister.SYSTEM_INTERRUPT_CLEAR, 0x05);
 		System.out.println("readDistance  raw: 0x" + Integer.toHexString(val) +
-				"Converted : " + (double) val);
+				"Converted : " + (double) val + "Error Code: " + VL6180xErrors[err]);
 		return ((double) val);
 	}
 }

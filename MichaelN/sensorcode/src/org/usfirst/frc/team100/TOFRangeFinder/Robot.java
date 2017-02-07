@@ -110,7 +110,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println("in Teleop Periodic");
+		System.out.println("in Teleop Periodic " + System.currentTimeMillis());
 		
 		if(sensor.isInitialized()){
 			if(sensor.isFinishedMeasure()){
