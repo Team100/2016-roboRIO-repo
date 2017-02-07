@@ -1,6 +1,7 @@
 package org.usfirst.frc.team100.TOFRangeFinder;
 
 import java.nio.ByteBuffer;
+import java.util.TimerTask;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SensorBase;
@@ -8,13 +9,32 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendable{
-
+	public static final double kDefaultPeriod = .05;
+	private static int instances = 0;
 	private static final byte kAddress = 0x29;
 	private static final byte VL6180x_FAILURE_RESET = 0;
 	protected I2C m_i2c;
 	private ITable m_table;
 	private byte data;
 	private boolean isInit = false;
+	private double m_period;
+	private java.util.Timer m_pollLoop;
+	
+	public class VL6180xMeasurement {
+		public double m_distance;
+		public int m_errCode;
+		
+		VL6180xMeasurement () {
+			m_distance = 0xFF;
+			m_errCode = 15;
+		}
+		
+		VL6180xMeasurement(VL6180xMeasurement sensorMeasurement) {
+			m_distance = sensorMeasurement.m_distance;
+			m_errCode = sensorMeasurement.m_errCode;
+		}
+	}
+	private VL6180xMeasurement m_CurrentMeasurement;
 	
 	public TimeOfFlightVL6180x(I2C.Port port) {
 		this(port, kAddress);
@@ -22,8 +42,30 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 
 	public TimeOfFlightVL6180x(I2C.Port port, int deviceAddress) {
 		m_i2c = new I2C(port, deviceAddress);
+		// verify sensor is there
+		
+		m_CurrentMeasurement = new VL6180xMeasurement();
+		VL6180xInit();
+		VL6180xDefaultSettings();
+		m_period = kDefaultPeriod;
+
+	    m_pollLoop = new java.util.Timer();
+	    m_pollLoop.schedule(new PollVL6180xTask(this), 0L, (long) (m_period * 1000));
 	}
 	
+	/**
+	 * Free the TimeOfFlightVL6180x object.
+	 */
+	public void free() {
+		m_pollLoop.cancel();
+		synchronized (this) {
+			m_pollLoop = null;
+			m_i2c = null;
+		}
+		if (m_table != null) {
+			//m_table.removeTableListener(m_listener);
+		}
+	}	
 	
 	@Override
 	public void initTable(ITable subtable) {
@@ -233,7 +275,8 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  temp.put((byte) ((reg >> 8) & 0xFF));
 	  temp.put((byte) (reg & 0xFF));
 	  temp.put((byte) (data & 0xFF));
-	  System.out.println("setRegister: reg: 0x"+Integer.toHexString(reg)+", data: 0x"+Integer.toHexString(data));
+/*	  System.out.println("setRegister: reg: 0x"+Integer.toHexString(reg)+", "
+	  		+ "data: 0x"+Integer.toHexString(data));*/
 	  m_i2c.writeBulk(temp, 3);
 	}
 
@@ -262,9 +305,9 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		index.put((byte) (registerAddr & 0xFF));
 		boolean status = m_i2c.transaction(index, 2, rawData, 1);
 		data = rawData.get();
-		System.out.println("getRegister:  status: " + status + 
+/*		System.out.println("getRegister:  status: " + status + 
 				" address: 0x" + Integer.toHexString(registerAddr) +
-				" rawData: 0x"+ Integer.toHexString((int)data & 0xFF));
+				" rawData: 0x"+ Integer.toHexString((int)data & 0xFF));*/
 		
 	  return data;
 	}
@@ -281,9 +324,9 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		int hi = (int) rawData.get() & 0xFF;
 		int lo = (int) rawData.get() & 0xFF;
 		int temp = hi << 8 + lo;
-		System.out.println("getRegister16bit:  status: " + status + 
+/*		System.out.println("getRegister16bit:  status: " + status + 
 				" address: 0x" + Integer.toHexString(registerAddr) +
-				" rawData: 0x"+ Integer.toHexString(temp));
+				" rawData: 0x"+ Integer.toHexString(temp));*/
 		return temp;
 
 	}
@@ -309,8 +352,45 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		int err = ((int) getRegister(VL6180xRegister.RESULT_RANGE_STATUS) >> 4) & 0xF;
 		// clear interrupt
 		setRegister(VL6180xRegister.SYSTEM_INTERRUPT_CLEAR, 0x05);
-		System.out.println("readDistance  raw: 0x" + Integer.toHexString(val) +
-				"Converted : " + (double) val + "Error Code: " + VL6180xErrors[err]);
+/*		System.out.println("readDistance  raw: 0x" + Integer.toHexString(val) +
+				"Converted : " + (double) val + "Error Code: " + VL6180xErrors[err]);*/
+		synchronized (m_CurrentMeasurement) {
+			m_CurrentMeasurement.m_distance = (double) val;
+			m_CurrentMeasurement.m_errCode = err;
+		}
 		return ((double) val);
+	}
+	
+	public VL6180xMeasurement getMeasurement() {
+		VL6180xMeasurement temp;
+		synchronized (m_CurrentMeasurement) {
+			temp = new VL6180xMeasurement(m_CurrentMeasurement);		
+		}
+		return temp;
+	}
+	
+	private class PollVL6180xTask extends TimerTask {
+
+		private TimeOfFlightVL6180x m_sensor;
+
+		public PollVL6180xTask(TimeOfFlightVL6180x sensor) {
+			if (sensor == null) {
+				throw new NullPointerException("Given TimeOfFlightVL6180x was null");
+			}
+			m_sensor = sensor;
+		}
+
+		@Override
+		public void run() {
+			if(m_sensor.isInitialized()){
+				if(m_sensor.isFinishedMeasure()){
+					m_sensor.readDistance();
+					m_sensor.updateTable();
+					m_sensor.startDistance();
+				}
+			}else{
+				m_sensor.startDistance();
+			}
+		}
 	}
 }

@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team100.TOFRangeFinder;
 
+import org.usfirst.frc.team100.TOFRangeFinder.TimeOfFlightVL6180x.VL6180xMeasurement;
 import org.usfirst.frc.team100.TOFRangeFinder.commands.ExampleCommand;
 import org.usfirst.frc.team100.TOFRangeFinder.subsystems.ExampleSubsystem;
 
@@ -36,8 +37,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		sensor = RobotMap.sensor;
-		sensor.VL6180xInit();
-		sensor.VL6180xDefaultSettings();
+
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", chooser);
@@ -110,20 +110,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println("in Teleop Periodic " + System.currentTimeMillis());
-		
-		if(sensor.isInitialized()){
-			if(sensor.isFinishedMeasure()){
-				sensorValue = sensor.readDistance();
-				sensor.updateTable();
-				sensor.startDistance();
-			}
-		}else{
+//		System.out.println("in Teleop Periodic " + System.currentTimeMillis());
+		VL6180xMeasurement meas = sensor.getMeasurement();
 
-			sensor.startDistance();
-		}
 
-		SmartDashboard.putNumber("sensorValue", sensorValue);
+		SmartDashboard.putNumber("sensorValue", meas.m_distance);
+		SmartDashboard.putString("sensor error", TimeOfFlightVL6180x.VL6180xErrors[meas.m_errCode]);
 	}
 
 	/**
