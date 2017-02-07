@@ -4,10 +4,10 @@ import numpy as np
 class GripPipeline:
         
     def __init__(self):
-
-        self.__hsv_threshold_hue = [43.516564308384375, 142.49291906075982]
-        self.__hsv_threshold_saturation = [0.0, 40.13416355055556] # 0, 18
-        self.__hsv_threshold_value = [210.97122302158272, 255.0]
+        
+        self.__hsv_threshold_hue = [0.0, 255.0]
+        self.__hsv_threshold_saturation = [0.0, 255.0] # 0, 18
+        self.__hsv_threshold_value = [168.0, 255.0]
         
         self.center = None
         self.boundingRects = None
@@ -109,9 +109,9 @@ class GripPipeline:
         Return:
             A list of numpy.ndarray where each one represents a contour.
         """
-        cv2.namedWindow("Eureka")
-        cv2.imshow("Eureka", input)
-        #cv2.waitKey(0)
+       
+        #cv2.namedWindow("Eureka")
+        #cv2.imshow("Eureka", input)
                                 
         if(external_only):
             mode = cv2.RETR_EXTERNAL
@@ -119,7 +119,10 @@ class GripPipeline:
             mode = cv2.RETR_LIST
         method = cv2.CHAIN_APPROX_SIMPLE
         
-        contours, hierarchy = cv2.findContours(input, mode=mode, method=method)
+        try:
+            contours, hierarchy = cv2.findContours(input, mode=mode, method=method)
+        except:
+            u, contours, hierarchy = cv2.findContours(input, mode=mode, method=method)
         return contours
 
     @staticmethod
