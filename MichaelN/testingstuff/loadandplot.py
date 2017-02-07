@@ -20,6 +20,11 @@ import re
 from matplotlib.backends.backend_qt4agg import (
     NavigationToolbar2QT as NavigationToolbar)
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
 # create the GUI window layout dynamically from the .ui file
 QT_CREATOR_FILE = "LogDataScreenDesign.ui"
 UI_MAIN_WINDOW, QT_BASE_CLASS = uic.loadUiType(QT_CREATOR_FILE)
@@ -233,7 +238,7 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
         """
         Creates the Main Frame GUI of the Qt application
         """
-        self.init_listWidget()
+        self.init_treeWidget()
         # set column width to fit contents
         self.tableView.resizeColumnsToContents()
 
@@ -256,26 +261,31 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
             self.raw_data_proxy.set_selected_vars(self.selected_vars)
             self.on_draw()
 
-        self.listWidget.itemChanged.connect(on_item_changed)
+        
         self.mpl_toolbar = NavigationToolbar(self.mplwidget, self.centralwidget)
         self.verticalLayout.insertWidget(1, self.mpl_toolbar)
 
-    def init_listWidget(self):
+    def init_treeWidget(self):
         """
         Initializes the listWidget with the names of all the variables in the
         log file along with checkboxes to select which ones should be plotted
         and displayed.
         """
-        self.listWidget.clear()
+        self.tree = QtGui.QTreeWidget(self.centralwidget)
+        self.tree.setAcceptDrops(True)
+        self.tree.setDragDropOverwriteMode(False)
+        self.tree.setUniformRowHeights(True)
+        self.tree.setObjectName(_fromUtf8("tree"))
+        
         for var in self.mydict.keys():
-            item = QtGui.QListWidgetItem()
+            item = QtGui.QTreeWidgetItem(self.tree)
             item.setText(var)
             item.setFlags(QtCore.Qt.ItemIsUserCheckable | \
                           QtCore.Qt.ItemIsEnabled | \
                           QtCore.Qt.ItemIsSelectable)
-            item.setCheckState(QtCore.Qt.Unchecked)
-            self.listWidget.addItem(item)
-        self.listWidget.sortItems()
+            item.setCheckState(0, QtCore.Qt.Unchecked)
+            
+        
 
 
     def on_draw(self):
@@ -322,7 +332,7 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
         self.file_name = QtGui.QFileDialog.getOpenFileName(self, \
             "Open Log File", ".", "Text (*.txt)")
         self.init_log_data(self.file_name)
-        self.init_listWidget()
+        self.init_treeWidget()
         self.raw_data.initializeData(self)
 
         self.mplwidget.figure.clear()
