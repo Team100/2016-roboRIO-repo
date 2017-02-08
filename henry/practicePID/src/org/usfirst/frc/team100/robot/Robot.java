@@ -1,10 +1,14 @@
 
 package org.usfirst.frc.team100.robot;
 
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -32,12 +36,14 @@ public class Robot extends IterativeRobot {
 	//public static final SimpleMotor exampleSubsystem = new SimpleMotor();
 	
 	
-	 
+	public static Preferences prefs;
     Command autonomousCommand;
     SendableChooser chooser;
-
+    public static Counter shooterSpdCtr;
+    public static DigitalInput shooterSpdIn;
     public static SimpleMotor drive;
     public static OI oi;
+   
   //  public static EncoderMotor encoders;
    
     /**
@@ -45,8 +51,14 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	prefs = Preferences.getInstance();
     	drive = new SimpleMotor();
 		oi = new OI();
+		shooterSpdIn = new DigitalInput(2);
+		shooterSpdCtr = new Counter(shooterSpdIn);
+	    shooterSpdCtr.setDistancePerPulse(1.0);
+	    shooterSpdCtr.setUpSource(shooterSpdIn);
+	    
 		//encoders = new EncoderMotor();
 		
 		    }
@@ -96,6 +108,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+       
         
     }
 
@@ -112,11 +125,17 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	
         Scheduler.getInstance().run();
+        
+      	
        // SmartDashboard.putBoolean("ontarget",  Robot.elevator.onTarget());
      //  SmartDashboard.putNumber("Input Value", elevator.returnDValue());
-       SmartDashboard.putNumber("gyroValue", drive.potValue());
-     
+     //  SmartDashboard.putNumber("gyroValue", drive.potValue());
+        SmartDashboard.putBoolean("shooterstate", shooterSpdIn.get());
+      	SmartDashboard.putNumber("shooterRate", shooterSpdCtr.getRate());
+      	SmartDashboard.putNumber("shooterD", shooterSpdCtr.getDistance());
+      	
     }
     
     /**
