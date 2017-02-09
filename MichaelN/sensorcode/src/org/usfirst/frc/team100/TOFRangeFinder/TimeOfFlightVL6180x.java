@@ -20,6 +20,9 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	private double m_period;
 	private java.util.Timer m_pollLoop;
 	private int m_deviceAddress;
+	private static int ScalerValues[] = {0, 253, 127, 84};
+	private int scaling = 0;
+	private int ptp_offset = 0;
 	
 	public class VL6180xMeasurement {
 		public double m_distance;
@@ -193,6 +196,8 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		RESULT_RANGE_REFERENCE_AMB_COUNT    ((int)0x0078),
 		RESULT_RANGE_RETURN_CONV_TIME       ((int)0x007C),
 		RESULT_RANGE_REFERENCE_CONV_TIME    ((int)0x0080),
+		
+		RANGE_SCALER						((int)0x0096),
 
 		READOUT_AVERAGING_SAMPLE_PERIOD     ((int)0x010A),
 		FIRMWARE_BOOTUP                     ((int)0x0119),
@@ -211,12 +216,17 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		return isInit;
 	}
 	
-	private byte VL6180xInit(){
+	private void VL6180xInit(){
+		
+		
+		
 		int data; //for temp data storage
 
 		data = getRegister(VL6180xRegister.SYSTEM_FRESH_OUT_OF_RESET);
 		
 		if(data == 1){
+			
+			scaling = 2;
 			
 			setRegister(0x0207, 0x01);
 			setRegister(0x0208, 0x01);
@@ -251,10 +261,22 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 			
 			setRegister(0x016,0x00);
 			
-		}
+		    int s = getRegister16bit(VL6180xRegister.RANGE_SCALER);
+		    ptp_offset = getRegister(VL6180xRegister.SYSRANGE_PART_TO_PART_RANGE_OFFSET);
 
+		    if      (s == ScalerValues[3]) { scaling = 3; }
+		    else if (s == ScalerValues[2]) { scaling = 2; }
+		    else                           { scaling = 1; }
+
+		    // Adjust the part-to-part range offset value read earlier to account for
+		    // existing scaling. If the sensor was already in 2x or 3x scaling mode,
+		    // precision will be lost calculating the original (1x) offset, but this can
+		    // be resolved by resetting the sensor and Arduino again.
+		    ptp_offset *= scaling;
+		}
 		
-		return 0;
+		
+
 	}
 
 
@@ -283,8 +305,10 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  setRegister(VL6180xRegister.READOUT_AVERAGING_SAMPLE_PERIOD,0x30);
 	  setRegister(VL6180xRegister.SYSALS_ANALOGUE_GAIN,0x40);
 	  setRegister(VL6180xRegister.FIRMWARE_RESULT_SCALER,0x01);
+	  
+	  setScaling((byte)(2));
 	}
-	
+
 	public void setRegister(VL6180xRegister reg, int data){
 	  setRegister(reg.value,data);
 	}
@@ -331,6 +355,9 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  return data;
 	}
 	
+	private int getRegister16bit(VL6180xRegister registerAddr){
+		return getRegister16bit(registerAddr.value);
+	}
 
 	private int getRegister16bit(int registerAddr)
 	{
@@ -389,7 +416,6 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	}
 	
 	private class PollVL6180xTask extends TimerTask {
-
 		private TimeOfFlightVL6180x m_sensor;
 
 		public PollVL6180xTask(TimeOfFlightVL6180x sensor) {
@@ -411,5 +437,27 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 				m_sensor.startDistance();
 			}
 		}
+	}
+	
+	public void setScaling(byte new_scaling){
+	  int DefaultCrosstalkValidHeight = 20; // default value of SYSRANGE__CROSSTALK_VALID_HEIGHT
+
+	  // do nothing if scaling value is invalid
+	  if (new_scaling < 1 || new_scaling > 3) { return; }
+
+	  scaling = new_scaling;
+	  setRegister16bit(VL6180xRegister.RANGE_SCALER, ScalerValues[scaling]);
+
+	  // apply scaling on part-to-part offset
+	  setRegister(VL6180xRegister.SYSRANGE_PART_TO_PART_RANGE_OFFSET, ptp_offset / scaling);
+
+	  // apply scaling on CrossTalkValidHeight
+	  setRegister(VL6180xRegister.SYSRANGE_CROSSTALK_VALID_HEIGHT, DefaultCrosstalkValidHeight / scaling);
+
+	  // This function does not apply scaling to RANGE_IGNORE_VALID_HEIGHT.
+
+	  // enable early convergence estimate only at 1x scaling
+	  byte rce = getRegister(VL6180xRegister.SYSRANGE_RANGE_CHECK_ENABLES);
+	  setRegister(VL6180xRegister.SYSRANGE_RANGE_CHECK_ENABLES, (rce & 0xFE) | scaling);
 	}
 }
