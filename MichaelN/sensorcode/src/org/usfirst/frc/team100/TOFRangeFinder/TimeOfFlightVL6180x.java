@@ -29,7 +29,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		public int m_errCode;
 		
 		VL6180xMeasurement () {
-			m_distance = 0xFF;
+			m_distance = -1;
 			m_errCode = 15;
 		}
 		
@@ -401,8 +401,13 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 /*		System.out.println("readDistance  raw: 0x" + Integer.toHexString(val) +
 				"Converted : " + (double) val + "Error Code: " + VL6180xErrors[err]);*/
 		synchronized (m_CurrentMeasurement) {
-			m_CurrentMeasurement.m_distance = (double) val;
-			m_CurrentMeasurement.m_errCode = err;
+			if(err != 0){
+				m_CurrentMeasurement.m_distance = (double) -1;
+				m_CurrentMeasurement.m_errCode = err;
+			}else{
+				m_CurrentMeasurement.m_distance = (double) val/3;
+				m_CurrentMeasurement.m_errCode = err;
+			}
 		}
 		return ((double) val);
 	}
