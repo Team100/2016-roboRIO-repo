@@ -3,6 +3,7 @@ package org.usfirst.frc.team100.robot.subsystems;
 
 import org.usfirst.frc.team100.robot.Robot;
 
+import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -35,7 +36,8 @@ public class SimpleMotor extends Subsystem  {
   //  private Potentiometer pot;
    // private Potentiometer pots;
    // private AnalogGyro gyro;
-    public SpeedController rightSide, shooter;
+    //public SpeedController rightSide, shooter;
+    public CANTalon rightSide = new CANTalon(4);
     private static final double kP_real = 4, kI_real = 0.07,
             kP_simulation = 18, kI_simulation = 0.2;
 	private static final double DEFAULT_DRIVE_TRAIN_KP = 1; //.004
@@ -47,8 +49,8 @@ public class SimpleMotor extends Subsystem  {
 	public double driveTrain_kD;
     
     public SimpleMotor() {
-    	 rightSide = new Victor(1);
-         shooter = new Victor(0);
+    	// rightSide = new Victor(1);
+         //shooter = new Victor(0);
         
  		if (!Robot.prefs.containsKey("driveTrain_kP")) {
 			Robot.prefs.putDouble("driveTrain_kP", DEFAULT_DRIVE_TRAIN_KP);
@@ -71,7 +73,7 @@ public class SimpleMotor extends Subsystem  {
 			PIDSourceType m_sourceType = PIDSourceType.kRate;
 
 			public double pidGet() {
-				return Robot.shooterSpdCtr.getRate();
+				return Robot.encoderRight.getRate();
 			}
 
 			@Override
@@ -85,30 +87,12 @@ public class SimpleMotor extends Subsystem  {
 			}
 		}, new PIDOutput() {
 			public void pidWrite(double d) {
-				shooter.pidWrite(-d); // /2
+				rightSide.pidWrite(-d); // /2
 				//left.pidWrite(-d/2); // /2
 			}
 		});
        
-      //  motor = new Servo(0);
-   //     pots = new AnalogPotentiometer(1, -2.0/5);
-       
-     //   gyro = new AnalogGyro(0);
-   //     drive = new RobotDrive(rightSide, leftSide);
-        // Conversion value of potentiometer varies between the real world and simulation
-  //      if (Robot.isReal()) {
-    //        pot = new AnalogPotentiometer(2);
-      //  } else {
-       //     pot = new AnalogPotentiometer(2); // Defaults to meters
-        //}
-
-		// Let's show everything on the LiveWindow
-      //  LiveWindow.addActuator("Elevator", "motor",  one);
-       // LiveWindow.addSensor("Elevator", "Pot", (AnalogPotentiometer) pot);
-       
-      
-     //   LiveWindow.addSensor("skjsad", "pots", (AnalogPotentiometer) pots);
-      //  LiveWindow.addSensor("gyro" , "gyro", gyro);
+   
     }
 
     public void initDefaultCommand() {}

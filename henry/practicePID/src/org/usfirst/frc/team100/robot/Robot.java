@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
     public static Counter shooterSpdCtr;
     public static DigitalInput shooterSpdIn;
     public static SimpleMotor drive;
+    public static Encoder encoderRight; 
     public static OI oi;
    
   //  public static EncoderMotor encoders;
@@ -51,6 +52,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	encoderRight = new Encoder(0,1);
     	prefs = Preferences.getInstance();
     	drive = new SimpleMotor();
 		oi = new OI();
