@@ -9,6 +9,19 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendable{
+	
+	/**
+	 * tested values for each 10 centimeters
+	 * First trial
+	 * 	Real(cm)-Read(cm)
+	 * 		10	-	10
+	 * 		20	-	20.666
+	 * 		30 	-	31.333
+	 * 		40	-	41.666
+	 * 		50	-	52.333
+	 * 		60	-	60.666
+	 */
+	
 	public static final double kDefaultPeriod = .05;
 	private static int instances = 0;
 	private static final byte kAddress = 0x29;
@@ -402,10 +415,10 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 				"Converted : " + (double) val + "Error Code: " + VL6180xErrors[err]);*/
 		synchronized (m_CurrentMeasurement) {
 			if(err != 0){
-				m_CurrentMeasurement.m_distance = (double) -1;
+				m_CurrentMeasurement.m_distance = (double) -1.0;
 				m_CurrentMeasurement.m_errCode = err;
 			}else{
-				m_CurrentMeasurement.m_distance = (double) val/3;
+				m_CurrentMeasurement.m_distance = (double) val/3.0;
 				m_CurrentMeasurement.m_errCode = err;
 			}
 		}

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team100.TOFRangeFinder;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
