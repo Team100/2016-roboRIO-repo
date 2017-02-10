@@ -226,7 +226,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 		
 		if(data == 1){
 			
-			scaling = 2;
+			scaling = 1;
 			
 			setRegister(0x0207, 0x01);
 			setRegister(0x0208, 0x01);
@@ -306,7 +306,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  setRegister(VL6180xRegister.SYSALS_ANALOGUE_GAIN,0x40);
 	  setRegister(VL6180xRegister.FIRMWARE_RESULT_SCALER,0x01);
 	  
-	  setScaling((byte)(2));
+	  setScaling((byte)(3));
 	}
 
 	public void setRegister(VL6180xRegister reg, int data){
@@ -443,7 +443,7 @@ public class TimeOfFlightVL6180x extends SensorBase implements LiveWindowSendabl
 	  int DefaultCrosstalkValidHeight = 20; // default value of SYSRANGE__CROSSTALK_VALID_HEIGHT
 
 	  // do nothing if scaling value is invalid
-	  if (new_scaling < 1 || new_scaling > 3) { return; }
+	  if (new_scaling < 0 || new_scaling > 4) { return; }
 
 	  scaling = new_scaling;
 	  setRegister16bit(VL6180xRegister.RANGE_SCALER, ScalerValues[scaling]);
