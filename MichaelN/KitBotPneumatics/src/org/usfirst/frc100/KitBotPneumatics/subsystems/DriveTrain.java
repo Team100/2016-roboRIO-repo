@@ -45,6 +45,9 @@ public class DriveTrain extends Subsystem {
     public int countR = 0;
     public int count = 0;
     public int countTwo = 0;
+    
+    public boolean highGear = false;
+    public boolean lowGear = true;
 
     public DriveTrain() {
     	if (!Robot.prefs.containsKey("driveTrain_kP")) {
@@ -86,6 +89,16 @@ public class DriveTrain extends Subsystem {
 		count = 0;
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void shift(boolean b) {
+		if(!b){
+			 highGear = b;
+			 lowGear = !b;
+		}else{
+			 highGear = !b;
+			 lowGear = b;
+		}
 	}
 }
 

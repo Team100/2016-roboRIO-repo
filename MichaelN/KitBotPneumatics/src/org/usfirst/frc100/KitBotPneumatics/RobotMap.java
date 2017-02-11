@@ -49,6 +49,7 @@ public class RobotMap {
     
     public static DoubleSolenoid leftPiston;
     public static DoubleSolenoid rightPiston;
+    public static DoubleSolenoid driveTrainShifter;
 
     public static void init() {
     	//right = new CANTalon(5);
@@ -77,11 +78,11 @@ public class RobotMap {
     	internalGyro = new ADXRS450_Gyro();
     	
         driveTrainright = new Victor(1); //0
-    //    LiveWindow.addActuator("DriveTrain", "right", (Talon) driveTrainright);
+        //LiveWindow.addActuator("DriveTrain", "right", (Talon) driveTrainright);
         
         driveTrainleft = new Victor(0);
         driveTrainleft.setInverted(true);
-     //   LiveWindow.addActuator("DriveTrain", "left", (Talon) driveTrainleft);
+        //LiveWindow.addActuator("DriveTrain", "left", (Talon) driveTrainleft);
         
         driveTrainRobotDrive = new RobotDrive(rightMaster, leftMaster);//rightFollwer, leftMaster, leftFollower);
         
@@ -96,5 +97,7 @@ public class RobotMap {
 
         leftPiston = new DoubleSolenoid(0, 0, 1);
         rightPiston = new DoubleSolenoid(0, 2, 3);
+        
+        driveTrainShifter = new DoubleSolenoid(0, 4, 5);
     }
 }

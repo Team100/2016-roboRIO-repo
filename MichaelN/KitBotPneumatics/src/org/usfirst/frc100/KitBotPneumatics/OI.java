@@ -24,7 +24,11 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-    public Joystick joystick1;
+    public Joystick leftController;
+    public Joystick rightController;
+    public Joystick operater;
+    public Joystick customControllers;
+    
     public JoystickButton start; 
     public JoystickButton update;
     public JoystickButton calcDead;
@@ -32,25 +36,39 @@ public class OI {
     public JoystickButton closeknewmatics;
 
     public OI() {
-        joystick1 = new Joystick(0);
+    	
+    	operater = new Joystick(0);
         
-        start = new JoystickButton(joystick1, 3);
+        start = new JoystickButton(operater, 3);
         
-        update = new JoystickButton(joystick1, 1);
+        update = new JoystickButton(operater, 1);
         update.whenPressed(new updatePreferneces());
         
-        calcDead = new JoystickButton(joystick1, 2);
+        calcDead = new JoystickButton(operater, 2);
         
-        openknewmatics = new JoystickButton(joystick1, 5);
+        openknewmatics = new JoystickButton(operater, 5);
         openknewmatics.whenPressed(new OpenGear());
-        closeknewmatics = new JoystickButton(joystick1, 6);
+        closeknewmatics = new JoystickButton(operater, 6);
         closeknewmatics.whenPressed(new CloseGear());
+        
+        
 
         SmartDashboard.putData("ArcadeDrive", new ArcadeDrive());
     }
 
-    public Joystick getJoystick1() {
-        return joystick1;
+    public Joystick getOperater() {
+        return operater;
+    }
+    public Joystick getleftController() {
+    	return leftController;
+    }
+    	 
+    public Joystick getrightController() {
+    	return rightController;
+    }
+    	 
+    public Joystick getcustomControllers() {
+    	return customControllers;
     }
 }
 
