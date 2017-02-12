@@ -21,6 +21,9 @@ import org.usfirst.frc.team100.robot.commands.Drive;
 //import org.usfirst.frc.team100.robot.subsystems.Elevator;
 import org.usfirst.frc.team100.robot.subsystems.SimpleMotor;
 
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -44,7 +47,8 @@ public class Robot extends IterativeRobot {
     public static SimpleMotor drive;
     public static Encoder encoderRight; 
     public static OI oi;
-   
+    public static CANTalon rightMaster;
+    public CANTalon rightFollwer;
   //  public static EncoderMotor encoders;
    
     /**
@@ -52,11 +56,17 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	rightMaster = new CANTalon(3);
+    	rightMaster.changeControlMode(TalonControlMode.PercentVbus);
+    	rightFollwer = new CANTalon(2);
+    	rightFollwer.changeControlMode(TalonControlMode.Follower);
+    	rightFollwer.set(3);
     	encoderRight = new Encoder(0,1);
+    	encoderRight.setDistancePerPulse(1.0/1937.2032);
     	prefs = Preferences.getInstance();
     	drive = new SimpleMotor();
 		oi = new OI();
-		shooterSpdIn = new DigitalInput(2);
+		shooterSpdIn = new DigitalInput(4);
 		shooterSpdCtr = new Counter(shooterSpdIn);
 	    shooterSpdCtr.setDistancePerPulse(1.0);
 	    shooterSpdCtr.setUpSource(shooterSpdIn);
@@ -120,6 +130,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        
     }
    
 
@@ -134,9 +145,7 @@ public class Robot extends IterativeRobot {
        // SmartDashboard.putBoolean("ontarget",  Robot.elevator.onTarget());
      //  SmartDashboard.putNumber("Input Value", elevator.returnDValue());
      //  SmartDashboard.putNumber("gyroValue", drive.potValue());
-        SmartDashboard.putBoolean("shooterstate", shooterSpdIn.get());
-      	SmartDashboard.putNumber("shooterRate", shooterSpdCtr.getRate());
-      	SmartDashboard.putNumber("shooterD", shooterSpdCtr.getDistance());
+      SmartDashboard.putNumber("encoderRate", Robot.encoderRight.getRate());
       	
     }
     

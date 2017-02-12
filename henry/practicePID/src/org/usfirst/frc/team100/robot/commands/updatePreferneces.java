@@ -13,21 +13,21 @@ public class updatePreferneces extends Command {
 	//@Override
 	public double p;
 	public double i;
-	public double f;
+	public double d;
 	public double s;
 	protected void initialize() {
 		p = Robot.prefs.getDouble("driveTrain_kP",0);
 		i = Robot.prefs.getDouble("driveTrain_kI",0);
-		f = Robot.prefs.getDouble("driveTrain_kD",0);
-		Robot.drive.pid.setPID(p, i, f);
+		d = Robot.prefs.getDouble("driveTrain_kD",0);
+		Robot.drive.pid.setPID(p, i, d);
 		
 	}
 
 	@Override
 	protected void execute() {
-		SmartDashboard.putNumber("p", p);
-		SmartDashboard.putNumber("i", i);
-		SmartDashboard.putNumber("f", f);
+		SmartDashboard.putNumber("p", Robot.drive.pid.getP());
+		SmartDashboard.putNumber("i", Robot.drive.pid.getI());
+		SmartDashboard.putNumber("f", Robot.drive.pid.getD());
 		
 	}
 
