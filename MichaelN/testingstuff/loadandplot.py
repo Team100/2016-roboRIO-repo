@@ -71,7 +71,7 @@ def read_log_file(fname):
             elif value.startswith('false'):
                 val = 0.0
             elif re.search('[a-zA-Z]+',value):
-                val = str(value)
+                break
             else:
                 val = float(value)
 
@@ -261,7 +261,7 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
             self.raw_data_proxy.set_selected_vars(self.selected_vars)
             self.on_draw()
 
-        
+        # self.listWidget.itemChanged.connect(on_item_changed)
         self.mpl_toolbar = NavigationToolbar(self.mplwidget, self.centralwidget)
         self.verticalLayout.insertWidget(1, self.mpl_toolbar)
 
