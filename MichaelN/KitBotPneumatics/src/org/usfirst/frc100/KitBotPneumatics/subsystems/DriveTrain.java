@@ -90,15 +90,15 @@ public class DriveTrain extends Subsystem {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void shift(boolean b) {
-		if(!b){
-			 highGear = b;
-			 lowGear = !b;
-		}else{
-			 highGear = !b;
-			 lowGear = b;
-		}
+	
+	public void shiftHighGear(){
+		highGear = true;
+		lowGear = false;
+	}
+	
+	public void shiftLowGear(){
+		highGear = false;
+		lowGear = true;
 	}
 }
 
