@@ -16,14 +16,11 @@ import math
 import urllib
 
 from networktables import NetworkTable
-from grip import GripPipeline  # TODO change the default module and class, if needed
+from grip import GripPipeline  
 
 print("OpenCV version: " + str(cv2.__version__))
 
-if (int(cv2.__version__[:1])==2):
-    version = 2
-else:
-    version = 3
+version = int(cv2.__version__[:1])
 
 ip = '127.0.0.1'
 roboRio = 'roborio-100-frc.local'
@@ -31,17 +28,17 @@ piLoc = 'http://raspberrypi.local:5802/?action=stream'
 beagleLoc = 'http://beaglebone.local:1180/?action=stream'
 
 """         Program constants       """
-CAMERA_RESOLUTION = [320.0, 240.0] # 320 x 240
-CAMERA_FOV_DEGREES = [50.7, 39.9] 
+CAMERA_RESOLUTION = [310.0, 220.0] # 320 x 240
+CAMERA_FOV_DEGREES = [52.45, 38.89] # 50.7, 39.9
 HEIGHT_OF_OBJECT = 5.0 # inches
 WIDTH_TO_WIDTH = 8.25 # inches
 
-CAMERA_MATRIX = [[371.27525346, 0.0, 149.83727392], [0.0, 347.86519908, 109.9035288], [0.0, 0.0, 1.0]]
-DISTORTION_CONSTANTS = [ 0.13046587, -0.43432374, 0.00496624, -0.00340689, -0.42704272]
+CAMERA_MATRIX = np.matrix('371.27525346 0.0 149.83727392; 0.0 347.86519908 109.9035288; 0.0 0.0 1.0'); # [[371.27525346, 0.0, 149.83727392], [0.0, 347.86519908, 109.9035288], [0.0, 0.0, 1.0]]
+DISTORTION_CONSTANTS = np.array([0.13046587, -0.43432374, 0.00496624, -0.00340689, -0.42704272]);
 
 def main():
     try:
-        NetworkTable.setTeam(100)  # TODO set your team number
+        NetworkTable.setTeam(100) 
         NetworkTable.setIPAddress('169.254.2.14')
         NetworkTable.setClientMode()
         NetworkTable.initialize()
@@ -52,66 +49,58 @@ def main():
     
     sd = NetworkTable.getTable('GRIP/myContoursReport')
     
-    stream = urllib.urlopen(piLoc)
+    try:
+        stream = urllib.urlopen(piLoc)
+    except:
+        print "NO CONNECTION"
+        
     bytes = ''
     
-    """
-    #cap = cv2.VideoCapture(beagleLoc)
-    cap = cv2.VideoCapture(1)
-    cap.set(3, CAMERA_RESOLUTION[0])
-    cap.set(4, CAMERA_RESOLUTION[1])
-    
-    print("Resolution: " + str(cap.get(3)) + " X " + str(cap.get(4)))
-    
-    print(cap.isOpened())
-    """
-    
     pipeline = GripPipeline()
-                
-    while True:
+    
+    while stream:
         bytes += stream.read(1024)
         a = bytes.find('\xff\xd8')
         b = bytes.find('\xff\xd9')
         
-        #print ret
         if a!=-1 and b!=-1:
             jpg = bytes[a:b+2]
             bytes = bytes[b+2:]
             
             if (version == 2):
-                myI = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+                uncorrectedImage = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
             else:
-                myI = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
+                uncorrectedImage = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
             
-            h, w = myI.shape[:2]
+            h, w = uncorrectedImage.shape[:2]
+            
             newcameramtx, roi = cv2.getOptimalNewCameraMatrix(CAMERA_MATRIX, DISTORTION_CONSTANTS, (w, h), 1, (w, h))
-            undistortedImage = cv2.undistort(myI, CAMERA_MATRIX, DISTORTION_CONSTANTS, None, newcameramtx)
+            correctedImage = cv2.undistort(uncorrectedImage, CAMERA_MATRIX, DISTORTION_CONSTANTS, None, newcameramtx)
             
-            pipeline.process(undistortedImage)  
-            cv2.rectangle(undistortedImage, (int(CAMERA_RESOLUTION[0]/2-2), int(CAMERA_RESOLUTION[1]/2 - 2)), (int(CAMERA_RESOLUTION[0]/2+2), int(CAMERA_RESOLUTION[1]/2 + 2)), (150,150,0), 5)
+            pipeline.process(correctedImage)  
             
-            if len(pipeline.boundingRects) >= 1:
+            cv2.rectangle(correctedImage, (int(CAMERA_RESOLUTION[0]/2-2), int(CAMERA_RESOLUTION[1]/2 - 2)), (int(CAMERA_RESOLUTION[0]/2+2), int(CAMERA_RESOLUTION[1]/2 + 2)), (150,150,0), 5)
+            
+            if len(pipeline.boundingRects) == 2:
                 
                 if (pipeline.center != None):
                     distanceFromCenterPixels = math.fabs(CAMERA_RESOLUTION[0]/2 - pipeline.center[0])
                     degreeOffset = CAMERA_FOV_DEGREES[0] * distanceFromCenterPixels / CAMERA_RESOLUTION[0]
-                    cv2.line(undistortedImage, (int(CAMERA_RESOLUTION[0]/2), int(CAMERA_RESOLUTION[1]/2)), (int(pipeline.center[0]), int(CAMERA_RESOLUTION[1]/2)),(255,0,0), 3, 8, 0)
+                    cv2.line(correctedImage, (int(CAMERA_RESOLUTION[0]/2), int(CAMERA_RESOLUTION[1]/2)), (int(pipeline.center[0]), int(CAMERA_RESOLUTION[1]/2)),(255,0,0), 3, 8, 0)
 
-                    print("Degrees from center: " + str(degreeOffset))
+                   # print("Degrees from center: " + str(degreeOffset))
                     sd.putNumberArray("Center", pipeline.center)
-                    cv2.rectangle(undistortedImage, (pipeline.center[0]-5, pipeline.center[1]-5), (pipeline.center[0]+5, pipeline.center[1]+5), (0,0,255), 1)
+                    cv2.rectangle(correctedImage, (pipeline.center[0]-2, pipeline.center[1]-2), (pipeline.center[0]+2, pipeline.center[1]+2), (0,0,255), 5)
                 
-                myRects = []
                 for rects in pipeline.boundingRects:
-                    cv2.rectangle(undistortedImage, (rects[0], rects[1]), (rects[0]+rects[2], rects[1]+rects[3]), (0,255,0), 2)
-                    myRects.append(rects)
+                    cv2.rectangle(correctedImage, (rects[0], rects[1]), (rects[0]+rects[2], rects[1]+rects[3]), (0,0,255), 2)
                     
                 sendableCenterX = []
                 sendableCenterY = []
                 sendableWidth = []
                 sendableHeight = []
                 
-                for r in myRects:
+                for r in pipeline.boundingRects:
                     sendableCenterX.append((r[0] + r[2]/2))
                     sendableCenterY.append((r[1] + r[3]/2))
                     sendableWidth.append(r[2])
@@ -122,33 +111,31 @@ def main():
                     sd.putNumberArray("centerY", sendableCenterY)
                     sd.putNumberArray("width", sendableWidth)
                     sd.putNumberArray("height", sendableHeight)
+                    sd.putNumberArray("degreeOffset", degreeOffset)
                 except:
                     pass
                  
                 theta = ((CAMERA_FOV_DEGREES[1] * sendableHeight[0]) / CAMERA_RESOLUTION[1])/2
                 distanceToTarget = ((HEIGHT_OF_OBJECT/2) / (math.tan(theta * math.pi / 180.0)))
                 
-                if (len(sendableCenterX) > 1):
-                    distance1 = sendableCenterX[0]
-                    distance2 = sendableCenterX[1]
-                    if ((distance2 > distance1)):
-                        dist = distance2 - distance1
-                    else:
-                        dist = distance1 - distance2
+                dist = math.fabs(sendableCenterX[0] - sendableCenterX[1]);
                 
-                    if (dist): 
-                        theta2 = ((CAMERA_FOV_DEGREES[0] * dist) / CAMERA_RESOLUTION[0])/2
-                        distanceToTarget2 = ((WIDTH_TO_WIDTH/2) / (math.tan(theta2 * math.pi / 180)))
-                        cv2.putText(undistortedImage, "Distance2: " + str("%.1f" % distanceToTarget2), (60, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (250, 60, 40), 1)
+                if (dist): 
+                    theta2 = ((CAMERA_FOV_DEGREES[0] * dist) / CAMERA_RESOLUTION[0])/2
+                    distanceToTarget2 = ((WIDTH_TO_WIDTH/2) / (math.tan(theta2 * math.pi / 180)))
+                    cv2.putText(correctedImage, "Distance2: " + str("%.1f" % distanceToTarget2), (60, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (250, 60, 40), 1)
                                                 
                     #print(distanceToTarget2)
                     #font = cv2.InitFont(cv2.CV_FONT_HERSHEY_SIMPLEX, 1, 1, 0, 3, 8)
-                    cv2.putText(undistortedImage, "Distance: " + str("%.1f" % distanceToTarget), (60, 160), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (250, 60, 40), 1)
+                    cv2.putText(correctedImage, "Distance: " + str("%.1f" % distanceToTarget), (60, 160), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (250, 60, 40), 1)
                     #print("Distance to target: " + str("%.1f" % distanceToTarget) + " inches")
             
-            cv2.imshow("undistortedImage", undistortedImage)
+            # crop image
+            x, y, w, h = roi
+            correctedImage = correctedImage[y:y+h, x:x+w]
+            
+            cv2.imshow("correctedImage", correctedImage)
                
-            #extra_processing(pipeline)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                break;
     # When everything done, release the capture

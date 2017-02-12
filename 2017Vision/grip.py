@@ -5,9 +5,9 @@ class GripPipeline:
         
     def __init__(self):
         
-        self.__hsv_threshold_hue = [0.0, 255.0]
-        self.__hsv_threshold_saturation = [0.0, 255.0] # 0, 18
-        self.__hsv_threshold_value = [168.0, 255.0]
+        self.__hsv_threshold_hue = [57.0, 77.0]
+        self.__hsv_threshold_saturation = [190.0, 255.0] # 0, 18
+        self.__hsv_threshold_value = [205.0, 255.0]
         
         self.center = None
         self.boundingRects = None
@@ -25,17 +25,17 @@ class GripPipeline:
         self.find_contours_output = None
 
         self.__filter_contours_contours = self.find_contours_output
-        self.__filter_contours_min_area = 0
+        self.__filter_contours_min_area = 200
         self.__filter_contours_min_perimeter = 0
-        self.__filter_contours_min_width = 20.0
-        self.__filter_contours_max_width = 100.0
-        self.__filter_contours_min_height = 30.0
+        self.__filter_contours_min_width = 0
+        self.__filter_contours_max_width = 1000
+        self.__filter_contours_min_height = 0.0
         self.__filter_contours_max_height = 1000
-        self.__filter_contours_solidity = [17.985611510791372, 100]
+        self.__filter_contours_solidity = [0, 100]
         self.__filter_contours_max_vertices = 1000000
         self.__filter_contours_min_vertices = 0
         self.__filter_contours_min_ratio = 0
-        self.__filter_contours_max_ratio = 1000
+        self.__filter_contours_max_ratio = 10000
 
         self.filter_contours_output = None
 
@@ -57,31 +57,23 @@ class GripPipeline:
         self.__filter_contours_contours = self.find_contours_output
         (self.filter_contours_output) = self.__filter_contours(self.__filter_contours_contours, self.__filter_contours_min_area, self.__filter_contours_min_perimeter, self.__filter_contours_min_width, self.__filter_contours_max_width, self.__filter_contours_min_height, self.__filter_contours_max_height, self.__filter_contours_solidity, self.__filter_contours_max_vertices, self.__filter_contours_min_vertices, self.__filter_contours_min_ratio, self.__filter_contours_max_ratio)
         
-        try:
             #print("Number of contours: " + str(len(self.filter_contours_output)))
-            self.boundingRects = []
+        self.boundingRects = []
 
-            for cont in self.filter_contours_output:
-                self.myRect = cv2.boundingRect(cont)
-                
-                if ((float(self.myRect[2]) / float(self.myRect[3])) >= 0.4 and (float(self.myRect[2]) / float(self.myRect[3])) <= 0.56 ):
-                    self.boundingRects.append(cv2.boundingRect(cont))
+        for cont in self.filter_contours_output:
+            myRect = cv2.boundingRect(cont)
+             
+            if ((float(myRect[2]) / float(myRect[3])) >= 0.3 and (float(myRect[2]) / float(myRect[3])) <= 0.7 ):
+                self.boundingRects.append(myRect)
             
-            centerX = 0
-            centerY = 0
-            
-            for c in self.boundingRects:
-                centerX += c[0] + c[2]/2
-                centerY += c[1] + c[3]/2
-                
-            centerX /= len(self.boundingRects)
-            centerY /= len(self.boundingRects)
-            
-            self.center = [centerX, centerY]             
-                
-        except:
+        if (len(self.boundingRects) == 2):
+            centerX = (self.boundingRects[0][0] + self.boundingRects[0][2]/2 + self.boundingRects[1][0] + self.boundingRects[1][2]/2)/2
+            centerY = (self.boundingRects[0][1] + self.boundingRects[0][3]/2 + self.boundingRects[1][1] + self.boundingRects[1][3]/2)/2
+            self.center = [centerX, centerY]  
+        else:
             pass
-            #print("NO CONTOUR DETECTED")
+            #print "NEED 2 CONTOURS"          
+
 
     @staticmethod
     def __hsv_threshold(input, hue, sat, val):
@@ -110,8 +102,8 @@ class GripPipeline:
             A list of numpy.ndarray where each one represents a contour.
         """
        
-        #cv2.namedWindow("Eureka")
-        #cv2.imshow("Eureka", input)
+        cv2.namedWindow("Eureka")
+        cv2.imshow("Eureka", input)
                                 
         if(external_only):
             mode = cv2.RETR_EXTERNAL
