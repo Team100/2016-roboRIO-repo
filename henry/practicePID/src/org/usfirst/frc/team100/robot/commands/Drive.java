@@ -36,18 +36,22 @@ public class Drive extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if(!endPID){
+    	Robot.drive.pid.reset();
     	Robot.drive.pid.setSetpoint(setpoint);
         Robot.drive.pid.enable();
         Robot.drive.pid.setAbsoluteTolerance(.5);
     	}
     	else{
+    	Robot.drive.pid.setSetpoint(0);
     	Robot.drive.pid.disable();
+    	
     	}
 
     }
 
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
+    	Robot.drive.moveRightSide(Robot.oi.joy);
     	SmartDashboard.putNumber("set", Robot.drive.pid.getSetpoint());
     
     }
@@ -63,7 +67,7 @@ public class Drive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.drive.rightSide.set(0);
+    	Robot.rightMaster.set(0);
    }
 
     // Called when another command which requires one or more of the same

@@ -68,7 +68,6 @@ public class DriveTrain extends Subsystem {
     public PIDController pidPosRight;
     public PIDController pidVelLeft;
     public PIDController pidVelRight;
-    public PIDController pidAngle;
     public double maxOutput;
     public double maxSpeedReached = 0;
     public int countL = 0;
@@ -165,7 +164,7 @@ public class DriveTrain extends Subsystem {
 			}
 		});
     	
-    	pidPosLeft = new PIDController(driveTrain_kP, driveTrain_kI, 0, driveTrain_kF, new PIDSource() { // .04 0 0 for 180
+    	pidPosLeft = new PIDController(.008, .001, 1.0, new PIDSource(){//driveTrain_kP, driveTrain_kI, 0, driveTrain_kF, new PIDSource() { // .04 0 0 for 180
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			public double pidGet() {
@@ -199,7 +198,7 @@ public class DriveTrain extends Subsystem {
 			}
 		});
 //pid.setPID(p, i, d);
-    	pidPosRight = new PIDController(driveTrain_kP, driveTrain_kI , 0, driveTrain_kF, new PIDSource() { // .58823
+    	pidPosRight = new PIDController(.008, .001, 1.0, new PIDSource(){//driveTrain_kP, driveTrain_kI , 0, driveTrain_kF, new PIDSource() { // .58823
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			public double pidGet() {
@@ -241,35 +240,7 @@ public class DriveTrain extends Subsystem {
 				
 			}
 		});
-    	
-    	  pidAngle = new PIDController(0,  0, 0, new PIDSource() { // .58823
-    			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
-
-    			public double pidGet() {
-    				return RobotMap.internalGyro.getAngle();
-    			}
-
-    			@Override
-    			public void setPIDSourceType(PIDSourceType pidSource) {
-    				m_sourceType = pidSource;
-    			}
-
-    			@Override
-    			public PIDSourceType getPIDSourceType() {
-    				return m_sourceType;
-    			}
-    		}, new PIDOutput() {
-    			public void pidWrite(double d) {
-    				
-    				RobotMap.rightMaster.pidWrite(d);
-    				RobotMap.leftMaster.pidWrite(-d);
-    				
-    			}
-    		});
     }
-    
-  
-
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
