@@ -2,6 +2,7 @@
 package org.usfirst.frc.team100.robot.subsystems;
 
 import org.usfirst.frc.team100.robot.Robot;
+import org.usfirst.frc.team100.robot.commands.DriveWithJoy;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
@@ -46,10 +47,11 @@ public class SimpleMotor extends Subsystem  {
 	private static final double DEFAULT_DRIVE_TRAIN_KP = 1; //.004
 	private static final double DEFAULT_DRIVE_TRAIN_KI = 0.00;
 	private static final double DEFAULT_DRIVE_TRAIN_KD = 0.0;
-
+	private static final double DEFAULT_DRIVE_TRAIN_KF = 0.0;
 	public double driveTrain_kP;
 	public double driveTrain_kI;
 	public double driveTrain_kD;
+	public double driveTrain_kF;
     
     public SimpleMotor() {
     	// rightSide = new Victor(1);
@@ -64,6 +66,9 @@ public class SimpleMotor extends Subsystem  {
 		if (!Robot.prefs.containsKey("driveTrain_kD")) {
 			Robot.prefs.putDouble("driveTrain_kD", DEFAULT_DRIVE_TRAIN_KD);
 		}
+		if (!Robot.prefs.containsKey("driveTrain_kF")) {
+			Robot.prefs.putDouble("driveTrain_kF", DEFAULT_DRIVE_TRAIN_KF);
+		}
 
 		driveTrain_kP = Robot.prefs.getDouble("driveTrain_kP",
 				DEFAULT_DRIVE_TRAIN_KP);
@@ -71,12 +76,14 @@ public class SimpleMotor extends Subsystem  {
 				DEFAULT_DRIVE_TRAIN_KI);
 		driveTrain_kD = Robot.prefs.getDouble("driveTrain_kD",
 				DEFAULT_DRIVE_TRAIN_KD);
+		driveTrain_kD = Robot.prefs.getDouble("driveTrain_kF",
+				DEFAULT_DRIVE_TRAIN_KF);
 		
-    	pid = new PIDController(driveTrain_kP, driveTrain_kI,  driveTrain_kD, 0.0, new PIDSource() { // .04 0 0 for 180
+    	pid = new PIDController(driveTrain_kP, driveTrain_kI,  driveTrain_kD, driveTrain_kF, new PIDSource() { // .04 0 0 for 180
 			PIDSourceType m_sourceType = PIDSourceType.kRate;
 
 			public double pidGet() {
-				return Robot.encoderRight.getRate();
+				return Robot.encoderLeft.getRate();
 			}
 
 			@Override
@@ -90,15 +97,18 @@ public class SimpleMotor extends Subsystem  {
 			}
 		}, new PIDOutput() {
 			public void pidWrite(double d) {
-				Robot.rightMaster.pidWrite(d); // /2
+				//pidWrite(d); // /2
 				//left.pidWrite(-d/2); // /2
+				Robot.leftMaster.pidWrite(d);
 			}
 		});
        
    
     }
 
-    public void initDefaultCommand() {}
+    public void initDefaultCommand() {
+    	setDefaultCommand(new DriveWithJoy());
+    }
 
 	
     public void log() {
@@ -106,17 +116,11 @@ public class SimpleMotor extends Subsystem  {
     }
 
   
-    protected void usePIDOutput(double d) {
-    	
-    }
     public void moveRightSide(Joystick joy){
-    //	Robot.rightMaster.set(joy.getRawAxis(1));
+    	Robot.leftMaster.set(joy.getRawAxis(1));
     	
     }
-    public double returnDValue()
-    {
-    	return dValue;
-    }
+ 
    
     
 }

@@ -42,7 +42,7 @@ public class OI {
 		  JoystickButton update = new JoystickButton(joy, 3);
 		  update.whenPressed(new updatePreferneces());
 		  JoystickButton start = new JoystickButton(joy, 1);
-		  start.whenPressed((new Drive(9)));
+		  start.whenPressed((new Drive(7.0)));
 		  
 		  JoystickButton stop = new JoystickButton(joy, 2);
 		  stop.whenPressed((new Drive(true)));

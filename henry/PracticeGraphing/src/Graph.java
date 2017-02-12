@@ -6,10 +6,12 @@ public class Graph {
 	static double[][] waypoints = new double[][]{
 		{1, 1},
 	    {5, 1},
-	    {9, 5},
-	    {12, 9},
-	    {15, 6},
-	    {19, 12}//19,12
+	    {6, 1},
+	    {7, 2},
+	    {7.5,3},
+	    //{8,5}
+	    //{7, 6},
+	    //{7, 12}//19,12
 	}; 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

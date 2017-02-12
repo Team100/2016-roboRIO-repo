@@ -14,12 +14,14 @@ public class updatePreferneces extends Command {
 	public double p;
 	public double i;
 	public double d;
-	public double s;
+	//public double d;
+	public double f;
 	protected void initialize() {
 		p = Robot.prefs.getDouble("driveTrain_kP",0);
 		i = Robot.prefs.getDouble("driveTrain_kI",0);
 		d = Robot.prefs.getDouble("driveTrain_kD",0);
-		Robot.drive.pid.setPID(p, i, d);
+		f = Robot.prefs.getDouble("driveTrain_kF",0);
+		Robot.drive.pid.setPID(p, i, d, f);
 		
 	}
 
@@ -27,7 +29,8 @@ public class updatePreferneces extends Command {
 	protected void execute() {
 		SmartDashboard.putNumber("p", Robot.drive.pid.getP());
 		SmartDashboard.putNumber("i", Robot.drive.pid.getI());
-		SmartDashboard.putNumber("f", Robot.drive.pid.getD());
+		SmartDashboard.putNumber("d", Robot.drive.pid.getD());
+		SmartDashboard.putNumber("f", Robot.drive.pid.getF());
 		
 	}
 

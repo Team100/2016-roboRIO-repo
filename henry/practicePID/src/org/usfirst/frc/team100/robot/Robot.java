@@ -45,10 +45,12 @@ public class Robot extends IterativeRobot {
     public static Counter shooterSpdCtr;
     public static DigitalInput shooterSpdIn;
     public static SimpleMotor drive;
-    public static Encoder encoderRight; 
+    public static Encoder encoderLeft; 
     public static OI oi;
     public static CANTalon rightMaster;
-    public CANTalon rightFollwer;
+    public static CANTalon rightFollwer;
+    public static CANTalon leftMaster;
+    public static CANTalon leftFollower;
   //  public static EncoderMotor encoders;
    
     /**
@@ -59,10 +61,17 @@ public class Robot extends IterativeRobot {
     	rightMaster = new CANTalon(3);
     	rightMaster.changeControlMode(TalonControlMode.PercentVbus);
     	rightFollwer = new CANTalon(2);
+    	//rightFollwer.changeControlMode(TalonControlMode.Follower);
     	rightFollwer.changeControlMode(TalonControlMode.Follower);
     	rightFollwer.set(3);
-    	encoderRight = new Encoder(0,1);
-    	encoderRight.setDistancePerPulse(1.0/1937.2032);
+        leftMaster = new CANTalon(5);
+    	leftMaster.changeControlMode(TalonControlMode.PercentVbus);
+    	leftFollower = new CANTalon(4);
+    	leftFollower.changeControlMode(TalonControlMode.Follower);
+    	//leftFollower.changeControlMode(TalonControlMode.Follower);
+    	leftFollower.set(5);
+    	encoderLeft = new Encoder(2,3); //2,3
+    	encoderLeft.setDistancePerPulse(1.0/1937.2032);
     	prefs = Preferences.getInstance();
     	drive = new SimpleMotor();
 		oi = new OI();
@@ -145,7 +154,10 @@ public class Robot extends IterativeRobot {
        // SmartDashboard.putBoolean("ontarget",  Robot.elevator.onTarget());
      //  SmartDashboard.putNumber("Input Value", elevator.returnDValue());
      //  SmartDashboard.putNumber("gyroValue", drive.potValue());
-      SmartDashboard.putNumber("encoderRate", Robot.encoderRight.getRate());
+      SmartDashboard.putNumber("encoderRate", Robot.encoderLeft.getRate());
+      SmartDashboard.putNumber("voltage", Robot.rightMaster.get());
+      
+      //SmartDashboard.putNumber("encoderRate", Robot.drive.pid.);
       	
     }
     

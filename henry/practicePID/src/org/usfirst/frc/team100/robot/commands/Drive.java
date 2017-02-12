@@ -51,8 +51,10 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
-    	Robot.drive.moveRightSide(Robot.oi.joy);
+    	
     	SmartDashboard.putNumber("set", Robot.drive.pid.getSetpoint());
+    	SmartDashboard.putNumber("pidError", Robot.drive.pid.getError());
+        SmartDashboard.putBoolean("Target?", Robot.drive.pid.onTarget());
     
     }
     
