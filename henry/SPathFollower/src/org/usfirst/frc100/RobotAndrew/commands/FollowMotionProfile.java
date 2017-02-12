@@ -1,6 +1,8 @@
 package org.usfirst.frc100.RobotAndrew.commands;
 
 
+import java.awt.Color;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 
 import java.util.Timer;
@@ -22,6 +24,7 @@ public class FollowMotionProfile extends Command{
 	double totalTime = 8; //max seconds we want to drive the path
 	double timeStep = 0.1; //period of control loop on Rio, seconds
 	double robotTrackWidth = 2;
+	FalconLinePlot fig1;
 	FalconPathPlanner path;
 	public static ArrayList<Double> position; //= new ArrayList<Double>();
 	public static ArrayList<Double> velocity; //= new ArrayList<Double>();
@@ -40,12 +43,12 @@ public class FollowMotionProfile extends Command{
 		//velocity = profile.returnVel();
 		count = 0;
 		double[][] waypoints = new double[][]{
-		    {1, 1},
-		    {5, 1},
-		    {9, 12},
-		    {12, 9},
-		    {15, 6},
-		    {19, 12}
+		    {1, 1}, //1,1
+		    {1, 1}, //5,1
+		    {1, 1}, // 9,12
+		    {1, 1}, //12,9
+		    {1, 1}, //15,6
+		    {1, 1} //19,12
 		}; 
 
 		double totalTime = 8; //max seconds we want to drive the path
@@ -61,6 +64,22 @@ public class FollowMotionProfile extends Command{
 		Robot.driveTrain.pidPosLeft.setAbsoluteTolerance(0.1);
 		Robot.driveTrain.pidVelRight.setAbsoluteTolerance(0.01);
 		Robot.driveTrain.pidVelLeft.setAbsoluteTolerance(0.01);
+		
+			fig1 = new FalconLinePlot();//path.nodeOnlyPath,Color.blue,Color.green);}
+		
+		
+		/*if(!GraphicsEnvironment.isHeadless()){
+		
+		fig1.yGridOn();
+		fig1.xGridOn();
+		fig1.setYLabel("Y (feet)");
+		fig1.setXLabel("X (feet)");
+		fig1.setTitle("Top Down View of FRC Field (24ft x 27ft) \n shows global position of robot path, along with left and right wheel trajectories");
+
+		//force graph to show 1/2 field dimensions of 24ft x 27 feet
+		fig1.setXTic(0, 27, 1);
+		fig1.setYTic(0, 24, 1);
+		} */
 	//	Robot.driveTrain.pidPosLeft.set
 	}
 	
@@ -85,7 +104,7 @@ public class FollowMotionProfile extends Command{
 			count++;
 		}
 		
-		SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPosLeft.getSetpoint());
+	//	SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPosLeft.getSetpoint());
 	}
 
 	protected boolean isFinished() {
@@ -94,8 +113,8 @@ public class FollowMotionProfile extends Command{
 		
 	}
 	protected void end(){
-		Robot.driveTrain.pidPosLeft.disable();
-		Robot.driveTrain.pidPosRight.disable();
+		//Robot.driveTrain.pidPosLeft.disable();
+		//Robot.driveTrain.pidPosRight.disable();
 		Robot.driveTrain.stop();
 	}
 
