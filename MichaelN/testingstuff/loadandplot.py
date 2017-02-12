@@ -25,6 +25,14 @@ try:
 except AttributeError:
     def _fromUtf8(s):
         return s
+        
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 # create the GUI window layout dynamically from the .ui file
 QT_CREATOR_FILE = "LogDataScreenDesign.ui"
 UI_MAIN_WINDOW, QT_BASE_CLASS = uic.loadUiType(QT_CREATOR_FILE)
@@ -267,7 +275,7 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
 
     def init_treeWidget(self):
         """
-        Initializes the listWidget with the names of all the variables in the
+        Initializes the tree with the names of all the variables in the
         log file along with checkboxes to select which ones should be plotted
         and displayed.
         """
@@ -276,15 +284,16 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
         self.tree.setDragDropOverwriteMode(False)
         self.tree.setUniformRowHeights(True)
         self.tree.setObjectName(_fromUtf8("tree"))
-        
+        pos = 0
         for var in self.mydict.keys():
+            
             item = QtGui.QTreeWidgetItem(self.tree)
-            item.setText(var)
+            item.setCheckState(0, QtCore.Qt.Unchecked)
             item.setFlags(QtCore.Qt.ItemIsUserCheckable | \
                           QtCore.Qt.ItemIsEnabled | \
                           QtCore.Qt.ItemIsSelectable)
-            item.setCheckState(0, QtCore.Qt.Unchecked)
-            
+            self.tree.topLevelItem(pos).setText(0, _translate("MainWindow", 'cheese', None))
+            pos += 1
         
 
 

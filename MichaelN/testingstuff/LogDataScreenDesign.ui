@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QTreeWidget" name="treeWidget">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -35,12 +35,11 @@
     <property name="selectionMode">
      <enum>QAbstractItemView::NoSelection</enum>
     </property>
-    <property name="modelColumn">
-     <number>0</number>
-    </property>
-    <property name="sortingEnabled">
-     <bool>true</bool>
-    </property>
+    <column>
+     <property name="text">
+      <string notr="true">1</string>
+     </property>
+    </column>
    </widget>
    <widget class="QTableView" name="tableView">
     <property name="geometry">
