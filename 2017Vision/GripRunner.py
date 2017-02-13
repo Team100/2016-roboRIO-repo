@@ -81,6 +81,8 @@ def main():
             
             cv2.rectangle(correctedImage, (int(CAMERA_RESOLUTION[0]/2-2), int(CAMERA_RESOLUTION[1]/2 - 2)), (int(CAMERA_RESOLUTION[0]/2+2), int(CAMERA_RESOLUTION[1]/2 + 2)), (150,150,0), 5)
             
+            print("Number of Bounding Rects: " + str(len(pipeline.boundingRects)))
+            
             if len(pipeline.boundingRects) == 2:
                 
                 if (pipeline.center != None):
@@ -130,6 +132,10 @@ def main():
                     cv2.putText(correctedImage, "Distance: " + str("%.1f" % distanceToTarget), (60, 160), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (250, 60, 40), 1)
                     #print("Distance to target: " + str("%.1f" % distanceToTarget) + " inches")
             
+            else:
+                for rects in pipeline.boundingRects:
+                    cv2.rectangle(correctedImage, (rects[0], rects[1]), (rects[0]+rects[2], rects[1]+rects[3]), (0,0,255), 2)
+                        
             # crop image
             x, y, w, h = roi
             correctedImage = correctedImage[y:y+h, x:x+w]

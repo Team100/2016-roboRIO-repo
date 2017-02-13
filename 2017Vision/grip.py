@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import math
 
 class GripPipeline:
         
@@ -25,7 +26,7 @@ class GripPipeline:
         self.find_contours_output = None
 
         self.__filter_contours_contours = self.find_contours_output
-        self.__filter_contours_min_area = 200
+        self.__filter_contours_min_area = 2
         self.__filter_contours_min_perimeter = 0
         self.__filter_contours_min_width = 0
         self.__filter_contours_max_width = 1000
@@ -57,24 +58,65 @@ class GripPipeline:
         self.__filter_contours_contours = self.find_contours_output
         (self.filter_contours_output) = self.__filter_contours(self.__filter_contours_contours, self.__filter_contours_min_area, self.__filter_contours_min_perimeter, self.__filter_contours_min_width, self.__filter_contours_max_width, self.__filter_contours_min_height, self.__filter_contours_max_height, self.__filter_contours_solidity, self.__filter_contours_max_vertices, self.__filter_contours_min_vertices, self.__filter_contours_min_ratio, self.__filter_contours_max_ratio)
         
-            #print("Number of contours: " + str(len(self.filter_contours_output)))
+        #print self.filter_contours_output
+        
+        tempRects = []
         self.boundingRects = []
 
         for cont in self.filter_contours_output:
             myRect = cv2.boundingRect(cont)
-             
-            if ((float(myRect[2]) / float(myRect[3])) >= 0.3 and (float(myRect[2]) / float(myRect[3])) <= 0.7 ):
-                self.boundingRects.append(myRect)
+            tempRects.append(myRect)
+        
+        if (len(tempRects) == 3):
+            legend = None
+            
+            for i in range(1, 3):                    
+                    if (math.fabs(tempRects[0][0] - tempRects[i][0]) <= 5):
+                        if (tempRects[0][1] < tempRects[i][1]):
+                            brokenContours = np.array([[[tempRects[0][0], tempRects[0][1]]], [[tempRects[0][0]+tempRects[0][2], tempRects[0][1]]], [[tempRects[0][0], tempRects[0][1] + tempRects[0][3]]], [[tempRects[0][0]+tempRects[0][2], tempRects[i][1] + tempRects[i][3]]]])
+                            newRect = cv2.boundingRect(brokenContours)
+                            print("Here1")
+                            self.boundingRects.append(newRect)                            
+                        else:
+                            brokenContours = np.array([[[tempRects[i][0], tempRects[i][1]]], [[tempRects[i][0]+tempRects[i][2], tempRects[i][1]]], [[tempRects[i][0], tempRects[0][1] + tempRects[0][3]]], [[tempRects[i][0]+tempRects[i][2], tempRects[0][1] + tempRects[0][3]]]])
+                            newRect = cv2.boundingRect(brokenContours)
+                            print("Here2")
+                            self.boundingRects.append(newRect)
+                        if (i==1):
+                            legend = 2
+                        else:
+                            legend = 1
+                        break
+                    else:
+                        if (math.fabs(tempRects[1][0] - tempRects[2][0]) <= 5):
+                            if (tempRects[1][1] < tempRects[2][1]):
+                                brokenContours = np.array([[[tempRects[1][0], tempRects[1][1]]], [[tempRects[1][0]+tempRects[1][2], tempRects[1][1]]], [[tempRects[1][0], tempRects[2][1] + tempRects[2][3]]], [[tempRects[1][0]+tempRects[1][2], tempRects[2][1] + tempRects[2][3]]]])
+                                newRect = cv2.boundingRect(brokenContours)
+                                print("Here3")
+                                self.boundingRects.append(newRect)  
+                        else:
+                            brokenContours = np.array([[[tempRects[2][0], tempRects[2][1]]], [[tempRects[2][0]+tempRects[2][2], tempRects[2][1]]], [[tempRects[2][0], tempRects[1][1] + tempRects[1][3]]], [[tempRects[2][0]+tempRects[2][2], tempRects[1][1] + tempRects[1][3]]]])
+                            newRect = cv2.boundingRect(brokenContours)
+                            print("Here4")
+                            self.boundingRects.append(newRect)
+                            
+                        legend = 0
+                        break
+            self.boundingRects.append(tempRects[legend])
+        else:
+            for rect in tempRects:
+                if ((float(rect[2]) / float(rect[3])) >= 0.3 and (float(rect[2]) / float(rect[3])) <= 0.7 ):
+                    self.boundingRects.append(rect)
             
         if (len(self.boundingRects) == 2):
             centerX = (self.boundingRects[0][0] + self.boundingRects[0][2]/2 + self.boundingRects[1][0] + self.boundingRects[1][2]/2)/2
             centerY = (self.boundingRects[0][1] + self.boundingRects[0][3]/2 + self.boundingRects[1][1] + self.boundingRects[1][3]/2)/2
             self.center = [centerX, centerY]  
-        else:
+        elif (len(self.boundingRects) == 3):
             pass
             #print "NEED 2 CONTOURS"          
 
-
+    
     @staticmethod
     def __hsv_threshold(input, hue, sat, val):
         """Segment an image based on hue, saturation, and value ranges.
@@ -102,8 +144,8 @@ class GripPipeline:
             A list of numpy.ndarray where each one represents a contour.
         """
        
-        cv2.namedWindow("Eureka")
-        cv2.imshow("Eureka", input)
+        #cv2.namedWindow("Eureka")
+        #cv2.imshow("Eureka", input)
                                 
         if(external_only):
             mode = cv2.RETR_EXTERNAL
