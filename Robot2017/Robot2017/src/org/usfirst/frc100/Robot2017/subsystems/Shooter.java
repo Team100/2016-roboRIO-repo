@@ -29,22 +29,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends Subsystem {
 
     
-    private final SpeedController moter = RobotMap.shootermoter;
-    private final Encoder incoder = RobotMap.shooterincoder;
+    //private final SpeedController moter = RobotMap.shootermoter;
+    //private final Encoder incoder = RobotMap.shooterincoder;
 
     public void updateDashboard(){
-    	SmartDashboard.putNumber("Shooter Encoder Value", incoder.getRate()); 
+    	//SmartDashboard.putNumber("Shooter Encoder Value", incoder.getRate()); 
     }
     public void initDefaultCommand() {
        
     }
     
     public void setShooterSpeed(double speed){
-    	moter.set(speed); 
+    	//moter.set(speed); 
     }
     
     public void stop(){
-    	moter.set(0);
+    	//moter.set(0);
     }
 }
 
