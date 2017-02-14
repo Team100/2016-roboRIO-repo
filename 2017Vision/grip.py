@@ -26,7 +26,7 @@ class GripPipeline:
         self.find_contours_output = None
 
         self.__filter_contours_contours = self.find_contours_output
-        self.__filter_contours_min_area = 2
+        self.__filter_contours_min_area = 0.1
         self.__filter_contours_min_perimeter = 0
         self.__filter_contours_min_width = 0
         self.__filter_contours_max_width = 1000
@@ -68,41 +68,40 @@ class GripPipeline:
             tempRects.append(myRect)
         
         if (len(tempRects) == 3):
-            legend = None
+            largestArea = tempRects[0][2] * tempRects[0][3]
+            largestRect = tempRects[0]
             
-            for i in range(1, 3):                    
-                    if (math.fabs(tempRects[0][0] - tempRects[i][0]) <= 5):
-                        if (tempRects[0][1] < tempRects[i][1]):
-                            brokenContours = np.array([[[tempRects[0][0], tempRects[0][1]]], [[tempRects[0][0]+tempRects[0][2], tempRects[0][1]]], [[tempRects[0][0], tempRects[0][1] + tempRects[0][3]]], [[tempRects[0][0]+tempRects[0][2], tempRects[i][1] + tempRects[i][3]]]])
-                            newRect = cv2.boundingRect(brokenContours)
-                            print("Here1")
-                            self.boundingRects.append(newRect)                            
-                        else:
-                            brokenContours = np.array([[[tempRects[i][0], tempRects[i][1]]], [[tempRects[i][0]+tempRects[i][2], tempRects[i][1]]], [[tempRects[i][0], tempRects[0][1] + tempRects[0][3]]], [[tempRects[i][0]+tempRects[i][2], tempRects[0][1] + tempRects[0][3]]]])
-                            newRect = cv2.boundingRect(brokenContours)
-                            print("Here2")
-                            self.boundingRects.append(newRect)
-                        if (i==1):
-                            legend = 2
-                        else:
-                            legend = 1
-                        break
-                    else:
-                        if (math.fabs(tempRects[1][0] - tempRects[2][0]) <= 5):
-                            if (tempRects[1][1] < tempRects[2][1]):
-                                brokenContours = np.array([[[tempRects[1][0], tempRects[1][1]]], [[tempRects[1][0]+tempRects[1][2], tempRects[1][1]]], [[tempRects[1][0], tempRects[2][1] + tempRects[2][3]]], [[tempRects[1][0]+tempRects[1][2], tempRects[2][1] + tempRects[2][3]]]])
-                                newRect = cv2.boundingRect(brokenContours)
-                                print("Here3")
-                                self.boundingRects.append(newRect)  
-                        else:
-                            brokenContours = np.array([[[tempRects[2][0], tempRects[2][1]]], [[tempRects[2][0]+tempRects[2][2], tempRects[2][1]]], [[tempRects[2][0], tempRects[1][1] + tempRects[1][3]]], [[tempRects[2][0]+tempRects[2][2], tempRects[1][1] + tempRects[1][3]]]])
-                            newRect = cv2.boundingRect(brokenContours)
-                            print("Here4")
-                            self.boundingRects.append(newRect)
-                            
-                        legend = 0
-                        break
-            self.boundingRects.append(tempRects[legend])
+            for rect in tempRects:
+                area = rect[2] * rect[3]
+                if (area > largestArea):
+                    largestArea = area
+                    largestRect = rect
+                    
+            self.boundingRects.append(largestRect)
+            newRects = []
+            
+            for rect in tempRects:
+                if rect != largestRect:
+                    newRects.append(rect)
+            
+            if (math.fabs(newRects[0][0] - newRects[1][0]) <= 8): # means the two small ones are co-linear
+                if (newRects[0][1] < newRects[1][1]):
+                    hr = newRects[0]
+                    lr = newRects[1]
+                    
+                    newContArray = np.array([[hr[0], hr[1]], [hr[0]+hr[2], hr[1]], [lr[0], lr[1]+lr[3]], [lr[0]+lr[2], lr[1]+lr[3]]])
+                    newCont = newContArray.reshape(-1, 1, 2).astype(np.int32)                    
+                    newRect = cv2.boundingRect(newCont)
+                    self.boundingRects.append(newRect)
+                else:
+                    hr = newRects[1]
+                    lr = newRects[0]
+                    newContArray = np.array([[hr[0], hr[1]], [hr[0]+hr[2], hr[1]], [lr[0], lr[1]+lr[3]], [lr[0]+lr[2], lr[1]+lr[3]]])
+                    newCont = newContArray.reshape(-1, 1, 2).astype(np.int32)                    
+                    newRect = cv2.boundingRect(newCont)
+                    self.boundingRects.append(newRect)
+            else:
+                print "NO CO-LINEAR RECTS" 
         else:
             for rect in tempRects:
                 if ((float(rect[2]) / float(rect[3])) >= 0.3 and (float(rect[2]) / float(rect[3])) <= 0.7 ):
@@ -115,7 +114,6 @@ class GripPipeline:
         elif (len(self.boundingRects) == 3):
             pass
             #print "NEED 2 CONTOURS"          
-
     
     @staticmethod
     def __hsv_threshold(input, hue, sat, val):

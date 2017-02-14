@@ -81,7 +81,7 @@ def main():
             
             cv2.rectangle(correctedImage, (int(CAMERA_RESOLUTION[0]/2-2), int(CAMERA_RESOLUTION[1]/2 - 2)), (int(CAMERA_RESOLUTION[0]/2+2), int(CAMERA_RESOLUTION[1]/2 + 2)), (150,150,0), 5)
             
-            print("Number of Bounding Rects: " + str(len(pipeline.boundingRects)))
+            #print("Number of Bounding Rects: " + str(len(pipeline.boundingRects)))
             
             if len(pipeline.boundingRects) == 2:
                 
@@ -107,21 +107,22 @@ def main():
                     sendableCenterY.append((r[1] + r[3]/2))
                     sendableWidth.append(r[2])
                     sendableHeight.append(r[3])
-                                
-                try:
-                    sd.putNumberArray("centerX", sendableCenterX)
-                    sd.putNumberArray("centerY", sendableCenterY)
-                    sd.putNumberArray("width", sendableWidth)
-                    sd.putNumberArray("height", sendableHeight)
-                    sd.putNumberArray("degreeOffset", degreeOffset)
-                except:
-                    pass
                  
                 theta = ((CAMERA_FOV_DEGREES[1] * sendableHeight[0]) / CAMERA_RESOLUTION[1])/2
                 distanceToTarget = ((HEIGHT_OF_OBJECT/2) / (math.tan(theta * math.pi / 180.0)))
                 
                 dist = math.fabs(sendableCenterX[0] - sendableCenterX[1]);
                 
+                try:
+                    sd.putNumberArray("centerX", sendableCenterX)
+                    sd.putNumberArray("centerY", sendableCenterY)
+                    sd.putNumberArray("width", sendableWidth)
+                    sd.putNumberArray("height", sendableHeight)
+                    sd.putNumber("degreeOffset", degreeOffset)
+                    sd.putNumber("distance", distanceToTarget) 
+                except:
+                    pass
+                    
                 if (dist): 
                     theta2 = ((CAMERA_FOV_DEGREES[0] * dist) / CAMERA_RESOLUTION[0])/2
                     distanceToTarget2 = ((WIDTH_TO_WIDTH/2) / (math.tan(theta2 * math.pi / 180)))
@@ -131,10 +132,8 @@ def main():
                     #font = cv2.InitFont(cv2.CV_FONT_HERSHEY_SIMPLEX, 1, 1, 0, 3, 8)
                     cv2.putText(correctedImage, "Distance: " + str("%.1f" % distanceToTarget), (60, 160), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (250, 60, 40), 1)
                     #print("Distance to target: " + str("%.1f" % distanceToTarget) + " inches")
-            
             else:
-                for rects in pipeline.boundingRects:
-                    cv2.rectangle(correctedImage, (rects[0], rects[1]), (rects[0]+rects[2], rects[1]+rects[3]), (0,0,255), 2)
+                pass
                         
             # crop image
             x, y, w, h = roi
