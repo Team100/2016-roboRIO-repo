@@ -47,13 +47,15 @@ public class DriveTrain extends Subsystem {
     private final AnalogGyro digialGyroUno = RobotMap.driveTraindigialGyroUno;
     private final Ultrasonic ultraSanic = RobotMap.driveTrainultraSanic;
     */
-	public static Encoder driveTrainLeftEncoder = RobotMap.driveTrainLeftEncoder;
-	public static Encoder driveTrainRightEncoder = RobotMap.driveTrainRightEncoder;
-
 	
+	public final Solenoid driveTrainShifter = RobotMap.driveTrainShifter;
+	
+	public final Encoder driveTrainLeftEncoder = RobotMap.driveTrainLeftEncoder;
+	public final Encoder driveTrainRightEncoder = RobotMap.driveTrainRightEncoder;
+
 	private final RobotDrive robotDrive = RobotMap.driveTrainRobotDrive;
 	
-	public static ADXRS450_Gyro gyro = RobotMap.gyro;
+	public final ADXRS450_Gyro gyro = RobotMap.gyro;
 	
     public double angle; 
 

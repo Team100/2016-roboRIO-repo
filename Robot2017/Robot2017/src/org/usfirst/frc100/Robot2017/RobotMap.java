@@ -39,7 +39,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * floating around.
  */
 public class RobotMap {
-/*
+	
+	/*
     public static SpeedController driveTrainleftMotor;
     public static SpeedController driveTrainrightMotor;
     public static RobotDrive driveTraindrive;
@@ -59,16 +60,12 @@ public class RobotMap {
     public static Encoder shooterincoder;
     public static Compressor knewmaticscompresser;
     public static Solenoid gearMechrelease;
-*/
+	*/
+	
+	//DriveTrain Things 
 	
 	public static Encoder driveTrainLeftEncoder;
 	public static Encoder driveTrainRightEncoder;
-	public static Encoder climberEncoder;
-	public static Encoder elevatorEncoder;
-	
-	public static VictorSP outsideRoller;
-	public static VictorSP hopperRollerElevatorShooter;
-	public static VictorSP climberWinch;
 	
 	public static CANTalon rightMaster;
     public static CANTalon rightFollwer;
@@ -80,12 +77,32 @@ public class RobotMap {
     public static ADXRS450_Gyro gyro;
     
     public static Solenoid driveTrainShifter;
+	
+	//GearMech Things
+    
     public static Solenoid gearMechDrop;
     public static Solenoid gearMechFlap;
-    public static Solenoid PickupFlap;
     public static Solenoid gearMechLift;
-    public static Solenoid climberDeployment;
-    public static Solenoid highGoalGate;
+    
+    //PickUp Things
+    
+	public static Encoder elevatorEncoder;
+    
+    public static VictorSP outsideRoller;
+	public static VictorSP hopperRollerElevatorShooter;
+	
+    public static Solenoid pickUpFlap;
+    public static Solenoid highGoalGate; //potental
+    
+    //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
+    
+	public static Encoder climberEncoder;
+	
+	public static VictorSP climberWinch;
+	
+	public static Solenoid climberDeployment; //potental
+    
+    //Other Things
     
     public static Compressor compressor;
     public static Compressor pressureSwitch;
@@ -93,47 +110,99 @@ public class RobotMap {
     public static PowerDistributionPanel pdp;
 	
     public static void init() {
-
+    	//DriveTrain Things 
+    	
+    	driveTrainLeftEncoder = new Encoder(0,1);
+    	LiveWindow.addSensor("driveTrain", "leftEncoder", driveTrainLeftEncoder);
+    	driveTrainLeftEncoder.setDistancePerPulse(1.0/1937.2032);
+    	
+    	driveTrainRightEncoder = new Encoder(2, 3);
+    	LiveWindow.addSensor("driveTrain", "rightEncoder", driveTrainRightEncoder);
+    	driveTrainRightEncoder.setDistancePerPulse(1.0/1937.2032);
+    	
     	rightMaster	= new CANTalon(5);
+    	LiveWindow.addActuator("driveTrain", "rightMaster", rightMaster);
     	rightMaster.changeControlMode(TalonControlMode.PercentVbus);
+    	
     	rightFollwer = new CANTalon(4);
+    	LiveWindow.addActuator("driveTrain", "rightFollwer", rightFollwer);
     	rightFollwer.changeControlMode(TalonControlMode.Follower);
     	rightFollwer.set(5);
     	rightFollwer.setSafetyEnabled(false);
+    	
     	leftMaster = new CANTalon(3);
+    	LiveWindow.addActuator("driveTrain", "leftMaster", leftMaster);
     	leftMaster.changeControlMode(TalonControlMode.PercentVbus);
+    	
     	leftFollower = new CANTalon(2);
+    	LiveWindow.addActuator("driveTrain", "leftFollower", leftFollower);
     	leftFollower.changeControlMode(TalonControlMode.Follower);
     	leftFollower.set(3);
     	leftFollower.setSafetyEnabled(false);
-    	
-    	driveTrainRobotDrive = new RobotDrive(rightMaster, leftMaster);//rightFollwer, leftMaster, leftFollower);
         
+    	driveTrainRobotDrive = new RobotDrive(rightMaster, leftMaster);
         driveTrainRobotDrive.setSafetyEnabled(false);
         driveTrainRobotDrive.setExpiration(0.1);
         driveTrainRobotDrive.setSensitivity(0.5);
         driveTrainRobotDrive.setMaxOutput(1.0);
-
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-
-    	driveTrainLeftEncoder = new Encoder(0,1);
-    	driveTrainRightEncoder = new Encoder(2, 3);
-
-        driveTrainLeftEncoder.setDistancePerPulse(1.0/1937.2032);
-    	driveTrainRightEncoder.setDistancePerPulse(1.0/1937.2032);
+        
+        gyro = new ADXRS450_Gyro();
+        LiveWindow.addActuator("driveTrain", "gyro", gyro);
+        
+        driveTrainShifter = new Solenoid(0, 0);
+        LiveWindow.addActuator("driveTrain", "driveTrainShifter", driveTrainShifter);
     	
-    	gyro = new ADXRS450_Gyro();
-    	
-    	driveTrainShifter = new Solenoid(0, 0);
+    	//GearMech Things
+        
         gearMechDrop= new Solenoid(0, 1);
+        LiveWindow.addActuator("gearMech", "gearMechDrop", gearMechDrop);
+        
         gearMechFlap= new Solenoid(0, 2);
-        PickupFlap= new Solenoid(0, 3);
+        LiveWindow.addActuator("gearMech", "gearMechFlap", gearMechFlap);
+        
         gearMechLift= new Solenoid(0, 4);
-        climberDeployment= new Solenoid(0, 5);
-        highGoalGate= new Solenoid(0, 6);
+        LiveWindow.addActuator("gearMech", "gearMechLift", gearMechLift);
+        
+        //PickUp Things
+        
+        elevatorEncoder = new Encoder(6,7);
+        LiveWindow.addActuator("pickUp", "elevatorEncoder", elevatorEncoder);
+        
+        outsideRoller = new VictorSP(0);
+        LiveWindow.addActuator("pickUp", "outsideRoller", outsideRoller);
+        
+        hopperRollerElevatorShooter = new VictorSP(1);
+        LiveWindow.addActuator("pickUp", "hopperRollerElevatorShooter", hopperRollerElevatorShooter);
     	
-    	pdp = new PowerDistributionPanel();
+    	pickUpFlap= new Solenoid(0, 3);
+    	LiveWindow.addActuator("pickUp", "pickUpFlap", pickUpFlap);
     	
+    	highGoalGate= new Solenoid(0, 6); //potental
+    	LiveWindow.addActuator("pickUp", "highGoalGate", highGoalGate);
+        
+        //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
+        
+    	climberEncoder = new Encoder(4,5);
+    	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberEncoder", climberEncoder);
+    	
+    	climberWinch = new VictorSP(2);
+    	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberWinch", climberWinch);
+    	
+    	climberDeployment= new Solenoid(0, 5); //potental
+    	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberDeployment", climberDeployment);
+        
+        //Other Things
+        
+        compressor = new Compressor();
+        LiveWindow.addActuator("Other", "compressor", compressor);
+        
+        pressureSwitch = new Compressor();
+        LiveWindow.addActuator("Other", "pressureSwitch", pressureSwitch);
+
+        pdp = new PowerDistributionPanel();
+        LiveWindow.addActuator("Other", "pdp", pdp);
+        
     	/*
         driveTrainleftMotor = new VictorSP(0);
         LiveWindow.addActuator("driveTrain", "leftMotor", (VictorSP) driveTrainleftMotor);

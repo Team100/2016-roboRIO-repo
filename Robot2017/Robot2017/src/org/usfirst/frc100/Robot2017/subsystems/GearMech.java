@@ -22,6 +22,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class GearMech extends Subsystem {
+	
+	public final Solenoid gearMechDrop = RobotMap.gearMechDrop;
+    public final Solenoid gearMechFlap = RobotMap.gearMechFlap;
+    public final Solenoid gearMechLift = RobotMap.gearMechLift;
 
     public void initDefaultCommand() {
 

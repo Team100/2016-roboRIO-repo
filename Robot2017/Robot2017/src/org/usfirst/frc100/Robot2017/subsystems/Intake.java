@@ -14,6 +14,7 @@ package org.usfirst.frc100.Robot2017.subsystems;
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -24,12 +25,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class Intake extends Subsystem {
+	
 	/*
     private final SpeedController outsideRoller = RobotMap.intakeoutsideRoller;
     private final SpeedController hopperRoller = RobotMap.intakehopperRoller;
     private final SpeedController beltRoller = RobotMap.intakebeltRoller;
     private final DigitalInput ballSensor = RobotMap.intakeballSensor;
 	*/
+	
+	public final VictorSP outsideRoller = RobotMap.outsideRoller;
+	public final VictorSP hopperRollerElevatorShooter = RobotMap.hopperRollerElevatorShooter;
+	public final Solenoid pickUpFlap = RobotMap.pickUpFlap;
+	
     public void initDefaultCommand() {
 
     }
