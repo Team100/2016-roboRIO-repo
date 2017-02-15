@@ -27,10 +27,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Shooter extends Subsystem {
-
-    
-    //private final SpeedController moter = RobotMap.shootermoter;
-    //private final Encoder incoder = RobotMap.shooterincoder;
+	
+	public final VictorSP hopperRollerElevatorShooter = RobotMap.hopperRollerElevatorShooter;
 
     public void updateDashboard(){
     	//SmartDashboard.putNumber("Shooter Encoder Value", incoder.getRate()); 
