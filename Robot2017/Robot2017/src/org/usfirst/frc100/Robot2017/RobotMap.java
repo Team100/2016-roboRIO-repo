@@ -164,9 +164,6 @@ public class RobotMap {
         gearMechFlap= new Solenoid(0, 2);
         LiveWindow.addActuator("gearMech", "gearMechFlap", gearMechFlap);
         
-        dumperLift= new Solenoid(0, 4);
-        LiveWindow.addActuator("gearMech", "dumperLift", dumperLift);
-        
         //PickUp Things
         
         elevatorEncoder = new Encoder(6,7);
@@ -185,6 +182,9 @@ public class RobotMap {
         
         hopperRollerElevatorShooter = new VictorSP(1);
         LiveWindow.addActuator("pickUp", "hopperRollerElevatorShooter", hopperRollerElevatorShooter);
+        
+        dumperLift= new Solenoid(0, 4);
+        LiveWindow.addActuator("gearMech", "dumperLift", dumperLift);
         
         //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
         

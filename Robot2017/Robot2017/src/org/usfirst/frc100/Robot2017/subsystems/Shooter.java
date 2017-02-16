@@ -16,6 +16,7 @@ import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends Subsystem {
 	
 	public final VictorSP hopperRollerElevatorShooter = RobotMap.hopperRollerElevatorShooter;
+	public final Solenoid gearMechLift = RobotMap.dumperLift;
 
     public void updateDashboard(){
     	//SmartDashboard.putNumber("Shooter Encoder Value", incoder.getRate()); 

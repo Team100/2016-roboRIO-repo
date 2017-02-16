@@ -25,7 +25,8 @@ public class GearMech extends Subsystem {
 	
 	public final Solenoid gearMechDrop = RobotMap.gearMechDrop;
     public final Solenoid gearMechFlap = RobotMap.gearMechFlap;
-    public final Solenoid gearMechLift = RobotMap.gearMechLift;
+    
+    public final Solenoid gearMechLift = RobotMap.dumperLift;
 
     public void initDefaultCommand() {
 

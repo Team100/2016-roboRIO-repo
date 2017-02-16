@@ -51,16 +51,40 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 
+	//Joysticks
 
     public Joystick leftController;
     public Joystick rightController;
     public Joystick operater;
     public Joystick autoModeSelect;
+    
+    
+    //Manipulator Commands
+
+    public JoystickButton shootBalls;
+    public JoystickButton outTakeBalls;
+    public JoystickButton inTakeBalls;
+    public JoystickButton stopPickUpMotors;
+    public JoystickButton openGear;
+    public JoystickButton closeGear;
+    public JoystickButton openFlap;
+    public JoystickButton closeFlap;
+    public JoystickButton manipulatorClimb;
+    
+    //Driver Commands
+
+    public JoystickButton l90Degrees;
+    public JoystickButton r90Degrees;
+    public JoystickButton turnAround;
+    public JoystickButton lineUp;
+    public JoystickButton driverClimb;
+    
+    //Things?
+    
  	public JoystickButton binary1;
  	public JoystickButton binary2;
  	public JoystickButton binary3;
  	public JoystickButton binary4;
-
  	
 
     public OI() {
