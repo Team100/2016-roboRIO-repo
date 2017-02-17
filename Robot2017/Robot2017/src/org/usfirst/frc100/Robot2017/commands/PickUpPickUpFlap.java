@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OpenFlap extends Command {
+public class PickUpPickUpFlap extends Command {
 
-    public OpenFlap() {
+    public PickUpPickUpFlap() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

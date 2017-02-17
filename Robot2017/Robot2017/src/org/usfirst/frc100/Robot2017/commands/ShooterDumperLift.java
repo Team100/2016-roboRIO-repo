@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class InTakeBalls extends Command {
+public class ShooterDumperLift extends Command {
 
-    public InTakeBalls() {
+    public ShooterDumperLift() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

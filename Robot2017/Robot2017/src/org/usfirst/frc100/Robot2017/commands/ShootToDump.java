@@ -27,6 +27,6 @@ public class ShootToDump extends CommandGroup {
     	
     	addParallel(new ClearElevatorGroup());
     	addParallel(new AutoDelay(0.75));
-    	addSequential(new OutTakeBalls());
+    	addSequential(new PickUpDumpGroup());
     }
 }

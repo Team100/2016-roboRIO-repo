@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OpenGear extends Command {
+public class CloseGearMechDrop extends Command {
 
-    public OpenGear() {
+    public CloseGearMechDrop() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

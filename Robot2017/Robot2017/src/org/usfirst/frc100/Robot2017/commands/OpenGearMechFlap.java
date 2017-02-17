@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CloseGear extends Command {
+public class OpenGearMechFlap extends Command {
 
-    public CloseGear() {
+    public OpenGearMechFlap() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

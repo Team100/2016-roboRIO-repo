@@ -25,8 +25,8 @@ public class DumpToShoot extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new ClearPickUp());
+    	addParallel(new ClearPickUpGroup());
     	addParallel(new AutoDelay(.5));
-    	addSequential(new ShootBalls());
+    	addSequential(new ShootGroup());
     }
 }
