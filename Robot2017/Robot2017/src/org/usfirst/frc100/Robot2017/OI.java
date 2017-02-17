@@ -85,7 +85,6 @@ public class OI {
  	public JoystickButton binary2;
  	public JoystickButton binary3;
  	public JoystickButton binary4;
- 	
 
     public OI() {
 

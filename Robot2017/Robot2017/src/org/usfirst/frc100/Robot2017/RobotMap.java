@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -76,12 +77,12 @@ public class RobotMap {
     
     public static ADXRS450_Gyro gyro;
     
-    public static Solenoid driveTrainShifter;
+    public static DoubleSolenoid driveTrainShifter;
 	
 	//GearMech Things
     
-    public static Solenoid gearMechDrop;
-    public static Solenoid gearMechFlap;
+    public static DoubleSolenoid gearMechDrop;
+    public static DoubleSolenoid gearMechFlap;
     
     //PickUp Things
     
@@ -90,8 +91,8 @@ public class RobotMap {
     public static VictorSP outsideRoller;
 	public static VictorSP hopperRollerElevatorShooter;
 	
-    public static Solenoid pickUpFlap;
-    public static Solenoid highGoalGate; //potental
+    public static DoubleSolenoid pickUpFlap;
+    public static DoubleSolenoid highGoalGate; //potental
     
     //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
     
@@ -99,11 +100,11 @@ public class RobotMap {
 	
 	public static VictorSP climberWinch;
 	
-	public static Solenoid climberDeployment; //potental
+	public static DoubleSolenoid climberDeployment; //potental
 	
 	//Shooter Things
 
-    public static Solenoid dumperLift;
+    public static DoubleSolenoid dumperLift;
     
     //Other Things
     
@@ -153,15 +154,15 @@ public class RobotMap {
         gyro = new ADXRS450_Gyro();
         LiveWindow.addActuator("driveTrain", "gyro", gyro);
         
-        driveTrainShifter = new Solenoid(0, 0);
+        driveTrainShifter = new DoubleSolenoid(0, 0);
         LiveWindow.addActuator("driveTrain", "driveTrainShifter", driveTrainShifter);
     	
     	//GearMech Things
         
-        gearMechDrop= new Solenoid(0, 1);
+        gearMechDrop= new DoubleSolenoid(0, 1);
         LiveWindow.addActuator("gearMech", "gearMechDrop", gearMechDrop);
         
-        gearMechFlap= new Solenoid(0, 2);
+        gearMechFlap= new DoubleSolenoid(0, 2);
         LiveWindow.addActuator("gearMech", "gearMechFlap", gearMechFlap);
         
         //PickUp Things
@@ -172,10 +173,10 @@ public class RobotMap {
         outsideRoller = new VictorSP(0);
         LiveWindow.addActuator("pickUp", "outsideRoller", outsideRoller);
     	
-    	pickUpFlap= new Solenoid(0, 3);
+    	pickUpFlap= new DoubleSolenoid(0, 3);
     	LiveWindow.addActuator("pickUp", "pickUpFlap", pickUpFlap);
     	
-    	highGoalGate= new Solenoid(0, 6); //potental
+    	highGoalGate= new DoubleSolenoid(0, 6); //potental
     	LiveWindow.addActuator("pickUp", "highGoalGate", highGoalGate);
     	
     	//Duel Roll Thing
@@ -183,7 +184,7 @@ public class RobotMap {
         hopperRollerElevatorShooter = new VictorSP(1);
         LiveWindow.addActuator("pickUp", "hopperRollerElevatorShooter", hopperRollerElevatorShooter);
         
-        dumperLift= new Solenoid(0, 4);
+        dumperLift= new DoubleSolenoid(0, 4);
         LiveWindow.addActuator("gearMech", "dumperLift", dumperLift);
         
         //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
@@ -194,7 +195,7 @@ public class RobotMap {
     	climberWinch = new VictorSP(2);
     	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberWinch", climberWinch);
     	
-    	climberDeployment= new Solenoid(0, 5); //potental
+    	climberDeployment= new DoubleSolenoid(0, 5); //potental
     	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberDeployment", climberDeployment);
         
         //Other Things

@@ -13,6 +13,8 @@ package org.usfirst.frc100.Robot2017.subsystems;
 
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,14 +25,52 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class GearMech extends Subsystem {
 	
-	public final Solenoid gearMechDrop = RobotMap.gearMechDrop;
-    public final Solenoid gearMechFlap = RobotMap.gearMechFlap;
-    
-    public final Solenoid gearMechLift = RobotMap.dumperLift;
+	public final DoubleSolenoid gearMechDrop = RobotMap.gearMechDrop;
+    public final DoubleSolenoid gearMechFlap = RobotMap.gearMechFlap;
+    public final DoubleSolenoid gearMechLift = RobotMap.dumperLift;
 
     public void initDefaultCommand() {
 
     }
+    
+    public boolean isGearMechDropClosed(){
+    	return gearMechLift.get() == DoubleSolenoid.Value.kForward;
+    }
+    
+    public void setGearMechDrop(boolean closed) {
+    	if(!closed){
+    		gearMechLift.set(DoubleSolenoid.Value.kReverse);
+		}else{
+			gearMechLift.set(DoubleSolenoid.Value.kForward);
+
+		}
+	}
+    
+    public boolean isGearMechFlapClosed(){
+    	return gearMechFlap.get() == DoubleSolenoid.Value.kForward;
+    }
+    
+    public void setGearMechFlap(boolean closed) {
+    	if(!closed){
+    		gearMechFlap.set(DoubleSolenoid.Value.kReverse);
+		}else{
+			gearMechFlap.set(DoubleSolenoid.Value.kForward);
+
+		}
+	}
+    
+    public boolean isGearMechLiftClosed(){
+    	return gearMechLift.get() == DoubleSolenoid.Value.kForward;
+    }
+    
+    public void setGearMechLift(boolean closed) {
+    	if(!closed){
+    		gearMechLift.set(DoubleSolenoid.Value.kReverse);
+		}else{
+			gearMechLift.set(DoubleSolenoid.Value.kForward);
+
+		}
+	}
 }
 
 

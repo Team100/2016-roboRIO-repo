@@ -14,6 +14,7 @@ package org.usfirst.frc100.Robot2017.subsystems;
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -30,7 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends Subsystem {
 	
 	public final VictorSP hopperRollerElevatorShooter = RobotMap.hopperRollerElevatorShooter;
-	public final Solenoid gearMechLift = RobotMap.dumperLift;
+	public final DoubleSolenoid dumperLift = RobotMap.dumperLift;
 
     public void updateDashboard(){
     	//SmartDashboard.putNumber("Shooter Encoder Value", incoder.getRate()); 
@@ -39,13 +40,26 @@ public class Shooter extends Subsystem {
        
     }
     
-    public void setShooterSpeed(double speed){
-    	//moter.set(speed); 
+    public void setHopperRollerElevatorShooter(double speed){
+    	hopperRollerElevatorShooter.set(speed); 
     }
     
-    public void stop(){
-    	//moter.set(0);
+    public void stopHopperRollerElevatorShooter(){
+    	hopperRollerElevatorShooter.set(0);
     }
+    
+    public boolean isDumperClosed(){
+    	return dumperLift.get() == DoubleSolenoid.Value.kForward;
+    }
+    
+    public void setDumperLift(boolean closed) {
+    	if(!closed){
+    		dumperLift.set(DoubleSolenoid.Value.kReverse);
+		}else{
+			dumperLift.set(DoubleSolenoid.Value.kForward);
+
+		}
+	}
 }
 
 

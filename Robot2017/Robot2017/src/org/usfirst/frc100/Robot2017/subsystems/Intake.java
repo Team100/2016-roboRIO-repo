@@ -11,9 +11,12 @@
 
 package org.usfirst.frc100.Robot2017.subsystems;
 
+import java.awt.geom.Arc2D.Double;
+
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -35,11 +38,40 @@ public class Intake extends Subsystem {
 	
 	public final VictorSP outsideRoller = RobotMap.outsideRoller;
 	public final VictorSP hopperRollerElevatorShooter = RobotMap.hopperRollerElevatorShooter;
-	public final Solenoid pickUpFlap = RobotMap.pickUpFlap;
+	public final DoubleSolenoid pickUpFlap = RobotMap.pickUpFlap;
 	
     public void initDefaultCommand() {
 
     }
+    
+    public void stopOutsideRoller(){
+    	outsideRoller.stopMotor();
+    }
+    
+    public void setOutsideRoller(double value){
+    	outsideRoller.set(value);
+    }
+    
+    public void stopHopperRollerElevatorShooter(){
+    	hopperRollerElevatorShooter.stopMotor();
+    }
+    
+    public void setHopperRollerElevatorShooter(double value){
+    	hopperRollerElevatorShooter.set(value);
+    }
+    
+    public boolean isPickUpFlapClosed(){
+    	return pickUpFlap.get() == DoubleSolenoid.Value.kForward;
+    }
+    
+    public void setPickUpFlap(boolean closed) {
+    	if(!closed){
+    		pickUpFlap.set(DoubleSolenoid.Value.kReverse);
+		}else{
+			pickUpFlap.set(DoubleSolenoid.Value.kForward);
+
+		}
+	}
 }
 
 

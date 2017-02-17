@@ -18,6 +18,7 @@ import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -48,7 +49,7 @@ public class DriveTrain extends Subsystem {
     private final Ultrasonic ultraSanic = RobotMap.driveTrainultraSanic;
     */
 	
-	public final Solenoid driveTrainShifter = RobotMap.driveTrainShifter;
+	public final DoubleSolenoid driveTrainShifter = RobotMap.driveTrainShifter;
 	
 	public final Encoder driveTrainLeftEncoder = RobotMap.driveTrainLeftEncoder;
 	public final Encoder driveTrainRightEncoder = RobotMap.driveTrainRightEncoder;
