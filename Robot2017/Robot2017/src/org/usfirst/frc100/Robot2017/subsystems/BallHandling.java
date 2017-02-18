@@ -53,7 +53,7 @@ public class BallHandling extends Subsystem {
     	outsideRoller.set(value);
     }
     
-    public void setelevator(double value){
+    public void setElevator(double value){
     	elevator.set(value);
     }
     

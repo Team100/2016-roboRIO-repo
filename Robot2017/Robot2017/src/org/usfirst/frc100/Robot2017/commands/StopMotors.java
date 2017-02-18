@@ -1,36 +1,74 @@
 package org.usfirst.frc100.Robot2017.commands;
 
+import org.usfirst.frc100.Robot2017.Robot;
+import org.usfirst.frc100.Robot2017.subsystems.BallHandling.BallHandlingState;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class StopMotors extends Command {
+	
+	private BallHandlingState iState;
+	private BallHandlingState eState;
 
     public StopMotors() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    	requires(Robot.ballhandling);
+    	iState = Robot.ballhandling.getState();
+    	switch(iState){
+			case shooting: 
+			case readyToShoot:
+				Robot.ballhandling.setState(BallHandlingState.readyToShoot);
+				eState = Robot.ballhandling.getState();
+				break;
+			case pickingUp:
+			case dumping:
+			case readyToPickupOrDump: 
+				Robot.ballhandling.setState(BallHandlingState.readyToPickupOrDump);
+				eState = Robot.ballhandling.getState();
+				break;
+			case clearElevator:
+			case clearPickUp:
+				System.out.println("Cant Stop Motors in intermidte step");
+				eState = Robot.ballhandling.getState();
+				break;
+    	}
     }
 
-    // Called just before this Command runs the first time
     protected void initialize() {
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	switch(iState){
+			case shooting: 
+			case readyToShoot:
+				Robot.ballhandling.setOutsideRoller(0);
+				Robot.ballhandling.setElevator(0);
+				break;
+			case pickingUp:
+			case dumping:
+			case readyToPickupOrDump: 
+				Robot.ballhandling.setOutsideRoller(0);
+				Robot.ballhandling.setElevator(0);
+				break;
+			case clearElevator:
+			case clearPickUp:
+				System.out.println("Cant Stop Motors in intermidte step");
+				eState = Robot.ballhandling.getState();
+				break;
+    	}
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
     }
 
-    // Called once after isFinished returns true
     protected void end() {
+    	
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
