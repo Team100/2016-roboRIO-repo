@@ -13,38 +13,26 @@ package org.usfirst.frc100.Robot2017.subsystems;
 
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
  *
  */
-public class Shooter extends Subsystem {
-
-    
-    private final SpeedController moter = RobotMap.shootermoter;
-    private final Encoder incoder = RobotMap.shooterincoder;
-
-    public void updateDashboard(){
-    	SmartDashboard.putNumber("Shooter Encoder Value", incoder.getRate()); 
-    }
+public class Intake extends Subsystem {
+	/*
+    private final SpeedController outsideRoller = RobotMap.intakeoutsideRoller;
+    private final SpeedController hopperRoller = RobotMap.intakehopperRoller;
+    private final SpeedController beltRoller = RobotMap.intakebeltRoller;
+    private final DigitalInput ballSensor = RobotMap.intakeballSensor;
+	*/
     public void initDefaultCommand() {
-       
-    }
-    
-    public void setShooterSpeed(double speed){
-    	moter.set(speed); 
-    }
-    
-    public void stop(){
-    	moter.set(0);
+
     }
 }
+
 
