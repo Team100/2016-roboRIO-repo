@@ -8,7 +8,7 @@ from __future__ import print_function
 import csv
 from PyQt4 import QtCore, QtGui, uic
 import sys
-
+import re
 from matplotlib.backends.backend_qt4agg import (
     NavigationToolbar2QT as NavigationToolbar)
 
@@ -57,12 +57,18 @@ def read_log_file(fname):
                 val = 1.0
             elif value.startswith('false'):
                 val = 0.0
+            elif re.search('[a-zA-Z]+',value):
+                break
             else:
                 val = float(value)
-
-            mydict[varname][0].append(time/1000.0)
-            mydict[varname][1].append(val)
-            timedict[time][varname] = value
+            
+            if re.search('[a-zA-Z]+',val):
+                break
+            else:
+                mydict[varname][0].append(time/1000.0)
+                mydict[varname][1].append(val)
+                timedict[time][varname] = value
+            
     return (min_time, max_time, mydict, timedict)
 
 def write_spreadsheet_file(fname, rowheaders, colheaders, data):
