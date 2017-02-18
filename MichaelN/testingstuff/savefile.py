@@ -46,17 +46,14 @@ def valueChanged(key, value, isNew):
     timestamp =  int(round(time.time() * 1000))
     s = "[valueChanged: key: '%s'; value: %s; isNew: %s; timestamp: %s;]" % (key, value, isNew, timestamp)    
     print(s)
-    
     f.writelines('"%s","%s","%s"\n' % (str(timestamp),str(key),str(value)))
-    
+    f.flush()
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     form = MyApp(None)
     form.show()
     app.exec_()
-while True:
-    time.sleep(5)
-    f.flush()
+
     
 
