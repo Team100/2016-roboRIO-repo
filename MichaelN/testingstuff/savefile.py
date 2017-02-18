@@ -27,7 +27,7 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
     @QtCore.pyqtSlot()
     def on_start_pressed(self):
         global f        
-        filename = 'Logging-%s.txt'%datetime.now().strftime('%Y-%m-%d_%H-%M')
+        filename = 'Logging-%s.txt'%datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         f = open(filename, 'w')
         f.write('Time (ms),Name,Value\n')
         NetworkTables.addGlobalListener(valueChanged)

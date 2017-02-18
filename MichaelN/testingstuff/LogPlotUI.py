@@ -39,6 +39,7 @@ def read_log_file(fname):
     max_time = 0
     with open(fname) as csvfile:
         reader = csv.DictReader(csvfile)
+        
         for row in reader:
             varname = row['Name']
             time = int(row['Time (ms)'])
@@ -62,12 +63,11 @@ def read_log_file(fname):
             else:
                 val = float(value)
             
-            if re.search('[a-zA-Z]+',val):
-                break
-            else:
-                mydict[varname][0].append(time/1000.0)
-                mydict[varname][1].append(val)
-                timedict[time][varname] = value
+            
+            
+            mydict[varname][0].append(time/1000.0)
+            mydict[varname][1].append(val)
+            timedict[time][varname] = value
             
     return (min_time, max_time, mydict, timedict)
 
@@ -218,7 +218,7 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
         QtGui.QMainWindow.__init__(self)
         UI_MAIN_WINDOW.__init__(self)
         self.setupUi(self)
-        self.file_name = 'csv.txt'
+        self.file_name = 'base.txt'
         self.raw_data = LogDataTableModel()
         self.raw_data_proxy = LogSortFilterProxyModel(None)
         self.init_log_data(self.file_name)
