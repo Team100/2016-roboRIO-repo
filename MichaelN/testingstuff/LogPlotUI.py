@@ -59,11 +59,9 @@ def read_log_file(fname):
             elif value.startswith('false'):
                 val = 0.0
             elif re.search('[a-zA-Z]+',value):
-                break
+                val = 0.0
             else:
                 val = float(value)
-            
-            
             
             mydict[varname][0].append(time/1000.0)
             mydict[varname][1].append(val)

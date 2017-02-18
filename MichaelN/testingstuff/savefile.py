@@ -15,8 +15,8 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 QT_CREATOR_FILE = "savefile.ui"
 UI_MAIN_WINDOW, QT_BASE_CLASS = uic.loadUiType(QT_CREATOR_FILE)
-
-
+ip = sys.argv[1]
+NetworkTables.initialize(server=ip)
 class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
     def __init__(self,parent=None,selected=[],flag=0, *args):
         QtGui.QMainWindow.__init__(self)
@@ -26,20 +26,21 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
         
     @QtCore.pyqtSlot()
     def on_start_pressed(self):
-        global f        
+        global f
+        NetworkTables.addGlobalListener(valueChanged)        
         filename = 'Logging-%s.txt'%datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         f = open(filename, 'w')
         f.write('Time (ms),Name,Value\n')
-        NetworkTables.addGlobalListener(valueChanged)
+        f.flush()
+        
         
     @QtCore.pyqtSlot()
     def on_stop_pressed(self):
         NetworkTables.removeGlobalListener(valueChanged)
         
     @QtCore.pyqtSlot()
-    def on_ipConnect_editingFinished(self):
+    def on_ipConnect_returnPressed(self):
         ip = self.ciEditLine.text()
-        NetworkTables.shutdown()
         NetworkTables.initialize(server=ip)
 
 def valueChanged(key, value, isNew):
