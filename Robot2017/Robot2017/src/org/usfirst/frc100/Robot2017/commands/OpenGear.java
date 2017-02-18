@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ShooterDumperLift extends Command {
+public class OpenGear extends Command {
 
-    public ShooterDumperLift() {
+    public OpenGear() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

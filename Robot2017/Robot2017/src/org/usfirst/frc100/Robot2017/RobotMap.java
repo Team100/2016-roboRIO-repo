@@ -77,22 +77,22 @@ public class RobotMap {
     
     public static ADXRS450_Gyro gyro;
     
-    public static DoubleSolenoid driveTrainShifter;
+    public static Solenoid driveTrainShifter;
 	
 	//GearMech Things
     
-    public static DoubleSolenoid gearMechDrop;
-    public static DoubleSolenoid gearMechFlap;
+    public static Solenoid gearMechDrop;
+    public static Solenoid gearMechFlap;
     
     //PickUp Things
     
 	public static Encoder elevatorEncoder;
     
     public static VictorSP outsideRoller;
-	public static VictorSP hopperRollerElevatorShooter;
+	public static VictorSP elevator;
 	
-    public static DoubleSolenoid pickUpFlap;
-    public static DoubleSolenoid highGoalGate; //potental
+    public static Solenoid pickUpFlap;
+    public static Solenoid highGoalGate; //potental
     
     //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
     
@@ -100,11 +100,11 @@ public class RobotMap {
 	
 	public static VictorSP climberWinch;
 	
-	public static DoubleSolenoid climberDeployment; //potental
+	public static Solenoid climberDeployment; //potental
 	
 	//Shooter Things
 
-    public static DoubleSolenoid dumperLift;
+    public static Solenoid dumperLift;
     
     //Other Things
     
@@ -154,15 +154,15 @@ public class RobotMap {
         gyro = new ADXRS450_Gyro();
         LiveWindow.addActuator("driveTrain", "gyro", gyro);
         
-        driveTrainShifter = new DoubleSolenoid(0, 0);
+        driveTrainShifter = new Solenoid(0);
         LiveWindow.addActuator("driveTrain", "driveTrainShifter", driveTrainShifter);
     	
     	//GearMech Things
         
-        gearMechDrop= new DoubleSolenoid(0, 1);
+        gearMechDrop= new Solenoid(1);
         LiveWindow.addActuator("gearMech", "gearMechDrop", gearMechDrop);
         
-        gearMechFlap= new DoubleSolenoid(0, 2);
+        gearMechFlap= new Solenoid(2);
         LiveWindow.addActuator("gearMech", "gearMechFlap", gearMechFlap);
         
         //PickUp Things
@@ -173,18 +173,18 @@ public class RobotMap {
         outsideRoller = new VictorSP(0);
         LiveWindow.addActuator("pickUp", "outsideRoller", outsideRoller);
     	
-    	pickUpFlap= new DoubleSolenoid(0, 3);
+    	pickUpFlap= new Solenoid(3);
     	LiveWindow.addActuator("pickUp", "pickUpFlap", pickUpFlap);
     	
-    	highGoalGate= new DoubleSolenoid(0, 6); //potental
+    	highGoalGate= new Solenoid(6); //potental
     	LiveWindow.addActuator("pickUp", "highGoalGate", highGoalGate);
     	
     	//Duel Roll Thing
         
-        hopperRollerElevatorShooter = new VictorSP(1);
-        LiveWindow.addActuator("pickUp", "hopperRollerElevatorShooter", hopperRollerElevatorShooter);
+    	elevator = new VictorSP(1);
+        LiveWindow.addActuator("pickUp", "elevator", elevator);
         
-        dumperLift= new DoubleSolenoid(0, 4);
+        dumperLift= new Solenoid(4);
         LiveWindow.addActuator("gearMech", "dumperLift", dumperLift);
         
         //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
@@ -195,7 +195,7 @@ public class RobotMap {
     	climberWinch = new VictorSP(2);
     	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberWinch", climberWinch);
     	
-    	climberDeployment= new DoubleSolenoid(0, 5); //potental
+    	climberDeployment= new Solenoid(5); //potental
     	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberDeployment", climberDeployment);
         
         //Other Things

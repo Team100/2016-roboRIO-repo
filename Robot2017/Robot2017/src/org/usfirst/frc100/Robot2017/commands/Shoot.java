@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class ShootToPickUp extends CommandGroup {
+public class Shoot extends CommandGroup {
 
-    public ShootToPickUp() {
+    public Shoot() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -24,9 +24,5 @@ public class ShootToPickUp extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
-    	addParallel(new ClearElevatorGroup());
-    	addParallel(new AutoDelay(0.75));
-    	addSequential(new PickUpDumpGroup());
     }
 }

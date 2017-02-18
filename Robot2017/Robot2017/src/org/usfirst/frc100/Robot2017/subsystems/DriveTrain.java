@@ -49,7 +49,7 @@ public class DriveTrain extends Subsystem {
     private final Ultrasonic ultraSanic = RobotMap.driveTrainultraSanic;
     */
 	
-	public final DoubleSolenoid driveTrainShifter = RobotMap.driveTrainShifter;
+	public final Solenoid driveTrainShifter = RobotMap.driveTrainShifter;
 	
 	public final Encoder driveTrainLeftEncoder = RobotMap.driveTrainLeftEncoder;
 	public final Encoder driveTrainRightEncoder = RobotMap.driveTrainRightEncoder;
@@ -70,6 +70,18 @@ public class DriveTrain extends Subsystem {
 
     public void stop(){
     	robotDrive.tankDrive(0, 0);
+    }
+    
+    public boolean isDriveTrainShifterOpen(){
+    	return driveTrainShifter.get();
+    }
+    
+    public void setDriveTrainShifter(boolean open){
+    	if(open){
+    		driveTrainShifter.set(open);
+    	}else{
+    		driveTrainShifter.set(!open);
+    	}
     }
 }
 

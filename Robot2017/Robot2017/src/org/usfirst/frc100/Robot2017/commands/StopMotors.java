@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class PickUpPickUpFlap extends Command {
+public class StopMotors extends Command {
 
-    public PickUpPickUpFlap() {
+    public StopMotors() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

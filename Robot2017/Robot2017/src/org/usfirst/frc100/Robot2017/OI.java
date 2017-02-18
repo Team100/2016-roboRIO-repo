@@ -61,10 +61,10 @@ public class OI {
     
     //Manipulator Commands
 
-    public JoystickButton shootBalls;
-    public JoystickButton outTakeBalls;
-    public JoystickButton inTakeBalls;
-    public JoystickButton stopPickUpMotors;
+    public JoystickButton shoot;
+    public JoystickButton pickUp;
+    public JoystickButton dump;
+    public JoystickButton stopMotors;
     public JoystickButton openGear;
     public JoystickButton closeGear;
     public JoystickButton openFlap;
@@ -102,6 +102,52 @@ public class OI {
       	binary2 = new JoystickButton(autoModeSelect, 2);
       	binary3 = new JoystickButton(autoModeSelect, 3);
       	binary4 = new JoystickButton(autoModeSelect, 4);
+      	
+      	//manipulator things
+      	
+      	shoot = new JoystickButton(operater, 4);
+      	shoot.whenPressed(new Shoot());
+      	
+        pickUp = new JoystickButton(operater, 3);
+        pickUp.whenPressed(new PickUp());
+        
+        dump = new JoystickButton(operater, 1);
+        dump.whenPressed(new Dump());
+        
+        stopMotors = new JoystickButton(operater, 2);
+        stopMotors.whenPressed(new StopMotors());
+        
+        openGear = new JoystickButton(operater, 8);
+        openGear.whenPressed(new OpenGear());
+        
+        closeGear = new JoystickButton(operater, 6);
+        closeGear.whenPressed(new CloseGear());
+        
+        openFlap = new JoystickButton(operater, 7);
+        openFlap.whenPressed(new OpenFlap());
+        
+        closeFlap = new JoystickButton(operater, 5);
+        closeFlap.whenPressed(new CloseFlap());
+        
+        manipulatorClimb = new JoystickButton(operater, 9);
+        manipulatorClimb.whenPressed(new Climb());
+        
+        //driver things
+        
+        l90Degrees = new JoystickButton(leftController, 5);
+        l90Degrees.whenPressed(new L90Degrees());
+        
+        r90Degrees = new JoystickButton(leftController, 5);
+        r90Degrees.whenPressed(new R90Degrees());
+        
+        turnAround = new JoystickButton(leftController, 5);
+        turnAround.whenPressed(new TurnAround());
+        
+        lineUp = new JoystickButton(leftController, 5);
+        lineUp.whenPressed(new LineUp());
+        
+        driverClimb = new JoystickButton(rightController, 5);
+        driverClimb.whenPressed(new Climb());
     }
 
     public Joystick getleftController() {
