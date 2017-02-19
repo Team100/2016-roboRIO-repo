@@ -53,6 +53,12 @@ public class DriveTrain extends Subsystem {
 	public double driveVelI;
 	public double driveVelD;
 	public double driveVelF;
+	
+	public double angleP;
+	public double angleI;
+	public double angleD;
+	
+	
 	public int overRiddenR = 0;
     public int overRiddenL = 0;
 
@@ -64,11 +70,11 @@ public class DriveTrain extends Subsystem {
     private final SpeedController right = RobotMap.driveTrainright;
     private final SpeedController left = RobotMap.driveTrainleft;
     private final RobotDrive robotDrive = RobotMap.driveTrainRobotDrive;
-    public PIDController pidPosLeft;
-    public PIDController pidPosRight;
-    public PIDController pidVelLeft;
-    public PIDController pidVelRight;
-    public PIDController pidAngle;
+    public PIDControllerHenry pidPosLeft;
+    public PIDControllerHenry pidPosRight;
+    public PIDControllerHenry pidVelLeft;
+    public PIDControllerHenry pidVelRight;
+    public PIDControllerHenry pidAngle;
     public double maxOutput;
     public double maxSpeedReached = 0;
     public int countL = 0;
@@ -113,8 +119,25 @@ public class DriveTrain extends Subsystem {
 				DEFAULT_DRIVE_TRAIN_VI);
 		driveVelF = Robot.prefs.getDouble("driveVelF",
 				DEFAULT_DRIVE_TRAIN_VF);
+		//---------------------------------------------------------------------------
+		if (!Robot.prefs.containsKey("angleP")) {
+			Robot.prefs.putDouble("angleP", DEFAULT_DRIVE_TRAIN_VP);
+		}
+		if (!Robot.prefs.containsKey("angleI")) {
+			Robot.prefs.putDouble("angleI", DEFAULT_DRIVE_TRAIN_VI);
+		}
+		if (!Robot.prefs.containsKey("angleD")) {
+			Robot.prefs.putDouble("angleD", DEFAULT_DRIVE_TRAIN_VF);
+		}
+
+		angleP = Robot.prefs.getDouble("angleP",
+				.01);
+		angleI = Robot.prefs.getDouble("angleI",
+				0);
+		angleD = Robot.prefs.getDouble("angleD",
+				0);
 		
-		pidVelRight = new PIDController(driveVelP, driveVelI , driveVelF, new PIDSource() { // .58823
+		pidVelRight = new PIDControllerHenry(driveVelP, driveVelI , driveVelF, new PIDSource() { // .58823
 			PIDSourceType m_sourceType = PIDSourceType.kRate;
 
 			public double pidGet() {
@@ -134,12 +157,13 @@ public class DriveTrain extends Subsystem {
 			public void pidWrite(double d) {
 				//double output = Math.abs(d);
 				velRight = d;
+				
 				//RobotMap.rightMaster.pidWrite(velRight);
 				
 			}
 		});
 		
-		pidVelLeft = new PIDController(driveVelP, driveVelI , driveVelF, new PIDSource() { // .58823
+		pidVelLeft = new PIDControllerHenry(driveVelP, driveVelI , driveVelF, new PIDSource() { // .58823
 			PIDSourceType m_sourceType = PIDSourceType.kRate;
 
 			public double pidGet() {
@@ -165,7 +189,7 @@ public class DriveTrain extends Subsystem {
 			}
 		});
     	
-    	pidPosLeft = new PIDController(driveTrain_kP, driveTrain_kI, 0, driveTrain_kF, new PIDSource() { // .04 0 0 for 180
+    	pidPosLeft = new PIDControllerHenry(.5, 0, 0,/*driveTrain_kP, driveTrain_kI, 0, driveTrain_kF,*/ new PIDSource() { // .04 0 0 for 180
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			public double pidGet() {
@@ -195,11 +219,12 @@ public class DriveTrain extends Subsystem {
 					countTwo++;
 				}
 				RobotMap.leftMaster.pidWrite(o);
-				SmartDashboard.putNumber("overrideL", overRiddenL);
+				//System.out.println(o);
+				//SmartDashboard.putNumber("overrideL", overRiddenL);
 			}
 		});
 //pid.setPID(p, i, d);
-    	pidPosRight = new PIDController(driveTrain_kP, driveTrain_kI , 0, driveTrain_kF, new PIDSource() { // .58823
+    	pidPosRight = new PIDControllerHenry(driveTrain_kP, driveTrain_kI , 0, driveTrain_kF, new PIDSource() { // .58823
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			public double pidGet() {
@@ -235,14 +260,13 @@ public class DriveTrain extends Subsystem {
 					maxSpeedReached = output;
 				}
 				RobotMap.rightMaster.pidWrite(output);
-				SmartDashboard.putNumber("counter", count);
-				SmartDashboard.putNumber("output to motor", output);
 				
+			//	System.out.println(output);
 				
 			}
 		});
     	
-    	  pidAngle = new PIDController(0,  0, 0, new PIDSource() { // .58823
+    	  pidAngle = new PIDControllerHenry(angleP,  angleI, angleD, new PIDSource() { // .58823
     			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
     			public double pidGet() {
@@ -261,8 +285,8 @@ public class DriveTrain extends Subsystem {
     		}, new PIDOutput() {
     			public void pidWrite(double d) {
     				
-    				RobotMap.rightMaster.pidWrite(d);
-    				RobotMap.leftMaster.pidWrite(-d);
+    				RobotMap.rightMaster.pidWrite(d/2);
+    				RobotMap.leftMaster.pidWrite(-d/2);
     				
     			}
     		});
@@ -289,7 +313,8 @@ public class DriveTrain extends Subsystem {
     //}
 
 	public void driveRobot(Joystick joy) {
-		robotDrive.tankDrive(-joy.getRawAxis(1), joy.getRawAxis(5));
+		robotDrive.tankDrive(-joy.getRawAxis(1), joy.getRawAxis(3));
+		//RobotMap.driveTrainleft.set(joy.getRawAxis(1));
 		//RobotMap.leftMaster.set(joy.getRawAxis(1));
 		SmartDashboard.putNumber("joystick output",joy.getRawAxis(1));//, -joystick1.getRawAxis(2));
 		// TODO Auto-generated method stub

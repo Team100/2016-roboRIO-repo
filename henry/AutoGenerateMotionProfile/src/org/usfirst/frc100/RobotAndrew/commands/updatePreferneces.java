@@ -13,6 +13,9 @@ public class updatePreferneces extends Command {
 	public double velP;
 	public double velI;
 	public double velF;
+	public double anP;
+	public double anI;
+	public double anD;
 	protected void initialize() {
 		posP = Robot.prefs.getDouble("driveTrain_kP",0);
 		posI = Robot.prefs.getDouble("driveTrain_kI",0);
@@ -25,6 +28,11 @@ public class updatePreferneces extends Command {
 		velF = Robot.prefs.getDouble("driveVelF",0);
 		Robot.driveTrain.pidPosRight.setPID(velP, velI, velF);
 		Robot.driveTrain.pidPosLeft.setPID(velP, velI, velF);
+		/////////////////////////////////////////////////////
+		anP = Robot.prefs.getDouble("angleP", 0);
+		anI = Robot.prefs.getDouble("angleI", 0);
+		anD = Robot.prefs.getDouble("andleD", 0);
+		Robot.driveTrain.pidAngle.setPID(anP, anI, anD);
 		
 		
 	}
@@ -34,9 +42,15 @@ public class updatePreferneces extends Command {
 		SmartDashboard.putNumber("p", posP);
 		SmartDashboard.putNumber("i", posI);
 		SmartDashboard.putNumber("f", posF);
+		//-------------------------------------------------
 		SmartDashboard.putNumber("pV", velP);
 		SmartDashboard.putNumber("iV", velI);
 		SmartDashboard.putNumber("fV", velF);
+		//---------------------------------------------
+		SmartDashboard.putNumber("pA", anP);
+		SmartDashboard.putNumber("pI", anI);
+		SmartDashboard.putNumber("pD", anD);
+		
 		
 	}
 

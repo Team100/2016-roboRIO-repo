@@ -20,14 +20,16 @@ public class FollowMotionProfile extends Command{
 	double setP;
 	double setPP;
 	double dist;
+	public GetVisionData vision;
 	public static ArrayList<Double> position; //= new ArrayList<Double>();
 	public static ArrayList<Double> velocity; //= new ArrayList<Double>();
 	public AutoGenerate profile; 
+
 	static Timer timer = new Timer();
 	private static final String SmartDashoard = null;
 
 	public FollowMotionProfile() {
-		dist = 10;
+		
 		requires(Robot.driveTrain);
 	}
 	public FollowMotionProfile(int dista) {
@@ -36,11 +38,16 @@ public class FollowMotionProfile extends Command{
 	}
 	
 	public void initialize() {
-		profile = new AutoGenerate(dist, 3.5); //3.5
+		
+		vision = new GetVisionData();
+		dist = (vision.calculateDistance()-20)/12;
+		profile = new AutoGenerate(dist, 3.5); //3.5 dist
 		profile.generateProfile();
 		position = profile.returnPos();
 		velocity = profile.returnVel();
 		count = 0;
+		
+	
 		RobotMap.encoderLeft.reset();
 		RobotMap.encoderRight.reset();
 		Robot.driveTrain.pidPosRight.setAbsoluteTolerance(0.1);
@@ -51,29 +58,27 @@ public class FollowMotionProfile extends Command{
 		Robot.driveTrain.pidPosLeft.enable();
 		//Robot.driveTrain.pidVelLeft.enable();
 		//Robot.driveTrain.pidVelRight.enable();
-		//System.out.println("hi");
+		
+		System.out.println(dist);
+		
 	}
 	
 	
 	public void execute() {
-		timer.schedule(new TimerTask() {
-		    @Override
-		    public void run() {
-		    	if(count < position.size()){
-		    		System.out.println(position.get(count) + " : " + velocity.get(count));
-		    		Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
-		    		Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));
-		    		Robot.driveTrain.pidVelLeft.setSetpoint(velocity.get(count));
-		    		Robot.driveTrain.pidVelRight.setSetpoint(velocity.get(count));
-		    		count++;
-		    	}
-		    }
-		}, 0, 20000);
 		
-		SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPosLeft.getSetpoint());
+		
+		if(count < position.size()){
+			//System.out.println(position.get(count));
+			Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
+	    	Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));
+    		count++;
+		}
+		//SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPosLeft.getSetpoint());
+		
 	}
 
 	protected boolean isFinished() {
+		//return false;
 		if(count == position.size()){ return true;} else { return false;}
 		
 	}
@@ -82,5 +87,4 @@ public class FollowMotionProfile extends Command{
 		Robot.driveTrain.pidPosRight.disable();
 		Robot.driveTrain.stop();
 	}
-
 }

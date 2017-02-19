@@ -116,6 +116,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("encoder distance", RobotMap.encoderRight.getDistance());
 		SmartDashboard.putNumber("encoder distanceLeft", RobotMap.encoderLeft.getDistance());
 		SmartDashboard.putNumber("encoder rate", RobotMap.encoderRight.getRate());
+		SmartDashboard.putNumber("currnetAngle", RobotMap.internalGyro.getAngle());
+		SmartDashboard.putNumber("angle setpoint", Robot.driveTrain.pidAngle.getSetpoint());
+		//System.out.println(RobotMap.encoderLeft.getRate());
 		
     }
 
