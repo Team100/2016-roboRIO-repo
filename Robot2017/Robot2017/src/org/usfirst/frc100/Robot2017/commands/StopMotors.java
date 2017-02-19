@@ -14,12 +14,12 @@ public class StopMotors extends Command {
 	private BallHandlingState cState;
 
     public StopMotors() {
-    	requires(Robot.ballhandling);
+    	requires(Robot.ballHandling);
     	
     }
 
     protected void initialize() {
-    	iState = Robot.ballhandling.getState();
+    	iState = Robot.ballHandling.getState();
     	cState = iState;
     }
 
@@ -27,29 +27,29 @@ public class StopMotors extends Command {
     	switch(cState){
 			case shooting: 
 			case readyToShoot:
-				Robot.ballhandling.dumperLift.set(false);
-				Robot.ballhandling.pickUpFlap.set(false);
-				Robot.ballhandling.setOutsideRoller(0);
-				Robot.ballhandling.setElevator(0);
+				Robot.ballHandling.dumperLift.set(false);
+				Robot.ballHandling.pickUpFlap.set(false);
+				Robot.ballHandling.setOutsideRoller(0);
+				Robot.ballHandling.setElevator(0);
 				
-				Robot.ballhandling.setState(BallHandlingState.readyToShoot);
-				cState = Robot.ballhandling.getState();
+				Robot.ballHandling.setState(BallHandlingState.readyToShoot);
+				cState = Robot.ballHandling.getState();
 				break;
 			case pickingUp:
 			case dumping:
 			case readyToPickupOrDump: 
-				Robot.ballhandling.dumperLift.set(true);
-				Robot.ballhandling.pickUpFlap.set(true);
-				Robot.ballhandling.setOutsideRoller(0);
-				Robot.ballhandling.setElevator(0);
+				Robot.ballHandling.dumperLift.set(true);
+				Robot.ballHandling.pickUpFlap.set(true);
+				Robot.ballHandling.setOutsideRoller(0);
+				Robot.ballHandling.setElevator(0);
 				
-				Robot.ballhandling.setState(BallHandlingState.readyToPickupOrDump);
-				cState = Robot.ballhandling.getState();
+				Robot.ballHandling.setState(BallHandlingState.readyToPickupOrDump);
+				cState = Robot.ballHandling.getState();
 				break;
 			case clearElevator:
 			case clearPickUp:
 				System.out.println("Cant Stop Motors in intermidte step");
-				cState = Robot.ballhandling.getState();
+				cState = Robot.ballHandling.getState();
 				break;
     	}
     }
@@ -63,6 +63,6 @@ public class StopMotors extends Command {
     }
 
     protected void interrupted() {
-		Robot.ballhandling.setState(cState);
+		Robot.ballHandling.setState(cState);
     }
 }

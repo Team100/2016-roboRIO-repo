@@ -20,24 +20,24 @@ public class PickUp extends Command {
 	private BallHandlingState cState;
 
     public PickUp(float defultClearingTime) {
-    	requires(Robot.ballhandling);
+    	requires(Robot.ballHandling);
     	t = defultClearingTime;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	iState = Robot.ballhandling.getState();
+    	iState = Robot.ballHandling.getState();
 		switch(iState){
 			case shooting: 
 			case readyToShoot:
-				Robot.ballhandling.setState(BallHandlingState.clearElevator);
-				cState = Robot.ballhandling.getState();
+				Robot.ballHandling.setState(BallHandlingState.clearElevator);
+				cState = Robot.ballHandling.getState();
 				break;
 			case pickingUp:
 			case readyToPickupOrDump: 
 			case dumping:
-				Robot.ballhandling.setState(BallHandlingState.pickingUp);
-				cState = Robot.ballhandling.getState();
+				Robot.ballHandling.setState(BallHandlingState.pickingUp);
+				cState = Robot.ballHandling.getState();
 				break;
 			case clearElevator:
 			case clearPickUp:
@@ -53,20 +53,20 @@ public class PickUp extends Command {
 			case readyToShoot:
 				System.out.println("uh your not supposte to be here");
 				
-				Robot.ballhandling.setState(BallHandlingState.clearElevator);
-				cState = Robot.ballhandling.getState();
+				Robot.ballHandling.setState(BallHandlingState.clearElevator);
+				cState = Robot.ballHandling.getState();
 				
 				break;
 			case pickingUp:
 			case readyToPickupOrDump: 
 			case dumping:
-	    		Robot.ballhandling.dumperLift.set(true);
-	    		Robot.ballhandling.pickUpFlap.set(true);
-	    		Robot.ballhandling.setElevator(-1);		//add pref for speed?
-		    	Robot.ballhandling.setOutsideRoller(1);	//add pref for speed?
+	    		Robot.ballHandling.dumperLift.set(true);
+	    		Robot.ballHandling.pickUpFlap.set(true);
+	    		Robot.ballHandling.setElevator(-1);		//add pref for speed?
+		    	Robot.ballHandling.setOutsideRoller(1);	//add pref for speed?
 		    		
-		    	Robot.ballhandling.setState(BallHandlingState.pickingUp);
-				cState = Robot.ballhandling.getState();
+		    	Robot.ballHandling.setState(BallHandlingState.pickingUp);
+				cState = Robot.ballHandling.getState();
 				
 				break;
 			case clearElevator:
@@ -76,22 +76,22 @@ public class PickUp extends Command {
 					firstTime = false;
 				}
 				
-				Robot.ballhandling.dumperLift.set(true);
-				Robot.ballhandling.pickUpFlap.set(true);
-				Robot.ballhandling.setElevator(-1); 		//add pref for speed?
-		    	Robot.ballhandling.setOutsideRoller(-1); 	//add pref for speed?
+				Robot.ballHandling.dumperLift.set(true);
+				Robot.ballHandling.pickUpFlap.set(true);
+				Robot.ballHandling.setElevator(-1); 		//add pref for speed?
+		    	Robot.ballHandling.setOutsideRoller(-1); 	//add pref for speed?
 		    	
 				if(intermediantStepDone()){
-					Robot.ballhandling.setState(BallHandlingState.pickingUp);
-					cState = Robot.ballhandling.getState();
+					Robot.ballHandling.setState(BallHandlingState.pickingUp);
+					cState = Robot.ballHandling.getState();
 				}
 				
 				break;
 			case clearPickUp:
 				System.out.println("uh your not supposte to be here");
 	
-		    	Robot.ballhandling.setState(BallHandlingState.pickingUp);
-				cState = Robot.ballhandling.getState();
+		    	Robot.ballHandling.setState(BallHandlingState.pickingUp);
+				cState = Robot.ballHandling.getState();
 				
 				break;
 		}
@@ -107,7 +107,7 @@ public class PickUp extends Command {
     }
 
     protected void interrupted() {
-    	Robot.ballhandling.setState(cState);
+    	Robot.ballHandling.setState(cState);
     	timer.stop();
     }
     
