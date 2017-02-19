@@ -58,10 +58,12 @@ def read_log_file(fname):
                 val = 1.0
             elif value.startswith('false'):
                 val = 0.0
+            elif value.startswith('('):
+                val = value
             elif re.search('[a-zA-Z]+',value):
                 val = 0.0
             else:
-                val = float(value)
+                val = value
             
             mydict[varname][0].append(time/1000.0)
             mydict[varname][1].append(val)

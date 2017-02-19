@@ -30,13 +30,12 @@ class MyApp(QtGui.QMainWindow, UI_MAIN_WINDOW):
     @QtCore.pyqtSlot()
     def on_start_pressed(self):
         global f
-        print('debug')
-        NetworkTables.addGlobalListener(valueChanged)        
+                
         filename = 'Logging-%s.txt'%datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         f = open(filename, 'w')
         f.write('Time (ms),Name,Value\n')
         f.flush()
-        print('debug')
+        NetworkTables.addGlobalListener(valueChanged)
         
         
     @QtCore.pyqtSlot()
