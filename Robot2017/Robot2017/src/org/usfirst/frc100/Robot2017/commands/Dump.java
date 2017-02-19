@@ -14,11 +14,11 @@ public class Dump extends Command {
 	private double t;
 	private Timer timer = new Timer();
 	
+	private boolean firstTime = true;
+	
 	private BallHandlingState iState;
 	private BallHandlingState cState;
 	
-	private boolean firstcall = true;
-
     public Dump(float defultClearingTime) {
     	requires(Robot.ballhandling);
     	t = defultClearingTime;
@@ -32,8 +32,6 @@ public class Dump extends Command {
 			case readyToShoot:
 				Robot.ballhandling.setState(BallHandlingState.clearElevator);
 				cState = Robot.ballhandling.getState();
-				timer.reset();
-				timer.start();
 				break;
 			case pickingUp:
 			case readyToPickupOrDump: 
@@ -54,8 +52,10 @@ public class Dump extends Command {
 			case shooting: 
 			case readyToShoot:
 				System.out.println("uh your not supposte to be here");
+				
 				Robot.ballhandling.setState(BallHandlingState.clearElevator);
 				cState = Robot.ballhandling.getState();
+				
 				break;
 			case pickingUp:
 			case readyToPickupOrDump: 
@@ -67,8 +67,15 @@ public class Dump extends Command {
 		    		
 		    	Robot.ballhandling.setState(BallHandlingState.dumping);
 				cState = Robot.ballhandling.getState();
+				
 				break;
 			case clearElevator:
+				if(firstTime){
+					timer.reset();
+					timer.start();
+					firstTime = false;
+				}
+				
 				Robot.ballhandling.dumperLift.set(true);
     			Robot.ballhandling.pickUpFlap.set(true);
     			Robot.ballhandling.setElevator(-1); 		//add pref for speed?
@@ -78,13 +85,14 @@ public class Dump extends Command {
 					Robot.ballhandling.setState(BallHandlingState.dumping);
 					cState = Robot.ballhandling.getState();
 				}
+				
 				break;
 			case clearPickUp:
 				System.out.println("uh your not supposte to be here");
-				Robot.ballhandling.dumperLift.set(true);
-    			Robot.ballhandling.pickUpFlap.set(true);
-    			Robot.ballhandling.setElevator(-1); 		//add pref for speed?
-		    	Robot.ballhandling.setOutsideRoller(-1); 	//add pref for speed?
+
+		    	Robot.ballhandling.setState(BallHandlingState.dumping);
+				cState = Robot.ballhandling.getState();
+				
 				break;
 		}
     }
@@ -101,6 +109,7 @@ public class Dump extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.ballhandling.setState(cState);
     	timer.stop();
     }
     
