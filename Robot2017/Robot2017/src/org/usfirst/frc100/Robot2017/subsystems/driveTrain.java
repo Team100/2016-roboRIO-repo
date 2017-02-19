@@ -68,6 +68,21 @@ public class DriveTrain extends Subsystem {
     public void stop(){
     	robotDrive.tankDrive(0, 0);
     }
+
+	public void updateDashboard() {
+		SmartDashboard.putNumber("DriveTrain/LeftMotor: ", leftMotor.get());
+		SmartDashboard.putNumber("DriveTrain/RightMotor: ", rightMotor.get());
+		SmartDashboard.putNumber("DriveTrain/LeftEncoder Rate: ", leftEncoder.getRate());
+		SmartDashboard.putNumber("DriveTrain/LeftEncoder Distance", leftEncoder.getDistance());
+		SmartDashboard.putNumber("DriveTrain/LeftEncoder Count: ", leftEncoder.getRaw());
+		SmartDashboard.putNumber("DriveTrain/RightEncoder Rate: ", rightEncoder.getRate());
+		SmartDashboard.putNumber("DriveTrain/RightEncoder Distance", rightEncoder.getDistance());
+		SmartDashboard.putNumber("DriveTrain/RightEncoder Count: ", rightEncoder.getRaw());
+		SmartDashboard.putNumber("DriveTrain/Gyro Rate: ", digialGyroUno.getRate());
+		SmartDashboard.putNumber("DriveTrain/Gyro Angle: ", digialGyroUno.getAngle());
+		SmartDashboard.putNumber("DriveTrain/Ultrasonic Range: ", ultraSanic.getRangeInches());
+		
+	}
 }
 
 

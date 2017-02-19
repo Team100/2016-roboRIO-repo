@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -33,6 +34,13 @@ public class Intake extends Subsystem {
     public void initDefaultCommand() {
 
     }
+
+	public void updateDashboard() {
+		SmartDashboard.putNumber("Intake/OutsideRoller: ", outsideRoller.get());
+		SmartDashboard.putNumber("Intake/HopperRoller: ", hopperRoller.get());
+		SmartDashboard.putNumber("Intake/BeltRoller: ", beltRoller.get());
+		SmartDashboard.putBoolean("Intake/BallSensor: ", ballSensor.get());
+	}
 }
 
 
