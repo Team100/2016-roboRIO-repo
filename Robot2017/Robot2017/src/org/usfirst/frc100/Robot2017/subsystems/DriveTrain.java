@@ -64,6 +64,25 @@ public class DriveTrain extends Subsystem {
         setDefaultCommand(new TankDrive()); 
     }
     
+    public void updateDashboard() {
+		SmartDashboard.putNumber("DriveTrain/Left Encoder Raw", driveTrainLeftEncoder.getRaw());
+		SmartDashboard.putNumber("DriveTrain/Left Encoder Count", driveTrainLeftEncoder.get());
+		SmartDashboard.putNumber("DriveTrain/Left Encoder Distance", driveTrainLeftEncoder.getDistance());
+    	SmartDashboard.putNumber("DriveTrain/Left Encoder Rate", driveTrainLeftEncoder.getRate());
+		
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Raw", driveTrainRightEncoder.getRaw());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Count", driveTrainRightEncoder.get());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Distance", driveTrainRightEncoder.getDistance());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Rate", driveTrainRightEncoder.getRate());
+
+    	SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersDistance:", Math.abs(driveTrainRightEncoder.getDistance() - driveTrainLeftEncoder.getDistance()));
+		SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersRate:", Math.abs(driveTrainRightEncoder.getRate() - driveTrainLeftEncoder.getRate()));
+		
+		SmartDashboard.putNumber("DriveTrain/Gyro Angle", gyro.getAngle());
+		
+		SmartDashboard.putBoolean("DriveTrain/DriveTrainShifter state", driveTrainShifter.get());
+	}
+    
     public void driveRobot(Joystick joy, Joystick joy2){
     	robotDrive.tankDrive(joy.getRawAxis(1), -joy2.getRawAxis(1));
     }

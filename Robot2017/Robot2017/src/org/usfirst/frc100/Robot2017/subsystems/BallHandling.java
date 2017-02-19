@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -17,6 +18,23 @@ public class BallHandling extends Subsystem {
 	public final Solenoid dumperLift = RobotMap.dumperLift;
 	public final Solenoid pickUpFlap = RobotMap.pickUpFlap;
 	public final Encoder elevatorEncoder = RobotMap.elevatorEncoder;
+	
+	private BallHandlingState mState = BallHandlingState.readyToPickupOrDump;
+	
+	public void updateDashboard() {
+		SmartDashboard.putNumber("BallHandling/Elevator Encoder Raw", elevatorEncoder.getRaw());
+		SmartDashboard.putNumber("BallHandling/Elevator Encoder Count", elevatorEncoder.get());
+		SmartDashboard.putNumber("BallHandling/Elevator Encoder Distance", elevatorEncoder.getDistance());
+    	SmartDashboard.putNumber("BallHandling/Elevator Encoder Rate", elevatorEncoder.getRate());
+
+    	SmartDashboard.putNumber("BallHandling/Outside Roller Rate", outsideRoller.get());
+    	
+    	SmartDashboard.putNumber("BallHandling/Elevator Rate", elevator.get());
+    	
+    	SmartDashboard.putBoolean("BallHandling/Dumper Lift state", dumperLift.get());
+    	
+    	SmartDashboard.putBoolean("BallHandling/Pickup Flap state", pickUpFlap.get());
+	}
 	
 	public enum BallHandlingState{
     	
@@ -35,7 +53,6 @@ public class BallHandling extends Subsystem {
     	}
     }
 	
-	private BallHandlingState mState = BallHandlingState.readyToPickupOrDump;
 	
 	public BallHandlingState getState(){
 		return mState;

@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
     public static DriveTrain driveTrain;
-    public static BallHandling ballhandling;
+    public static BallHandling ballHandling;
     public static PeterssUnbeatableScalingMechanismWithoutpNeumatics peterssUnbeatableScalingMechanismWithoutpNeumatics;
     public static Knewmatics knewmatics;
     public static GearMech gearMech;
@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	RobotMap.init();
         driveTrain = new DriveTrain();
-        ballhandling = new BallHandling();
+        ballHandling = new BallHandling();
         peterssUnbeatableScalingMechanismWithoutpNeumatics = new PeterssUnbeatableScalingMechanismWithoutpNeumatics();
         knewmatics = new Knewmatics();
         gearMech = new GearMech();
@@ -84,6 +84,7 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.start();
         int modeSelect = oi.selector();
         SmartDashboard.putNumber("Autonomous Mode" , modeSelect);
+        new UpdateDashboard().start();
     }
 
     /**
@@ -99,6 +100,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        new UpdateDashboard().start();
     }
 
     /**

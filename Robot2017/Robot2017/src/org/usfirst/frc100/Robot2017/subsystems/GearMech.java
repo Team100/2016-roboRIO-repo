@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -31,6 +32,12 @@ public class GearMech extends Subsystem {
     public void initDefaultCommand() {
 
     }
+    
+    public void updateDashboard() {
+    	SmartDashboard.putBoolean("GearMech/Gear Mech Drop state", gearMechDrop.get());
+    	
+    	SmartDashboard.putBoolean("GearMech/Gear Mech Flap state", gearMechFlap.get());
+	}
     
     public boolean isGearMechDropOpen(){
     	return gearMechDrop.get();
