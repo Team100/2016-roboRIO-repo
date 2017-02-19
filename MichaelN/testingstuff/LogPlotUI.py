@@ -59,7 +59,7 @@ def read_log_file(fname):
             elif value.startswith('false'):
                 val = 0.0
             elif value.startswith('('):
-                val = value
+                val = 0.0
             elif re.search('[a-zA-Z]+',value):
                 val = 0.0
             else:
