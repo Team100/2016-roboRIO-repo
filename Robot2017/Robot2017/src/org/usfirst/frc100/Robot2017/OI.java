@@ -106,10 +106,10 @@ public class OI {
       	//manipulator things
       	
       	shoot = new JoystickButton(operater, 4);
-      	shoot.whenPressed(new Shoot((float).5));
+      	shoot.whenPressed(new Shoot((float)0.5));
       	
         pickUp = new JoystickButton(operater, 3);
-        pickUp.whenPressed(new PickUp((float).75));
+        pickUp.whenPressed(new PickUp((float)0.75));
         
         dump = new JoystickButton(operater, 1);
         dump.whenPressed(new Dump((float)0.75));
@@ -118,16 +118,16 @@ public class OI {
         stopMotors.whenPressed(new StopMotors());
         
         openGear = new JoystickButton(operater, 8);
-        openGear.whenPressed(new OpenGear());
+        openGear.whenPressed(new OpenGear((float).75));
         
         closeGear = new JoystickButton(operater, 6);
-        closeGear.whenPressed(new CloseGear());
+        closeGear.whenPressed(new CloseGear((float).25));
         
         openFlap = new JoystickButton(operater, 7);
-        openFlap.whenPressed(new OpenFlap());
+        openFlap.whenPressed(new OpenFlap((float).75));
         
         closeFlap = new JoystickButton(operater, 5);
-        closeFlap.whenPressed(new CloseFlap());
+        closeFlap.whenPressed(new CloseFlap((float)0.25));
         
         manipulatorClimb = new JoystickButton(operater, 9);
         manipulatorClimb.whenPressed(new Climb());
