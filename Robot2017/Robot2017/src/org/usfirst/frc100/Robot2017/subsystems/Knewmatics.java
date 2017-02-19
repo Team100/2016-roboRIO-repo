@@ -16,7 +16,6 @@ import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.Compressor;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -46,11 +45,6 @@ public class Knewmatics extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
-
-	public void updateDashboard() {
-		// TODO Auto-generated method stub
-		SmartDashboard.putNumber("Pnuematics/Compressor Current: ", compresser.getCompressorCurrent());
-	}
 }
 
 
