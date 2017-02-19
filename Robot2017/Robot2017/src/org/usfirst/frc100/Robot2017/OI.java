@@ -133,6 +133,7 @@ public class OI {
         manipulatorClimb.whenPressed(new Climb());
         
         //driver things
+        /*
         
         l90Degrees = new JoystickButton(leftController, 5);
         l90Degrees.whenPressed(new L90Degrees());
@@ -148,6 +149,7 @@ public class OI {
         
         driverClimb = new JoystickButton(rightController, 5);
         driverClimb.whenPressed(new Climb());
+        */
     }
 
     public Joystick getleftController() {
