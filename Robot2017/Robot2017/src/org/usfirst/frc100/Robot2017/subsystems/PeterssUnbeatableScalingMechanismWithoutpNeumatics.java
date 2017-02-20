@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -40,6 +41,14 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
     
     public PeterssUnbeatableScalingMechanismWithoutpNeumatics(){
     }
+    
+    public void updateDashboard() {
+    	SmartDashboard.putNumber("GearMech/climberEncoder count", climberEncoder.get());
+    	SmartDashboard.putNumber("GearMech/climberEncoder rate", climberEncoder.getRate());
+    	
+    	SmartDashboard.putNumber("GearMech/climberWinch rate", climberWinch.get());
+	}
+    
     
     public void climbJoysticks(Joystick joy){
     	RobotMap.climberWinch.set(joy.getRawAxis(3));

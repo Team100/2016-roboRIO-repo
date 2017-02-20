@@ -308,14 +308,10 @@ public class DriveTrain extends Subsystem {
     
    
     public void updateDashboard() {
-		SmartDashboard.putNumber("DriveTrain/Left Encoder Raw", driveTrainLeftEncoder.getRaw());
 		SmartDashboard.putNumber("DriveTrain/Left Encoder Count", driveTrainLeftEncoder.get());
-		SmartDashboard.putNumber("DriveTrain/Left Encoder Distance", driveTrainLeftEncoder.getDistance());
     	SmartDashboard.putNumber("DriveTrain/Left Encoder Rate", driveTrainLeftEncoder.getRate());
 		
-		SmartDashboard.putNumber("DriveTrain/Right Encoder Raw", driveTrainRightEncoder.getRaw());
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Count", driveTrainRightEncoder.get());
-		SmartDashboard.putNumber("DriveTrain/Right Encoder Distance", driveTrainRightEncoder.getDistance());
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Rate", driveTrainRightEncoder.getRate());
 
     	SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersDistance:", Math.abs(driveTrainRightEncoder.getDistance() - driveTrainLeftEncoder.getDistance()));
