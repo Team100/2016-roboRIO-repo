@@ -20,8 +20,8 @@ import os
 from networktables import NetworkTable
 from grip import GripPipeline  
 
-now = datetime.datetime.now()
-filePath = 'vision/visionLogs/' + str(now.year) + "_" + str(now.month) + "_" + str(now.day) + "/"
+"""now = datetime.datetime.now()
+filePath = '/home/pi/vision/visionLogs/' + str(now.year) + "_" + str(now.month) + "_" + str(now.day) + "/"
 directory = os.path.dirname(filePath)
 
 if (not os.path.exists(directory)):
@@ -30,10 +30,13 @@ if (not os.path.exists(directory)):
 textFile = open(filePath + "output_" + str(now.hour) + "_" + str(now.minute) + "_" + str(now.second) + ".html", "w")
 textFile.write("Vision Log for " + str(now.day) + "/" + str(now.month) + "/" + str(now.year) + "  ~    " + str(now.hour) + ":" + str(now.minute) +":" + str(now.second))
 textFile.write("</br>" + "OpenCV version: " + str(cv2.__version__) + "</br></br>")
+"""
 
 version = int(cv2.__version__[:1])
 
 streamRunning = False
+angleIsValid = False
+
 ip = '127.0.0.1'
 roboRio = 'roborio-100-frc.local'
 piLoc = 'http://raspberrypi.local:5802/?action=stream'
@@ -44,6 +47,8 @@ CAMERA_RESOLUTION = [310.0, 220.0] # 320 x 240
 CAMERA_FOV_DEGREES = [52.45, 38.89] # 50.7, 39.9
 HEIGHT_OF_OBJECT = 5.0 # inches
 WIDTH_TO_WIDTH = 8.25 # inches
+SPIKE_LENGTH = 11 # inches
+DEGREES_PER_PIXEL = [CAMERA_FOV_DEGREES[0]/CAMERA_RESOLUTION[0], CAMERA_FOV_DEGREES[1]/CAMERA_RESOLUTION[1]]
 
 red = """<p style="color: red; font-family: 'Liberation Sans',sans-serif">{}</p>"""
 yellow = """<p style="color: yellow; font-family: 'Liberation Sans',sans-serif">{}</p>"""
@@ -58,9 +63,9 @@ def main():
         NetworkTable.setIPAddress(roboRio)
         NetworkTable.setClientMode()
         NetworkTable.initialize()
-        textFile.write("Initializing Network Tables...</br></br>")
+        ##textFile.write("Initializing Network Tables...</br></br>")
     except:
-        textFile.write("Network Tables already initialized")
+        ##textFile.write("Network Tables already initialized")
         pass
     
     sd = NetworkTable.getTable('GRIP/myContoursReport')
@@ -73,7 +78,8 @@ def main():
     try:
         streamRunning = True
     except:
-        textFile.write(red.format('NO CONNECTION!'))
+        pass
+        ##textFile.write(red.format('NO CONNECTION!'))
         
     bytes = ''
     pipeline = GripPipeline()
@@ -98,23 +104,21 @@ def main():
             correctedImage = cv2.undistort(uncorrectedImage, CAMERA_MATRIX, DISTORTION_CONSTANTS, None, newcameramtx)
             
             pipeline.process(correctedImage)  
-            
-            #cv2.rectangle(correctedImage, (int(CAMERA_RESOLUTION[0]/2-2), int(CAMERA_RESOLUTION[1]/2 - 2)), (int(CAMERA_RESOLUTION[0]/2+2), int(CAMERA_RESOLUTION[1]/2 + 2)), (150,150,0), 5)
-            
+                        
             if len(pipeline.boundingRects) == 2:
                 
                 if (pipeline.center != None):
                     distanceFromCenterPixels = math.fabs(CAMERA_RESOLUTION[0]/2 - pipeline.center[0])
                     degreeOffset = CAMERA_FOV_DEGREES[0] * distanceFromCenterPixels / CAMERA_RESOLUTION[0]
-                    #cv2.line(correctedImage, (int(CAMERA_RESOLUTION[0]/2), int(CAMERA_RESOLUTION[1]/2)), (int(pipeline.center[0]), int(CAMERA_RESOLUTION[1]/2)),(255,0,0), 3, 8, 0)
                     
-                    textFile.write("Degrees from center: " + str("%.1f" % degreeOffset) + "</br>")
-                   # print("Degrees from center: " + str(degreeOffset))
+                    if (CAMERA_RESOLUTION[0]/2 > pipeline.center[0]):
+                        degreeOffset *= -1
+
                     sd.putNumberArray("Center", pipeline.center)
-                    #cv2.rectangle(correctedImage, (pipeline.center[0]-2, pipeline.center[1]-2), (pipeline.center[0]+2, pipeline.center[1]+2), (0,0,255), 5)
+                    angleIsValid = True
                 
                 for rects in pipeline.boundingRects:
-                    cv2.rectangle(correctedImage, (rects[0], rects[1]), (rects[0]+rects[2], rects[1]+rects[3]), (0,0,255), 2)
+                    pass
                     
                 sendableCenterX = []
                 sendableCenterY = []
@@ -131,32 +135,24 @@ def main():
                 distanceToTarget = ((HEIGHT_OF_OBJECT/2) / (math.tan(theta * math.pi / 180.0)))
                 
                 dist = math.fabs(sendableCenterX[0] - sendableCenterX[1]);
-                
+                    
+                if (dist): 
+                    theta2 = ((CAMERA_FOV_DEGREES[0] * dist) / CAMERA_RESOLUTION[0])/2
+                    distanceToTarget2 = ((WIDTH_TO_WIDTH/2) / (math.tan(theta2 * math.pi / 180)))
+
                 try:
                     sd.putNumberArray("centerX", sendableCenterX)
                     sd.putNumberArray("centerY", sendableCenterY)
                     sd.putNumberArray("width", sendableWidth)
                     sd.putNumberArray("height", sendableHeight)
                     sd.putNumber("degreeOffset", degreeOffset)
-                    sd.putNumber("distance", distanceToTarget) 
+                    sd.putNumber("distance", distanceToTarget2)
                 except:
                     pass
-                    
-                if (dist): 
-                    theta2 = ((CAMERA_FOV_DEGREES[0] * dist) / CAMERA_RESOLUTION[0])/2
-                    distanceToTarget2 = ((WIDTH_TO_WIDTH/2) / (math.tan(theta2 * math.pi / 180)))
-                    #cv2.putText(correctedImage, "Distance2: " + str("%.1f" % distanceToTarget2), (60, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (250, 60, 40), 1)
-                                                
-                    #print(distanceToTarget2)
-                    #font = cv2.InitFont(cv2.CV_FONT_HERSHEY_SIMPLEX, 1, 1, 0, 3, 8)
-                    textFile.write("Distance: " + str("%.1f" % distanceToTarget) + "</br>")
-                    textFile.flush()
-                    
-                    #cv2.putText(correctedImage, "Distance: " + str("%.1f" % distanceToTarget), (60, 160), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (250, 60, 40), 1)
-                    #print("Distance to target: " + str("%.1f" % distanceToTarget) + " inches")
             else:
-                pass
-                        
+                angleIsValid = False
+            sd.putBoolean("angleIsValid", angleIsValid)
+
             # crop image
             x, y, w, h = roi
             correctedImage = correctedImage[y:y+h, x:x+w]
@@ -164,9 +160,10 @@ def main():
             #cv2.imshow("correctedImage", correctedImage)
                
             if cv2.waitKey(1) & 0xFF == ord('q'):
-                textFile.close()
                 break;
     # When everything done, release the capture
-    textFile.close()    
+    ##textFile.write(blue.format("Finished!"))
+    ##textFile.flush()
+    ##textFile.close()    
 if __name__ == '__main__':
     main()
