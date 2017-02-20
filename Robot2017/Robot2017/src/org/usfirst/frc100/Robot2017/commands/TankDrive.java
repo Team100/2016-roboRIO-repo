@@ -20,33 +20,27 @@ public class TankDrive extends Command {
 	 public static double iValue2;
      int incrementalAngle;
  
-     SpeedController speedController1 = RobotMap.driveTrainleftMotor;
-	 SpeedController speedController2 = RobotMap.driveTrainrightMotor;
- 
 	 public TankDrive(){
 		requires(Robot.driveTrain); 
 	 }
 	 
 	 public TankDrive(boolean driving) {
     	direction = driving; 
-    	 requires(Robot.driveTrain); 
+    	requires(Robot.driveTrain); 
     }
 	 
-	 public TankDrive(int incrementalAngle){
-		 this.incrementalAngle = incrementalAngle; 
-		 requires(Robot.driveTrain);
-	 }
+	public TankDrive(int incrementalAngle){
+		this.incrementalAngle = incrementalAngle; 
+		requires(Robot.driveTrain);
+	}
 	 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//Robot.driveTrain.updateSetPoint(incrementalAngle); 
-    	//Robot.driveTrain.enable(); 
-    	Robot.driveTrain.initiGyro(); 
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("Angle", RobotMap.driveTraindigialGyroUno.getAngle()); 
+    	SmartDashboard.putNumber("Angle", RobotMap.gyro.getAngle()); 
     	//SmartDashboard.putNumber("Number", Robot.driveTrain.getSetPoint());
     }
 

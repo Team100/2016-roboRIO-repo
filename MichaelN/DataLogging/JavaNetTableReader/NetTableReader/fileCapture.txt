@@ -1,0 +1,10 @@
+Time (ms),Name,Value
+"3432","AutoShift/isParented","false"
+"3432","Drive/isParented","false"
+"3432","ShiftHigh/isParented","false"
+"3432","ShiftLow/running","false"
+"3432","Drive/running","false"
+"3432","AutoShift/running","false"
+"3432","ShiftHigh/running","false"
+"3432","ShiftLow/isParented","false"
+"253740","Drive/isParented","true"

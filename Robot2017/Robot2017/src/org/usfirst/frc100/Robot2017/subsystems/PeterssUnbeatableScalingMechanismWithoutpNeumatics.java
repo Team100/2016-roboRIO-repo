@@ -20,31 +20,22 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
  *
  */
-public class Shooter extends Subsystem {
+public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsystem {
+	
+    //private final SpeedController winchMotor = RobotMap.peterssUnbeatableScalingMechanismWithoutpNeumaticswinchMotor;
+    //private final Encoder winchEncoder = RobotMap.peterssUnbeatableScalingMechanismWithoutpNeumaticswinchEncoder;
 
-    
-    private final SpeedController moter = RobotMap.shootermoter;
-    private final Encoder incoder = RobotMap.shooterincoder;
+	public final Encoder climberEncoder = RobotMap.climberEncoder;
+	public final VictorSP climberWinch = RobotMap.climberWinch;
 
-    public void updateDashboard(){
-    	SmartDashboard.putNumber("Shooter Encoder Value", incoder.getRate()); 
-    }
     public void initDefaultCommand() {
-       
-    }
-    
-    public void setShooterSpeed(double speed){
-    	moter.set(speed); 
-    }
-    
-    public void stop(){
-    	moter.set(0);
+
     }
 }
+
 
