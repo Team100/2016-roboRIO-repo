@@ -11,6 +11,7 @@
 
 package org.usfirst.frc100.Robot2017;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -41,6 +42,7 @@ public class Robot extends IterativeRobot {
     public static GearMech gearMech;
     public static PeterssUnbeatableScalingMechanismWithoutpNeumatics peterssUnbeatableScalingMechanismWithoutpNeumatics;
     public static Knewmatics knewmatics;
+    public static double gameTime;
     
     public static final boolean robotWorks = false;
 
@@ -56,6 +58,7 @@ public class Robot extends IterativeRobot {
         peterssUnbeatableScalingMechanismWithoutpNeumatics = new PeterssUnbeatableScalingMechanismWithoutpNeumatics();
         knewmatics = new Knewmatics();
         gearMech = new GearMech();
+        gameTime = DriverStation.getInstance().getMatchTime();
         
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
