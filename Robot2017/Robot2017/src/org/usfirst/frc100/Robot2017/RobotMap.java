@@ -131,6 +131,7 @@ public class RobotMap {
         gearMechLift= new Solenoid(0, 4);
         climberDeployment= new Solenoid(0, 5);
         highGoalGate= new Solenoid(0, 6);
+        climberWinch = new VictorSP(2);
     	
     	pdp = new PowerDistributionPanel();
     	

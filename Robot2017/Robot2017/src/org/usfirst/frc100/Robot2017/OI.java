@@ -60,6 +60,8 @@ public class OI {
  	public JoystickButton binary2;
  	public JoystickButton binary3;
  	public JoystickButton binary4;
+ 	public JoystickButton climberNudgeUpButton;
+ 	public JoystickButton climberNudgeDownButton;
 
  	
 
@@ -81,6 +83,10 @@ public class OI {
       	binary2 = new JoystickButton(autoModeSelect, 2);
       	binary3 = new JoystickButton(autoModeSelect, 3);
       	binary4 = new JoystickButton(autoModeSelect, 4);
+      	climberNudgeUpButton = new JoystickButton(leftController, 10);
+      	climberNudgeUpButton.whenPressed(new ClimbNudge("up", 4));
+      	climberNudgeDownButton = new JoystickButton(leftController, 9);
+      	climberNudgeDownButton.whenPressed(new ClimbNudge("down", 4));
     }
 
     public Joystick getleftController() {
