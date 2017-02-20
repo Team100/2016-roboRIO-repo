@@ -54,7 +54,7 @@ def valueChanged(key, value, isNew):
     print(s)
     f.writelines('"%s","%s","%s"\n' % (str(timestamp),str(key),str(value)))
     f.flush()
-    print('debug')
+    
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
