@@ -12,6 +12,7 @@
 package org.usfirst.frc100.Robot2017;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
 
     public static OI oi;
+    public static Preferences prefs;
     public static DriveTrain driveTrain;
     public static BallHandling ballHandling;
     public static GearMech gearMech;
@@ -48,6 +50,7 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	RobotMap.init();
+    	prefs = Preferences.getInstance();
         driveTrain = new DriveTrain();
         ballHandling = new BallHandling();
         peterssUnbeatableScalingMechanismWithoutpNeumatics = new PeterssUnbeatableScalingMechanismWithoutpNeumatics();
