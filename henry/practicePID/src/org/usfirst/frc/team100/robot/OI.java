@@ -1,12 +1,15 @@
 package org.usfirst.frc.team100.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team100.robot.commands.Drive;
+import org.usfirst.frc.team100.robot.commands.updatePreferneces;
 //import org.usfirst.frc.team100.robot.commands.SetElevatorSetpoint;
 //import org.usfirst.frc.team100.robot.commands.SetElevatorSetpoint;
+//import org.usfirst.frc100.RobotAndrew.Robot;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -15,16 +18,35 @@ import org.usfirst.frc.team100.robot.commands.Drive;
 public class OI {
 	 public Joystick joy = new Joystick(0);
 	
-	  
+	 public JoystickButton start; 
+	 public double shooter_speed;
+	 public JoystickButton stop;
+	 public JoystickButton update;
 	 public OI()
 	 {
-		 
-		  JoystickButton go1 = new JoystickButton(joy, 5);
-		  JoystickButton go2 = new JoystickButton(joy, 7);
+		 /*
+		 if (!Robot.prefs.containsKey("shooter_speed")) {
+				Robot.prefs.putDouble("shooter_speed", 	100);
+			}
+
+			shooter_speed = Robot.prefs.getDouble("shooter_speed",
+					0);
+					*/
+		 /*
+		 JoystickButton go1 = new JoystickButton(joy, 5);
+		 JoystickButton go2 = new JoystickButton(joy, 7);
 		 go1.whenPressed(new Drive(90));
 	     go2.whenPressed(new Drive(-90));
+	     */
 		 //go.whenPressed(new Drive(0.2)); 
+		  JoystickButton update = new JoystickButton(joy, 3);
+		  update.whenPressed(new updatePreferneces());
+		  JoystickButton start = new JoystickButton(joy, 1);
+		  start.whenPressed((new Drive(7.0)));
 		  
+		  JoystickButton stop = new JoystickButton(joy, 2);
+		  stop.whenPressed((new Drive(true)));
+	    
 		  
 	 }
 	 

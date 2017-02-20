@@ -42,8 +42,8 @@ public class OI {
     public JoystickButton manipulatorClimb;
     
     //Driver Commands
-    public JoystickButton l90Degrees;
-    public JoystickButton r90Degrees;
+    public JoystickButton updatePrefs;
+    public JoystickButton autoDrive;
     public JoystickButton turnAround;
     public JoystickButton lineUp;
     public JoystickButton driverClimb;
@@ -100,17 +100,14 @@ public class OI {
         manipulatorClimb.whenPressed(new Climb());
         
         //driver things
-        l90Degrees = new JoystickButton(leftController, 5);
-        l90Degrees.whenPressed(new L90Degrees());
+        updatePrefs = new JoystickButton(leftController, 4);
+        updatePrefs.whenPressed(new L90Degrees());
         
-        r90Degrees = new JoystickButton(leftController, 5);
-        r90Degrees.whenPressed(new R90Degrees());
+        autoDrive = new JoystickButton(leftController, 3);
+        autoDrive.whenPressed(new R90Degrees());
         
         turnAround = new JoystickButton(leftController, 5);
         turnAround.whenPressed(new TurnAround());
-        
-        lineUp = new JoystickButton(leftController, 5);
-        lineUp.whenPressed(new LineUp());
         
         driverClimb = new JoystickButton(rightController, 5);
         driverClimb.whenPressed(new Climb());
