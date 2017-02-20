@@ -1,5 +1,7 @@
 package org.usfirst.frc100.RobotAndrew.commands;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc100.RobotAndrew.Robot;
 import org.usfirst.frc100.RobotAndrew.RobotMap;
 
@@ -7,14 +9,18 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnToAngle extends Command{
-	
+	int countOnTarget = 0;
+	double initialAngle = 0;
 	boolean cancelPID;
 	double desiredAngle;
 	double currentAngle;
+	double angless;
 	public GetVisionData v;
+	public AutoGenerate generateAngle;
 	double visionData;
 	int counter; 
-	String state;
+	public static ArrayList<Double> angles;
+ 	String state;
 	
 	public TurnToAngle(){
 		cancelPID = true;
@@ -26,59 +32,76 @@ public class TurnToAngle extends Command{
 	}
 	
 	public TurnToAngle(double angle){
-		//state = "button";
 		cancelPID = false;
-		desiredAngle = angle ;//+ RobotMap.internalGyro.getAngle();
-		//counter = desiredAngle;
+		desiredAngle = angle ;
 	}
 	
 	public void initialize(){
-		RobotMap.internalGyro.reset();
-		Robot.driveTrain.pidAngle.setAbsoluteTolerance(0.1);
-		Robot.driveTrain.pidAngle.setSetpoint(desiredAngle);
-		Robot.driveTrain.pidAngle.enable();
-		
-		
+		counter = 0;
+		//RobotMap.internalGyro.reset();
+		Robot.driveTrain.pidAngle.setAbsoluteTolerance(0.3);
 		if(state == "vision"){
+			
 			v = new GetVisionData();
 			visionData = v.calculateAngle();
-			Robot.driveTrain.pidAngle.setSetpoint(visionData);
+			angless = visionData;
+			if(visionData < 0){
+				angless *= -1;
+			}
+			generateAngle = new AutoGenerate(angless, .8, "angle");
+			generateAngle.generateProfile();
+			angles = generateAngle.returnPos();
+			//Robot.driveTrain.pidAngle.setSetpoint(visionData);
 			Robot.driveTrain.pidAngle.enable();
+			initialAngle = RobotMap.internalGyro.getAngle();
 			System.out.println("im in!");
 			System.out.println(visionData);
-		} 
-		//currentAngle = RobotMap.internalGyro.getAngle();
-		
-		//RobotMap.internalGyro.reset();
-		/*
-		if(!cancelPID ){
-			Robot.driveTrain.pidAngle.enable();
-			Robot.driveTrain.pidAngle.setSetpoint(desiredAngle);
-			
 		} else {
-			//Robot.driveTrain.pidAngle.reset();
-		} */
+			generateAngle = new AutoGenerate(desiredAngle, .8, "angle");
+			generateAngle.generateProfile();
+			angles = generateAngle.returnPos();
+		//	Robot.driveTrain.pidAngle.setSetpoint(desiredAngle);
+			Robot.driveTrain.pidAngle.enable();
+			Robot.driveTrain.pidAngle.setSetpoint( initialAngle +(angles.get(counter)));
+		}
 	}
 	
-	public void execute(){
-		
+	public void execute(){ //initialAngle + 
+		if(counter < angles.size()){
+			if(visionData < 0){
+				Robot.driveTrain.pidAngle.setSetpoint( initialAngle -(angles.get(counter)));
+				System.out.println("anngle sets" + ((initialAngle -(angles.get(counter)))));
+			}
+			else{
+				Robot.driveTrain.pidAngle.setSetpoint( (initialAngle +(angles.get(counter))));	
+				System.out.println("anngle set" + initialAngle +(angles.get(counter)));  
+			}
+			counter++;
+		}
 		SmartDashboard.putBoolean("target", Robot.driveTrain.pidAngle.onTarget());
 		SmartDashboard.putBoolean("pidState", cancelPID);
 		SmartDashboard.putNumber("angleerrors", Robot.driveTrain.pidAngle.getError());
+		SmartDashboard.putNumber("AverageAngleError", Robot.driveTrain.pidAngle.getAvgError());
+		if(Robot.driveTrain.pidAngle.onTarget() && countOnTarget == 0){
+			countOnTarget++;
+		} else if(Robot.driveTrain.pidAngle.onTarget() && countOnTarget > 0){
+			countOnTarget++;
+		} else {
+			countOnTarget = 0;
+		}
+		SmartDashboard.putNumber("countTraget", countOnTarget);
 	}
 	protected boolean isFinished() {
-		//if(Robot.driveTrain.pidAngle.onTarget() || cancelPID == true) return true;
-		if(Robot.driveTrain.pidAngle.onTarget() && Math.abs(RobotMap.leftMaster.get()) < .1)
-		return true;
-		
-		return false;//false;
+
+		if(counter >= angles.size())//Robot.driveTrain.pidAngle.onTarget() && Math.abs(RobotMap.leftMaster.get()) < .1 && Robot.driveTrain.pidAngle.getAvgError() < .3 )//&& countOnTarget >= 3)
+			return true;
+			
+		else
+			return false;
 	}
 	public void end(){
 		System.out.println("ended");
-		//Robot.driveTrain.pidAngle.reset();
 		Robot.driveTrain.pidAngle.disable();
+		Robot.driveTrain.pidAngle.reset();
 	}
-	
-
-
 }

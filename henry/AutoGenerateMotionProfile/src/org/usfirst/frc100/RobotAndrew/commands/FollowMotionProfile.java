@@ -20,35 +20,44 @@ public class FollowMotionProfile extends Command{
 	double setP;
 	double setPP;
 	double dist;
+	double distanceHolder;
 	public GetVisionData vision;
 	public static ArrayList<Double> position; //= new ArrayList<Double>();
 	public static ArrayList<Double> velocity; //= new ArrayList<Double>();
 	public AutoGenerate profile; 
-
+	public boolean useVision;
 	static Timer timer = new Timer();
 	private static final String SmartDashoard = null;
 
 	public FollowMotionProfile() {
-		
+		useVision = true;
 		requires(Robot.driveTrain);
 	}
 	public FollowMotionProfile(int dista) {
+		useVision = true;
 		dist = dista;
+		if(dist < 0){
+			distanceHolder = dist*-1;
+		} else {
+			distanceHolder = dist;
+		}
 		requires(Robot.driveTrain);
 	}
 	
 	public void initialize() {
-		
-		vision = new GetVisionData();
-		dist = (vision.calculateDistance()-20)/12;
-		profile = new AutoGenerate(dist, 3.5); //3.5 dist
-		profile.generateProfile();
+		if(useVision == true){
+			vision = new GetVisionData();
+			dist = ((vision.calculateDistance()-16)/12);//- 6; //(vision.calculateDistance()-20)/12);
+			profile = new AutoGenerate(dist, 2.5); //3.5 dist
+			profile.generateProfile();
+		} else { 
+			profile = new AutoGenerate(distanceHolder, 2.5);
+			profile.generateProfile();
+		}
 		position = profile.returnPos();
 		velocity = profile.returnVel();
 		count = 0;
-		
-	
-		RobotMap.encoderLeft.reset();
+		RobotMap.encoderLeft.reset(); 
 		RobotMap.encoderRight.reset();
 		Robot.driveTrain.pidPosRight.setAbsoluteTolerance(0.1);
 		Robot.driveTrain.pidPosLeft.setAbsoluteTolerance(0.1);
@@ -56,31 +65,26 @@ public class FollowMotionProfile extends Command{
 		Robot.driveTrain.pidVelLeft.setAbsoluteTolerance(0.01);
 		Robot.driveTrain.pidPosRight.enable();
 		Robot.driveTrain.pidPosLeft.enable();
-		//Robot.driveTrain.pidVelLeft.enable();
-		//Robot.driveTrain.pidVelRight.enable();
-		
-		System.out.println(dist);
-		
+		System.out.println(dist); 
 	}
 	
 	
 	public void execute() {
-		
-		
 		if(count < position.size()){
-			//System.out.println(position.get(count));
-			Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
-	    	Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));
-    		count++;
+			if(useVision == true || dist > 0){
+				Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
+				Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));
+			} 
+			else if(useVision == false && dist < 0){
+				Robot.driveTrain.pidPosLeft.setSetpoint(-position.get(count));
+				Robot.driveTrain.pidPosRight.setSetpoint(-position.get(count));
+			}
+			count++;
 		}
-		//SmartDashboard.putNumber("setpoint", Robot.driveTrain.pidPosLeft.getSetpoint());
-		
 	}
 
 	protected boolean isFinished() {
-		//return false;
 		if(count == position.size()){ return true;} else { return false;}
-		
 	}
 	protected void end(){
 		Robot.driveTrain.pidPosLeft.disable();
