@@ -763,7 +763,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		// factor of N decreases the range measurement standard deviation by a factor of
 		// sqrt(N). Defaults to about 33 milliseconds; the minimum is 20 ms.
 		// based on VL53L0X_set_measurement_timing_budget_micro_seconds()
-		boolean setMeasurementTimingBudget(int budget_us)
+		private boolean setMeasurementTimingBudget(int budget_us)
 		{
 			SequenceStepEnables enables;
 			SequenceStepTimeouts timeouts;
@@ -782,8 +782,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 			int used_budget_us = StartOverhead + EndOverhead;
 
-			getSequenceStepEnables(enables);
-			getSequenceStepTimeouts(enables, timeouts);
+			enables = getSequenceStepEnables();
+			timeouts = getSequenceStepTimeouts(enables);
 
 			if (enables.tcc)
 			{
@@ -852,7 +852,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		// Get the measurement timing budget in microseconds
 		// based on VL53L0X_get_measurement_timing_budget_micro_seconds()
 		// in us
-		int getMeasurementTimingBudget()
+		private int getMeasurementTimingBudget()
 		{
 			SequenceStepEnables enables;
 			SequenceStepTimeouts timeouts;
@@ -868,8 +868,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			// "Start and end overhead times always present"
 			int budget_us = StartOverhead + EndOverhead;
 
-			getSequenceStepEnables(enables);
-			getSequenceStepTimeouts(enables, timeouts);
+			enables = getSequenceStepEnables();
+			timeouts = getSequenceStepTimeouts(enables);
 
 			if (enables.tcc)
 			{
@@ -906,15 +906,15 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		//  pre:  12 to 18 (initialized default: 14)
 		//  final: 8 to 14 (initialized default: 10)
 		// based on VL53L0X_set_vcsel_pulse_period()
-		boolean setVcselPulsePeriod(vcselPeriodType type, byte period_pclks)
+		private boolean setVcselPulsePeriod(vcselPeriodType type, byte period_pclks)
 		{
 			int vcsel_period_reg = encodeVcselPeriod(period_pclks);
 
 			SequenceStepEnables enables;
 			SequenceStepTimeouts timeouts;
 
-			getSequenceStepEnables(enables);
-			getSequenceStepTimeouts(enables, timeouts);
+			enables = getSequenceStepEnables();
+			timeouts = getSequenceStepTimeouts(enables);
 
 			// "Apply specific settings for the requested clock period"
 			// "Re-calculate and apply timeouts, in macro periods"
@@ -1083,7 +1083,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 		// Get the VCSEL pulse period in PCLKs for the given period type.
 		// based on VL53L0X_get_vcsel_pulse_period()
-		byte getVcselPulsePeriod(vcselPeriodType type)
+		private byte getVcselPulsePeriod(vcselPeriodType type)
 		{
 			if (type == vcselPeriodType.VcselPeriodPreRange)
 			{
@@ -1102,7 +1102,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		// inter-measurement period in milliseconds determining how often the sensor
 		// takes a measurement.
 		// based on VL53L0X_StartMeasurement()
-		void startContinuous(int period_ms)
+		private void startContinuous(int period_ms)
 		{
 			setRegister(0x80, 0x01);
 			setRegister(0xFF, 0x01);
@@ -1140,7 +1140,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 		// Stop continuous measurements
 		// based on VL53L0X_StopMeasurement()
-		void stopContinuous()
+		private void stopContinuous()
 		{
 			setRegister(VL53L0xRegister.SYSRANGE_START, 0x01); // VL53L0X_REG_SYSRANGE_MODE_SINGLESHOT
 
@@ -1154,7 +1154,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		// Returns a range reading in millimeters when continuous mode is active
 		// (readRangeSingleMillimeters() also calls this function after starting a
 		// single-shot range measurement)
-		int readRangeContinuousMillimeters()
+		private int readRangeContinuousMillimeters()
 		{
 			tof_timer.reset();
 			tof_timer.start();
@@ -1180,7 +1180,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		// Performs a single-shot range measurement and returns the reading in
 		// millimeters
 		// based on VL53L0X_PerformSingleRangingMeasurement()
-		int readRangeSingleMillimeters()
+		private int readRangeSingleMillimeters()
 		{
 			setRegister(0x80, 0x01);
 			setRegister(0xFF, 0x01);
@@ -1193,7 +1193,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			setRegister(VL53L0xRegister.SYSRANGE_START, 0x01);
 
 			// "Wait until start bit has been cleared"
-			startTimeout();
+			tof_timer.reset();
+			tof_timer.start();
 			while ((getRegister(VL53L0xRegister.SYSRANGE_START) & 0x01) != 0)
 			{
 				if (checkTimeoutExpired())
@@ -1208,9 +1209,9 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 		// Did a timeout occur in one of the read functions since the last call to
 		// timeoutOccurred()?
-		boolean timeoutOccurred()
+		private boolean timeoutOccurred()
 		{
-			bool tmp = did_timeout;
+			boolean tmp = did_timeout;
 			did_timeout = false;
 			return tmp;
 		}
@@ -1247,7 +1248,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			tmp = getRegister(0x92);
 
 			spad_count = (byte) (tmp & 0x7f);
-			spad_type_is_aperture = (tmp >> 7) & 0x01;
+			spad_type_is_aperture = ((tmp >> 7) & 0x01) == 1;
 
 			setRegister(0x81, 0x00);
 			setRegister(0xFF, 0x06);
@@ -1263,24 +1264,27 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 		// Get sequence step enables
 		// based on VL53L0X_GetSequenceStepEnables()
-		void getSequenceStepEnables(SequenceStepEnables  enables)
+		private SequenceStepEnables getSequenceStepEnables()
 		{
+			SequenceStepEnables  enables = new SequenceStepEnables();
 			byte sequence_config = getRegister(VL53L0xRegister.SYSTEM_SEQUENCE_CONFIG);
 
-			enables.tcc          = (sequence_config >> 4) & 0x1;
-			enables.dss          = (sequence_config >> 3) & 0x1;
-			enables.msrc         = (sequence_config >> 2) & 0x1;
-			enables.pre_range    = (sequence_config >> 6) & 0x1;
-			enables.final_range  = (sequence_config >> 7) & 0x1;
+			enables.tcc          = ((sequence_config >> 4) & 0x1) == 1;
+			enables.dss          = ((sequence_config >> 3) & 0x1) == 1;
+			enables.msrc         = ((sequence_config >> 2) & 0x1) == 1;
+			enables.pre_range    = ((sequence_config >> 6) & 0x1) == 1;
+			enables.final_range  = ((sequence_config >> 7) & 0x1) == 1;
+			return enables;
 		}
 
 		// Get sequence step timeouts
 		// based on get_sequence_step_timeout(),
 		// but gets all timeouts instead of just the requested one, and also stores
 		// intermediate values
-		void getSequenceStepTimeouts(SequenceStepEnables enables, SequenceStepTimeouts timeouts)
+		private SequenceStepTimeouts getSequenceStepTimeouts(SequenceStepEnables enables)
 		{
-			timeouts.pre_range_vcsel_period_pclks = getVcselPulsePeriod(VcselPeriodPreRange);
+			SequenceStepTimeouts timeouts = new SequenceStepTimeouts();
+			timeouts.pre_range_vcsel_period_pclks = getVcselPulsePeriod(vcselPeriodType.VcselPeriodPreRange);
 
 			timeouts.msrc_dss_tcc_mclks = getRegister(VL53L0xRegister.MSRC_CONFIG_TIMEOUT_MACROP) + 1;
 			timeouts.msrc_dss_tcc_us =
@@ -1293,7 +1297,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 					timeoutMclksToMicroseconds(timeouts.pre_range_mclks,
 							timeouts.pre_range_vcsel_period_pclks);
 
-			timeouts.final_range_vcsel_period_pclks = getVcselPulsePeriod(VcselPeriodFinalRange);
+			timeouts.final_range_vcsel_period_pclks = getVcselPulsePeriod(vcselPeriodType.VcselPeriodFinalRange);
 
 			timeouts.final_range_mclks =
 					decodeTimeout(getRegister16bit(VL53L0xRegister.FINAL_RANGE_CONFIG_TIMEOUT_MACROP_HI));
@@ -1306,13 +1310,14 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			timeouts.final_range_us =
 					timeoutMclksToMicroseconds(timeouts.final_range_mclks,
 							timeouts.final_range_vcsel_period_pclks);
+			return timeouts;
 		}
 
 		// Decode sequence step timeout in MCLKs from register value
 		// based on VL53L0X_decode_timeout()
 		// Note: the original function returned a uint32_t, but the return value is
 		// always stored in a uint16_t.
-		int decodeTimeout(int reg_val)
+		private int decodeTimeout(int reg_val)
 		{
 			// format: "(LSByte * 2^MSByte) + 1"
 			return (int)((reg_val & 0x00FF) <<
@@ -1323,7 +1328,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		// based on VL53L0X_encode_timeout()
 		// Note: the original function took a uint16_t, but the argument passed to it
 		// is always a uint16_t.
-		int encodeTimeout(int timeout_mclks)
+		private int encodeTimeout(int timeout_mclks)
 		{
 			// format: "(LSByte * 2^MSByte) + 1"
 
@@ -1347,7 +1352,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 		// Convert sequence step timeout from MCLKs to microseconds with given VCSEL period in PCLKs
 		// based on VL53L0X_calc_timeout_us()
-		int timeoutMclksToMicroseconds(int timeout_period_mclks, byte vcsel_period_pclks)
+		private int timeoutMclksToMicroseconds(int timeout_period_mclks, int vcsel_period_pclks)
 		{
 			int macro_period_ns = calcMacroPeriod(vcsel_period_pclks);
 
@@ -1356,7 +1361,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 		// Convert sequence step timeout from microseconds to MCLKs with given VCSEL period in PCLKs
 		// based on VL53L0X_calc_timeout_mclks()
-		int timeoutMicrosecondsToMclks(int timeout_period_us, byte vcsel_period_pclks)
+		private int timeoutMicrosecondsToMclks(int timeout_period_us, byte vcsel_period_pclks)
 		{
 			int macro_period_ns = calcMacroPeriod(vcsel_period_pclks);
 
@@ -1365,7 +1370,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 
 		// based on VL53L0X_perform_single_ref_calibration()
-		boolean performSingleRefCalibration(byte vhv_init_byte)
+		private boolean performSingleRefCalibration(byte vhv_init_byte)
 		{
 			setRegister(VL53L0xRegister.SYSRANGE_START, 0x01 | vhv_init_byte); // VL53L0X_REG_SYSRANGE_MODE_START_STOP
 
@@ -1383,15 +1388,15 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			return true;
 		}
 
-		byte decodeVcselPeriod(byte reg_val)    { 
+		private byte decodeVcselPeriod(byte reg_val)    { 
 			return (byte) (((reg_val) + 1) << 1);
 		}
 
-		byte encodeVcselPeriod(byte period_pclks) {
+		private byte encodeVcselPeriod(byte period_pclks) {
 			return (byte) (((period_pclks) >> 1) - 1);
 		}
 
-		int calcMacroPeriod(int vcsel_period_pclks) {
+		private int calcMacroPeriod(int vcsel_period_pclks) {
 			return 	((((int)2304 * (vcsel_period_pclks) * 1655) + 500) / 1000);
 		}
 		
