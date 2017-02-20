@@ -9,8 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Dump extends Command {
-	
+public class PickUp extends Command {
 	private double t;
 	private Timer timer = new Timer();
 	
@@ -18,8 +17,8 @@ public class Dump extends Command {
 	
 	private BallHandlingState iState;
 	private BallHandlingState cState;
-	
-    public Dump(double defultClearingTime) {
+
+    public PickUp(double defultClearingTime) {
     	requires(Robot.ballHandling);
     	t = defultClearingTime;
     }
@@ -39,13 +38,13 @@ public class Dump extends Command {
 			case pickingUp:
 			case readyToPickupOrDump: 
 			case dumping:
-				Robot.ballHandling.setState(BallHandlingState.dumping);
+				Robot.ballHandling.setState(BallHandlingState.pickingUp);
 				cState = Robot.ballHandling.getState();
 				
 				break;
 			case clearElevator:
 			case clearPickUp:
-				System.out.println("Called the Dump command while you are in an intermeate step - Dump.java - init - case clearElevator/clearPickUp");
+				System.out.println("Called the PickUp command while you are in an intermeate step - PickUp.java - init - case clearElevator/clearPickUp");
 				
 				break;
 		}
@@ -56,7 +55,7 @@ public class Dump extends Command {
     	switch(cState){
 			case shooting: 
 			case readyToShoot:
-				System.out.println("somehow you sliped through the inti call - Dump.java - execute - case shooting/readyToShoot");
+				System.out.println("somehow you sliped through the inti call - PickUp.java - execute - case shooting/readyToShoot");
 				
 				Robot.ballHandling.setState(BallHandlingState.clearElevator);
 				cState = Robot.ballHandling.getState();
@@ -67,10 +66,10 @@ public class Dump extends Command {
 			case dumping:
 	    		Robot.ballHandling.dumperLift.set(true);
 	    		Robot.ballHandling.pickUpFlap.set(true);
-	    		Robot.ballHandling.setElevator(1);		//add pref for speed?
-		    	Robot.ballHandling.setOutsideRoller(-1);//add pref for speed?
+	    		Robot.ballHandling.setElevator(-1);		//add pref for speed?
+		    	Robot.ballHandling.setOutsideRoller(1);	//add pref for speed?
 		    		
-		    	Robot.ballHandling.setState(BallHandlingState.dumping);
+		    	Robot.ballHandling.setState(BallHandlingState.pickingUp);
 				cState = Robot.ballHandling.getState();
 				
 				break;
@@ -80,20 +79,20 @@ public class Dump extends Command {
 				}
 				
 				Robot.ballHandling.dumperLift.set(true);
-    			Robot.ballHandling.pickUpFlap.set(true);
-    			Robot.ballHandling.setElevator(-1); 		//add pref for speed?
+				Robot.ballHandling.pickUpFlap.set(true);
+				Robot.ballHandling.setElevator(-1); 		//add pref for speed?
 		    	Robot.ballHandling.setOutsideRoller(-1); 	//add pref for speed?
 		    	
 				if(intermediantStepDone()){
-					Robot.ballHandling.setState(BallHandlingState.dumping);
+					Robot.ballHandling.setState(BallHandlingState.pickingUp);
 					cState = Robot.ballHandling.getState();
 				}
 				
 				break;
 			case clearPickUp:
-				System.out.println("You called while in an intermedet step - Dump.java - execute - case clearPickUp");
-				
-		    	Robot.ballHandling.setState(BallHandlingState.dumping);
+				System.out.println("You called while in an intermedet step - PickUp.java - execute - case clearPickUp");
+	
+		    	Robot.ballHandling.setState(BallHandlingState.pickingUp);
 				cState = Robot.ballHandling.getState();
 				
 				break;
@@ -109,8 +108,6 @@ public class Dump extends Command {
     protected void end() {
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.ballHandling.setState(cState);
     }

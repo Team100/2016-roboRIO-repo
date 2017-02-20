@@ -13,19 +13,55 @@ package org.usfirst.frc100.Robot2017.subsystems;
 
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
  *
  */
 public class GearMech extends Subsystem {
+	
+	public final Solenoid gearMechDrop = RobotMap.gearMechDrop;
+    public final Solenoid gearMechFlap = RobotMap.gearMechFlap;
 
     public void initDefaultCommand() {
 
     }
+    
+    public void updateDashboard() {
+    	SmartDashboard.putBoolean("GearMech/Gear Mech Drop state", gearMechDrop.get());
+    	
+    	SmartDashboard.putBoolean("GearMech/Gear Mech Flap state", gearMechFlap.get());
+	}
+    
+    public boolean isGearMechDropOpen(){
+    	return gearMechDrop.get();
+    }
+    
+    public void setGearMechDrop(boolean open) {
+    	if(open){
+    		gearMechDrop.set(open);
+		}else{
+			gearMechDrop.set(!open);
+		}
+	}
+    
+    public boolean isGearMechFlapOpen(){
+    	return gearMechFlap.get();
+    }
+    
+    public void setGearMechFlap(boolean open) {
+    	if(open){
+    		gearMechFlap.set(open);
+		}else{
+			gearMechFlap.set(!open);
+		}
+	}
 }
 
 

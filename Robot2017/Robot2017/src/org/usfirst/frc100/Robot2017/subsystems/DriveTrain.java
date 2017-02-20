@@ -18,6 +18,7 @@ import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -47,13 +48,15 @@ public class DriveTrain extends Subsystem {
     private final AnalogGyro digialGyroUno = RobotMap.driveTraindigialGyroUno;
     private final Ultrasonic ultraSanic = RobotMap.driveTrainultraSanic;
     */
-	public static Encoder driveTrainLeftEncoder = RobotMap.driveTrainLeftEncoder;
-	public static Encoder driveTrainRightEncoder = RobotMap.driveTrainRightEncoder;
-
 	
+	public final Solenoid driveTrainShifter = RobotMap.driveTrainShifter;
+	
+	public final Encoder driveTrainLeftEncoder = RobotMap.driveTrainLeftEncoder;
+	public final Encoder driveTrainRightEncoder = RobotMap.driveTrainRightEncoder;
+
 	private final RobotDrive robotDrive = RobotMap.driveTrainRobotDrive;
 	
-	public static ADXRS450_Gyro gyro = RobotMap.gyro;
+	public final ADXRS450_Gyro gyro = RobotMap.gyro;
 	
     public double angle; 
 
@@ -61,12 +64,43 @@ public class DriveTrain extends Subsystem {
         setDefaultCommand(new TankDrive()); 
     }
     
+    public void updateDashboard() {
+		SmartDashboard.putNumber("DriveTrain/Left Encoder Raw", driveTrainLeftEncoder.getRaw());
+		SmartDashboard.putNumber("DriveTrain/Left Encoder Count", driveTrainLeftEncoder.get());
+		SmartDashboard.putNumber("DriveTrain/Left Encoder Distance", driveTrainLeftEncoder.getDistance());
+    	SmartDashboard.putNumber("DriveTrain/Left Encoder Rate", driveTrainLeftEncoder.getRate());
+		
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Raw", driveTrainRightEncoder.getRaw());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Count", driveTrainRightEncoder.get());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Distance", driveTrainRightEncoder.getDistance());
+		SmartDashboard.putNumber("DriveTrain/Right Encoder Rate", driveTrainRightEncoder.getRate());
+
+    	SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersDistance:", Math.abs(driveTrainRightEncoder.getDistance() - driveTrainLeftEncoder.getDistance()));
+		SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersRate:", Math.abs(driveTrainRightEncoder.getRate() - driveTrainLeftEncoder.getRate()));
+		
+		SmartDashboard.putNumber("DriveTrain/Gyro Angle", gyro.getAngle());
+		
+		SmartDashboard.putBoolean("DriveTrain/DriveTrainShifter state", driveTrainShifter.get());
+	}
+    
     public void driveRobot(Joystick joy, Joystick joy2){
     	robotDrive.tankDrive(joy.getRawAxis(1), -joy2.getRawAxis(1));
     }
 
     public void stop(){
     	robotDrive.tankDrive(0, 0);
+    }
+    
+    public boolean isDriveTrainShifterOpen(){
+    	return driveTrainShifter.get();
+    }
+    
+    public void setDriveTrainShifter(boolean open){
+    	if(open){
+    		driveTrainShifter.set(open);
+    	}else{
+    		driveTrainShifter.set(!open);
+    	}
     }
 }
 

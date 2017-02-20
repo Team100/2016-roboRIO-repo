@@ -26,17 +26,16 @@ public class TankDrive extends Command {
 	 
 	 public TankDrive(boolean driving) {
     	direction = driving; 
-    	 requires(Robot.driveTrain); 
+    	requires(Robot.driveTrain); 
     }
 	 
-	 public TankDrive(int incrementalAngle){
-		 this.incrementalAngle = incrementalAngle; 
-		 requires(Robot.driveTrain);
-	 }
+	public TankDrive(int incrementalAngle){
+		this.incrementalAngle = incrementalAngle; 
+		requires(Robot.driveTrain);
+	}
 	 
     // Called just before this Command runs the first time
     protected void initialize() {
-
     }
 
     // Called repeatedly when this Command is scheduled to run
