@@ -20,9 +20,10 @@ public class OpenGear extends Command {
 	private BallHandlingState iState;
 	private BallHandlingState cState;
 
-    public OpenGear(float defultClearingTime) {
+    public OpenGear(double defultClearingTime) {
     	requires(Robot.gearMech);
     	requires(Robot.ballHandling);
+    	t = defultClearingTime;
     }
 
     // Called just before this Command runs the first time
@@ -45,7 +46,7 @@ public class OpenGear extends Command {
 				break;
 			case clearElevator:
 			case clearPickUp:
-				System.out.println("Called the OpenGear command while you are in an intermeate step - openGear.java - init - case clearElevator/clearPickUp");
+				System.out.println("Called the OpenGear command while you are in an intermeate step - OpenGear.java - init - case clearElevator/clearPickUp");
 				
 				break;
 		}
@@ -54,13 +55,12 @@ public class OpenGear extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(BallHandlingState.pickingUp == Robot.ballHandling.getState()){
-    		Robot.gearMech.setGearMechDrop(true);
-    		done = true;
+    		Robot.gearMech.gearMechDrop.set(true);
     	}else{
     		switch(cState){
 				case shooting: 
 				case readyToShoot:
-					System.out.println("somehow you sliped through the inti call - openGear.java - execute - case shooting/readyToShoot");
+					System.out.println("somehow you sliped through the inti call - OpenGear.java - execute - case shooting/readyToShoot");
 					
 					Robot.ballHandling.setState(BallHandlingState.clearElevator);
 					cState = Robot.ballHandling.getState();
@@ -76,6 +76,7 @@ public class OpenGear extends Command {
 			    		
 			    	Robot.ballHandling.setState(BallHandlingState.pickingUp);
 					cState = Robot.ballHandling.getState();
+
 					
 					break;
 				case clearElevator:
@@ -98,11 +99,13 @@ public class OpenGear extends Command {
 			    		Robot.ballHandling.pickUpFlap.set(true);
 			    		Robot.ballHandling.setElevator(-1);		//add pref for speed?
 				    	Robot.ballHandling.setOutsideRoller(1);	//add pref for speed?
+
+			    		done = true;
 					}
 					
 					break;
 				case clearPickUp:
-					System.out.println("You called while in an intermedet step - openGear.java - execute - case clearPickUp");
+					System.out.println("You called while in an intermedet step - OpenGear.java - execute - case clearPickUp");
 					
 					Robot.ballHandling.dumperLift.set(true);
 		    		Robot.ballHandling.pickUpFlap.set(true);

@@ -20,9 +20,10 @@ public class OpenFlap extends Command {
 	private BallHandlingState iState;
 	private BallHandlingState cState;
 
-    public OpenFlap(float defultClearingTime) {
+    public OpenFlap(double defultClearingTime) {
     	requires(Robot.gearMech);
     	requires(Robot.ballHandling);
+    	t = defultClearingTime;
     }
 
     // Called just before this Command runs the first time
@@ -54,8 +55,7 @@ public class OpenFlap extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(BallHandlingState.pickingUp == Robot.ballHandling.getState()){
-    		Robot.gearMech.setGearMechFlap(true);
-    		done = true;
+    		Robot.gearMech.gearMechFlap.set(true);
     	}else{
     		switch(cState){
 				case shooting: 
@@ -76,6 +76,8 @@ public class OpenFlap extends Command {
 			    		
 			    	Robot.ballHandling.setState(BallHandlingState.pickingUp);
 					cState = Robot.ballHandling.getState();
+					
+		    		done = true;
 					
 					break;
 				case clearElevator:
@@ -98,6 +100,8 @@ public class OpenFlap extends Command {
 			    		Robot.ballHandling.pickUpFlap.set(true);
 			    		Robot.ballHandling.setElevator(-1);		//add pref for speed?
 				    	Robot.ballHandling.setOutsideRoller(1);	//add pref for speed?
+
+			    		done = true;
 					}
 					
 					break;
