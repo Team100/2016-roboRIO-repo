@@ -15,7 +15,7 @@ public class CloseGear extends Command {
 	
 	private boolean done = false;
 	
-    public CloseGear(float delay) {
+    public CloseGear(double delay) {
     	requires(Robot.gearMech);
     	t = delay;
     }
@@ -29,11 +29,10 @@ public class CloseGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.gearMech.setGearMechDrop(false);
+    	Robot.gearMech.gearMechDrop.set(false);
     	if(knewmaticsDone()){
     		done = true;
     	}
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

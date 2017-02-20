@@ -73,28 +73,28 @@ public class OI {
       	
       	//manipulator things
       	shoot = new JoystickButton(operater, 4);
-      	shoot.whenPressed(new Shoot((float)0.5));
+      	shoot.whenPressed(new Shoot(0.5));
       	
         pickUp = new JoystickButton(operater, 3);
-        pickUp.whenPressed(new PickUp((float)0.75));
+        pickUp.whenPressed(new PickUp(0.75));
         
         dump = new JoystickButton(operater, 1);
-        dump.whenPressed(new Dump((float)0.75));
+        dump.whenPressed(new Dump(0.75));
         
         stopMotors = new JoystickButton(operater, 2);
         stopMotors.whenPressed(new StopMotors());
         
         openGear = new JoystickButton(operater, 8);
-        openGear.whenPressed(new OpenGear((float).75));
+        openGear.whenPressed(new OpenGear(0.75));
         
         closeGear = new JoystickButton(operater, 6);
-        closeGear.whenPressed(new CloseGear((float).25));
+        closeGear.whenPressed(new CloseGear(0.25));
         
         openFlap = new JoystickButton(operater, 7);
-        openFlap.whenPressed(new OpenFlap((float).75));
+        openFlap.whenPressed(new OpenFlap(0.75));
         
         closeFlap = new JoystickButton(operater, 5);
-        closeFlap.whenPressed(new CloseFlap((float)0.25));
+        closeFlap.whenPressed(new CloseFlap(0.25));
         
         manipulatorClimb = new JoystickButton(operater, 9);
         manipulatorClimb.whenPressed(new Climb());
@@ -116,10 +116,10 @@ public class OI {
         driverClimb.whenPressed(new Climb());
 
         lowshift = new JoystickButton(leftController, 1);
-        lowshift.whenPressed(new LowGearShift(.25));
+        lowshift.whenPressed(new LowGearShift(0.25));
         
         highShift = new JoystickButton(rightController, 1);
-        highShift.whenPressed(new HighGearShift(.25));
+        highShift.whenPressed(new HighGearShift(0.25));
     }
 
     public Joystick getleftController() {

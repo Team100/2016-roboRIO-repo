@@ -18,7 +18,7 @@ public class PickUp extends Command {
 	private BallHandlingState iState;
 	private BallHandlingState cState;
 
-    public PickUp(float defultClearingTime) {
+    public PickUp(double defultClearingTime) {
     	requires(Robot.ballHandling);
     	t = defultClearingTime;
     }

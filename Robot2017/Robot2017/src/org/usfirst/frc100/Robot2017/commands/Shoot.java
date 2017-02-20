@@ -19,7 +19,7 @@ public class Shoot extends Command {
 	private BallHandlingState iState;
 	private BallHandlingState cState;
 
-    public Shoot(float defultClearingTime) {
+    public Shoot(double defultClearingTime) {
     	requires(Robot.ballHandling);
     	t = defultClearingTime;
     }

@@ -15,7 +15,7 @@ public class CloseFlap extends Command {
 	
 	private boolean done = false;
 	
-    public CloseFlap(float delay) {
+    public CloseFlap(double delay) {
     	requires(Robot.gearMech);
     	t = delay;
     }
@@ -29,7 +29,7 @@ public class CloseFlap extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.gearMech.setGearMechFlap(false);
+    	Robot.gearMech.gearMechFlap.set(false);
     	if(knewmaticsDone()){
     		done = true;
     	}

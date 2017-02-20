@@ -19,7 +19,7 @@ public class Dump extends Command {
 	private BallHandlingState iState;
 	private BallHandlingState cState;
 	
-    public Dump(float defultClearingTime) {
+    public Dump(double defultClearingTime) {
     	requires(Robot.ballHandling);
     	t = defultClearingTime;
     }
