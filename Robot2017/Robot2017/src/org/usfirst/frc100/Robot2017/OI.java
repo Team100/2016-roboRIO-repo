@@ -74,7 +74,6 @@ public class OI {
         
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
-        SmartDashboard.putData("Collect", new Collect());
         SmartDashboard.putData("Dump", new Dump());
         SmartDashboard.putData("Command 1", new TankDrive());
         binary1 = new JoystickButton(autoModeSelect, 1);
