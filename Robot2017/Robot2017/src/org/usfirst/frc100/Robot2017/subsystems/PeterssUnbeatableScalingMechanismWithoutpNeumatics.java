@@ -15,6 +15,7 @@ import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -34,7 +35,18 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
 	public final VictorSP climberWinch = RobotMap.climberWinch;
 
     public void initDefaultCommand() {
-
+    	setDefaultCommand(new ClimbJoysticks()); 
+    }
+    
+    public PeterssUnbeatableScalingMechanismWithoutpNeumatics(){
+    }
+    
+    public void climbJoysticks(Joystick joy){
+    	RobotMap.climberWinch.set(joy.getRawAxis(3));
+    }
+    
+    public void climbNudge(double value){
+    	RobotMap.climberWinch.set(value);
     }
 }
 

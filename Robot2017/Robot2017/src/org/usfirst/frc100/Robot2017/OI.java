@@ -39,7 +39,8 @@ public class OI {
     public JoystickButton closeGear;
     public JoystickButton openFlap;
     public JoystickButton closeFlap;
-    public JoystickButton manipulatorClimb;
+    public JoystickButton climberNudgeUpButton;
+    public JoystickButton climberNudgeDownButton;
     
     //Driver Commands
     public JoystickButton updatePrefs;
@@ -96,8 +97,11 @@ public class OI {
         closeFlap = new JoystickButton(operater, 5);
         closeFlap.whenPressed(new CloseFlap(0.25));
         
-        manipulatorClimb = new JoystickButton(operater, 9);
-        manipulatorClimb.whenPressed(new Climb());
+        climberNudgeDownButton = new JoystickButton(leftController, 9);
+        climberNudgeDownButton.whenPressed(new ClimbNudge("down", 4));
+        
+        climberNudgeUpButton = new JoystickButton(leftController, 10);
+        climberNudgeUpButton.whenPressed(new ClimbNudge("up", 4));
         
         //driver things
         updatePrefs = new JoystickButton(leftController, 4);
