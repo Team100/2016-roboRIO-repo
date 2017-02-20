@@ -1,0 +1,2 @@
+Run savefile.py and input IP and start logging. Stop logging when done.
+Open LogPlotUI.py and open your Logging file then plot.
