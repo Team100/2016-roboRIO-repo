@@ -28,6 +28,7 @@ public class OpenFlap extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	iState = Robot.ballHandling.getState();
+    	done = false;
 		switch(iState){
 			case shooting: 
 			case readyToShoot:

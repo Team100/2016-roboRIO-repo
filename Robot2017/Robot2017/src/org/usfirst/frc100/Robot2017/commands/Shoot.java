@@ -27,6 +27,8 @@ public class Shoot extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	iState = Robot.ballHandling.getState();
+		timer.reset();
+		timer.start();
 		switch(iState){
 			case shooting: 
 			case readyToShoot:
@@ -56,7 +58,7 @@ public class Shoot extends Command {
 	    		Robot.ballHandling.setElevator(1);		//add pref for speed?
 		    	Robot.ballHandling.setOutsideRoller(1);	//add pref for speed?
 				
-				Robot.ballHandling.setState(BallHandlingState.clearElevator);
+				Robot.ballHandling.setState(BallHandlingState.shooting);
 				cState = Robot.ballHandling.getState();
 				
 				break;
@@ -78,8 +80,6 @@ public class Shoot extends Command {
 				break;
 			case clearPickUp:
 				if(firstTime){
-					timer.reset();
-					timer.start();
 					firstTime = false;
 				}
 				
@@ -108,7 +108,6 @@ public class Shoot extends Command {
 
     protected void interrupted() {
     	Robot.ballHandling.setState(cState);
-    	timer.stop();
     }
     
     protected boolean intermediantStepDone() {
