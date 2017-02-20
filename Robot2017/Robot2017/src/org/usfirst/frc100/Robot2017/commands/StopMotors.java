@@ -19,7 +19,6 @@ public class StopMotors extends Command {
 
     public StopMotors() {
     	requires(Robot.ballHandling);
-    	
     }
 
     protected void initialize() {
@@ -76,7 +75,6 @@ public class StopMotors extends Command {
     }
 
     protected void end() {
-    	
     }
 
     protected void interrupted() {

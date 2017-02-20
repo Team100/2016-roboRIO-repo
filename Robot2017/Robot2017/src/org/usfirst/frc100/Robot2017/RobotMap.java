@@ -63,8 +63,7 @@ public class RobotMap {
     public static Solenoid gearMechrelease;
 	*/
 	
-	//DriveTrain Things 
-	
+	//DriveTrain Things
 	public static Encoder driveTrainLeftEncoder;
 	public static Encoder driveTrainRightEncoder;
 	
@@ -80,34 +79,28 @@ public class RobotMap {
     public static Solenoid driveTrainShifter;
 	
 	//GearMech Things
-    
     public static Solenoid gearMechDrop;
     public static Solenoid gearMechFlap;
-    
-    //PickUp Things
-    
-	public static Encoder elevatorEncoder;
-    
-    public static VictorSP outsideRoller;
-	public static VictorSP elevator;
 	
-    public static Solenoid pickUpFlap;
     public static Solenoid highGoalGate; //potental
     
     //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
-    
 	public static Encoder climberEncoder;
 	
 	public static VictorSP climberWinch;
 	
 	public static Solenoid climberDeployment; //potental
 	
-	//Shooter Things
-
+	//Ballhandling Things
+	public static Encoder elevatorEncoder;
+    
+    public static VictorSP outsideRoller;
+	public static VictorSP elevator;
+	
     public static Solenoid dumperLift;
+    public static Solenoid pickUpFlap;
     
     //Other Things
-    
     public static Compressor compressor;
     public static Compressor pressureSwitch;
     
@@ -115,7 +108,6 @@ public class RobotMap {
 	
     public static void init() {
     	//DriveTrain Things 
-    	
     	driveTrainLeftEncoder = new Encoder(0,1);
     	LiveWindow.addSensor("driveTrain", "leftEncoder", driveTrainLeftEncoder);
     	driveTrainLeftEncoder.setDistancePerPulse(1.0/1937.2032);
@@ -158,15 +150,13 @@ public class RobotMap {
         LiveWindow.addActuator("driveTrain", "driveTrainShifter", driveTrainShifter);
     	
     	//GearMech Things
-        
         gearMechDrop= new Solenoid(1);
         LiveWindow.addActuator("gearMech", "gearMechDrop", gearMechDrop);
         
         gearMechFlap= new Solenoid(2);
         LiveWindow.addActuator("gearMech", "gearMechFlap", gearMechFlap);
-        
-        //PickUp Things
-        
+    	
+    	//BallHandling Things
         elevatorEncoder = new Encoder(6,7);
         LiveWindow.addActuator("pickUp", "elevatorEncoder", elevatorEncoder);
         
@@ -176,11 +166,6 @@ public class RobotMap {
     	pickUpFlap= new Solenoid(3);
     	LiveWindow.addActuator("pickUp", "pickUpFlap", pickUpFlap);
     	
-    	highGoalGate= new Solenoid(6); //potental
-    	LiveWindow.addActuator("pickUp", "highGoalGate", highGoalGate);
-    	
-    	//Duel Roll Thing
-        
     	elevator = new VictorSP(1);
         LiveWindow.addActuator("pickUp", "elevator", elevator);
         
@@ -188,18 +173,19 @@ public class RobotMap {
         LiveWindow.addActuator("gearMech", "dumperLift", dumperLift);
         
         //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
-        
     	climberEncoder = new Encoder(4,5);
     	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberEncoder", climberEncoder);
     	
     	climberWinch = new VictorSP(2);
     	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberWinch", climberWinch);
     	
+        //Other Things
     	climberDeployment= new Solenoid(5); //potental
     	LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "climberDeployment", climberDeployment);
-        
-        //Other Things
-        
+    	
+    	highGoalGate= new Solenoid(6); //potental
+    	LiveWindow.addActuator("pickUp", "highGoalGate", highGoalGate);
+    	
         compressor = new Compressor();
         LiveWindow.addActuator("Other", "compressor", compressor);
         
@@ -208,74 +194,5 @@ public class RobotMap {
 
         pdp = new PowerDistributionPanel();
         LiveWindow.addActuator("Other", "pdp", pdp);
-        
-    	/*
-        driveTrainleftMotor = new VictorSP(0);
-        LiveWindow.addActuator("driveTrain", "leftMotor", (VictorSP) driveTrainleftMotor);
-        
-        driveTrainrightMotor = new VictorSP(1);
-        LiveWindow.addActuator("driveTrain", "rightMotor", (VictorSP) driveTrainrightMotor);
-        
-        driveTraindrive = new RobotDrive(driveTrainleftMotor, driveTrainrightMotor);
-        
-        driveTraindrive.setSafetyEnabled(true);
-        driveTraindrive.setExpiration(0.1);
-        driveTraindrive.setSensitivity(0.5);
-        driveTraindrive.setMaxOutput(1.0);
-
-        driveTrainleftEncoder = new Encoder(0, 1, false, EncodingType.k4X);
-        LiveWindow.addSensor("driveTrain", "leftEncoder", driveTrainleftEncoder);
-        driveTrainleftEncoder.setDistancePerPulse(1.0);
-        driveTrainleftEncoder.setPIDSourceType(PIDSourceType.kRate);
-        driveTrainrightEncoder = new Encoder(2, 3, false, EncodingType.k4X);
-        LiveWindow.addSensor("driveTrain", "rightEncoder", driveTrainrightEncoder);
-        driveTrainrightEncoder.setDistancePerPulse(1.0);
-        driveTrainrightEncoder.setPIDSourceType(PIDSourceType.kRate);
-        driveTrainleftShifter = new Solenoid(0, 0);
-        LiveWindow.addActuator("driveTrain", "leftShifter", driveTrainleftShifter);
-        
-        driveTrainrightShifter = new Solenoid(0, 1);
-        LiveWindow.addActuator("driveTrain", "rightShifter", driveTrainrightShifter);
-        
-        driveTraindigialGyroUno = new AnalogGyro(0);
-        LiveWindow.addSensor("driveTrain", "digialGyroUno", driveTraindigialGyroUno);
-        driveTraindigialGyroUno.setSensitivity(0.007);
-        driveTrainultraSanic = new Ultrasonic(4, 5);
-        LiveWindow.addSensor("driveTrain", "ultraSanic", driveTrainultraSanic);
-        
-        intakeoutsideRoller = new VictorSP(2);
-        LiveWindow.addActuator("intake", "outsideRoller", (VictorSP) intakeoutsideRoller);
-        
-        intakehopperRoller = new VictorSP(3);
-        LiveWindow.addActuator("intake", "hopperRoller", (VictorSP) intakehopperRoller);
-        
-        intakebeltRoller = new VictorSP(4);
-        LiveWindow.addActuator("intake", "beltRoller", (VictorSP) intakebeltRoller);
-        
-        intakeballSensor = new DigitalInput(6);
-        LiveWindow.addSensor("intake", "ballSensor", intakeballSensor);
-        
-        peterssUnbeatableScalingMechanismWithoutpNeumaticswinchMotor = new VictorSP(5);
-        LiveWindow.addActuator("peterssUnbeatableScalingMechanismWithoutpNeumatics", "winchMotor", (VictorSP) peterssUnbeatableScalingMechanismWithoutpNeumaticswinchMotor);
-        
-        peterssUnbeatableScalingMechanismWithoutpNeumaticswinchEncoder = new Encoder(7, 8, false, EncodingType.k4X);
-        LiveWindow.addSensor("peterssUnbeatableScalingMechanismWithoutpNeumatics", "winchEncoder", peterssUnbeatableScalingMechanismWithoutpNeumaticswinchEncoder);
-        peterssUnbeatableScalingMechanismWithoutpNeumaticswinchEncoder.setDistancePerPulse(1.0);
-        peterssUnbeatableScalingMechanismWithoutpNeumaticswinchEncoder.setPIDSourceType(PIDSourceType.kRate);
-        shootermoter = new VictorSP(6);
-        LiveWindow.addActuator("shooter", "moter", (VictorSP) shootermoter);
-        
-        shooterincoder = new Encoder(9, 10, false, EncodingType.k4X);
-        LiveWindow.addSensor("shooter", "incoder", shooterincoder);
-        shooterincoder.setDistancePerPulse(1.0);
-        shooterincoder.setPIDSourceType(PIDSourceType.kRate);
-        knewmaticscompresser = new Compressor(0);
-        
-        
-        gearMechrelease = new Solenoid(0, 2);
-        LiveWindow.addActuator("gearMech", "release", gearMechrelease);
-        */
-
-        
     }
 }

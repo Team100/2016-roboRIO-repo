@@ -34,16 +34,19 @@ public class OpenGear extends Command {
 			case readyToShoot:
 				Robot.ballHandling.setState(BallHandlingState.clearElevator);
 				cState = Robot.ballHandling.getState();
+				
 				break;
 			case pickingUp:
 			case readyToPickupOrDump: 
 			case dumping:
 				Robot.ballHandling.setState(BallHandlingState.pickingUp);
 				cState = Robot.ballHandling.getState();
+				
 				break;
 			case clearElevator:
 			case clearPickUp:
-				System.out.println("uh your not supposte to be here");
+				System.out.println("Called the OpenGear command while you are in an intermeate step - openGear.java - init - case clearElevator/clearPickUp");
+				
 				break;
 		}
     }
@@ -57,7 +60,7 @@ public class OpenGear extends Command {
     		switch(cState){
 				case shooting: 
 				case readyToShoot:
-					System.out.println("uh your not supposte to be here");
+					System.out.println("somehow you sliped through the inti call - openGear.java - execute - case shooting/readyToShoot");
 					
 					Robot.ballHandling.setState(BallHandlingState.clearElevator);
 					cState = Robot.ballHandling.getState();
@@ -99,7 +102,7 @@ public class OpenGear extends Command {
 					
 					break;
 				case clearPickUp:
-					System.out.println("uh your not supposte to be here");
+					System.out.println("You called while in an intermedet step - openGear.java - execute - case clearPickUp");
 					
 					Robot.ballHandling.dumperLift.set(true);
 		    		Robot.ballHandling.pickUpFlap.set(true);

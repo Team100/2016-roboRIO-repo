@@ -33,7 +33,6 @@ public class CloseFlap extends Command {
     	if(knewmaticsDone()){
     		done = true;
     	}
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

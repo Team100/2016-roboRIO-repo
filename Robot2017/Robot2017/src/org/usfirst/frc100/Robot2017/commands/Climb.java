@@ -1,5 +1,7 @@
 package org.usfirst.frc100.Robot2017.commands;
 
+import org.usfirst.frc100.Robot2017.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,6 +12,7 @@ public class Climb extends Command {
     public Climb() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.peterssUnbeatableScalingMechanismWithoutpNeumatics);
     }
 
     // Called just before this Command runs the first time

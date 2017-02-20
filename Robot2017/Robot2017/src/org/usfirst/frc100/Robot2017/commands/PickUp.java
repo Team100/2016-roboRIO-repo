@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class PickUp extends Command {
-	
 	private double t;
 	private Timer timer = new Timer();
 	
@@ -34,16 +33,19 @@ public class PickUp extends Command {
 			case readyToShoot:
 				Robot.ballHandling.setState(BallHandlingState.clearElevator);
 				cState = Robot.ballHandling.getState();
+				
 				break;
 			case pickingUp:
 			case readyToPickupOrDump: 
 			case dumping:
 				Robot.ballHandling.setState(BallHandlingState.pickingUp);
 				cState = Robot.ballHandling.getState();
+				
 				break;
 			case clearElevator:
 			case clearPickUp:
-				System.out.println("uh your not supposte to be here");
+				System.out.println("Called the PickUp command while you are in an intermeate step - PickUp.java - init - case clearElevator/clearPickUp");
+				
 				break;
 		}
     }
@@ -53,7 +55,7 @@ public class PickUp extends Command {
     	switch(cState){
 			case shooting: 
 			case readyToShoot:
-				System.out.println("uh your not supposte to be here");
+				System.out.println("somehow you sliped through the inti call - PickUp.java - execute - case shooting/readyToShoot");
 				
 				Robot.ballHandling.setState(BallHandlingState.clearElevator);
 				cState = Robot.ballHandling.getState();
@@ -88,7 +90,7 @@ public class PickUp extends Command {
 				
 				break;
 			case clearPickUp:
-				System.out.println("uh your not supposte to be here");
+				System.out.println("You called while in an intermedet step - PickUp.java - execute - case clearPickUp");
 	
 		    	Robot.ballHandling.setState(BallHandlingState.pickingUp);
 				cState = Robot.ballHandling.getState();

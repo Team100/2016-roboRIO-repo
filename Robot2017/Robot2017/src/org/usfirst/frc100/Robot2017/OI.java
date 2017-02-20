@@ -24,43 +24,13 @@ import org.usfirst.frc100.Robot2017.subsystems.*;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    //// CREATING BUTTONS
-    // One type of button is a joystick button which is any button on a joystick.
-    // You create one by telling it which joystick it's on and which button
-    // number it is.
-    // Joystick stick = new Joystick(port);
-    // Button button = new JoystickButton(stick, buttonNumber);
-
-    // There are a few additional built in buttons you can use. Additionally,
-    // by subclassing Button you can create custom triggers and bind those to
-    // commands the same as any other Button.
-
-    //// TRIGGERING COMMANDS WITH BUTTONS
-    // Once you have a button, it's trivial to bind it to a button in one of
-    // three ways:
-
-    // Start the command when the button is pressed and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenPressed(new ExampleCommand());
-
-    // Run the command while the button is being held down and interrupt it once
-    // the button is released.
-    // button.whileHeld(new ExampleCommand());
-
-    // Start the command when the button is released  and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenReleased(new ExampleCommand());
-
 	//Joysticks
-
     public Joystick leftController;
     public Joystick rightController;
     public Joystick operater;
     public Joystick autoModeSelect;
     
-    
     //Manipulator Commands
-
     public JoystickButton shoot;
     public JoystickButton pickUp;
     public JoystickButton dump;
@@ -72,24 +42,22 @@ public class OI {
     public JoystickButton manipulatorClimb;
     
     //Driver Commands
-
     public JoystickButton l90Degrees;
     public JoystickButton r90Degrees;
     public JoystickButton turnAround;
     public JoystickButton lineUp;
     public JoystickButton driverClimb;
+    public JoystickButton lowshift;
+    public JoystickButton highShift;
     
     //Things?
-    
  	public JoystickButton binary1;
  	public JoystickButton binary2;
  	public JoystickButton binary3;
  	public JoystickButton binary4;
 
     public OI() {
-
-
-
+    	// Joysticks
         autoModeSelect = new Joystick(3);
         operater = new Joystick(2);
         rightController = new Joystick(1);
@@ -104,7 +72,6 @@ public class OI {
       	binary4 = new JoystickButton(autoModeSelect, 4);
       	
       	//manipulator things
-      	
       	shoot = new JoystickButton(operater, 4);
       	shoot.whenPressed(new Shoot((float)0.5));
       	
@@ -133,8 +100,6 @@ public class OI {
         manipulatorClimb.whenPressed(new Climb());
         
         //driver things
-        /*
-        
         l90Degrees = new JoystickButton(leftController, 5);
         l90Degrees.whenPressed(new L90Degrees());
         
@@ -149,7 +114,12 @@ public class OI {
         
         driverClimb = new JoystickButton(rightController, 5);
         driverClimb.whenPressed(new Climb());
-        */
+
+        lowshift = new JoystickButton(leftController, 1);
+        lowshift.whenPressed(new LowGearShift(.25));
+        
+        highShift = new JoystickButton(rightController, 1);
+        highShift.whenPressed(new HighGearShift(.25));
     }
 
     public Joystick getleftController() {
@@ -167,7 +137,6 @@ public class OI {
     public Joystick getautoModeSelect() {
         return autoModeSelect;
     }
-
 
 	public int selector() {
 		boolean bin1Val = binary1.get();
@@ -190,7 +159,5 @@ public class OI {
 		}
 		return total;
 	}
-
-
 }
 

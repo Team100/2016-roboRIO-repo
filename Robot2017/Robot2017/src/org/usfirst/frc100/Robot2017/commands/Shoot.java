@@ -43,7 +43,7 @@ public class Shoot extends Command {
 				break;
 			case clearElevator:
 			case clearPickUp:
-				System.out.println("uh your not supposte to be here");
+				System.out.println("Called the Shoot command while you are in an intermeate step - Shoot.java - init - case clearElevator/clearPickUp");
 				break;
 		}
     }
@@ -62,17 +62,17 @@ public class Shoot extends Command {
 				cState = Robot.ballHandling.getState();
 				
 				break;
-			case pickingUp:
-			case readyToPickupOrDump: 
+			case pickingUp: 
 			case dumping:
-				System.out.println("uh your not supposte to be here");
+			case readyToPickupOrDump:
+				System.out.println("somehow you sliped through the inti call - Shoot.java - execute - case pickingUp/dumping/readyToPickupOrDump");
 				
 		    	Robot.ballHandling.setState(BallHandlingState.clearPickUp);
 				cState = Robot.ballHandling.getState();
 				
 				break;
 			case clearElevator:
-				System.out.println("uh your not supposte to be here");
+				System.out.println("You called while in an intermedet step - Shoot.java - execute - case clearElevator");
 				
 		    	Robot.ballHandling.setState(BallHandlingState.shooting);
 				cState = Robot.ballHandling.getState();
