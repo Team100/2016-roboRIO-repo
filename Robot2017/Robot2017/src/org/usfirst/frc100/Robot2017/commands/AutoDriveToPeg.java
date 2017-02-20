@@ -8,6 +8,7 @@ public class AutoDriveToPeg extends CommandGroup {
     public AutoDriveToPeg() {
         addSequential(new GenerateSPath());
     	addSequential(new TurnToAngle("vision"));
+    	addSequential(new OpenGear(.75));
     	addSequential(new FollowMotionProfile());
     }
 }
