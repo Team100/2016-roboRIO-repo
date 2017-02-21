@@ -37,10 +37,11 @@ public class FollowMotionProfile extends Command{
 	}
 	
 	public FollowMotionProfile(String stage){
+		useVision = true;
 		stageValue = 2;
 		requires(Robot.driveTrain);
 	}
-	public FollowMotionProfile(int dista) {
+	public FollowMotionProfile(double dista) {
 		useVision = false;
 		dist = dista;
 		if(dist < 0){
@@ -54,7 +55,7 @@ public class FollowMotionProfile extends Command{
 	public void initialize() {
 		if(useVision == true){
 			vision = new GetVisionData();
-			dist = (((vision.calculateDistance()-12)/12) - stageValue);//- 6; //(vision.calculateDistance()-20)/12);
+			dist = (((vision.calculateDistance()-12)/12)) - stageValue;// - stageValue);//- 6; -12//(vision.calculateDistance()-20)/12);
 			profile = new AutoGenerate(dist, 2.5); //3.5 dist
 			profile.generateProfile();
 		} else { 
@@ -91,7 +92,7 @@ public class FollowMotionProfile extends Command{
 	}
 
 	protected boolean isFinished() {
-		if(count == position.size()){ return true;} else { return false;}
+		if(count == position.size() || dist > 100){ return true;} else { return false;}
 	}
 	protected void end(){
 		Robot.driveTrain.pidPosLeft.disable();

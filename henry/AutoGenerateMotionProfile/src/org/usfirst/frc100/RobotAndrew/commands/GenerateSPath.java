@@ -4,6 +4,7 @@ import org.usfirst.frc100.RobotAndrew.Robot;
 import org.usfirst.frc100.RobotAndrew.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GenerateSPath extends Command{
 	int count;
@@ -55,9 +56,9 @@ public class GenerateSPath extends Command{
 		
 	}
 	protected boolean isFinished() {
-		if(count >= path.smoothLeftVelocity.length)
-			return true;
-		else 
+		//if(count >= path.smoothLeftVelocity.length)
+			//return true;
+		//else 
 			return false; 
 	}
 	
