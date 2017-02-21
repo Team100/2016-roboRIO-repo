@@ -36,6 +36,7 @@ version = int(cv2.__version__[:1])
 
 streamRunning = False
 angleIsValid = False
+g = 0
 
 ip = '127.0.0.1'
 roboRio = 'roborio-100-frc.local'
@@ -43,12 +44,14 @@ piLoc = 'http://raspberrypi.local:5802/?action=stream'
 beagleLoc = 'http://beaglebone.local:1180/?action=stream'
 
 """         Program constants       """
-CAMERA_RESOLUTION = [310.0, 220.0] # 320 x 240
+CAMERA_RESOLUTION = [320.0, 240.0] # 320 x 240
 CAMERA_FOV_DEGREES = [52.45, 38.89] # 50.7, 39.9
 HEIGHT_OF_OBJECT = 5.0 # inches
 WIDTH_TO_WIDTH = 8.25 # inches
 SPIKE_LENGTH = 11 # inches
 DEGREES_PER_PIXEL = [CAMERA_FOV_DEGREES[0]/CAMERA_RESOLUTION[0], CAMERA_FOV_DEGREES[1]/CAMERA_RESOLUTION[1]]
+AIM_OFFSET = CAMERA_RESOLUTION[0]/2 + g
+
 
 red = """<p style="color: red; font-family: 'Liberation Sans',sans-serif">{}</p>"""
 yellow = """<p style="color: yellow; font-family: 'Liberation Sans',sans-serif">{}</p>"""
@@ -94,31 +97,37 @@ def main():
             bytes = bytes[b+2:]
             
             if (version == 2):
-                uncorrectedImage = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+                correctedImage = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
             else:
-                uncorrectedImage = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
+                correctedImage = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
             
-            h, w = uncorrectedImage.shape[:2]
+            #h, w = uncorrectedImage.shape[:2]
             
-            newcameramtx, roi = cv2.getOptimalNewCameraMatrix(CAMERA_MATRIX, DISTORTION_CONSTANTS, (w, h), 1, (w, h))
-            correctedImage = cv2.undistort(uncorrectedImage, CAMERA_MATRIX, DISTORTION_CONSTANTS, None, newcameramtx)
+            #newcameramtx, roi = cv2.getOptimalNewCameraMatrix(CAMERA_MATRIX, DISTORTION_CONSTANTS, (w, h), 1, (w, h))
+            #correctedImage = cv2.undistort(uncorrectedImage, CAMERA_MATRIX, DISTORTION_CONSTANTS, None)
             
             pipeline.process(correctedImage)  
+            cv2.rectangle(correctedImage, (int(AIM_OFFSET-2), int(CAMERA_RESOLUTION[1]/2 - 2)), (int(AIM_OFFSET+2), int(CAMERA_RESOLUTION[1]/2 + 2)), (150,150,0), 5)
+
                         
             if len(pipeline.boundingRects) == 2:
                 
                 if (pipeline.center != None):
-                    distanceFromCenterPixels = math.fabs(CAMERA_RESOLUTION[0]/2 - pipeline.center[0])
+                    distanceFromCenterPixels = math.fabs(AIM_OFFSET - pipeline.center[0])
                     degreeOffset = CAMERA_FOV_DEGREES[0] * distanceFromCenterPixels / CAMERA_RESOLUTION[0]
+                    cv2.line(correctedImage, (int(AIM_OFFSET), int(CAMERA_RESOLUTION[1]/2)), (int(pipeline.center[0]), int(CAMERA_RESOLUTION[1]/2)),(255,0,0), 3, 8, 0)
+                    degreeOffset *= (17/22.5)
                     
-                    if (CAMERA_RESOLUTION[0]/2 > pipeline.center[0]):
-                        degreeOffset *= -1
+                    cv2.putText(correctedImage, "DegreeOffset: " + str("%.2f" % degreeOffset), (60, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (250, 60, 40), 1)
 
+                    if (AIM_OFFSET > pipeline.center[0]):
+                        degreeOffset *= -1
+                    
                     sd.putNumberArray("Center", pipeline.center)
                     angleIsValid = True
                 
                 for rects in pipeline.boundingRects:
-                    pass
+                    cv2.rectangle(correctedImage, (rects[0], rects[1]), (rects[0]+rects[2], rects[1]+rects[3]), (0,0,255), 2)
                     
                 sendableCenterX = []
                 sendableCenterY = []
@@ -133,6 +142,7 @@ def main():
                  
                 theta = ((CAMERA_FOV_DEGREES[1] * sendableHeight[0]) / CAMERA_RESOLUTION[1])/2
                 distanceToTarget = ((HEIGHT_OF_OBJECT/2) / (math.tan(theta * math.pi / 180.0)))
+                g = distanceToTarget/2
                 
                 dist = math.fabs(sendableCenterX[0] - sendableCenterX[1]);
                     
@@ -151,13 +161,14 @@ def main():
                     pass
             else:
                 angleIsValid = False
+                
             sd.putBoolean("angleIsValid", angleIsValid)
 
             # crop image
-            x, y, w, h = roi
-            correctedImage = correctedImage[y:y+h, x:x+w]
+            #x, y, w, h = roi
+            #correctedImage = correctedImage[y:y+h, x:x+w]
             
-            #cv2.imshow("correctedImage", correctedImage)
+            cv2.imshow("correctedImage", correctedImage)
                
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break;
