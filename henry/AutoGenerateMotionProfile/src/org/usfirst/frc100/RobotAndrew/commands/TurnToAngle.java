@@ -38,7 +38,7 @@ public class TurnToAngle extends Command{
 	
 	public void initialize(){
 		counter = 0;
-		RobotMap.internalGyro.reset();
+		RobotMap.internalGyro.reset(); // this part can be changes for law of sines
 		Robot.driveTrain.pidAngle.setAbsoluteTolerance(0.3);
 		if(state == "vision"){
 			
@@ -69,11 +69,11 @@ public class TurnToAngle extends Command{
 	public void execute(){ //initialAngle + 
 		if(counter < angles.size()){
 			if(visionData < 0){
-				Robot.driveTrain.pidAngle.setSetpoint(  -(angles.get(counter))); //initialAngle -
+				Robot.driveTrain.pidAngle.setSetpoint(  -(angles.get(counter))); //initialAngle - // this part can be changes for law of sines
 				//System.out.println("anngle sets" + ((initialAngle -(angles.get(counter)))));
 			}
-			else{
-				Robot.driveTrain.pidAngle.setSetpoint((angles.get(counter)));	//(initialAngle +
+			else{ 
+				Robot.driveTrain.pidAngle.setSetpoint((angles.get(counter)));	//(initialAngle + // this part can be changes for law of sines
 			//	System.out.println("anngle set" + initialAngle +(angles.get(counter)));  
 			}
 			counter++;

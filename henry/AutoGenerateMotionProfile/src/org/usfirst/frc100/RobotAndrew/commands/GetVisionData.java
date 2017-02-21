@@ -28,7 +28,7 @@ public class GetVisionData{
 		double sideTwo  = Math.sqrt((Math.pow(distance, 2) + (Math.pow(1.125, 2)) - (2*distance*1.125) * Math.cos(Math.toRadians(angle))));
 		turnAngle = Math.asin((1.125 * Math.sin(RobotMap.internalGyro.getAngle()))/sideTwo);
 		//System.out.println("angle" + angle);
-		/*
+		/*             // this part can be changes for law of sines
 		if(angle < 0){
 			//turnAngle *= -1;
 			//System.out.println("neg" + (angle + turnAngle));
@@ -40,7 +40,7 @@ public class GetVisionData{
 			
 		}  */ 
 		
-		return angle;
+		return angle;  // this part can be changes for law of sines
 		
 	}
 

@@ -63,10 +63,9 @@ public class GenerateSPath extends Command{
 	
 	public void end(){
 		Robot.driveTrain.pidVelLeft.disable();
-	
 		Robot.driveTrain.pidVelRight.disable();
-		Robot.driveTrain.pidVelLeft.reset();
-		Robot.driveTrain.pidVelRight.reset();
+		//Robot.driveTrain.pidVelLeft.reset();
+	//	Robot.driveTrain.pidVelRight.reset();
 		Robot.driveTrain.stop();
 	
 	}

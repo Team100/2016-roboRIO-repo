@@ -26,15 +26,22 @@ public class FollowMotionProfile extends Command{
 	public static ArrayList<Double> velocity; //= new ArrayList<Double>();
 	public AutoGenerate profile; 
 	public boolean useVision;
+	public double stageValue;
 	static Timer timer = new Timer();
 	private static final String SmartDashoard = null;
 
 	public FollowMotionProfile() {
+		stageValue = 0;
 		useVision = true;
 		requires(Robot.driveTrain);
 	}
+	
+	public FollowMotionProfile(String stage){
+		stageValue = 2;
+		requires(Robot.driveTrain);
+	}
 	public FollowMotionProfile(int dista) {
-		useVision = true;
+		useVision = false;
 		dist = dista;
 		if(dist < 0){
 			distanceHolder = dist*-1;
@@ -47,7 +54,7 @@ public class FollowMotionProfile extends Command{
 	public void initialize() {
 		if(useVision == true){
 			vision = new GetVisionData();
-			dist = ((vision.calculateDistance()-12)/12);//- 6; //(vision.calculateDistance()-20)/12);
+			dist = (((vision.calculateDistance()-12)/12) - stageValue);//- 6; //(vision.calculateDistance()-20)/12);
 			profile = new AutoGenerate(dist, 2.5); //3.5 dist
 			profile.generateProfile();
 		} else { 
