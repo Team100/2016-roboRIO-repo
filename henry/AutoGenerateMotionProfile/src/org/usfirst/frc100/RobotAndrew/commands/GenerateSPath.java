@@ -10,8 +10,9 @@ public class GenerateSPath extends Command{
 	FalconPathPlanner path;
 	
 	public GenerateSPath(){
-		count = 0;
 		requires(Robot.driveTrain);
+		count = 0;
+		
 	}
 	public void initialize(){
 		count = 0;
@@ -25,7 +26,7 @@ public class GenerateSPath extends Command{
 		    {9.5,1.5}, 
 		}; 
 		
-		double totalTime = 6;
+		double totalTime = 8;
 		double timeStep = .1;
 		double robotTrackWidth = 2.25;
 		
@@ -48,6 +49,7 @@ public class GenerateSPath extends Command{
 		if(count < path.smoothLeftVelocity.length){
 			Robot.driveTrain.pidVelLeft.setSetpoint(path.smoothLeftVelocity[count][1] );
     		Robot.driveTrain.pidVelRight.setSetpoint(path.smoothRightVelocity[count][1] );
+    		System.out.println(path.smoothLeftVelocity[count][1] );
     		count++;
 		}
 		
@@ -61,6 +63,7 @@ public class GenerateSPath extends Command{
 	
 	public void end(){
 		Robot.driveTrain.pidVelLeft.disable();
+	
 		Robot.driveTrain.pidVelRight.disable();
 		Robot.driveTrain.pidVelLeft.reset();
 		Robot.driveTrain.pidVelRight.reset();

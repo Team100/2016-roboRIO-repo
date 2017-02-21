@@ -47,7 +47,7 @@ public class FollowMotionProfile extends Command{
 	public void initialize() {
 		if(useVision == true){
 			vision = new GetVisionData();
-			dist = ((vision.calculateDistance()-16)/12);//- 6; //(vision.calculateDistance()-20)/12);
+			dist = ((vision.calculateDistance()-12)/12);//- 6; //(vision.calculateDistance()-20)/12);
 			profile = new AutoGenerate(dist, 2.5); //3.5 dist
 			profile.generateProfile();
 		} else { 
@@ -65,7 +65,7 @@ public class FollowMotionProfile extends Command{
 		Robot.driveTrain.pidVelLeft.setAbsoluteTolerance(0.01);
 		Robot.driveTrain.pidPosRight.enable();
 		Robot.driveTrain.pidPosLeft.enable();
-		System.out.println(dist); 
+	//	System.out.println(dist); 
 	}
 	
 	

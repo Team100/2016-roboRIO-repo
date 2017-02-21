@@ -27,17 +27,20 @@ public class GetVisionData{
 	public double calculateAngle(){
 		double sideTwo  = Math.sqrt((Math.pow(distance, 2) + (Math.pow(1.125, 2)) - (2*distance*1.125) * Math.cos(Math.toRadians(angle))));
 		turnAngle = Math.asin((1.125 * Math.sin(RobotMap.internalGyro.getAngle()))/sideTwo);
-		System.out.println("angle" + angle);
+		//System.out.println("angle" + angle);
+		/*
 		if(angle < 0){
 			//turnAngle *= -1;
-			System.out.println("neg" + (angle + turnAngle));
+			//System.out.println("neg" + (angle + turnAngle));
 			return (angle + turnAngle);
 		}
 		else {
-			System.out.println(angle + turnAngle);
+			//System.out.println(angle + turnAngle);
 			return (angle + turnAngle);
 			
-		}
+		}  */ 
+		
+		return angle;
 		
 	}
 
