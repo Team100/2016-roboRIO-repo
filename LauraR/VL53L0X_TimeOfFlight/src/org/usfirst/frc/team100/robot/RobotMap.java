@@ -1,5 +1,9 @@
 package org.usfirst.frc.team100.robot;
 
+
+
+import edu.wpi.first.wpilibj.I2C;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -16,4 +20,9 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
+	public static TimeOfFlightVL53L0X sensor;
+	
+	public static void init() {
+		sensor = new TimeOfFlightVL53L0X(I2C.Port.kOnboard);
+	}
 }

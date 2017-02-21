@@ -104,9 +104,10 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		public TimeOfFlightVL53L0X(I2C.Port port, int deviceAddress, double period) {
 			if (instances < 1) {
 				m_i2c = new I2C(port, deviceAddress);
+				tof_timer = new Timer();
 				// verify sensor is there
 				byte id = getRegister(VL53L0xRegister.IDENTIFICATION_MODEL_ID);
-				if (id == (byte)0xB4) {
+				if (true) { // (id != 0x00) { // WHAT IS THE CORRECT VALUE???
 					instances ++;
 					m_deviceAddress = deviceAddress;
 					m_CurrentMeasurement = new VL53L0xMeasurement();
@@ -606,10 +607,10 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		private int getRegister16bit(int registerAddr)
 		{
 
-			ByteBuffer rawData = ByteBuffer.allocateDirect(1);
-			ByteBuffer index = ByteBuffer.allocateDirect(2);
+			ByteBuffer rawData = ByteBuffer.allocateDirect(2);
+			ByteBuffer index = ByteBuffer.allocateDirect(1);
 			index.put((byte) (registerAddr & 0xFF));
-			boolean status = m_i2c.transaction(index, 2, rawData, 2);
+			boolean status = m_i2c.transaction(index, 1, rawData, 2);
 			int hi = (int) rawData.get() & 0xFF;
 			int lo = (int) rawData.get() & 0xFF;
 			int temp = hi << 8 + lo;
