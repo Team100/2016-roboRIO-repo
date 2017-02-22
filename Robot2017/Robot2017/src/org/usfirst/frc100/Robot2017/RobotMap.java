@@ -146,14 +146,14 @@ public class RobotMap {
         gyro = new ADXRS450_Gyro();
         LiveWindow.addActuator("driveTrain", "gyro", gyro);
         
-        driveTrainShifter = new Solenoid(0);
+        driveTrainShifter = new Solenoid(2);
         LiveWindow.addActuator("driveTrain", "driveTrainShifter", driveTrainShifter);
     	
     	//GearMech Things
-        gearMechDrop= new Solenoid(1);
+        gearMechDrop= new Solenoid(0);
         LiveWindow.addActuator("gearMech", "gearMechDrop", gearMechDrop);
         
-        gearMechFlap= new Solenoid(2);
+        gearMechFlap= new Solenoid(1);
         LiveWindow.addActuator("gearMech", "gearMechFlap", gearMechFlap);
     	
     	//BallHandling Things
@@ -163,13 +163,13 @@ public class RobotMap {
         outsideRoller = new VictorSP(0);
         LiveWindow.addActuator("pickUp", "outsideRoller", outsideRoller);
     	
-    	pickUpFlap= new Solenoid(3);
+    	pickUpFlap= new Solenoid(7);
     	LiveWindow.addActuator("pickUp", "pickUpFlap", pickUpFlap);
     	
     	elevator = new VictorSP(1);
         LiveWindow.addActuator("pickUp", "elevator", elevator);
         
-        dumperLift= new Solenoid(4);
+        dumperLift= new Solenoid(3);
         LiveWindow.addActuator("gearMech", "dumperLift", dumperLift);
         
         //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things
