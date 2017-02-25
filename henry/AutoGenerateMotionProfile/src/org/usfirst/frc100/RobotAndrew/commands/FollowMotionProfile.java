@@ -24,7 +24,11 @@ public class FollowMotionProfile extends Command{
 	public GetVisionData vision;
 	public static ArrayList<Double> position; //= new ArrayList<Double>();
 	public static ArrayList<Double> velocity; //= new ArrayList<Double>();
-	public AutoGenerate profile; 
+	public AutoGenerate profile;
+	public AutoGenerate profileR;
+	public AutoGenerate profileL;
+	public static ArrayList<Double> positionR;
+	public static ArrayList<Double> positionL;
 	public boolean useVision;
 	public double stageValue;
 	static Timer timer = new Timer();
@@ -40,6 +44,14 @@ public class FollowMotionProfile extends Command{
 		useVision = true;
 		stageValue = 2;
 		requires(Robot.driveTrain);
+	}
+	
+	public FollowMotionProfile(double distR, double distL){
+		System.out.println(distR);
+		useVision = false;
+		dist = 20;
+		
+		
 	}
 	public FollowMotionProfile(double dista) {
 		useVision = false;
@@ -86,7 +98,7 @@ public class FollowMotionProfile extends Command{
 			else if(useVision == false && dist < 0){
 				Robot.driveTrain.pidPosLeft.setSetpoint(-position.get(count));
 				Robot.driveTrain.pidPosRight.setSetpoint(-position.get(count));
-			}
+			} 
 			count++;
 		}
 	}

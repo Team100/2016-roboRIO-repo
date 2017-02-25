@@ -210,14 +210,14 @@ public class DriveTrain extends Subsystem {
 		}, new PIDOutput() {
 			public void pidWrite(double v) {
 				double o = v;
-				
+				/*
 				if(countTwo <  FollowMotionProfile.position.size() && o > FollowMotionProfile.velocity.get(countTwo)){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
 					o = FollowMotionProfile.velocity.get(countTwo);
 					overRiddenL++;
 				} 
 				if(countTwo < FollowMotionProfile.position.size()){
 					countTwo++;
-				}
+				} */
 				RobotMap.leftMaster.pidWrite(o);
 
 			}
@@ -242,7 +242,7 @@ public class DriveTrain extends Subsystem {
 			public void pidWrite(double d) {
 				
 				double output  = d;
-				
+				/*
 				if(count < FollowMotionProfile.position.size() && output > FollowMotionProfile.velocity.get(count)){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
 					output = FollowMotionProfile.velocity.get(count);
 					overRiddenR++;
@@ -255,7 +255,7 @@ public class DriveTrain extends Subsystem {
 				
 				if(maxSpeedReached < output){
 					maxSpeedReached = output;
-				}
+				} */
 				RobotMap.rightMaster.pidWrite(output);
 				
 			}

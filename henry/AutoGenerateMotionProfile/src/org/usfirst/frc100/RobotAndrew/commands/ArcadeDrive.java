@@ -12,13 +12,14 @@
 package org.usfirst.frc100.RobotAndrew.commands;
 
 import edu.wpi.first.wpilibj.SpeedController;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.followers.EncoderFollower;
-import jaci.pathfinder.modifiers.TankModifier;
+//import jaci.pathfinder.Pathfinder;
+//import jaci.pathfinder.Trajectory;
+//import jaci.pathfinder.Waypoint;
+//import jaci.pathfinder.followers.EncoderFollower;
+//import jaci.pathfinder.modifiers.TankModifier;
 //import jaci.pathfinder;
 
 import java.io.File;
