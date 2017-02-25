@@ -11,6 +11,7 @@
 
 package org.usfirst.frc100.Robot2017;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -59,7 +60,7 @@ public class Robot extends IterativeRobot {
         knewmatics = new Knewmatics();
         gearMech = new GearMech();
         gameTime = DriverStation.getInstance().getMatchTime();
-        
+        CameraServer.getInstance().startAutomaticCapture();
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
         // constructed yet. Thus, their requires() statements may grab null
