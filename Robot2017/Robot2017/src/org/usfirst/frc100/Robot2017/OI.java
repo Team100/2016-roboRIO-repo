@@ -97,10 +97,10 @@ public class OI {
         closeFlap = new JoystickButton(operater, 5);
         closeFlap.whenPressed(new CloseFlap(0.25));
         
-        climberNudgeDownButton = new JoystickButton(leftController, 9);
+        climberNudgeDownButton = new JoystickButton(operater, 9);
         climberNudgeDownButton.whenPressed(new ClimbNudge("down", 4));
         
-        climberNudgeUpButton = new JoystickButton(leftController, 10);
+        climberNudgeUpButton = new JoystickButton(operater, 10);
         climberNudgeUpButton.whenPressed(new ClimbNudge("up", 4));
         
         //driver things
