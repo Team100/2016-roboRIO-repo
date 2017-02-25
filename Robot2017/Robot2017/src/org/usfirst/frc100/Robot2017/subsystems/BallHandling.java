@@ -19,6 +19,10 @@ public class BallHandling extends Subsystem {
 	public final Solenoid pickUpFlap = RobotMap.pickUpFlap;
 	public final Encoder elevatorEncoder = RobotMap.elevatorEncoder;
 	
+	public BallHandling(){
+		
+	}
+	
 	private BallHandlingState mState = BallHandlingState.readyToPickupOrDump;
 	
 	public void updateDashboard() {
