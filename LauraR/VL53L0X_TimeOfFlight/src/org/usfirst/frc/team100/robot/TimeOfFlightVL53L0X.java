@@ -112,11 +112,13 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 					m_deviceAddress = deviceAddress;
 					m_CurrentMeasurement = new VL53L0xMeasurement();
 					VL53L0xInit();
-					VL6180xDefaultSettings();
+					VL53L0xDefaultSettings();
 					m_period = period;
 
 					m_pollLoop = new java.util.Timer();
 					m_pollLoop.schedule(new PollVL53L0xTask(this), 0L, (long) (m_period * 1000));
+					startContinuous(0);
+					isInit = true;
 				} else {
 					System.out.println("Can't Find the VL53L0X");
 				}
@@ -139,13 +141,6 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 				//m_table.removeTableListener(m_listener);
 			}
 		}	
-
-		private void start_ranging(VL53L0xMode mode) {
-		}
-
-		private void stop_ranging() {
-
-		}
 
 		private VL53L0xMeasurement get_distance() {
 			return new VL53L0xMeasurement();
@@ -538,7 +533,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 
 
-		private void VL6180xDefaultSettings(){
+		private void VL53L0xDefaultSettings(){
 
 
 		}
@@ -613,10 +608,10 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			boolean status = m_i2c.transaction(index, 1, rawData, 2);
 			int hi = (int) rawData.get() & 0xFF;
 			int lo = (int) rawData.get() & 0xFF;
-			int temp = hi << 8 + lo;
-			/*		System.out.println("getRegister16bit:  status: " + status + 
+			int temp = (hi << 8) + lo;
+					System.out.println("getRegister16bit:  status: " + status + 
 				" address: 0x" + Integer.toHexString(registerAddr) +
-				" rawData: 0x"+ Integer.toHexString(temp));*/
+				" rawData: 0x"+ Integer.toHexString(temp));
 			return temp;
 
 		}
@@ -657,21 +652,11 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			}
 		}
 
-		private void start_ranging(VL53L0X_DeviceMode mode) {
-
-		}
-
-
-		private void startDistance(){
-			setRegister(VL53L0xRegister.SYSRANGE_START, 0x01);
-			isInit = true;
-		}
 
 		private boolean isFinishedMeasure(){
-			byte status = 0;
-			/*		status = getRegister(VL53L0xRegister.RESULT_INTERRUPT_STATUS_GPIO);*/
+			byte status = getRegister(VL53L0xRegister.RESULT_INTERRUPT_STATUS);
 
-			if((status & 0x07)==0x04){
+			if((status & 0x07) != 0){
 				return true;
 			}
 			return false;
@@ -686,8 +671,11 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		setRegister(VL53L0xRegister.SYSTEM_INTERRUPT_CLEAR, 0x05);*/
 			/*		System.out.println("readDistance  raw: 0x" + Integer.toHexString(val) +
 				"Converted : " + (double) val + "Error Code: " + VL6180xErrors[err]);*/
+			int val = getRegister16bit(VL53L0xRegister.RESULT_RANGE_STATUS.value + 10);
+
+			setRegister(VL53L0xRegister.SYSTEM_INTERRUPT_CLEAR, 0x01);
 			int err = 0;
-			int val = 0;
+
 			synchronized (m_CurrentMeasurement) {
 				if(err != 0){
 					m_CurrentMeasurement.m_distance = (double) -1.0;
@@ -724,10 +712,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 					if(m_sensor.isFinishedMeasure()){
 						m_sensor.readDistance();
 						m_sensor.updateTable();
-						m_sensor.startDistance();
+						
 					}
-				}else{
-					m_sensor.startDistance();
 				}
 			}
 
@@ -746,14 +732,14 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			if (limit_Mcps < 0 || limit_Mcps > 511.99) { return false; }
 
 			// Q9.7 fixed point format (9 integer bits, 7 fractional bits)
-			setRegister16bit(VL53L0xRegister.FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT, (int) limit_Mcps * (1 << 7));
+			setRegister16bit(VL53L0xRegister.FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT, (int) (limit_Mcps * 128.000));
 			return true;
 		}
 
 		// Get the return signal rate limit check value in MCPS
-		float getSignalRateLimit()
+		double getSignalRateLimit()
 		{
-			return (float) getRegister16bit (VL53L0xRegister.FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT) / (1 << 7);
+			return ((double) getRegister16bit (VL53L0xRegister.FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT)) / 128.0;
 		}
 
 
