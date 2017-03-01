@@ -671,6 +671,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		setRegister(VL53L0xRegister.SYSTEM_INTERRUPT_CLEAR, 0x05);*/
 			/*		System.out.println("readDistance  raw: 0x" + Integer.toHexString(val) +
 				"Converted : " + (double) val + "Error Code: " + VL6180xErrors[err]);*/
+			byte [] results = new byte [12];
+			readMulti(VL53L0xRegister.RESULT_RANGE_STATUS, results, 12);
 			int val = getRegister16bit(VL53L0xRegister.RESULT_RANGE_STATUS.value + 10);
 
 			setRegister(VL53L0xRegister.SYSTEM_INTERRUPT_CLEAR, 0x01);
