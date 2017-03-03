@@ -55,6 +55,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("VL53L0X", RobotMap.sensor.getMeasurement().m_distance);
 	}
 
 	/**
