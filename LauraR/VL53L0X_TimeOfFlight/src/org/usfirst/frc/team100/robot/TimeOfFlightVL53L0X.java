@@ -326,7 +326,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			setRegister(0x80, 0x01);
 			setRegister(0xFF, 0x01);
 			setRegister(0x00, 0x00);
-			byte stop_variable = getRegister(0x91);
+			stop_variable = getRegister(0x91);
 			setRegister(0x00, 0x01);
 			setRegister(0xFF, 0x00);
 			setRegister(0x80, 0x00);
