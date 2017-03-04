@@ -1,7 +1,9 @@
 package org.usfirst.frc100.Robot2017.commands;
 
 
+
 import java.util.ArrayList;
+
 
 
 import java.util.Timer;
@@ -10,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc100.Robot2017.Robot;
 import org.usfirst.frc100.Robot2017.RobotMap;
+
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,7 +27,11 @@ public class FollowMotionProfile extends Command{
 	public GetVisionData vision;
 	public static ArrayList<Double> position; //= new ArrayList<Double>();
 	public static ArrayList<Double> velocity; //= new ArrayList<Double>();
-	public AutoGenerate profile; 
+	public AutoGenerate profile;
+	public AutoGenerate profileR;
+	public AutoGenerate profileL;
+	public static ArrayList<Double> positionR;
+	public static ArrayList<Double> positionL;
 	public boolean useVision;
 	public double stageValue;
 	static Timer timer = new Timer();
@@ -40,7 +48,15 @@ public class FollowMotionProfile extends Command{
 		stageValue = 2;
 		requires(Robot.driveTrain);
 	}
-	public FollowMotionProfile(int dista) {
+	
+	public FollowMotionProfile(double distR, double distL){
+		System.out.println(distR);
+		useVision = false;
+		dist = 20;
+		
+		
+	}
+	public FollowMotionProfile(double dista) {
 		useVision = false;
 		dist = dista;
 		if(dist < 0){
@@ -85,13 +101,13 @@ public class FollowMotionProfile extends Command{
 			else if(useVision == false && dist < 0){
 				Robot.driveTrain.pidPosLeft.setSetpoint(-position.get(count));
 				Robot.driveTrain.pidPosRight.setSetpoint(-position.get(count));
-			}
+			} 
 			count++;
 		}
 	}
 
 	protected boolean isFinished() {
-		if(count == position.size()){ return true;} else { return false;}
+		if(count == position.size() || dist > 100){ return true;} else { return false;}
 	}
 	protected void end(){
 		Robot.driveTrain.pidPosLeft.disable();
