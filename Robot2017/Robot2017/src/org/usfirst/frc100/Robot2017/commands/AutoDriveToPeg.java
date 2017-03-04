@@ -13,5 +13,7 @@ public class AutoDriveToPeg extends CommandGroup {
     	addSequential(new FollowMotionProfile("go to 2 feet"));
     	addSequential(new TurnToAngle("vision"));
     	addSequential(new FollowMotionProfile());
+    	addSequential(new OpenGear(.25));
+    	addSequential(new FollowMotionProfile(-3.0));
     }
 }
