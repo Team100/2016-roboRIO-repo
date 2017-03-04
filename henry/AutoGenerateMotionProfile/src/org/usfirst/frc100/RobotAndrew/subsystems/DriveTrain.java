@@ -280,6 +280,7 @@ public class DriveTrain extends Subsystem {
     		}, new PIDOutput() {
     			public void pidWrite(double d) {
     				
+    					//d = -.23;
     				RobotMap.rightMaster.pidWrite(d);///2);
     				RobotMap.leftMaster.pidWrite(-d);///2);
     				

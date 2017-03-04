@@ -73,7 +73,7 @@ public class OI {
         calcDead = new JoystickButton(joystick1, 2);
         calcDead.whenPressed(new TeleopDriveToGear());
         turnAngle = new JoystickButton(joystick1, 5);
-        turnAngle.whenPressed(new TurnToAngle(15.0));
+        turnAngle.whenPressed(new TurnToAngle(11.2));
         cancelPID = new JoystickButton(joystick1, 7);
         cancelPID.whenPressed(new TurnToAngle());
         SPath = new JoystickButton(joystick1, 4);

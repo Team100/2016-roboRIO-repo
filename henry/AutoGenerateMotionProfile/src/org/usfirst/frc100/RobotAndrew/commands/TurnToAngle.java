@@ -93,7 +93,7 @@ public class TurnToAngle extends Command{
 	}
 	protected boolean isFinished() {
 
-		if(counter >= angles.size())//Robot.driveTrain.pidAngle.onTarget() && Math.abs(RobotMap.leftMaster.get()) < .1 && Robot.driveTrain.pidAngle.getAvgError() < .3 )//&& countOnTarget >= 3)
+		if(counter >= angles.size() || RobotMap.internalGyro.getAngle() >= (Math.abs(desiredAngle) - .2))//Robot.driveTrain.pidAngle.onTarget() && Math.abs(RobotMap.leftMaster.get()) < .1 && Robot.driveTrain.pidAngle.getAvgError() < .3 )//&& countOnTarget >= 3)
 			return true;
 			
 		else

@@ -67,7 +67,7 @@ public class GenerateSPath extends Command{
 	}
 	
 	public void execute(){
-		
+		if(positionL.size() > positionR.size()){
 		if(count < positionR.size()){
 			//Robot.driveTrain.pidVelLeft.setSetpoint(path.smoothLeftVelocity[count][1] );
     		//Robot.driveTrain.pidVelRight.setSetpoint(path.smoothRightVelocity[count][1] );
@@ -84,7 +84,26 @@ public class GenerateSPath extends Command{
 		if(count2 < positionL.size() && count == positionR.size()){
 			//Robot.driveTrain.pidPosRight.setSetpoint(positionL.get(count2));
 			count2++;
-		}
+		} 
+	} else {
+		if(count < positionL.size()){
+			//Robot.driveTrain.pidVelLeft.setSetpoint(path.smoothLeftVelocity[count][1] );
+    		//Robot.driveTrain.pidVelRight.setSetpoint(path.smoothRightVelocity[count][1] );
+			Robot.driveTrain.pidPosRight.setSetpoint(positionR.get(count) );
+			Robot.driveTrain.pidPosLeft.setSetpoint(positionL.get(count));
+    		//Robot.driveTrain.pidPosLeft.setSetpoint(positionL.get(count));
+			
+			
+    		
+    		count++;
+    		count2++;
+		} 
+		
+		if(count2 < positionR.size() && count == positionL.size()){
+			//Robot.driveTrain.pidPosRight.setSetpoint(positionL.get(count2));
+			count2++;
+		} 
+	}
 		//System.out.println(positionL.size());
 		System.out.println("r" +count2);
 		System.out.println("ok " 	+ positionL.size());
