@@ -22,32 +22,32 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 	private int m_deviceAddress;
 	private byte m_spad_count;
 	private boolean m_spad_type_is_aperture;
-    private byte m_stop_variable; // read by init and used when starting measurement; 
-    private int m_measurement_timing_budget_us;
-    
-    private int m_io_timeout;
-    private Timer m_tof_response_timer;
+	private byte m_stop_variable; // read by init and used when starting measurement; 
+	private int m_measurement_timing_budget_us;
 
-    private static String[] VL53L0xErrors = {
-    	"No Error", 				// 0
-    	"VCSEL Continuity Test", 	// 1
-    	"VCSEL Watchdog Test",		// 2
-    	"No VHV Value Found",		// 3
-    	"MSRC No Target", 			// 4
-    	"SNRr Check",				// 5
-    	"Range Phase Check",		// 6
-    	"Sigma Threshold Check",	// 7
-    	"TCC",			 			// 8
-    	"Phase Consistency",		// 9
-    	"Min Clip",					// 10
-    	"Range Complete",			// 11
-    	"Ranging Algo Overflow",	// 12
-    	"Raw Ranging Algo Overflow",// 13
-    	"Range Ignore Threshold",	// 14
-    };
-		
-		
-		
+	private int m_io_timeout;
+	private Timer m_tof_response_timer;
+
+	private static String[] VL53L0xErrors = {
+		"No Error", 				// 0
+		"VCSEL Continuity Test", 	// 1
+		"VCSEL Watchdog Test",		// 2
+		"No VHV Value Found",		// 3
+		"MSRC No Target", 			// 4
+		"SNRr Check",				// 5
+		"Range Phase Check",		// 6
+		"Sigma Threshold Check",	// 7
+		"TCC",			 			// 8
+		"Phase Consistency",		// 9
+		"Min Clip",					// 10
+		"Range Complete",			// 11
+		"Ranging Algo Overflow",	// 12
+		"Raw Ranging Algo Overflow",// 13
+		"Range Ignore Threshold",	// 14
+	};
+
+
+
 	public class VL53L0xMeasurement {
 		public boolean m_isValid;
 		public int m_distance;
@@ -65,7 +65,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			m_isValid = sensorMeasurement.m_isValid;
 		}
 
-		
+
 		public String getStatusString () {
 			return VL53L0xErrors[m_errCode];
 		}
@@ -185,39 +185,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 		}
 
-		
-		
-		
 
-		public enum VL53L0xMode {
-			VL53L0X_GOOD_ACCURACY_MODE      ((int) 0), // Good Accuracy mode
-			VL53L0X_BETTER_ACCURACY_MODE    ((int) 1), // Better Accuracy mode
-			VL53L0X_BEST_ACCURACY_MODE      ((int) 2), // Best Accuracy mode
-			VL53L0X_LONG_RANGE_MODE         ((int) 3), // Longe Range mode
-			VL53L0X_HIGH_SPEED_MODE         ((int) 4);  // High Speed mode
-			public final int value;
-
-			private VL53L0xMode(int value) {
-				this.value = value;
-			}	
-		}
-
-		public enum VL53L0X_DeviceMode {
-			SINGLE_RANGING	((byte)  0),
-			CONTINUOUS_RANGING	((byte)  1),
-			SINGLE_HISTOGRAM	((byte)  2),
-			CONTINUOUS_TIMED_RANGING ((byte) 3),
-			SINGLE_ALS		((byte) 10),
-			GPIO_DRIVE		((byte) 20),
-			GPIO_OSC		((byte) 21);
-			public final byte value;
-
-			private VL53L0X_DeviceMode(byte value) {
-				this.value = value;
-			}	
-		}
-
-		public enum VL53L0xRegister{
+		private enum VL53L0xRegister{
 			SYSRANGE_START                              ((byte) 0x00),
 
 			SYSTEM_THRESH_HIGH                          ((byte) 0x0C),
@@ -539,7 +508,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			temp.put((byte) (reg & 0xFF));
 			temp.put((byte) (data & 0xFF));
 			/*	  System.out.println("setRegister: reg: 0x"+Integer.toHexString(reg)+", "
-	  		+ "data: 0x"+Integer.toHexString(data));*/
+  		+ "data: 0x"+Integer.toHexString(data));*/
 			m_i2c.writeBulk(temp, 2);
 		}
 
@@ -564,12 +533,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			ByteBuffer index = ByteBuffer.allocateDirect(1);
 			ByteBuffer rawData = ByteBuffer.allocateDirect(1);
 			index.put((byte) (registerAddr & 0xFF));
-			boolean status = m_i2c.transaction(index, 1, rawData, 1);
+			m_i2c.transaction(index, 1, rawData, 1);
 			byte data = rawData.get();
-			/*		System.out.println("getRegister:  status: " + status + 
-				" address: 0x" + Integer.toHexString(registerAddr) +
-				" rawData: 0x"+ Integer.toHexString((int)data & 0xFF));*/
-
 			return data;
 		}
 
@@ -597,13 +562,10 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			ByteBuffer rawData = ByteBuffer.allocateDirect(2);
 			ByteBuffer index = ByteBuffer.allocateDirect(1);
 			index.put((byte) (registerAddr & 0xFF));
-			boolean status = m_i2c.transaction(index, 1, rawData, 2);
+			m_i2c.transaction(index, 1, rawData, 2);
 			int hi = (int) rawData.get() & 0xFF;
 			int lo = (int) rawData.get() & 0xFF;
 			int temp = (hi << 8) + lo;
-					System.out.println("getRegister16bit:  status: " + status + 
-				" address: 0x" + Integer.toHexString(registerAddr) +
-				" rawData: 0x"+ Integer.toHexString(temp));
 			return temp;
 
 		}
@@ -621,7 +583,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			for (int i = 0; i < count; i ++) {
 				rawData.put(src[i]);
 			}
-			boolean status = m_i2c.writeBulk(rawData, count + 1);
+			m_i2c.writeBulk(rawData, count + 1);
 		}
 
 		// Read an arbitrary number of bytes from the sensor, starting at the given
@@ -638,7 +600,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			ByteBuffer rawData = ByteBuffer.allocateDirect(count);
 
 			index.put((byte) (reg & 0xFF));
-			boolean status = m_i2c.transaction(index, 1, rawData, count);
+			m_i2c.transaction(index, 1, rawData, count);
 			for (int i = 0; i < count; i ++) {
 				dst[i] = (byte) (rawData.get() & 0xFF);
 			}
@@ -657,12 +619,12 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		private double readDistance(){
 			byte status = getRegister(VL53L0xRegister.RESULT_RANGE_STATUS);
 			status = (byte) ((status & 0x78) >> 3); // a value of 11 means that the range measurement is complete
-			
+
 
 			int val = getRegister16bit(VL53L0xRegister.RESULT_RANGE_STATUS.value + 10);
 
 			setRegister(VL53L0xRegister.SYSTEM_INTERRUPT_CLEAR, 0x01);
-			
+
 
 			synchronized (m_CurrentMeasurement) {
 				m_CurrentMeasurement.m_errCode = status;
@@ -701,7 +663,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 					if(m_sensor.isFinishedMeasure()){
 						m_sensor.readDistance();
 						m_sensor.updateTable();
-						
+
 					}
 				}
 			}
@@ -1310,7 +1272,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		private int calcMacroPeriod(int vcsel_period_pclks) {
 			return 	((((int)2304 * (vcsel_period_pclks) * 1655) + 500) / 1000);
 		}
-		
+
 		private boolean checkTimeoutExpired() {
 			return (m_io_timeout > 0 && ((int)(m_tof_response_timer.get()*1000000.0)) > m_io_timeout);
 		}
