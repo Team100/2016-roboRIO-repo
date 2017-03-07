@@ -9,6 +9,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 
+/* This java implementation for the roboRIO
+ * loosely follows the Pololu Arduino library C++ implementation
+ * as defined in the GitHub repository located at 
+ * https://github.com/pololu/vl53l0x-arduino
+ */
+
 public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendable{
 
 	public static final double kDefaultPeriod = .05;

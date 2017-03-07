@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		TimeOfFlightVL53L0X.VL53L0xMeasurement meas = RobotMap.sensor.getMeasurement();
+		final TimeOfFlightVL53L0X.VL53L0xMeasurement meas = RobotMap.sensor.getMeasurement();
 		
 		SmartDashboard.putNumber("VL53L0X distance mm", meas.m_distance);
 		SmartDashboard.putBoolean("VL53L0x IsValid", meas.m_isValid);
