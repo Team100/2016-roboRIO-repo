@@ -28,29 +28,46 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
     private int m_io_timeout;
     private Timer m_tof_response_timer;
 
-
+    private static String[] VL53L0xErrors = {
+    	"No Error", 				// 0
+    	"VCSEL Continuity Test", 	// 1
+    	"VCSEL Watchdog Test",		// 2
+    	"No VHV Value Found",		// 3
+    	"MSRC No Target", 			// 4
+    	"SNRr Check",				// 5
+    	"Range Phase Check",		// 6
+    	"Sigma Threshold Check",	// 7
+    	"TCC",			 			// 8
+    	"Phase Consistency",		// 9
+    	"Min Clip",					// 10
+    	"Range Complete",			// 11
+    	"Ranging Algo Overflow",	// 12
+    	"Raw Ranging Algo Overflow",// 13
+    	"Range Ignore Threshold",	// 14
+    };
+		
+		
+		
 	public class VL53L0xMeasurement {
-		public int m_timeStamp;
-		public int m_MeasurementTimeUSec;
-		public int m_RangeMillimeter;
-		public int m_RangeDMaxMillimeter;
-		public int m_SignalRqateRtnMegaCps; // 16.16 fix point
-		public int m_AmbientRateRtnMegaCps; // 16.16 fix point
-		public int m_effectiveSpadRtnCount;
-		public byte m_zoneId;
-		public byte m_rangeFractionalPart;
-		public byte m_rangeStatus;		
-		public double m_distance;
-		public int m_errCode;
+		public boolean m_isValid;
+		public int m_distance;
+		public byte m_errCode;
 
 		VL53L0xMeasurement () {
 			m_distance = -1;
-			m_errCode = 15;
+			m_errCode = 0;
+			m_isValid = false;
 		}
 
 		VL53L0xMeasurement(VL53L0xMeasurement sensorMeasurement) {
 			m_distance = sensorMeasurement.m_distance;
 			m_errCode = sensorMeasurement.m_errCode;
+			m_isValid = sensorMeasurement.m_isValid;
+		}
+
+		
+		public String getStatusString () {
+			return VL53L0xErrors[m_errCode];
 		}
 	}
 
@@ -168,23 +185,9 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 		}
 
-		public static String[] VL53L0xErrors = {
-			"No Error", 				// 0
-			"VCSEL Continuity Test", 	// 1
-			"VCSEL Watchdog Test",		// 2
-			"No VHV Value Found",		// 3
-			"MSRC No Target", 			// 4
-			"SNRr Check",				// 5
-			"Range Phase Check",		// 6
-			"Sigma Threshold Check",	// 7
-			"TCC",			 			// 8
-			"Phase Consistency",		// 9
-			"Min Clip",					// 10
-			"Range Complete",			// 11
-			"Ranging Algo Overflow",	// 12
-			"Raw Ranging Algo Overflow",// 13
-			"Range Ignore Threshold",	// 14
-		};
+		
+		
+		
 
 		public enum VL53L0xMode {
 			VL53L0X_GOOD_ACCURACY_MODE      ((int) 0), // Good Accuracy mode
@@ -652,20 +655,23 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		}
 
 		private double readDistance(){
-			byte [] results = new byte [12];
-			readMulti(VL53L0xRegister.RESULT_RANGE_STATUS, results, 12);
+			byte status = getRegister(VL53L0xRegister.RESULT_RANGE_STATUS);
+			status = (byte) ((status & 0x78) >> 3); // a value of 11 means that the range measurement is complete
+			
+
 			int val = getRegister16bit(VL53L0xRegister.RESULT_RANGE_STATUS.value + 10);
 
 			setRegister(VL53L0xRegister.SYSTEM_INTERRUPT_CLEAR, 0x01);
-			int err = 0;
+			
 
 			synchronized (m_CurrentMeasurement) {
-				if(err != 0){
-					m_CurrentMeasurement.m_distance = (double) -1.0;
-					m_CurrentMeasurement.m_errCode = err;
-				}else{
-					m_CurrentMeasurement.m_distance = (double) val;
-					m_CurrentMeasurement.m_errCode = err;
+				m_CurrentMeasurement.m_errCode = status;
+				if(status == 11){ 
+					// only update if valid
+					m_CurrentMeasurement.m_distance = val;
+					m_CurrentMeasurement.m_isValid = true;
+				} else {
+					m_CurrentMeasurement.m_isValid = false;
 				}
 			}
 			return ((double) val);
