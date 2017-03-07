@@ -14,27 +14,19 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 	public static final double kDefaultPeriod = .05;
 	private static int instances = 0;
 	private static final byte kAddress = 0x29;
-	private static final byte VL53L0x_FAILURE_RESET = 0;
 	protected I2C m_i2c;
 	private ITable m_table;
-	private byte data;
 	private boolean isInit = false;
 	private double m_period;
 	private java.util.Timer m_pollLoop;
 	private int m_deviceAddress;
-	private static int ScalerValues[] = {0, 253, 127, 84};
-	private int scaling = 0;
-	private int ptp_offset = 0;
-	private byte spad_count;
-	private boolean spad_type_is_aperture;
-	private byte address;
-    private int io_timeout;
-    private boolean did_timeout;
-    private int timeout_start_ms;
-    private Timer tof_timer;
-
-    private byte stop_variable; // read by init and used when starting measurement; is StopVariable field of VL53L0X_DevData_t structure in API
-    private int measurement_timing_budget_us;
+	private byte m_spad_count;
+	private boolean m_spad_type_is_aperture;
+    private byte m_stop_variable; // read by init and used when starting measurement; 
+    private int m_measurement_timing_budget_us;
+    
+    private int m_io_timeout;
+    private Timer m_tof_response_timer;
 
 
 	public class VL53L0xMeasurement {
@@ -104,7 +96,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		public TimeOfFlightVL53L0X(I2C.Port port, int deviceAddress, double period) {
 			if (instances < 1) {
 				m_i2c = new I2C(port, deviceAddress);
-				tof_timer = new Timer();
+				m_deviceAddress = deviceAddress;
+				m_tof_response_timer = new Timer();
 				// verify sensor is there
 				byte id = getRegister(VL53L0xRegister.IDENTIFICATION_MODEL_ID);
 				if (true) { // (id != 0x00) { // WHAT IS THE CORRECT VALUE???
@@ -141,10 +134,6 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 				//m_table.removeTableListener(m_listener);
 			}
 		}	
-
-		private VL53L0xMeasurement get_distance() {
-			return new VL53L0xMeasurement();
-		}
 
 		@Override
 		public void initTable(ITable subtable) {
@@ -326,7 +315,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			setRegister(0x80, 0x01);
 			setRegister(0xFF, 0x01);
 			setRegister(0x00, 0x00);
-			stop_variable = getRegister(0x91);
+			m_stop_variable = getRegister(0x91);
 			setRegister(0x00, 0x01);
 			setRegister(0xFF, 0x00);
 			setRegister(0x80, 0x00);
@@ -359,12 +348,12 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			setRegister(0xFF, 0x00);
 			setRegister(VL53L0xRegister.GLOBAL_CONFIG_REF_EN_START_SELECT, 0xB4);
 
-			byte first_spad_to_enable = (byte) (spad_type_is_aperture ? 12 : 0); // 12 is the first aperture spad
+			byte first_spad_to_enable = (byte) (m_spad_type_is_aperture ? 12 : 0); // 12 is the first aperture spad
 			byte spads_enabled = 0;
 
 			for (byte i = 0; i < 48; i++)
 			{
-				if (i < first_spad_to_enable || spads_enabled == spad_count)
+				if (i < first_spad_to_enable || spads_enabled == m_spad_count)
 				{
 					// This bit is lower than the first one that should be enabled, or
 					// (reference_spad_count) bits have already been enabled, so zero this bit
@@ -488,7 +477,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 			// -- VL53L0X_SetGpioConfig() end
 
-			measurement_timing_budget_us = getMeasurementTimingBudget();
+			m_measurement_timing_budget_us = getMeasurementTimingBudget();
 
 			// "Disable MSRC and TCC by default"
 			// MSRC = Minimum Signal Rate Check
@@ -500,7 +489,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			// -- VL53L0X_SetSequenceStepEnable() end
 
 			// "Recalculate timing budget"
-			setMeasurementTimingBudget(measurement_timing_budget_us);
+			setMeasurementTimingBudget(m_measurement_timing_budget_us);
 
 			// VL53L0X_StaticInit() end
 
@@ -573,7 +562,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			ByteBuffer rawData = ByteBuffer.allocateDirect(1);
 			index.put((byte) (registerAddr & 0xFF));
 			boolean status = m_i2c.transaction(index, 1, rawData, 1);
-			data = rawData.get();
+			byte data = rawData.get();
 			/*		System.out.println("getRegister:  status: " + status + 
 				" address: 0x" + Integer.toHexString(registerAddr) +
 				" rawData: 0x"+ Integer.toHexString((int)data & 0xFF));*/
@@ -663,14 +652,6 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		}
 
 		private double readDistance(){
-			/*		// read result
-		int val = (int) getRegister(VL53L0xRegister.RESULT_RANGE_VAL) & 0xFF; 
-		// read RESULT_RANGE_STATUS register to get error code (bits 7:4)
-		int err = ((int) getRegister(VL53L0xRegister.RESULT_RANGE_STATUS) >> 4) & 0xF;
-		// clear interrupt
-		setRegister(VL53L0xRegister.SYSTEM_INTERRUPT_CLEAR, 0x05);*/
-			/*		System.out.println("readDistance  raw: 0x" + Integer.toHexString(val) +
-				"Converted : " + (double) val + "Error Code: " + VL6180xErrors[err]);*/
 			byte [] results = new byte [12];
 			readMulti(VL53L0xRegister.RESULT_RANGE_STATUS, results, 12);
 			int val = getRegister16bit(VL53L0xRegister.RESULT_RANGE_STATUS.value + 10);
@@ -683,7 +664,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 					m_CurrentMeasurement.m_distance = (double) -1.0;
 					m_CurrentMeasurement.m_errCode = err;
 				}else{
-					m_CurrentMeasurement.m_distance = (double) val/3.0;
+					m_CurrentMeasurement.m_distance = (double) val;
 					m_CurrentMeasurement.m_errCode = err;
 				}
 			}
@@ -703,7 +684,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 			public PollVL53L0xTask(TimeOfFlightVL53L0X sensor) {
 				if (sensor == null) {
-					throw new NullPointerException("Given TimeOfFlightVL6180x was null");
+					throw new NullPointerException("Given TimeOfFlightVL53L0x was null");
 				}
 				m_sensor = sensor;
 			}
@@ -833,7 +814,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 				// set_sequence_step_timeout() end
 
-				measurement_timing_budget_us = budget_us; // store for internal reuse
+				m_measurement_timing_budget_us = budget_us; // store for internal reuse
 			}
 			return true;
 		}
@@ -884,7 +865,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 				budget_us += (timeouts.final_range_us + FinalRangeOverhead);
 			}
 
-			measurement_timing_budget_us = budget_us; // store for internal reuse
+			m_measurement_timing_budget_us = budget_us; // store for internal reuse
 			return budget_us;
 		}
 
@@ -1055,7 +1036,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 			// "Finally, the timing budget must be re-applied"
 
-			setMeasurementTimingBudget(measurement_timing_budget_us);
+			setMeasurementTimingBudget(m_measurement_timing_budget_us);
 
 			// "Perform the phase calibration. This is needed after changing on vcsel period."
 			// VL53L0X_perform_phase_calibration() begin
@@ -1096,7 +1077,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			setRegister(0x80, 0x01);
 			setRegister(0xFF, 0x01);
 			setRegister(0x00, 0x00);
-			setRegister(0x91, stop_variable);
+			setRegister(0x91, m_stop_variable);
 			setRegister(0x00, 0x01);
 			setRegister(0xFF, 0x00);
 			setRegister(0x80, 0x00);
@@ -1140,71 +1121,6 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			setRegister(0xFF, 0x00);
 		}
 
-		// Returns a range reading in millimeters when continuous mode is active
-		// (readRangeSingleMillimeters() also calls this function after starting a
-		// single-shot range measurement)
-		private int readRangeContinuousMillimeters()
-		{
-			tof_timer.reset();
-			tof_timer.start();
-			
-			while ((getRegister(VL53L0xRegister.RESULT_INTERRUPT_STATUS) & 0x07) == 0)
-			{
-				if (checkTimeoutExpired())
-				{
-					did_timeout = true;
-					return 65535;
-				}
-			}
-
-			// assumptions: Linearity Corrective Gain is 1000 (default);
-			// fractional ranging is not enabled
-			int range = getRegister16bit(VL53L0xRegister.RESULT_RANGE_STATUS.value + 10);
-
-			setRegister(VL53L0xRegister.SYSTEM_INTERRUPT_CLEAR, 0x01);
-
-			return range;
-		}
-
-		// Performs a single-shot range measurement and returns the reading in
-		// millimeters
-		// based on VL53L0X_PerformSingleRangingMeasurement()
-		private int readRangeSingleMillimeters()
-		{
-			setRegister(0x80, 0x01);
-			setRegister(0xFF, 0x01);
-			setRegister(0x00, 0x00);
-			setRegister(0x91, stop_variable);
-			setRegister(0x00, 0x01);
-			setRegister(0xFF, 0x00);
-			setRegister(0x80, 0x00);
-
-			setRegister(VL53L0xRegister.SYSRANGE_START, 0x01);
-
-			// "Wait until start bit has been cleared"
-			tof_timer.reset();
-			tof_timer.start();
-			while ((getRegister(VL53L0xRegister.SYSRANGE_START) & 0x01) != 0)
-			{
-				if (checkTimeoutExpired())
-				{
-					did_timeout = true;
-					return 65535;
-				}
-			}
-
-			return readRangeContinuousMillimeters();
-		}
-
-		// Did a timeout occur in one of the read functions since the last call to
-		// timeoutOccurred()?
-		private boolean timeoutOccurred()
-		{
-			boolean tmp = did_timeout;
-			did_timeout = false;
-			return tmp;
-		}
-
 		// Private Methods /////////////////////////////////////////////////////////////
 
 		// Get reference SPAD (single photon avalanche diode) count and type
@@ -1227,8 +1143,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 			setRegister(0x94, 0x6b);
 			setRegister(0x83, 0x00);
-			tof_timer.reset();
-			tof_timer.start();
+			m_tof_response_timer.reset();
+			m_tof_response_timer.start();
 			while (getRegister(0x83) == 0x00)
 			{
 				if (checkTimeoutExpired()) { return false; }
@@ -1236,8 +1152,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			setRegister(0x83, 0x01);
 			tmp = getRegister(0x92);
 
-			spad_count = (byte) (tmp & 0x7f);
-			spad_type_is_aperture = ((tmp >> 7) & 0x01) == 1;
+			m_spad_count = (byte) (tmp & 0x7f);
+			m_spad_type_is_aperture = ((tmp >> 7) & 0x01) == 1;
 
 			setRegister(0x81, 0x00);
 			setRegister(0xFF, 0x06);
@@ -1363,8 +1279,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		{
 			setRegister(VL53L0xRegister.SYSRANGE_START, 0x01 | vhv_init_byte); // VL53L0X_REG_SYSRANGE_MODE_START_STOP
 
-			tof_timer.reset();
-			tof_timer.start();
+			m_tof_response_timer.reset();
+			m_tof_response_timer.start();
 			while ((getRegister(VL53L0xRegister.RESULT_INTERRUPT_STATUS) & 0x07) == 0)
 			{
 				if (checkTimeoutExpired()) { return false; }
@@ -1390,6 +1306,6 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		}
 		
 		private boolean checkTimeoutExpired() {
-			return (io_timeout > 0 && ((int)(tof_timer.get()*1000000.0)) > io_timeout);
+			return (m_io_timeout > 0 && ((int)(m_tof_response_timer.get()*1000000.0)) > m_io_timeout);
 		}
 }
