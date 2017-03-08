@@ -161,7 +161,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 	@Override
 	public void updateTable() {
 		if (m_table != null) {
-			final TimeOfFlightVL53L0X.VL53L0xMeasurement meas = RobotMap.sensor.getMeasurement();
+			final TimeOfFlightVL53L0X.VL53L0xMeasurement meas = RobotMap.tof_sensor.getMeasurement();
 
 			m_table.putNumber("VL53L0X distance mm", meas.m_distance);
 			m_table.putBoolean("VL53L0x IsValid", meas.m_isValid);

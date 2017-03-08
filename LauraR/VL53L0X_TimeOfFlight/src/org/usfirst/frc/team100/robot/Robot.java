@@ -44,11 +44,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		final TimeOfFlightVL53L0X.VL53L0xMeasurement meas = RobotMap.sensor.getMeasurement();
+		final TimeOfFlightVL53L0X.VL53L0xMeasurement meas = RobotMap.tof_sensor.getMeasurement();
 		
 		SmartDashboard.putNumber("VL53L0X distance mm", meas.m_distance);
 		SmartDashboard.putBoolean("VL53L0x IsValid", meas.m_isValid);
 		SmartDashboard.putString("VL53L0x Status", meas.getStatusString());
+		SmartDashboard.putNumber("MaxBotixSonar", RobotMap.maxBotix.getVoltage());
 	}
 
 	/**

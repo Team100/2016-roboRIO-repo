@@ -2,6 +2,7 @@ package org.usfirst.frc.team100.robot;
 
 
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
@@ -20,9 +21,11 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
-	public static TimeOfFlightVL53L0X sensor;
+	public static TimeOfFlightVL53L0X tof_sensor;
+	public static AnalogInput maxBotix;
 	
 	public static void init() {
-		sensor = new TimeOfFlightVL53L0X(I2C.Port.kOnboard);
+		tof_sensor = new TimeOfFlightVL53L0X(I2C.Port.kOnboard);
+		maxBotix = new AnalogInput(0);
 	}
 }
