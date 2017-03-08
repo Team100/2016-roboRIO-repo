@@ -34,6 +34,13 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 	private int m_io_timeout;
 	private Timer m_tof_response_timer;
+	private class VL53L0xTimeout extends Exception {
+
+	    public VL53L0xTimeout(String message) {
+	        super(message);
+	    }
+
+	}
 
 	private static String[] VL53L0xErrors = {
 		"No Error", 				// 0
@@ -109,14 +116,22 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 				instances ++;
 				m_deviceAddress = deviceAddress;
 				m_CurrentMeasurement = new VL53L0xMeasurement();
-				VL53L0xInit();
-				VL53L0xDefaultSettings();
-				m_period = period;
+				try {
+					VL53L0xInit();
+					VL53L0xDefaultSettings();
 
-				m_pollLoop = new java.util.Timer();
-				m_pollLoop.schedule(new PollVL53L0xTask(this), 0L, (long) (m_period * 1000));
-				startContinuous(0);
-				isInit = true;
+					isInit = true;
+				} catch (VL53L0xTimeout e) {
+					e.printStackTrace();
+					System.out.println("Can't Find the VL53L0X");
+					isInit = false;
+				}
+				if (isInit) {
+					m_period = period;
+					m_pollLoop = new java.util.Timer();
+					m_pollLoop.schedule(new PollVL53L0xTask(this), 0L, (long) (m_period * 1000));
+					startContinuous(0);					
+				}
 			} else {
 				System.out.println("Can't Find the VL53L0X");
 			}
@@ -338,7 +353,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		}
 	}
 
-	private boolean VL53L0xInit(){
+	private boolean VL53L0xInit() throws VL53L0xTimeout{
 		// "Set I2C standard mode"
 		setRegister(0x88, 0x00);
 
@@ -808,7 +823,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 	//  pre:  12 to 18 (initialized default: 14)
 	//  final: 8 to 14 (initialized default: 10)
 	// based on VL53L0X_set_vcsel_pulse_period()
-	private boolean setVcselPulsePeriod(vcselPeriodType type, byte period_pclks)
+	private boolean setVcselPulsePeriod(vcselPeriodType type, byte period_pclks) throws VL53L0xTimeout
 	{
 		int vcsel_period_reg = encodeVcselPeriod(period_pclks);
 
@@ -1004,7 +1019,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 	// Get reference SPAD (single photon avalanche diode) count and type
 	// based on VL53L0X_get_info_from_device(),
 	// but only gets reference SPAD count and type
-	private boolean getSpadInfo()
+	private boolean getSpadInfo() throws VL53L0xTimeout
 	{
 		byte tmp;
 
@@ -1153,7 +1168,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 
 	// based on VL53L0X_perform_single_ref_calibration()
-	private boolean performSingleRefCalibration(byte vhv_init_byte)
+	private boolean performSingleRefCalibration(byte vhv_init_byte) throws VL53L0xTimeout
 	{
 		setRegister(VL53L0xRegister.SYSRANGE_START, 0x01 | vhv_init_byte); // VL53L0X_REG_SYSRANGE_MODE_START_STOP
 
@@ -1183,8 +1198,11 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		return 	((((int)2304 * (vcsel_period_pclks) * 1655) + 500) / 1000);
 	}
 
-	private boolean checkTimeoutExpired() {
-		return (m_io_timeout > 0 && ((int)(m_tof_response_timer.get()*1000000.0)) > m_io_timeout);
+	private boolean checkTimeoutExpired() throws VL53L0xTimeout {
+		if (m_io_timeout > 0 && ((int)(m_tof_response_timer.get()*1000000.0)) > m_io_timeout) {
+			throw new VL53L0xTimeout("VL53L0x Time of Flight Sensor Timed Out.");
+		}
+		return false;
 	}
 	
 	//I2C manipulations utilities
