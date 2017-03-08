@@ -43,7 +43,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 	}
 
 	private static String[] VL53L0xErrors = {
-		"No Error", 				// 0
+		"VL53L0x Not Found", 				// 0
 		"VCSEL Continuity Test", 	// 1
 		"VCSEL Watchdog Test",		// 2
 		"No VHV Value Found",		// 3
