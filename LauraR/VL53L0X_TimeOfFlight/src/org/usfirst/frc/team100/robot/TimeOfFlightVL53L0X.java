@@ -101,6 +101,7 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			m_i2c = new I2C(port, deviceAddress);
 			m_deviceAddress = deviceAddress;
 			m_tof_response_timer = new Timer();
+			m_io_timeout = 200000; // 200 milliseconds
 			// verify sensor is there
 			byte id = getRegister(VL53L0xRegister.IDENTIFICATION_MODEL_ID);
 			if (true) { // (id != 0x00) { // WHAT IS THE CORRECT VALUE???
