@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 /* This java implementation for the roboRIO
@@ -154,13 +155,17 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 	@Override
 	public String getSmartDashboardType() {
-		return "TimeOfFightSensor";
+		return "VL53L0XTOF";
 	}
 
 	@Override
 	public void updateTable() {
 		if (m_table != null) {
-			m_table.putNumber("Dist", readDistance());
+			final TimeOfFlightVL53L0X.VL53L0xMeasurement meas = RobotMap.sensor.getMeasurement();
+
+			m_table.putNumber("VL53L0X distance mm", meas.m_distance);
+			m_table.putBoolean("VL53L0x IsValid", meas.m_isValid);
+			m_table.putString("VL53L0x Status", meas.getStatusString());
 		}
 	}
 
