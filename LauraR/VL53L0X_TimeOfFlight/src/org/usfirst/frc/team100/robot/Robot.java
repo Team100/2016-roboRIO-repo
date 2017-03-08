@@ -29,6 +29,9 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		map = new RobotMap();
 		RobotMap.init();
+		LiveWindow.addSensor("Test", "VL53L0X", RobotMap.tof_sensor);
+		LiveWindow.addSensor("Test", "MaxBotix", RobotMap.maxBotix);
+
 	}
 
 	/**
