@@ -63,20 +63,28 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 
 
 	public class VL53L0xMeasurement {
-		public boolean m_isValid;
-		public int m_distance;
-		public byte m_errCode;
+		final private boolean m_isValid;
+		final private int m_distance;
+		final private byte m_errCode;
 
-		VL53L0xMeasurement () {
-			m_distance = -1;
-			m_errCode = 0;
-			m_isValid = false;
+		VL53L0xMeasurement (boolean isValid, int distance, byte errCode) {
+			m_distance = distance;
+			m_errCode = errCode;
+			m_isValid = isValid;
 		}
 
 		VL53L0xMeasurement(VL53L0xMeasurement sensorMeasurement) {
 			m_distance = sensorMeasurement.m_distance;
 			m_errCode = sensorMeasurement.m_errCode;
 			m_isValid = sensorMeasurement.m_isValid;
+		}
+		
+		public int getDistance () {
+			return m_distance;
+		}
+		
+		public boolean isValid() {
+			return m_isValid;
 		}
 
 
@@ -115,7 +123,8 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 			if (true) { // (id != 0x00) { // WHAT IS THE CORRECT VALUE???
 				instances ++;
 				m_deviceAddress = deviceAddress;
-				m_CurrentMeasurement = new VL53L0xMeasurement();
+				m_CurrentMeasurement = new VL53L0xMeasurement(false, -1, (byte)0);
+
 				try {
 					VL53L0xInit();
 					VL53L0xDefaultSettings();
@@ -215,27 +224,19 @@ public class TimeOfFlightVL53L0X extends SensorBase implements LiveWindowSendabl
 		int val = getRegister16bit(VL53L0xRegister.RESULT_RANGE_STATUS.value + 10);
 
 		setRegister(VL53L0xRegister.SYSTEM_INTERRUPT_CLEAR, 0x01);
-
-
-		synchronized (m_CurrentMeasurement) {
-			m_CurrentMeasurement.m_errCode = status;
-			if(status == 11){ 
-				// only update if valid
-				m_CurrentMeasurement.m_distance = val;
-				m_CurrentMeasurement.m_isValid = true;
-			} else {
-				m_CurrentMeasurement.m_isValid = false;
-			}
+		// VL53L0xMeasurement class is immutable so we can skip synchronization
+		if (status == 11) {
+			// measurement is valid
+			m_CurrentMeasurement = new VL53L0xMeasurement (true, val, status);
+			
+		} else {
+			m_CurrentMeasurement = new VL53L0xMeasurement (false, -1, status);
 		}
 		return ((double) val);
 	}
 
 	public VL53L0xMeasurement getMeasurement() {
-		VL53L0xMeasurement temp;
-		synchronized (m_CurrentMeasurement) {
-			temp = new VL53L0xMeasurement(m_CurrentMeasurement);		
-		}
-		return temp;
+		return new VL53L0xMeasurement(m_CurrentMeasurement);
 	}
 
 	private class PollVL53L0xTask extends TimerTask {
