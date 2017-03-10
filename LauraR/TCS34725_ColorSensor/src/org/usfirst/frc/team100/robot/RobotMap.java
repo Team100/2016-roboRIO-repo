@@ -25,6 +25,6 @@ public class RobotMap {
 
 	
 	public static void init() {
-		colorSensor = new ColorSensorTCS34725(I2C.Port.kOnboard);
+		colorSensor = new ColorSensorTCS34725();
 	}
 }
