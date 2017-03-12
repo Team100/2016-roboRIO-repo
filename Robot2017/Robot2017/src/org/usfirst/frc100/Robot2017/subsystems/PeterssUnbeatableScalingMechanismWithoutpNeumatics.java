@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -33,6 +34,16 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
 
 	public final Encoder climberEncoder = RobotMap.climberEncoder;
 	public final VictorSP climberWinch = RobotMap.climberWinch;
+	
+	public void updateDashboard() {
+		SmartDashboard.putNumber("PeterssUnbeatableScalingMechanismWithoutpNeumatics/Climber Encoder Raw", climberEncoder.getRaw());
+		SmartDashboard.putNumber("PeterssUnbeatableScalingMechanismWithoutpNeumatics/Climber Encoder Count", climberEncoder.get());
+		SmartDashboard.putNumber("PeterssUnbeatableScalingMechanismWithoutpNeumatics/Climber Encoder Distance", climberEncoder.getDistance());
+		SmartDashboard.putNumber("PeterssUnbeatableScalingMechanismWithoutpNeumatics/Climber Encoder Rate", climberEncoder.getRate());
+		
+		SmartDashboard.putNumber("PeterssUnbeatableScalingMechanismWithoutpNeumatics/Climber Winch Volt", climberWinch.get());
+		
+	}
 
     public void initDefaultCommand() {
     	setDefaultCommand(new ClimbJoysticks()); 
@@ -43,6 +54,7 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
     
     public void climbJoysticks(Joystick joy){
     	RobotMap.climberWinch.set(joy.getRawAxis(3));
+    	SmartDashboard.putNumber("Climber Winch Volt", climberWinch.get());
     }
     
     public void climbNudge(double value){

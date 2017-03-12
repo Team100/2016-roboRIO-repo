@@ -25,6 +25,7 @@ public class UpdateDashboard extends Command {
 		Robot.driveTrain.updateDashboard();
 		Robot.ballHandling.updateDashboard();
 		Robot.gearMech.updateDashboard();
+		Robot.peterssUnbeatableScalingMechanismWithoutpNeumatics.updateDashboard();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
