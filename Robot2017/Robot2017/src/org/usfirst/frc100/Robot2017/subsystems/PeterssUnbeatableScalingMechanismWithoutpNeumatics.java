@@ -34,6 +34,7 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
 
 	public final Encoder climberEncoder = RobotMap.climberEncoder;
 	public final VictorSP climberWinch = RobotMap.climberWinch;
+	public static double ramp = 0.1;
 	
 	public void updateDashboard() {
 		SmartDashboard.putNumber("PeterssUnbeatableScalingMechanismWithoutpNeumatics/Climber Encoder Raw", climberEncoder.getRaw());
@@ -54,11 +55,20 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
     
     public void climbJoysticks(Joystick joy){
     	RobotMap.climberWinch.set(joy.getRawAxis(3));
-    	SmartDashboard.putNumber("Climber Winch Volt", climberWinch.get());
     }
     
     public void climbNudge(double value){
-    	RobotMap.climberWinch.set(value);
+    	if(value == 0){
+    		climberWinch.set(0);
+		}else if(Math.abs(value*ramp + climberWinch.get()) <= 1){
+			climberWinch.set(value*ramp + climberWinch.get());
+    	}else if(value*ramp + climberWinch.get() > 1){
+    		climberWinch.set(1);
+    	}else if(value*ramp + climberWinch.get() < -1){
+    		climberWinch.set(-1);
+    	}else{
+    		climberWinch.set(0);
+    	}
     }
 }
 

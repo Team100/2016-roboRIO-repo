@@ -21,7 +21,7 @@ public class BallHandling extends Subsystem {
 	//public static double timeToSwitch = 2;
 	//public static double totalLoopChanges = timeToSwitch/0.002;
 	//public static double defultRamp = totalLoopChanges/timeToSwitch;
-	public static double ramp = 0.005;
+	public static double ramp = 0.1;
 	
 	private BallHandlingState mState = BallHandlingState.readyToPickupOrDump;
 	
@@ -77,11 +77,11 @@ public class BallHandling extends Subsystem {
     public void setOutsideRoller(double value){
     	if(value == 0){
     		outsideRoller.set(0);
-		}else if(Math.abs(value/ramp + outsideRoller.get()) <= 1){
-    		outsideRoller.set(value/ramp + outsideRoller.get());
-    	}else if(value/ramp + outsideRoller.get() > 1){
+		}else if(Math.abs(value*ramp + outsideRoller.get()) <= 1){
+    		outsideRoller.set(value*ramp + outsideRoller.get());
+    	}else if(value*ramp + outsideRoller.get() > 1){
     		outsideRoller.set(1);
-    	}else if(value/ramp + outsideRoller.get() < -1){
+    	}else if(value*ramp + outsideRoller.get() < -1){
     		outsideRoller.set(-1);
     	}else{
     		outsideRoller.set(0);
@@ -91,11 +91,11 @@ public class BallHandling extends Subsystem {
     public void setElevator(double value){
     	if(value == 0){
     		elevator.set(0);
-    	}else if(Math.abs(value/ramp + elevator.get()) <= 1){
-    		elevator.set(value/ramp + elevator.get());
-    	}else if(value/ramp + elevator.get() > 1){
+    	}else if(Math.abs(value*ramp + elevator.get()) <= 1){
+    		elevator.set(value*ramp + elevator.get());
+    	}else if(value*ramp + elevator.get() > 1){
     		elevator.set(1);
-    	}else if(value/ramp + elevator.get() < -1){
+    	}else if(value*ramp + elevator.get() < -1){
     		elevator.set(-1);
     	}else {
     		elevator.set(0);

@@ -18,6 +18,7 @@ public class UpdateDashboard extends Command {
 		SmartDashboard.putString("DriveTrain/~TYPE~", "SubSystem");
 		SmartDashboard.putString("BallHandling/~TYPE~", "SubSystem");
 		SmartDashboard.putString("GearMech/~TYPE~", "SubSystem");
+		SmartDashboard.putString("PeterssUnbeatableScalingMechanismWithoutpNeumatics/~TYPE~", "SubSystem");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
