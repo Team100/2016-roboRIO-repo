@@ -11,6 +11,7 @@
 
 package org.usfirst.frc100.Robot2017.subsystems;
 
+import org.usfirst.frc100.Robot2017.Robot;
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -34,7 +35,8 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
 
 	public final Encoder climberEncoder = RobotMap.climberEncoder;
 	public final VictorSP climberWinch = RobotMap.climberWinch;
-	public static double ramp = 0.1;
+	private static final double DEFAULT_PETERSS_UNBEATABLE_SCALING_MECHANISM_WITHOUT_PNEUMATICS_RAMP = 0.1;
+	public double peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp;
 	
 	public void updateDashboard() {
 		SmartDashboard.putNumber("PeterssUnbeatableScalingMechanismWithoutpNeumatics/Climber Encoder Raw", climberEncoder.getRaw());
@@ -43,7 +45,6 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
 		SmartDashboard.putNumber("PeterssUnbeatableScalingMechanismWithoutpNeumatics/Climber Encoder Rate", climberEncoder.getRate());
 		
 		SmartDashboard.putNumber("PeterssUnbeatableScalingMechanismWithoutpNeumatics/Climber Winch Volt", climberWinch.get());
-		
 	}
 
     public void initDefaultCommand() {
@@ -51,6 +52,10 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
     }
     
     public PeterssUnbeatableScalingMechanismWithoutpNeumatics(){
+		if (!Robot.prefs.containsKey("ballHandling_ramp")) {
+			Robot.prefs.putDouble("ballHandling_ramp", DEFAULT_PETERSS_UNBEATABLE_SCALING_MECHANISM_WITHOUT_PNEUMATICS_RAMP);
+		}
+		peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp = Robot.prefs.getDouble("driveTrain_kP", DEFAULT_PETERSS_UNBEATABLE_SCALING_MECHANISM_WITHOUT_PNEUMATICS_RAMP);
     }
     
     public void climbJoysticks(Joystick joy){
@@ -60,11 +65,11 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
     public void climbNudge(double value){
     	if(value == 0){
     		climberWinch.set(0);
-		}else if(Math.abs(value*ramp + climberWinch.get()) <= 1){
-			climberWinch.set(value*ramp + climberWinch.get());
-    	}else if(value*ramp + climberWinch.get() > 1){
+		}else if(Math.abs(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get()) <= 1){
+			climberWinch.set(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get());
+    	}else if(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get() > 1){
     		climberWinch.set(1);
-    	}else if(value*ramp + climberWinch.get() < -1){
+    	}else if(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get() < -1){
     		climberWinch.set(-1);
     	}else{
     		climberWinch.set(0);

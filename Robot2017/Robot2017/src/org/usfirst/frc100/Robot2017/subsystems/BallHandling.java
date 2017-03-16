@@ -1,5 +1,6 @@
 package org.usfirst.frc100.Robot2017.subsystems;
 
+import org.usfirst.frc100.Robot2017.Robot;
 import org.usfirst.frc100.Robot2017.RobotMap;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -21,12 +22,16 @@ public class BallHandling extends Subsystem {
 	//public static double timeToSwitch = 2;
 	//public static double totalLoopChanges = timeToSwitch/0.002;
 	//public static double defultRamp = totalLoopChanges/timeToSwitch;
-	public static double ramp = 0.1;
+	private static final double DEFAULT_BALL_HANDLING_RAMP = 0.1;
+	public double ballHandling_ramp;
 	
 	private BallHandlingState mState = BallHandlingState.readyToPickupOrDump;
 	
 	public BallHandling(){
-		
+		if (!Robot.prefs.containsKey("ballHandling_ramp")) {
+			Robot.prefs.putDouble("ballHandling_ramp", DEFAULT_BALL_HANDLING_RAMP);
+		}
+		ballHandling_ramp = Robot.prefs.getDouble("driveTrain_kP", DEFAULT_BALL_HANDLING_RAMP);
 	}
 	
 	public void updateDashboard() {
@@ -77,11 +82,11 @@ public class BallHandling extends Subsystem {
     public void setOutsideRoller(double value){
     	if(value == 0){
     		outsideRoller.set(0);
-		}else if(Math.abs(value*ramp + outsideRoller.get()) <= 1){
-    		outsideRoller.set(value*ramp + outsideRoller.get());
-    	}else if(value*ramp + outsideRoller.get() > 1){
+		}else if(Math.abs(value*ballHandling_ramp + outsideRoller.get()) <= 1){
+    		outsideRoller.set(value*ballHandling_ramp + outsideRoller.get());
+    	}else if(value*ballHandling_ramp + outsideRoller.get() > 1){
     		outsideRoller.set(1);
-    	}else if(value*ramp + outsideRoller.get() < -1){
+    	}else if(value*ballHandling_ramp + outsideRoller.get() < -1){
     		outsideRoller.set(-1);
     	}else{
     		outsideRoller.set(0);
@@ -91,11 +96,11 @@ public class BallHandling extends Subsystem {
     public void setElevator(double value){
     	if(value == 0){
     		elevator.set(0);
-    	}else if(Math.abs(value*ramp + elevator.get()) <= 1){
-    		elevator.set(value*ramp + elevator.get());
-    	}else if(value*ramp + elevator.get() > 1){
+    	}else if(Math.abs(value*ballHandling_ramp + elevator.get()) <= 1){
+    		elevator.set(value*ballHandling_ramp + elevator.get());
+    	}else if(value*ballHandling_ramp + elevator.get() > 1){
     		elevator.set(1);
-    	}else if(value*ramp + elevator.get() < -1){
+    	}else if(value*ballHandling_ramp + elevator.get() < -1){
     		elevator.set(-1);
     	}else {
     		elevator.set(0);
