@@ -127,7 +127,7 @@ public class ColorSensorTCS34725 extends SensorBase implements LiveWindowSendabl
 				m_period = period;
 				m_pollLoop = new java.util.Timer();
 				m_pollLoop.schedule(new PollTCS34725Task(this), 0L, (long) (m_period * 1000));
-				enable();					
+								
 			} else {
 				System.out.println("Can't Find the TCS34725");
 			}
@@ -192,9 +192,12 @@ public class ColorSensorTCS34725 extends SensorBase implements LiveWindowSendabl
 
 	private void TCS34725Init() {
 		isInit = true;
+
+
 		setIntegrationTime(m_integrationTime);
 		setGain(m_gain);
-		enable();
+		enable();	
+		setInterrupt(true); // connect INT line to LED to force it to be off
 	}
 	
 	private boolean isFinishedMeasure(){
