@@ -53,8 +53,8 @@ public class Shoot extends Command {
     	switch(cState){
 			case shooting: 
 			case readyToShoot:
-				Robot.ballHandling.dumperLift.set(false);
-	    		Robot.ballHandling.pickUpFlap.set(false);
+				Robot.ballHandling.setDumperLift(false);
+	    		//Robot.ballHandling.pickUpFlap.set(false);
 	    		Robot.ballHandling.setElevator(1);		//add pref for speed?
 		    	Robot.ballHandling.setOutsideRoller(-1);	//add pref for speed?
 				
@@ -83,8 +83,8 @@ public class Shoot extends Command {
 					firstTime = false;
 				}
 				
-				Robot.ballHandling.dumperLift.set(false);
-				Robot.ballHandling.pickUpFlap.set(true);
+				Robot.ballHandling.setDumperLift(false);
+				//Robot.ballHandling.pickUpFlap.set(true);
 				Robot.ballHandling.setElevator(-1); 		//add pref for speed?
 		    	Robot.ballHandling.setOutsideRoller(-1); 	//add pref for speed?
 		    	

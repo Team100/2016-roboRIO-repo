@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
         knewmatics = new Knewmatics();
         gearMech = new GearMech();
         gameTime = DriverStation.getInstance().getMatchTime();
-        CameraServer.getInstance().startAutomaticCapture();
+        //CameraServer.getInstance().startAutomaticCapture();
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
         // constructed yet. Thus, their requires() statements may grab null
@@ -115,6 +115,20 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         driveTrain.driveRobot(oi.leftController, oi.rightController);
+
+
+		SmartDashboard.putNumber("Elevator Encoder Raw", Robot.ballHandling.elevatorEncoder.getRaw());
+		SmartDashboard.putNumber("Elevator Encoder Count", Robot.ballHandling.elevatorEncoder.get());
+		SmartDashboard.putNumber("Elevator Encoder Distance", Robot.ballHandling.elevatorEncoder.getDistance());
+    	SmartDashboard.putNumber("Elevator Encoder Rate", Robot.ballHandling.elevatorEncoder.getRate());
+
+    	SmartDashboard.putNumber("Outside Roller Rate", Robot.ballHandling.outsideRoller.get());
+    	
+    	SmartDashboard.putNumber("Elevator Rate", Robot.ballHandling.elevator.get());
+    	
+    	SmartDashboard.putBoolean("Dumper Lift state", Robot.ballHandling.dumperLift.get());
+    	
+    	SmartDashboard.putBoolean("Pickup Flap state", Robot.ballHandling.pickUpFlap.get());
     }
 
     /**

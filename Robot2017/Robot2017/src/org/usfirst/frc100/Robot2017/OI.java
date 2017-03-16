@@ -74,13 +74,13 @@ public class OI {
       	
       	//manipulator things
       	shoot = new JoystickButton(operater, 4);
-      	shoot.whenPressed(new Shoot(0.5));
+      	shoot.whenPressed(new Shoot(.5));
       	
         pickUp = new JoystickButton(operater, 3);
-        pickUp.whenPressed(new PickUp(0.75));
+        pickUp.whenPressed(new PickUp(.75));
         
-        dump = new JoystickButton(operater, 1);
-        dump.whenPressed(new Dump(0.75));
+        pickUp = new JoystickButton(operater, 1);
+        pickUp.whenPressed(new PickUp(.75));
         
         stopMotors = new JoystickButton(operater, 2);
         stopMotors.whenPressed(new StopMotors());

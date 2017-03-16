@@ -18,6 +18,7 @@ public class UpdateDashboard extends Command {
 		SmartDashboard.putString("DriveTrain/~TYPE~", "SubSystem");
 		SmartDashboard.putString("BallHandling/~TYPE~", "SubSystem");
 		SmartDashboard.putString("GearMech/~TYPE~", "SubSystem");
+		SmartDashboard.putString("PeterssUnbeatableScalingMechanismWithoutpNeumatics/~TYPE~", "SubSystem");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -25,6 +26,7 @@ public class UpdateDashboard extends Command {
 		Robot.driveTrain.updateDashboard();
 		Robot.ballHandling.updateDashboard();
 		Robot.gearMech.updateDashboard();
+		Robot.peterssUnbeatableScalingMechanismWithoutpNeumatics.updateDashboard();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

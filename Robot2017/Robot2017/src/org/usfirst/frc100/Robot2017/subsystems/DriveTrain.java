@@ -327,7 +327,7 @@ public class DriveTrain extends Subsystem {
 	}
     
     public void driveRobot(Joystick joy, Joystick joy2){
-    	robotDrive.tankDrive(joy.getRawAxis(1), -joy2.getRawAxis(1));
+		Robot.driveTrain.robotDrive.tankDrive(joy.getRawAxis(1), -joy2.getRawAxis(1));
     }
 
     public void stop(){
