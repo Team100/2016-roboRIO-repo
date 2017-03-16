@@ -18,8 +18,16 @@ public class BallHandling extends Subsystem {
 	public final Solenoid dumperLift = RobotMap.dumperLift;
 	public final Solenoid pickUpFlap = RobotMap.pickUpFlap;
 	public final Encoder elevatorEncoder = RobotMap.elevatorEncoder;
+	//public static double timeToSwitch = 2;
+	//public static double totalLoopChanges = timeToSwitch/0.002;
+	//public static double defultRamp = totalLoopChanges/timeToSwitch;
+	public static double ramp = 0.1;
 	
 	private BallHandlingState mState = BallHandlingState.readyToPickupOrDump;
+	
+	public BallHandling(){
+		
+	}
 	
 	public void updateDashboard() {
 		SmartDashboard.putNumber("BallHandling/Elevator Encoder Raw", elevatorEncoder.getRaw());
@@ -67,11 +75,31 @@ public class BallHandling extends Subsystem {
     }
     
     public void setOutsideRoller(double value){
-    	outsideRoller.set(value);
+    	if(value == 0){
+    		outsideRoller.set(0);
+		}else if(Math.abs(value*ramp + outsideRoller.get()) <= 1){
+    		outsideRoller.set(value*ramp + outsideRoller.get());
+    	}else if(value*ramp + outsideRoller.get() > 1){
+    		outsideRoller.set(1);
+    	}else if(value*ramp + outsideRoller.get() < -1){
+    		outsideRoller.set(-1);
+    	}else{
+    		outsideRoller.set(0);
+    	}
     }
     
     public void setElevator(double value){
-    	elevator.set(value);
+    	if(value == 0){
+    		elevator.set(0);
+    	}else if(Math.abs(value*ramp + elevator.get()) <= 1){
+    		elevator.set(value*ramp + elevator.get());
+    	}else if(value*ramp + elevator.get() > 1){
+    		elevator.set(1);
+    	}else if(value*ramp + elevator.get() < -1){
+    		elevator.set(-1);
+    	}else {
+    		elevator.set(0);
+    	}
     }
     
     public boolean isDumperLiftOpen(){

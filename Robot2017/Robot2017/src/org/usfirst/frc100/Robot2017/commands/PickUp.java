@@ -64,8 +64,8 @@ public class PickUp extends Command {
 			case pickingUp:
 			case readyToPickupOrDump: 
 			case dumping:
-	    		Robot.ballHandling.dumperLift.set(true);
-	    		Robot.ballHandling.pickUpFlap.set(true);
+	    		Robot.ballHandling.setDumperLift(true);
+	    		//Robot.ballHandling.pickUpFlap.set(true);
 	    		Robot.ballHandling.setElevator(-1);		//add pref for speed?
 		    	Robot.ballHandling.setOutsideRoller(-1);	//add pref for speed?
 		    		
@@ -78,8 +78,8 @@ public class PickUp extends Command {
 					firstTime = false;
 				}
 				
-				Robot.ballHandling.dumperLift.set(true);
-				Robot.ballHandling.pickUpFlap.set(true);
+				Robot.ballHandling.setDumperLift(true);
+				//Robot.ballHandling.pickUpFlap.set(true);
 				Robot.ballHandling.setElevator(-1); 		//add pref for speed?
 		    	Robot.ballHandling.setOutsideRoller(1); 	//add pref for speed?
 		    	

@@ -30,8 +30,8 @@ public class StopMotors extends Command {
     	switch(cState){
 			case shooting: 
 			case readyToShoot:
-				Robot.ballHandling.dumperLift.set(false);
-				Robot.ballHandling.pickUpFlap.set(false);
+				Robot.ballHandling.setDumperLift(false);
+				//Robot.ballHandling.pickUpFlap.set(false);
 				Robot.ballHandling.setOutsideRoller(0);
 				Robot.ballHandling.setElevator(0);
 				
@@ -41,8 +41,8 @@ public class StopMotors extends Command {
 			case pickingUp:
 			case dumping:
 			case readyToPickupOrDump: 
-				Robot.ballHandling.dumperLift.set(true);
-				Robot.ballHandling.pickUpFlap.set(true);
+				Robot.ballHandling.setDumperLift(true);
+				//Robot.ballHandling.pickUpFlap.set(true);
 				Robot.ballHandling.setOutsideRoller(0);
 				Robot.ballHandling.setElevator(0);
 				
