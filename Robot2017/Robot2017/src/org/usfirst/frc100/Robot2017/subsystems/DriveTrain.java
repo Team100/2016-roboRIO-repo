@@ -58,7 +58,7 @@ public class DriveTrain extends Subsystem {
 	public final Encoder driveTrainLeftEncoder = RobotMap.driveTrainLeftEncoder;
 	public final Encoder driveTrainRightEncoder = RobotMap.driveTrainRightEncoder;
 
-	public final RobotDrive robotDrive = RobotMap.driveTrainRobotDrive;
+	private final RobotDrive robotDrive = RobotMap.driveTrainRobotDrive;
 	
 		public final ADXRS450_Gyro gyro = RobotMap.gyro;
 		private static final double DEFAULT_DRIVE_TRAIN_KP = .9; //.004
@@ -99,12 +99,8 @@ public class DriveTrain extends Subsystem {
 	    public double velLeft; 
 	    public double velRight;
 	    public double angle; 
-	     double OutputOldY;
-	    
-	    public static double ramp = 0.05;
 	    
 	    public DriveTrain() {
-		  	OutputOldY = 0;
 	    	if (!Robot.prefs.containsKey("driveTrain_kP")) {
 				Robot.prefs.putDouble("driveTrain_kP", DEFAULT_DRIVE_TRAIN_KP);
 			}
@@ -330,24 +326,8 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putBoolean("DriveTrain/DriveTrainShifter state", driveTrainShifter.get());
 	}
     
-    public double GetPositionFiltered(double RawValueReadFromHw) {
-		// double tempFilterNumber = 0.01;
-		if (!Robot.prefs.containsKey("filterNumber")) {
-			Robot.prefs.putDouble("filterNumber", 0.01);
-		}
-		double filteringNumber = Robot.prefs.getDouble("filterNumber", 0.01);
-		double FilteredPosition = (filteringNumber * RawValueReadFromHw) + ((1.0 - filteringNumber) * OutputOldY);
-		OutputOldY = FilteredPosition;
-		return FilteredPosition;
-	}
-    
     public void driveRobot(Joystick joy, Joystick joy2){
-    	double localX = Robot.oi.leftController.getX();
-		double localY = Robot.oi.rightController.getY();
-		double filteredLocalY = GetPositionFiltered(localY);
-		double filteredLocalX = GetPositionFiltered(localX);
-		
-		Robot.driveTrain.robotDrive.tankDrive(filteredLocalX, -filteredLocalY);
+		Robot.driveTrain.robotDrive.tankDrive(joy.getRawAxis(1), -joy2.getRawAxis(1));
     }
 
     public void stop(){
