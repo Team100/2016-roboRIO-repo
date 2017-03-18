@@ -58,6 +58,8 @@ public class OI {
  	public JoystickButton binary4;
 
     public OI() {
+    	//Prefrences
+    	
     	// Joysticks
         autoModeSelect = new Joystick(3);
         operater = new Joystick(2);
