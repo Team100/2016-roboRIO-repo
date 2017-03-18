@@ -59,10 +59,6 @@ public class OI {
 
     public OI() {
     	//Prefrences
-		if (!Robot.prefs.containsKey("robot_solinoidWait")) {
-			Robot.prefs.putDouble("robot_solinoidWait", DEFAULT_BALL_HANDLING_RAMP);
-		}
-		ballHandling_ramp = Robot.prefs.getDouble("robot_solinoidWait", DEFAULT_BALL_HANDLING_RAMP);
     	
     	// Joysticks
         autoModeSelect = new Joystick(3);

@@ -23,7 +23,9 @@ public class BallHandling extends Subsystem {
 	//public static double totalLoopChanges = timeToSwitch/0.002;
 	//public static double defultRamp = totalLoopChanges/timeToSwitch;
 	private static final double DEFAULT_BALL_HANDLING_RAMP = 0.1;
+	private static final double DEFAULT_SOLINOIDWAIT = 0.75;
 	public double ballHandling_ramp;
+	public double robot_solinoidWait;
 	
 	private BallHandlingState mState = BallHandlingState.readyToPickupOrDump;
 	
@@ -31,7 +33,11 @@ public class BallHandling extends Subsystem {
 		if (!Robot.prefs.containsKey("ballHandling_ramp")) {
 			Robot.prefs.putDouble("ballHandling_ramp", DEFAULT_BALL_HANDLING_RAMP);
 		}
-		ballHandling_ramp = Robot.prefs.getDouble("driveTrain_kP", DEFAULT_BALL_HANDLING_RAMP);
+		ballHandling_ramp = Robot.prefs.getDouble("ballHandling_ramp", DEFAULT_BALL_HANDLING_RAMP);
+		if (!Robot.prefs.containsKey("robot_solinoidWait")) {
+			Robot.prefs.putDouble("robot_solinoidWait", DEFAULT_SOLINOIDWAIT);
+		}
+		robot_solinoidWait = Robot.prefs.getDouble("robot_solinoidWait", DEFAULT_SOLINOIDWAIT);
 	}
 	
 	public void updateDashboard() {
