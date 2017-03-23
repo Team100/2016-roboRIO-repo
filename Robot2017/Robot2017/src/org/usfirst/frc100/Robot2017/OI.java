@@ -50,6 +50,7 @@ public class OI {
     public JoystickButton driverClimb;
     public JoystickButton lowshift;
     public JoystickButton highShift;
+    public JoystickButton tester;
     
     //Things?
  	public JoystickButton binary1;
@@ -107,13 +108,13 @@ public class OI {
         
         //driver things
         updatePrefs = new JoystickButton(leftController, 4);
-        updatePrefs.whenPressed(new L90Degrees());
+        updatePrefs.whenPressed(new updatePreferneces());
         
         autoDrive = new JoystickButton(leftController, 3);
-        autoDrive.whenPressed(new R90Degrees());
+        autoDrive.whenPressed(new AutoDriveToPeg());
         
         turnAround = new JoystickButton(leftController, 5);
-        turnAround.whenPressed(new TurnAround());
+        turnAround.whenPressed(new TurnToAngle(4.3));
         
         driverClimb = new JoystickButton(rightController, 5);
         driverClimb.whenPressed(new Climb());
@@ -123,6 +124,8 @@ public class OI {
         
         highShift = new JoystickButton(rightController, 1);
         highShift.whenPressed(new HighGearShift(0.25));
+        
+     //   tester = new JoystickButton(rightController, 3)
     }
 
     public Joystick getleftController() {

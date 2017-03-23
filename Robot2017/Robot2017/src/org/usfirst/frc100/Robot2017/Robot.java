@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
         knewmatics = new Knewmatics();
         gearMech = new GearMech();
         gameTime = DriverStation.getInstance().getMatchTime();
-        //CameraServer.getInstance().startAutomaticCapture();
+        CameraServer.getInstance().startAutomaticCapture();
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
         // constructed yet. Thus, their requires() statements may grab null

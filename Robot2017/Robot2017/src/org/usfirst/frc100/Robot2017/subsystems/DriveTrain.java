@@ -227,11 +227,11 @@ public class DriveTrain extends Subsystem {
 					double o = v;
 					
 					if(countTwo <  FollowMotionProfile.position.size() && o > FollowMotionProfile.velocity.get(countTwo)){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
-						o = FollowMotionProfile.velocity.get(countTwo);
-						overRiddenL++;
+					//	o = FollowMotionProfile.velocity.get(countTwo);
+						//overRiddenL++;
 					} 
 					if(countTwo < FollowMotionProfile.position.size()){
-						countTwo++;
+					//	countTwo++;
 					}
 					RobotMap.leftMaster.pidWrite(o);
 
@@ -259,7 +259,7 @@ public class DriveTrain extends Subsystem {
 					double output  = d;
 					
 					if(count < FollowMotionProfile.position.size() && output > FollowMotionProfile.velocity.get(count)){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
-						output = FollowMotionProfile.velocity.get(count);
+						//output = FollowMotionProfile.velocity.get(count);
 						overRiddenR++;
 					} 
 					

@@ -38,7 +38,7 @@ public class TurnToAngle extends Command{
 	
 	public void initialize(){
 		counter = 0;
-		//RobotMap.internalGyro.reset();
+		RobotMap.internalGyro.reset(); // this part can be changes for law of sines
 		Robot.driveTrain.pidAngle.setAbsoluteTolerance(0.3);
 		if(state == "vision"){
 			
@@ -54,8 +54,8 @@ public class TurnToAngle extends Command{
 			//Robot.driveTrain.pidAngle.setSetpoint(visionData);
 			Robot.driveTrain.pidAngle.enable();
 			initialAngle = RobotMap.internalGyro.getAngle();
-			System.out.println("im in!");
-			System.out.println(visionData);
+			//System.out.println("im in!");
+			System.out.println("v "  + visionData);
 		} else {
 			generateAngle = new AutoGenerate(desiredAngle, .8, "angle");
 			generateAngle.generateProfile();
@@ -69,12 +69,12 @@ public class TurnToAngle extends Command{
 	public void execute(){ //initialAngle + 
 		if(counter < angles.size()){
 			if(visionData < 0){
-				Robot.driveTrain.pidAngle.setSetpoint( initialAngle -(angles.get(counter)));
-				System.out.println("anngle sets" + ((initialAngle -(angles.get(counter)))));
+				Robot.driveTrain.pidAngle.setSetpoint(  -(angles.get(counter))); //initialAngle - // this part can be changes for law of sines
+				//System.out.println("anngle sets" + ((initialAngle -(angles.get(counter)))));
 			}
-			else{
-				Robot.driveTrain.pidAngle.setSetpoint( (initialAngle +(angles.get(counter))));	
-				System.out.println("anngle set" + initialAngle +(angles.get(counter)));  
+			else{ 
+				Robot.driveTrain.pidAngle.setSetpoint((angles.get(counter)));	//(initialAngle + // this part can be changes for law of sines
+			//	System.out.println("anngle set" + initialAngle +(angles.get(counter)));  
 			}
 			counter++;
 		}
@@ -93,7 +93,7 @@ public class TurnToAngle extends Command{
 	}
 	protected boolean isFinished() {
 
-		if(counter >= angles.size())//Robot.driveTrain.pidAngle.onTarget() && Math.abs(RobotMap.leftMaster.get()) < .1 && Robot.driveTrain.pidAngle.getAvgError() < .3 )//&& countOnTarget >= 3)
+		if(counter >= angles.size() || RobotMap.internalGyro.getAngle() >= (Math.abs(desiredAngle) - .2))//Robot.driveTrain.pidAngle.onTarget() && Math.abs(RobotMap.leftMaster.get()) < .1 && Robot.driveTrain.pidAngle.getAvgError() < .3 )//&& countOnTarget >= 3)
 			return true;
 			
 		else
