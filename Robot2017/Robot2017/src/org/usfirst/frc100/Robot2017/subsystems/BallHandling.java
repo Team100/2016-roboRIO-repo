@@ -121,7 +121,7 @@ public class BallHandling extends Subsystem {
     	if(open){
     		dumperLift.set(open);
     	}else{
-    		dumperLift.set(!open);
+    		dumperLift.set(open);
     	}
     }
     
