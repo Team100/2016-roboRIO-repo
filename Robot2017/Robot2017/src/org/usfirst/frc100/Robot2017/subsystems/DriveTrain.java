@@ -280,7 +280,7 @@ public class DriveTrain extends Subsystem {
 	    			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 	    			public double pidGet() {
-	    				return RobotMap.gyro.getAngle();
+	    				return -RobotMap.gyro.getAngle();
 	    			}
 
 	    			@Override

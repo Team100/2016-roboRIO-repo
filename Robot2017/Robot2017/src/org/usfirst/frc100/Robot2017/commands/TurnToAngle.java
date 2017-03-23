@@ -37,6 +37,7 @@ public class TurnToAngle extends Command{
 	public TurnToAngle(double angle){
 		cancelPID = false;
 		desiredAngle = angle ;
+		state = "    ";
 	}
 	
 	public void initialize(){
@@ -64,8 +65,8 @@ public class TurnToAngle extends Command{
 			generateAngle.generateProfile();
 			angles = generateAngle.returnPos();
 		//	Robot.driveTrain.pidAngle.setSetpoint(desiredAngle);
-			Robot.driveTrain.pidAngle.enable();
-			Robot.driveTrain.pidAngle.setSetpoint( initialAngle +(angles.get(counter)));
+			Robot.driveTrain.pidAngle.enable();//initialAngle +
+			Robot.driveTrain.pidAngle.setSetpoint( (angles.get(counter)));
 		}
 	}
 	
@@ -108,3 +109,4 @@ public class TurnToAngle extends Command{
 		Robot.driveTrain.pidAngle.reset();
 	}
 }
+
