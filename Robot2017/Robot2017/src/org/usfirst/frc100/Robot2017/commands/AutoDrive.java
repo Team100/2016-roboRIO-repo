@@ -28,7 +28,7 @@ public class AutoDrive extends Command {
     protected void execute() {
     	Robot.driveTrain.driveRobot(.9, .9);
     	if(timer.get()>.4){
-    		Robot.driveTrain.setDriveTrainShifter(false);
+    		Robot.driveTrain.setDriveTrainShifter(true);
     	}
     }
 
