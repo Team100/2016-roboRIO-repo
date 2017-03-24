@@ -12,6 +12,8 @@
 package org.usfirst.frc100.Robot2017;
 
 import edu.wpi.first.wpilibj.CameraServer;
+
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -68,7 +70,8 @@ public class Robot extends IterativeRobot {
         oi = new OI();
 
         // instantiate the command used for the autonomous period
-        autonomousCommand = new AutonomousCommand();
+        autonomousCommand = new AutoDrive(2);
+        //autonomousCommand = new AutoDriveToPeg();
     }
 
     /**
@@ -81,6 +84,12 @@ public class Robot extends IterativeRobot {
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putNumber("distL", RobotMap.driveTrainLeftEncoder.getDistance());
+    	SmartDashboard.putNumber("distR", RobotMap.driveTrainRightEncoder.getDistance());
+    	SmartDashboard.putBoolean("leftA", RobotMap.leftA.get());
+    	SmartDashboard.putBoolean("leftB", RobotMap.leftB.get());
+    	SmartDashboard.putBoolean("rightA", RobotMap.rightA.get());
+    	SmartDashboard.putBoolean("rightB", RobotMap.rightB.get());
     }
 
     public void autonomousInit() {
@@ -127,8 +136,12 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Elevator Rate", Robot.ballHandling.elevator.get());
     	SmartDashboard.putNumber("joy value", -Robot.oi.leftController.getRawAxis(0));
     	SmartDashboard.putBoolean("Dumper Lift state", Robot.ballHandling.dumperLift.get());
-    	SmartDashboard.putNumber("leftD", RobotMap.driveTrainLeftEncoder.getDistance());
-    	SmartDashboard.putNumber("rightD", RobotMap.driveTrainRightEncoder.getDistance());
+    	SmartDashboard.putBoolean("leftA", RobotMap.leftA.get());
+    	SmartDashboard.putBoolean("leftB", RobotMap.leftB.get());
+    	SmartDashboard.putBoolean("rightA", RobotMap.rightA.get());
+    	SmartDashboard.putBoolean("rightB", RobotMap.rightB.get());
+    	SmartDashboard.putNumber("distL", RobotMap.driveTrainLeftEncoder.getDistance());
+    	SmartDashboard.putNumber("distR", RobotMap.driveTrainRightEncoder.getDistance());
     	SmartDashboard.putBoolean("Pickup Flap state", Robot.ballHandling.pickUpFlap.get());
     }
 

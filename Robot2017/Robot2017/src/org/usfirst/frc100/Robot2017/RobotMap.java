@@ -103,18 +103,25 @@ public class RobotMap {
     //Other Things
     public static Compressor compressor;
     public static Compressor pressureSwitch;
-    
+    public static DigitalInput leftA;
+    public static DigitalInput leftB;
+    public static DigitalInput rightA;
+    public static DigitalInput rightB;
     public static PowerDistributionPanel pdp;
 	
     public static void init() {
     	//DriveTrain Things 
-    	driveTrainLeftEncoder = new Encoder(0,1);
+    	leftA = new DigitalInput(0);
+    	leftB = new DigitalInput(1);
+    	rightA = new DigitalInput(2);
+    	rightB  = new DigitalInput(3);
+    	driveTrainLeftEncoder = new Encoder(leftA,leftB);
     	LiveWindow.addSensor("driveTrain", "leftEncoder", driveTrainLeftEncoder);
-    	driveTrainLeftEncoder.setDistancePerPulse(1.0/1937.2032);
+    //	driveTrainLeftEncoder.setDistancePerPulse(1.0/45.4);
     	
-    	driveTrainRightEncoder = new Encoder(2, 3);
+    	driveTrainRightEncoder = new Encoder(rightA, rightB);
     	LiveWindow.addSensor("driveTrain", "rightEncoder", driveTrainRightEncoder);
-    	driveTrainRightEncoder.setDistancePerPulse(1.0/1937.2032);
+    //	driveTrainRightEncoder.setDistancePerPulse(1.0/48.0);//45.4);
     	
     	rightMaster	= new CANTalon(5);
     	LiveWindow.addActuator("driveTrain", "rightMaster", rightMaster);

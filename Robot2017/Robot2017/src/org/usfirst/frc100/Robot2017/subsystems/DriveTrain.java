@@ -280,7 +280,7 @@ public class DriveTrain extends Subsystem {
 	    			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 	    			public double pidGet() {
-	    				return -RobotMap.gyro.getAngle();
+	    				return RobotMap.gyro.getAngle();
 	    			}
 
 	    			@Override
@@ -295,8 +295,8 @@ public class DriveTrain extends Subsystem {
 	    		}, new PIDOutput() {
 	    			public void pidWrite(double d) {
 	    				
-	    				RobotMap.rightMaster.pidWrite(d);///2);
-	    				RobotMap.leftMaster.pidWrite(-d);///2);
+	    				RobotMap.rightMaster.pidWrite(-d);///2);
+	    				RobotMap.leftMaster.pidWrite(d);///2);
 	    				
 	    			}
 	    		});
@@ -330,6 +330,12 @@ public class DriveTrain extends Subsystem {
 		//Robot.driveTrain.robotDrive.tankDrive(joy.getRawAxis(1), -joy2.getRawAxis(1));
 		//Robot.driveTrain.robotDrive.arcadeDrive(-joy.getRawAxis(0), -joy2.getRawAxis(1));	//L = L/R, R = F/B
     	Robot.driveTrain.robotDrive.arcadeDrive(-joy2.getRawAxis(0), -joy.getRawAxis(1));	//L = F/B, R = L/R
+    }
+    
+    public void driveRobot(double l, double r){
+		Robot.driveTrain.robotDrive.tankDrive(-l, r);
+		//Robot.driveTrain.robotDrive.arcadeDrive(-joy.getRawAxis(0), -joy2.getRawAxis(1));	//L = L/R, R = F/B
+    	//Robot.driveTrain.robotDrive.arcadeDrive(-joy2.getRawAxis(0), -joy.getRawAxis(1));	//L = F/B, R = L/R
     }
     
     

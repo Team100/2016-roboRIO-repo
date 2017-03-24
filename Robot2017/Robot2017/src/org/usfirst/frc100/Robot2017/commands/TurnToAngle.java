@@ -42,7 +42,8 @@ public class TurnToAngle extends Command{
 	
 	public void initialize(){
 		counter = 0;
-		RobotMap.gyro.reset(); // this part can be changes for law of sines
+		RobotMap.gyro.reset();
+		Robot.driveTrain.pidAngle.reset();    // this part can be changes for law of sines
 		Robot.driveTrain.pidAngle.setAbsoluteTolerance(0.3);
 		if(state == "vision"){
 			
