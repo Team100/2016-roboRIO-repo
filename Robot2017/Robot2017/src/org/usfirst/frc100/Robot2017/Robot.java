@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot {
         oi = new OI();
 
         // instantiate the command used for the autonomous period
-        autonomousCommand = new AutoDrive(4);
+        autonomousCommand = new AutoDrive(5);
         //autonomousCommand = new AutoDriveToPeg();
     }
 
