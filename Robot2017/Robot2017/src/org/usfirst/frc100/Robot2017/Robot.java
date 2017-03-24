@@ -125,7 +125,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Outside Roller Rate", Robot.ballHandling.outsideRoller.get());
     	
     	SmartDashboard.putNumber("Elevator Rate", Robot.ballHandling.elevator.get());
-    	
+    	SmartDashboard.putNumber("joy value", -Robot.oi.leftController.getRawAxis(0));
     	SmartDashboard.putBoolean("Dumper Lift state", Robot.ballHandling.dumperLift.get());
     	SmartDashboard.putNumber("leftD", RobotMap.driveTrainLeftEncoder.getDistance());
     	SmartDashboard.putNumber("rightD", RobotMap.driveTrainRightEncoder.getDistance());
