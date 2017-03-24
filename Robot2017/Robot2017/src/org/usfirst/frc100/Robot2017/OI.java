@@ -119,8 +119,8 @@ public class OI {
         driverClimb = new JoystickButton(rightController, 5);
         driverClimb.whenPressed(new Climb());
 
-        lowshift = new JoystickButton(leftController, 1);
-        lowshift.whenPressed(new LowGearShift(0.25));
+        //lowshift = new JoystickButton(leftController, 1);
+        //lowshift.whenPressed(new LowGearShift(0.25));
         
         highShift = new JoystickButton(rightController, 1);
         highShift.whenPressed(new HighGearShift(0.25));
