@@ -117,11 +117,11 @@ public class RobotMap {
     	rightB  = new DigitalInput(3);
     	driveTrainLeftEncoder = new Encoder(leftA,leftB);
     	LiveWindow.addSensor("driveTrain", "leftEncoder", driveTrainLeftEncoder);
-    //	driveTrainLeftEncoder.setDistancePerPulse(1.0/45.4);
+     	driveTrainLeftEncoder.setDistancePerPulse(1.0/45.4);
     	
     	driveTrainRightEncoder = new Encoder(rightA, rightB);
     	LiveWindow.addSensor("driveTrain", "rightEncoder", driveTrainRightEncoder);
-    //	driveTrainRightEncoder.setDistancePerPulse(1.0/48.0);//45.4);
+    	driveTrainRightEncoder.setDistancePerPulse(1.0/484.26);//45.4);
     	
     	rightMaster	= new CANTalon(5);
     	LiveWindow.addActuator("driveTrain", "rightMaster", rightMaster);

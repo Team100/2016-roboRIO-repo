@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FollowMotionProfile extends Command{
 	int count = 0;
+	double maxVal = 100; 
 	int changevalue = 0;
 	double setP;
 	double setPP;
@@ -93,6 +94,7 @@ public class FollowMotionProfile extends Command{
 	
 	
 	public void execute() {
+		
 		if(count < position.size()){
 			if(useVision == true || dist > 0){
 				Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
@@ -102,16 +104,24 @@ public class FollowMotionProfile extends Command{
 				Robot.driveTrain.pidPosLeft.setSetpoint(-position.get(count));
 				Robot.driveTrain.pidPosRight.setSetpoint(-position.get(count));
 			} 
+			else {
+				Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
+				Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));
+			}
 			count++;
+			SmartDashboard.putNumber("counter fMP", count);
+			SmartDashboard.putNumber("sizeDistP", position.size());
 		}
 	}
 
 	protected boolean isFinished() {
-		if(count == position.size() || dist > 100){ return true;} else { return false;}
+		if(count >= position.size() || dist > 100){ return true;} else { return false;}
 	}
 	protected void end(){
 		Robot.driveTrain.pidPosLeft.disable();
 		Robot.driveTrain.pidPosRight.disable();
-		Robot.driveTrain.stop();
+		Robot.driveTrain.pidPosLeft.reset();
+		Robot.driveTrain.pidPosRight.reset();
+		//Robot.driveTrain.stop();
 	}
 }

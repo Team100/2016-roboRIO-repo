@@ -110,11 +110,11 @@ public class OI {
         updatePrefs = new JoystickButton(leftController, 4);
         updatePrefs.whenPressed(new updatePreferneces());
         
-        autoDrive = new JoystickButton(leftController, 3);
-        // autoDrive.whenPressed(new AutoDriveToPeg());
+        autoDrive = new JoystickButton(autoModeSelect, 9);
+        autoDrive.whenPressed(new StraightAuto());
         
         turnAround = new JoystickButton(leftController, 5);
-       // turnAround.whenPressed(new TurnToAngle(4.3));
+       // turnAround.whenPressed(new TurnToAngle(4.3));    
         
         driverClimb = new JoystickButton(rightController, 5);
         driverClimb.whenPressed(new Climb());

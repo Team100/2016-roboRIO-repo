@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 import org.usfirst.frc100.Robot2017.OI;
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
@@ -70,7 +71,7 @@ public class Robot extends IterativeRobot {
         oi = new OI();
 
         // instantiate the command used for the autonomous period
-        autonomousCommand = new AutoDrive(5);
+     //   autonomousCommand = new AutoDrive(4);
         //autonomousCommand = new AutoDriveToPeg();
     }
 
@@ -98,6 +99,27 @@ public class Robot extends IterativeRobot {
         	autonomousCommand.start();
         }
         int modeSelect = oi.selector();
+       
+		switch (modeSelect) {
+		case 0:
+			new AutoDriveToPeg().start();
+			break;
+		case 1: // rock wall
+			// new AutonomousDriveForward(10, .5).start();
+			new AutoDriveToPegOtherSide().start();
+			// new AutonomousDriveForward(800, .558).start();
+			break;
+		case 2: // moat
+			new StraightAuto().start();
+			break;
+		case 3:	
+			new AutoDrive(5).start();
+			break;
+		
+		default:
+			
+			break;
+		}
         SmartDashboard.putNumber("Autonomous Mode" , modeSelect);
         new UpdateDashboard().start();
     }
@@ -110,6 +132,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	RobotMap.driveTrainLeftEncoder.reset();
+    	RobotMap.driveTrainRightEncoder.reset();
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -123,7 +147,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        driveTrain.driveRobot(oi.leftController, oi.rightController);
+       // driveTrain.driveRobot(oi.leftController, oi.rightController);
 
 
 		SmartDashboard.putNumber("Elevator Encoder Raw", Robot.ballHandling.elevatorEncoder.getRaw());
@@ -132,9 +156,12 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Elevator Encoder Rate", Robot.ballHandling.elevatorEncoder.getRate());
 
     	SmartDashboard.putNumber("Outside Roller Rate", Robot.ballHandling.outsideRoller.get());
-    	
+    	SmartDashboard.putNumber("set drive", Robot.driveTrain.pidPosRight.getSetpoint());
+    	SmartDashboard.putNumber("set driveLeft", Robot.driveTrain.pidPosLeft.getSetpoint());
+    	SmartDashboard.putNumber("RError", Robot.driveTrain.pidPosRight.getError());
+    	SmartDashboard.putNumber("LError", Robot.driveTrain.pidPosLeft.getError());   
     	SmartDashboard.putNumber("Elevator Rate", Robot.ballHandling.elevator.get());
-    	SmartDashboard.putNumber("joy value", -Robot.oi.leftController.getRawAxis(0));
+    	SmartDashboard.putNumber("joy value", -Robot.oi.leftController.getRawAxis(1));
     	SmartDashboard.putBoolean("Dumper Lift state", Robot.ballHandling.dumperLift.get());
     	SmartDashboard.putBoolean("leftA", RobotMap.leftA.get());
     	SmartDashboard.putBoolean("leftB", RobotMap.leftB.get());

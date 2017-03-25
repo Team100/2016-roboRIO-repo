@@ -21,14 +21,15 @@ public class updatePreferneces extends Command {
 		posP = Robot.prefs.getDouble("driveTrain_kP",0);
 		posI = Robot.prefs.getDouble("driveTrain_kI",0);
 		posF = Robot.prefs.getDouble("driveTrain_kF",0);
-		Robot.driveTrain.pidPosRight.setPID(posP, posI, posF);
-		Robot.driveTrain.pidPosLeft.setPID(posP, posI, posF);
+		Robot.driveTrain.pidPosRight.setPID(posP, posI,0,  posF);
+		
 		//-----------------------------------------------------
 		velP = Robot.prefs.getDouble("driveVelP",0);
 		velI = Robot.prefs.getDouble("driveVelI",0);
 		velF = Robot.prefs.getDouble("driveVelF",0);
-		Robot.driveTrain.pidPosRight.setPID(velP, velI, velF);
-		Robot.driveTrain.pidPosLeft.setPID(velP, velI, velF);
+		Robot.driveTrain.pidPosLeft.setPID(velP, velI,0, velF);
+	//	Robot.driveTrain.pidPosRight.setPID(posP, posI, 0, posF);
+	//	Robot.driveTrain.pidPosLeft.setPID(posP, posI, 0, posF);
 		/////////////////////////////////////////////////////
 		anP = Robot.prefs.getDouble("angleP", 0);
 		anI = Robot.prefs.getDouble("angleI", 0);
@@ -40,7 +41,7 @@ public class updatePreferneces extends Command {
 
 	@Override
 	protected void execute() {
-		SmartDashboard.putNumber("p", posP);
+		SmartDashboard.putNumber("p", Robot.driveTrain.pidPosRight.getP());
 		SmartDashboard.putNumber("i", posI);
 		SmartDashboard.putNumber("f", posF);
 		//-------------------------------------------------

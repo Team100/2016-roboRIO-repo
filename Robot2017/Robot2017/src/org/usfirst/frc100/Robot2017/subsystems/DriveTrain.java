@@ -60,6 +60,8 @@ public class DriveTrain extends Subsystem {
 
 	private final RobotDrive robotDrive = RobotMap.driveTrainRobotDrive;
 	
+	public boolean bel = true; 
+	
 		public final ADXRS450_Gyro gyro = RobotMap.gyro;
 		private static final double DEFAULT_DRIVE_TRAIN_KP = .9; //.004
 		private static final double DEFAULT_DRIVE_TRAIN_KI = 0.00;
@@ -176,7 +178,7 @@ public class DriveTrain extends Subsystem {
 					//RobotMap.rightMaster.pidWrite(velRight);
 					
 				}
-			});
+			});           
 			
 			pidVelLeft = new PIDControllerHenry(driveVelP, driveVelI , driveVelF, new PIDSource() { // .58823
 				PIDSourceType m_sourceType = PIDSourceType.kRate;
@@ -204,11 +206,11 @@ public class DriveTrain extends Subsystem {
 				}
 			});
 	    	
-	    	pidPosLeft = new PIDControllerHenry(driveTrain_kP, driveTrain_kI, 0, driveTrain_kF, new PIDSource() { // .04 0 0 for 180
+	    	pidPosLeft = new PIDControllerHenry(driveVelP, driveVelI, 0, driveVelF, new PIDSource() { // .04 0 0 for 180
 				PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 				public double pidGet() {
-					return (RobotMap.driveTrainLeftEncoder.getDistance() * -1);
+					return (RobotMap.driveTrainRightEncoder.getDistance() );
 					
 					
 				}
@@ -233,7 +235,8 @@ public class DriveTrain extends Subsystem {
 					if(countTwo < FollowMotionProfile.position.size()){
 					//	countTwo++;
 					}
-					RobotMap.leftMaster.pidWrite(o);
+					SmartDashboard.putNumber("pidOutputStuff", -o);
+					RobotMap.leftMaster.pidWrite(-o);
 
 				}
 			});
@@ -241,7 +244,7 @@ public class DriveTrain extends Subsystem {
 				PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 				public double pidGet() {
-					return RobotMap.driveTrainRightEncoder.getDistance();
+					return RobotMap.driveTrainLeftEncoder.getDistance();
 				}
 
 				@Override
@@ -271,7 +274,8 @@ public class DriveTrain extends Subsystem {
 					if(maxSpeedReached < output){
 						maxSpeedReached = output;
 					}
-					RobotMap.rightMaster.pidWrite(output);
+				//	SmartDashboard.putNumber("pidOutputStuff", output);
+					RobotMap.rightMaster.pidWrite(-output);
 					
 				}
 			});
