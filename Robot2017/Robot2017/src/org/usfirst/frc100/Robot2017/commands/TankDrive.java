@@ -41,7 +41,6 @@ public class TankDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.driveTrain.driveRobot(Robot.oi.leftController, Robot.oi.rightController);
-    	SmartDashboard.putNumber("Angle", RobotMap.gyro.getAngle()); 
     	//SmartDashboard.putNumber("Number", Robot.driveTrain.getSetPoint());
     }
 

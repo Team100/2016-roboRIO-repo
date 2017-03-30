@@ -88,12 +88,6 @@ public class Robot extends IterativeRobot {
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("distL", RobotMap.driveTrainLeftEncoder.getDistance());
-    	SmartDashboard.putNumber("distR", RobotMap.driveTrainRightEncoder.getDistance());
-    	SmartDashboard.putBoolean("leftA", RobotMap.leftA.get());
-    	SmartDashboard.putBoolean("leftB", RobotMap.leftB.get());
-    	SmartDashboard.putBoolean("rightA", RobotMap.rightA.get());
-    	SmartDashboard.putBoolean("rightB", RobotMap.rightB.get());
     }
 
     public void autonomousInit() {
