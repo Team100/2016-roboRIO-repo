@@ -120,7 +120,7 @@ public class Robot extends IterativeRobot {
 			new StraightAuto().start();
 			break;
 		case 3:	
-			new AutoDrive(5).start();
+			new AutoDrive(3).start();
 			break;
 		
 		default:
