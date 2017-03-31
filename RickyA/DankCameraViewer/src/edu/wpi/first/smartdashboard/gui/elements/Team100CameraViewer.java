@@ -71,9 +71,6 @@ public class Team100CameraViewer extends StaticWidget implements ITableListener 
                 try{
                     System.out.println("Connecting to camera");
                     ipChanged = false;
-                    if (ipString.length() <= 1){
-                    	ipString = "http://raspberrypi.local:5802/?action=stream";
-                    }
                     URL url = new URL(ipString);
                     connection = url.openConnection();
                     connection.setReadTimeout(250);
