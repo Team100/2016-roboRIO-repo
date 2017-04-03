@@ -166,6 +166,7 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
        // driveTrain.driveRobot(oi.leftController, oi.rightController);
     	SmartDashboard.putNumber("joy value", -Robot.oi.leftController.getRawAxis(1));
+    	SmartDashboard.putNumber("angle set", Robot.driveTrain.pidAngle.getSetpoint());
     }
 
     /**

@@ -22,13 +22,13 @@ public class StraightAuto extends CommandGroup {
      	//addSequential(new OpenFlap(Robot.prefs.getDouble("robot_solinoidWait", DEFAULT_SOLINOIDWAIT)));
      	//addSequential(new FollowMotionProfile(-3.0));
      	///* uncommit when done
-     	//addSequential(new FollowMotionProfile(4.5)); //4.5
+     	addSequential(new FollowMotionProfile(3.0)); //4.5
     	addSequential(new TurnToAngle("vision"));
     	addSequential(new FollowMotionProfile());    
     	//addSequential(new TurnToAngle("vision"));
     	//addSequential(new FollowMotionProfile());
     	addSequential(new OpenFlap(Robot.prefs.getDouble("robot_solinoidWait", DEFAULT_SOLINOIDWAIT)));
-    	//addSequential(new FollowMotionProfile(-3.0));
+    	addSequential(new FollowMotionProfile(-2.0));
     	//*/
     }
 }

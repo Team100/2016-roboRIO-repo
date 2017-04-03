@@ -49,9 +49,12 @@ public class TurnToAngle extends Command{
 			
 			v = new GetVisionData();
 			visionData = v.calculateAngle();
+			SmartDashboard.putNumber("vision Datas", visionData);
 			angless = visionData;
 			if(visionData < 0){
 				angless *= -1;
+			} else {
+				angless *= .8;
 			}
 			generateAngle = new AutoGenerate(angless, .8, "angle");
 			generateAngle.generateProfile();
@@ -60,7 +63,7 @@ public class TurnToAngle extends Command{
 			Robot.driveTrain.pidAngle.enable();
 			initialAngle = RobotMap.gyro.getAngle();
 			//System.out.println("im in!");
-			System.out.println("v "  + visionData);
+			SmartDashboard.putNumber("length Angle", angles.size());
 		} else {
 			generateAngle = new AutoGenerate(desiredAngle, .8, "angle");
 			generateAngle.generateProfile();
@@ -98,7 +101,7 @@ public class TurnToAngle extends Command{
 	}
 	protected boolean isFinished() {
 
-		if(counter >= angles.size() || RobotMap.gyro.getAngle() >= (Math.abs(desiredAngle) - .2))//Robot.driveTrain.pidAngle.onTarget() && Math.abs(RobotMap.leftMaster.get()) < .1 && Robot.driveTrain.pidAngle.getAvgError() < .3 )//&& countOnTarget >= 3)
+		if((counter >= angles.size() || RobotMap.gyro.getAngle() >= (Math.abs(desiredAngle) - .2)) && counter >= angles.size()-20 )//Robot.driveTrain.pidAngle.onTarget() && Math.abs(RobotMap.leftMaster.get()) < .1 && Robot.driveTrain.pidAngle.getAvgError() < .3 )//&& countOnTarget >= 3)
 			return true;
 			
 		else
