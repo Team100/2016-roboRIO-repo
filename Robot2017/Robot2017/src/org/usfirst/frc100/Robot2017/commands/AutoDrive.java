@@ -26,7 +26,7 @@ public class AutoDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.driveRobot(.9, .9);
+    	Robot.driveTrain.driveRobot(0, .9);
     	if(timer.get()>.4){
     		Robot.driveTrain.setDriveTrainShifter(true);
     	}

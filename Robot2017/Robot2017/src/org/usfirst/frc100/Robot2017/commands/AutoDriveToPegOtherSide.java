@@ -12,8 +12,8 @@ public class AutoDriveToPegOtherSide extends CommandGroup {
     public AutoDriveToPegOtherSide() {
     	
     	 //addSequential(new GenerateSPath(4.5, 7.8)); //4.5 7.8
-    	 addSequential(new FollowMotionProfile(7.6));
-         addSequential(new TurnToAngle(-55));
+    	 addSequential(new FollowMotionProfile(5.0));
+         addSequential(new TurnToAngle(-50));
      	 addSequential(new FollowMotionProfile("go to 2 feet"));
      	 addSequential(new TurnToAngle("vision"));
      	 addSequential(new FollowMotionProfile());    

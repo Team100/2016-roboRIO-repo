@@ -54,8 +54,9 @@ public class OpenFlap extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(BallHandlingState.pickingUp == Robot.ballHandling.getState()){
+    	if(BallHandlingState.readyToPickupOrDump == Robot.ballHandling.getState() || BallHandlingState.pickingUp == Robot.ballHandling.getState()){
     		Robot.gearMech.gearMechFlap.set(true);
+    		done = true;
     	}else{
     		switch(cState){
 				case shooting: 
@@ -74,7 +75,7 @@ public class OpenFlap extends Command {
 		    		Robot.ballHandling.setElevator(-1);		//add pref for speed?
 			    	Robot.ballHandling.setOutsideRoller(1);	//add pref for speed?
 			    		
-			    	Robot.ballHandling.setState(BallHandlingState.pickingUp);
+			    	Robot.ballHandling.setState(BallHandlingState.readyToPickupOrDump);
 					cState = Robot.ballHandling.getState();
 					
 		    		done = true;

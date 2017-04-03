@@ -71,7 +71,7 @@ public class FollowMotionProfile extends Command{
 	public void initialize() {
 		if(useVision == true){
 			vision = new GetVisionData();
-			dist = (((vision.calculateDistance()-12)/12)) - stageValue;// - stageValue);//- 6; -12//(vision.calculateDistance()-20)/12);
+			dist = (((vision.calculateDistance())/12)) - stageValue;// - stageValue);//- 6; -12//(vision.calculateDistance()-20)/12);
 			profile = new AutoGenerate(dist, 2.5); //3.5 dist
 			profile.generateProfile();
 		} else { 

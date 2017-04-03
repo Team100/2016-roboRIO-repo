@@ -316,11 +316,19 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("DriveTrain/Left Encoder Count", driveTrainLeftEncoder.get());
 		SmartDashboard.putNumber("DriveTrain/Left Encoder Distance", driveTrainLeftEncoder.getDistance());
     	SmartDashboard.putNumber("DriveTrain/Left Encoder Rate", driveTrainLeftEncoder.getRate());
+    	SmartDashboard.putBoolean("DriveTrain/LeftA", RobotMap.leftA.get());
+    	SmartDashboard.putBoolean("DriveTrain/LeftB", RobotMap.leftB.get());
+    	SmartDashboard.putNumber("DriveTrain/LError", pidPosLeft.getError());
+    	SmartDashboard.putNumber("DriveTrain/Set DriveLeft", pidPosLeft.getSetpoint());
 		
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Raw", driveTrainRightEncoder.getRaw());
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Count", driveTrainRightEncoder.get());
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Distance", driveTrainRightEncoder.getDistance());
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Rate", driveTrainRightEncoder.getRate());
+    	SmartDashboard.putBoolean("DriveTrain/RightA", RobotMap.rightA.get());
+    	SmartDashboard.putBoolean("DriveTrain/RightB", RobotMap.rightB.get());
+    	SmartDashboard.putNumber("DriveTrain/RError", pidPosRight.getError());
+    	SmartDashboard.putNumber("DriveTrain/Set DriveRight", pidPosRight.getSetpoint());
 
     	SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersDistance:", Math.abs(driveTrainRightEncoder.getDistance() - driveTrainLeftEncoder.getDistance()));
 		SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersRate:", Math.abs(driveTrainRightEncoder.getRate() - driveTrainLeftEncoder.getRate()));
@@ -337,9 +345,10 @@ public class DriveTrain extends Subsystem {
     }
     
     public void driveRobot(double l, double r){
-		Robot.driveTrain.robotDrive.tankDrive(-l, r);
+		//Robot.driveTrain.robotDrive.tankDrive(-l, r);
 		//Robot.driveTrain.robotDrive.arcadeDrive(-joy.getRawAxis(0), -joy2.getRawAxis(1));	//L = L/R, R = F/B
     	//Robot.driveTrain.robotDrive.arcadeDrive(-joy2.getRawAxis(0), -joy.getRawAxis(1));	//L = F/B, R = L/R
+		Robot.driveTrain.robotDrive.arcadeDrive(-l, r);
     }
     
     

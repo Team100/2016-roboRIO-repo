@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -27,6 +28,8 @@ import org.usfirst.frc100.Robot2017.OI;
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
 import org.usfirst.frc100.Robot2017.subsystems.*;
+
+import com.ctre.CANTalon.TalonControlMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -85,15 +88,19 @@ public class Robot extends IterativeRobot {
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("distL", RobotMap.driveTrainLeftEncoder.getDistance());
-    	SmartDashboard.putNumber("distR", RobotMap.driveTrainRightEncoder.getDistance());
-    	SmartDashboard.putBoolean("leftA", RobotMap.leftA.get());
-    	SmartDashboard.putBoolean("leftB", RobotMap.leftB.get());
-    	SmartDashboard.putBoolean("rightA", RobotMap.rightA.get());
-    	SmartDashboard.putBoolean("rightB", RobotMap.rightB.get());
     }
 
     public void autonomousInit() {
+    	if(RobotMap.leftFollower.getControlMode() != TalonControlMode.Follower){
+    		RobotMap.leftFollower.changeControlMode(TalonControlMode.Follower);
+    		RobotMap.leftFollower.set(3);
+    		RobotMap.leftFollower.setSafetyEnabled(false);
+    	}
+    	if(RobotMap.rightFollwer.getControlMode() != TalonControlMode.Follower){
+    		RobotMap.rightFollwer.changeControlMode(TalonControlMode.Follower);
+    		RobotMap.rightFollwer.set(5);
+    		RobotMap.rightFollwer.setSafetyEnabled(false);
+    	}
         // schedule the autonomous command (example)
         if (autonomousCommand != null){
         	autonomousCommand.start();
@@ -113,7 +120,7 @@ public class Robot extends IterativeRobot {
 			new StraightAuto().start();
 			break;
 		case 3:	
-			new AutoDrive(5).start();
+			new AutoDrive(3).start();
 			break;
 		
 		default:
@@ -132,6 +139,16 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	if(RobotMap.leftFollower.getControlMode() != TalonControlMode.Follower){
+    		RobotMap.leftFollower.changeControlMode(TalonControlMode.Follower);
+    		RobotMap.leftFollower.set(3);
+    		RobotMap.leftFollower.setSafetyEnabled(false);
+    	}
+    	if(RobotMap.rightFollwer.getControlMode() != TalonControlMode.Follower){
+    		RobotMap.rightFollwer.changeControlMode(TalonControlMode.Follower);
+    		RobotMap.rightFollwer.set(5);
+    		RobotMap.rightFollwer.setSafetyEnabled(false);
+    	}
     	RobotMap.driveTrainLeftEncoder.reset();
     	RobotMap.driveTrainRightEncoder.reset();
         // This makes sure that the autonomous stops running when
@@ -148,28 +165,8 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
        // driveTrain.driveRobot(oi.leftController, oi.rightController);
-
-
-		SmartDashboard.putNumber("Elevator Encoder Raw", Robot.ballHandling.elevatorEncoder.getRaw());
-		SmartDashboard.putNumber("Elevator Encoder Count", Robot.ballHandling.elevatorEncoder.get());
-		SmartDashboard.putNumber("Elevator Encoder Distance", Robot.ballHandling.elevatorEncoder.getDistance());
-    	SmartDashboard.putNumber("Elevator Encoder Rate", Robot.ballHandling.elevatorEncoder.getRate());
-
-    	SmartDashboard.putNumber("Outside Roller Rate", Robot.ballHandling.outsideRoller.get());
-    	SmartDashboard.putNumber("set drive", Robot.driveTrain.pidPosRight.getSetpoint());
-    	SmartDashboard.putNumber("set driveLeft", Robot.driveTrain.pidPosLeft.getSetpoint());
-    	SmartDashboard.putNumber("RError", Robot.driveTrain.pidPosRight.getError());
-    	SmartDashboard.putNumber("LError", Robot.driveTrain.pidPosLeft.getError());   
-    	SmartDashboard.putNumber("Elevator Rate", Robot.ballHandling.elevator.get());
     	SmartDashboard.putNumber("joy value", -Robot.oi.leftController.getRawAxis(1));
-    	SmartDashboard.putBoolean("Dumper Lift state", Robot.ballHandling.dumperLift.get());
-    	SmartDashboard.putBoolean("leftA", RobotMap.leftA.get());
-    	SmartDashboard.putBoolean("leftB", RobotMap.leftB.get());
-    	SmartDashboard.putBoolean("rightA", RobotMap.rightA.get());
-    	SmartDashboard.putBoolean("rightB", RobotMap.rightB.get());
-    	SmartDashboard.putNumber("distL", RobotMap.driveTrainLeftEncoder.getDistance());
-    	SmartDashboard.putNumber("distR", RobotMap.driveTrainRightEncoder.getDistance());
-    	SmartDashboard.putBoolean("Pickup Flap state", Robot.ballHandling.pickUpFlap.get());
+    	SmartDashboard.putNumber("angle set", Robot.driveTrain.pidAngle.getSetpoint());
     }
 
     /**

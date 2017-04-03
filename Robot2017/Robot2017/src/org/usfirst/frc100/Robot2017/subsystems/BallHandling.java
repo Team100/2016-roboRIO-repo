@@ -52,7 +52,7 @@ public class BallHandling extends Subsystem {
     	
     	SmartDashboard.putBoolean("BallHandling/Dumper Lift state", dumperLift.get());
     	
-    	SmartDashboard.putBoolean("BallHandling/Pickup Flap state", pickUpFlap.get());
+    	SmartDashboard.putBoolean("BallHandling/Pickup Flap state", pickUpFlap.get()); // :C
 	}
 	
 	public enum BallHandlingState{
