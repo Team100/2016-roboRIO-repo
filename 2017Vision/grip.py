@@ -100,8 +100,8 @@ class GripPipeline:
                     newCont = newContArray.reshape(-1, 1, 2).astype(np.int32)                    
                     newRect = cv2.boundingRect(newCont)
                     self.boundingRects.append(newRect)
-            else:
-                print "NO CO-LINEAR RECTS" 
+            else:   # NO Co-Linear rects!
+                pass 
         else:
             for rect in tempRects:
                 if ((float(rect[2]) / float(rect[3])) >= 0.3 and (float(rect[2]) / float(rect[3])) <= 0.7 ):
@@ -113,7 +113,6 @@ class GripPipeline:
             self.center = [centerX, centerY]  
         elif (len(self.boundingRects) == 3):
             pass
-            #print "NEED 2 CONTOURS"          
     
     @staticmethod
     def __hsv_threshold(input, hue, sat, val):
