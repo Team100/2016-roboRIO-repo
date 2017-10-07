@@ -61,31 +61,31 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
     }
     
     public void climbJoysticks(Joystick joy){
-    	RobotMap.climberWinch.set(joy.getRawAxis(3));
-    	climberWinch2.set(joy.getRawAxis(3));
-    	climberWinch3.set(joy.getRawAxis(3));
+    	RobotMap.climberWinch.set(-Math.abs(joy.getRawAxis(3)));
+    	climberWinch2.set(-Math.abs(joy.getRawAxis(3)));
+    	climberWinch3.set(-Math.abs(joy.getRawAxis(3)));
     }
     
     public void climbNudge(double value){
     	if(value == 0){
     		climberWinch.set(0);
 		}else if(Math.abs(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get()) <= 1){
-			climberWinch.set(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get());
-			climberWinch2.set(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get());
-			climberWinch3.set(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get());
+			climberWinch.set(-Math.abs(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get()));
+			climberWinch2.set(-Math.abs(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get()));
+			climberWinch3.set(-Math.abs(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get()));
     	}else if(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get() > 1){
-    		climberWinch.set(1);
-    		climberWinch2.set(1);
-    		climberWinch3.set(1);
+    		climberWinch.set(-1);
+    		climberWinch2.set(-1);
+    		climberWinch3.set(-1);
     		
     	}else if(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get() < -1){
     		climberWinch.set(-1);
-    		climberWinch2.set(1);
-    		climberWinch3.set(1);
+    		climberWinch2.set(-1);
+    		climberWinch3.set(-1);
     	}else{
     		climberWinch.set(0);
-    		climberWinch2.set(1);
-    		climberWinch3.set(1);
+    		climberWinch2.set(0);
+    		climberWinch3.set(0);
     	}
     }
 }
