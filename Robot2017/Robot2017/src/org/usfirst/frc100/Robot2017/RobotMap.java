@@ -111,8 +111,8 @@ public class RobotMap {
 	
     public static void init() {
     	//DriveTrain Things 
-    	leftA = new DigitalInput(0);
-    	leftB = new DigitalInput(1);
+    	leftA = new DigitalInput(8);
+    	leftB = new DigitalInput(9);
     	rightA = new DigitalInput(2);
     	rightB  = new DigitalInput(3);
     	driveTrainLeftEncoder = new Encoder(leftA,leftB);
@@ -121,7 +121,7 @@ public class RobotMap {
     	
     	driveTrainRightEncoder = new Encoder(rightA, rightB);
     	LiveWindow.addSensor("driveTrain", "rightEncoder", driveTrainRightEncoder);
-    	driveTrainRightEncoder.setDistancePerPulse(1.0/484.26);//45.4);
+    	driveTrainRightEncoder.setDistancePerPulse(1.0/45.4);//45.4); 484.26
     	
     	rightMaster	= new CANTalon(5);
     	LiveWindow.addActuator("driveTrain", "rightMaster", rightMaster);
@@ -164,7 +164,7 @@ public class RobotMap {
         LiveWindow.addActuator("gearMech", "gearMechFlap", gearMechFlap);
     	
     	//BallHandling Things
-        elevatorEncoder = new Encoder(6,7);
+        elevatorEncoder = new Encoder(1,7);
         LiveWindow.addActuator("pickUp", "elevatorEncoder", elevatorEncoder);
         
         outsideRoller = new VictorSP(0);

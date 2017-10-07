@@ -35,6 +35,8 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
 
 	public final Encoder climberEncoder = RobotMap.climberEncoder;
 	public final VictorSP climberWinch = RobotMap.climberWinch;
+	public final VictorSP climberWinch2 = RobotMap.outsideRoller;
+	public final VictorSP climberWinch3 = RobotMap.elevator;
 	private static final double DEFAULT_PETERSS_UNBEATABLE_SCALING_MECHANISM_WITHOUT_PNEUMATICS_RAMP = 0.1;
 	public double peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp;
 	
@@ -60,6 +62,8 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
     
     public void climbJoysticks(Joystick joy){
     	RobotMap.climberWinch.set(joy.getRawAxis(3));
+    	climberWinch2.set(joy.getRawAxis(3));
+    	climberWinch3.set(joy.getRawAxis(3));
     }
     
     public void climbNudge(double value){
@@ -67,12 +71,21 @@ public class PeterssUnbeatableScalingMechanismWithoutpNeumatics extends Subsyste
     		climberWinch.set(0);
 		}else if(Math.abs(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get()) <= 1){
 			climberWinch.set(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get());
+			climberWinch2.set(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get());
+			climberWinch3.set(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get());
     	}else if(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get() > 1){
     		climberWinch.set(1);
+    		climberWinch2.set(1);
+    		climberWinch3.set(1);
+    		
     	}else if(value*peterssUnbeatableScalingMechanismWithoutpNeumatics_ramp + climberWinch.get() < -1){
     		climberWinch.set(-1);
+    		climberWinch2.set(1);
+    		climberWinch3.set(1);
     	}else{
     		climberWinch.set(0);
+    		climberWinch2.set(1);
+    		climberWinch3.set(1);
     	}
     }
 }
