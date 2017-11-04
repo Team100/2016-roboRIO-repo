@@ -94,6 +94,7 @@ public class FollowMotionProfile extends Command{
 			if(useVision == true || dist > 0){
 				Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
 				Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));
+				
 			} 
 			else if(useVision == false && dist < 0){
 				Robot.driveTrain.pidPosLeft.setSetpoint(-position.get(count));
