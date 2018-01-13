@@ -31,9 +31,9 @@ public class UpThree extends Command {
     	//RobotMap.pIDDriveTrainTalonSRX1.configForwardSoftLimitThreshold(1000, 0);
     	//RobotMap.pIDDriveTrainTalonSRX1.configForwardSoftLimitEnable(true, 0);
     	upOne = true;
-    	RobotMap.pIDDriveTrainTalonSRX1.configClosedloopRamp(0.9, 0);
+    	//RobotMap.pIDDriveTrainTalonSRX1.configClosedloopRamp(0.9, 0);
 
-    	RobotMap.pIDDriveTrainTalonSRX1.set(ControlMode.MotionMagic, 5000);
+    	//RobotMap.pIDDriveTrainTalonSRX1.set(ControlMode.MotionMagic, 5000);
     	//RobotMap.pIDDriveTrainTalonSRX2.set(ControlMode.Position, 420);
 
 

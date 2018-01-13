@@ -32,8 +32,8 @@ public class UpOne extends Command {
     	//RobotMap.pIDDriveTrainTalonSRX1.configForwardSoftLimitEnable(true, 0);
     	upOne = true;
     	//RobotMap.pIDDriveTrainTalonSRX1.configClosedloopRamp(0.9, 0);
-    	RobotMap.pIDDriveTrainTalonSRX1.configClosedloopRamp(1,0);
-    	RobotMap.pIDDriveTrainTalonSRX1.set(ControlMode.Position, 1000);
+    	//RobotMap.pIDDriveTrainTalonSRX1.configClosedloopRamp(1,0);
+    	//RobotMap.pIDDriveTrainTalonSRX1.set(ControlMode.Position, 1000);
     	//RobotMap.pIDDriveTrainTalonSRX2.set(ControlMode.Position, 420);
 
 
