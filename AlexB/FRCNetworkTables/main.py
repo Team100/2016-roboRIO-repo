@@ -4,6 +4,7 @@ from networktables import NetworkTables #Installed with pip
 import time
 import random
 import config
+
 # To see messages from networktables, you must setup logging
 import logging
 logging.basicConfig(level=logging.DEBUG)

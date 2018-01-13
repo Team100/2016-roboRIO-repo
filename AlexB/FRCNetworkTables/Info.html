@@ -17,7 +17,7 @@
         <li><a href="#installingPNT">PyNetworkTables</a></li>
     </ul>
     </p>
-    <a name="installingPNT">
+    <a name="installingPNT"></a>
     <h3>Installing PyNetworkTables</h3>
     <p>Once you have Python and PIP installed, update pip with <code>python -m pip install --upgrade pip</code> and then install with <code>pip install pynetworktables</code></p>
     <hr>
@@ -49,6 +49,26 @@
     <li>Run main.py in PyCharm or in Command Prompt</li>
     <li>Stop when done</li>
 </ol>
-
+        <p><i>If this does not work, check the PyCharm debugger. If it does not say <code>INFO:nt:CONNECTED xxx.xx.xx.x port xxxx (Robot)</code> or similar, a connection to the robot has failed.</i></p>
+        <hr>
+    <h2>Debugging</h2>
+    <a name="#ConnectionFailed"></a>
+    <h3>Connection Failed</h3>
+    If a connection has failed, check that:
+    <ul>
+        <li>
+            The IP in config.py is correct
+        </li>
+        <li>
+            The robot has code downloaded
+        </li>
+        <li>
+            The driver station is enabled
+        </li>
+        <li>
+            The computer and RoboRIO are on the same network
+         </li>
+    </ul>
+You can use Outlineviewer.jar to ensure that your computer can connect to the RoboRIO.
 </body>
 </html>
