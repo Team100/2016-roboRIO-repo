@@ -33,7 +33,7 @@ public class UpThree extends Command {
     	upOne = true;
     	RobotMap.pIDDriveTrainTalonSRX1.configClosedloopRamp(0.9, 0);
 
-    	RobotMap.pIDDriveTrainTalonSRX1.set(ControlMode.Position, 5000);
+    	RobotMap.pIDDriveTrainTalonSRX1.set(ControlMode.MotionMagic, 5000);
     	//RobotMap.pIDDriveTrainTalonSRX2.set(ControlMode.Position, 420);
 
 

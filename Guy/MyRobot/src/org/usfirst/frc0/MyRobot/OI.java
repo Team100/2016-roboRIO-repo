@@ -64,7 +64,7 @@ public class OI {
 
         joystick1 = new Joystick(0);
         button1 = new JoystickButton(joystick1, 1);
-        button1.whenPressed(new UpOne());
+        //button1.whenPressed(new UpOne());
         button2= new JoystickButton(joystick1, 2);
         button2.whenPressed(new UpTwo());
         button3 = new JoystickButton(joystick1, 3);

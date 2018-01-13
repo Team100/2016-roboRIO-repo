@@ -33,7 +33,7 @@ public class UpTwo extends Command {
     	upOne = true;
     	//RobotMap.pIDDriveTrainTalonSRX1.configClosedloopRamp(0.9, 0);
 
-    	RobotMap.pIDDriveTrainTalonSRX1.set(ControlMode.Position, 100);
+    	RobotMap.pIDDriveTrainTalonSRX1.set(ControlMode.MotionMagic, 100);
     	//RobotMap.pIDDriveTrainTalonSRX2.set(ControlMode.Position, 420);
 
 
