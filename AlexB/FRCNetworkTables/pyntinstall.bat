@@ -3,7 +3,7 @@ title Python NT Install
 echo Are you sure that you want to install Network tables?
 pause
 python -m pip install --upgrade pip
-pip install networktables
+py -3 -m pip install pynetworktables
 cls
 echo DONE
 pause
