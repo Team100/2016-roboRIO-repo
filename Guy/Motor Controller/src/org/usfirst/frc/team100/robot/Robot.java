@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Spark;
@@ -28,13 +29,23 @@ import edu.wpi.first.wpilibj.Spark;
 public class Robot extends IterativeRobot {
 
 	private static final int kJoystickPort = 0;
-	static int positionSetpoint = 10000;
+	static int positionSetpoint = 50;
 	private TalonSRX m_motor;
 	private Joystick m_joystick;
+	public static Preferences prefs;
+	public static double P;
+	public static double F;
+	public static double I;
+	public static double D;
 	
 
 	@Override
 	public void robotInit() {
+		prefs = Preferences.getInstance();
+		prefs.putDouble("P", 0);
+		prefs.putDouble("I", 0);
+		prefs.putDouble("D", 0);
+		prefs.putDouble("F", 0);
 		m_motor = new TalonSRX(1);
 		m_joystick = new Joystick(kJoystickPort);
         m_motor.configClosedloopRamp(0, 0);
@@ -51,18 +62,24 @@ public class Robot extends IterativeRobot {
         m_motor.setSensorPhase(true);
         m_motor.configNominalOutputForward(0.0f, 0);
         m_motor.configNominalOutputReverse(0.0f, 0);
-        
-
-        
 
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		SmartDashboard.putNumber("TalonSRXVoltage", m_motor.getMotorOutputVoltage());
+		SmartDashboard.putNumber("TalonSRXError", m_motor.getClosedLoopError(0));
 		SmartDashboard.putNumber("EncoderValueForTalonSRX1", m_motor.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("TalonSRX1Velocity", m_motor.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Desiried SetPoint", positionSetpoint);
+		P = prefs.getDouble("P", 0);
+		I = prefs.getDouble("I", 0);
+		D = prefs.getDouble("D", 0);
+		F = prefs.getDouble("F", 0);
+        m_motor.config_kP(0, P, 0);
+        m_motor.config_kI(0, I, 0);
+        m_motor.config_kD(0, D, 0);
+        m_motor.config_kF(0, F, 0);
 		if (m_joystick.getRawButton(1)) {
 			double targetPos = m_joystick.getY() * 1680 * 10.0;
 			m_motor.set(ControlMode.MotionMagic, positionSetpoint);
