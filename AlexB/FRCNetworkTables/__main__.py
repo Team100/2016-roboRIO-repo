@@ -33,6 +33,9 @@ def generateRandomValues(): #This is a function for creating random values
         table.putBoolean('myBool',True)
     else:
         table.putBoolean('myBool',False)
+    numString = str(random.randint(0,100))
+    table.putString('Debug',numString)
+    print(table.getString('Debug',True))
     time.sleep(0.02)  #Wait 20 milliseconds
 
 runLoop = True #Boolean to run loop. Set to false to stop loop or terminate process

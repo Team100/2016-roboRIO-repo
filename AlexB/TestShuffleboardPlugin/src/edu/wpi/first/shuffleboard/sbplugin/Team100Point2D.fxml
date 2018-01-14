@@ -12,7 +12,7 @@
           xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="edu.wpi.first.shuffleboard.sbplugin.Team100Point2DWidget"
           fx:id="root"
-          prefHeight="128" prefWidth="256" minHeight="96" minWidth="192">
+          prefHeight="128" prefWidth="256" minHeight="96" minWidth="192"> 
     <padding>
         <Insets topRightBottomLeft="8"/>
     </padding>
