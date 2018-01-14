@@ -31,11 +31,13 @@ public class Robot extends IterativeRobot {
 	static int positionSetpoint = 10000;
 	private TalonSRX m_motor;
 	private Joystick m_joystick;
+	
 
 	@Override
 	public void robotInit() {
 		m_motor = new TalonSRX(1);
 		m_joystick = new Joystick(kJoystickPort);
+        m_motor.configClosedloopRamp(0, 0);
         m_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         m_motor.configOpenloopRamp(0, 0);
         m_motor.configMotionCruiseVelocity(70, 0);
@@ -64,9 +66,11 @@ public class Robot extends IterativeRobot {
 		if (m_joystick.getRawButton(1)) {
 			double targetPos = m_joystick.getY() * 1680 * 10.0;
 			m_motor.set(ControlMode.MotionMagic, positionSetpoint);
+		//} else if(m_joystick.getRawButton(2)){
+	        //m_motor.configClosedloopRamp(0, 0);
 			
-
-		} else {
+			//m_motor.set(ControlMode.Position, 16000);
+		}else{
 			m_motor.set(ControlMode.PercentOutput, -m_joystick.getY());
 		}
 	}
