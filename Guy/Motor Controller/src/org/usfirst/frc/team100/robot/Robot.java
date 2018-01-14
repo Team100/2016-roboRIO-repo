@@ -42,22 +42,24 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		prefs = Preferences.getInstance();
-		prefs.putDouble("P", 0);
-		prefs.putDouble("I", 0);
-		prefs.putDouble("D", 0);
-		prefs.putDouble("F", 0);
+		prefs.putDouble("P", 5);
+		prefs.putDouble("I", 0.01);
+		prefs.putDouble("D", 1);
+		prefs.putDouble("F", 0.5);
+		prefs.putDouble("Setpoint", 0);
+
 		m_motor = new TalonSRX(1);
 		m_joystick = new Joystick(kJoystickPort);
         m_motor.configClosedloopRamp(0, 0);
         m_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         m_motor.configOpenloopRamp(0, 0);
         m_motor.configMotionCruiseVelocity(70, 0);
-        m_motor.configMotionAcceleration(70, 0);
+        m_motor.configMotionAcceleration(10, 0);
         m_motor.selectProfileSlot(0, 0);
-        m_motor.config_kP(0, 0.5, 0);
-        m_motor.config_kI(0, 0, 0);
-        m_motor.config_kD(0, 0, 0);
-        m_motor.config_kF(0, 14.614, 0);
+        m_motor.config_kP(0, 5.0, 0);
+        m_motor.config_kI(0, 0.01, 0);
+        m_motor.config_kD(0, 1, 0);
+        m_motor.config_kF(0, 0.5, 0);
         m_motor.setInverted(true);
         m_motor.setSensorPhase(true);
         m_motor.configNominalOutputForward(0.0f, 0);
@@ -72,14 +74,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("EncoderValueForTalonSRX1", m_motor.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("TalonSRX1Velocity", m_motor.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Desiried SetPoint", positionSetpoint);
-		P = prefs.getDouble("P", 0);
-		I = prefs.getDouble("I", 0);
-		D = prefs.getDouble("D", 0);
-		F = prefs.getDouble("F", 0);
-        m_motor.config_kP(0, P, 0);
-        m_motor.config_kI(0, I, 0);
-        m_motor.config_kD(0, D, 0);
-        m_motor.config_kF(0, F, 0);
+
 		if (m_joystick.getRawButton(1)) {
 			double targetPos = m_joystick.getY() * 1680 * 10.0;
 			m_motor.set(ControlMode.MotionMagic, positionSetpoint);
@@ -90,5 +85,17 @@ public class Robot extends IterativeRobot {
 		}else{
 			m_motor.set(ControlMode.PercentOutput, -m_joystick.getY());
 		}
+	}
+
+	@Override
+	public void teleopInit() {
+		P = prefs.getDouble("P", 0);
+		I = prefs.getDouble("I", 0);
+		D = prefs.getDouble("D", 0);
+		F = prefs.getDouble("F", 0);
+        m_motor.config_kP(0, P, 0);
+        m_motor.config_kI(0, I, 0);
+        m_motor.config_kD(0, D, 0);
+        m_motor.config_kF(0, F, 0);
 	}
 }
