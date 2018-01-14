@@ -159,6 +159,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         SmartDashboard.putNumber("Encoder", RobotMap.pIDDriveTrainTalonSRX1.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("EncoderSpeed", RobotMap.pIDDriveTrainTalonSRX1.getSelectedSensorVelocity(0));
+        SmartDashboard.putNumber("EncoderAccel", RobotMap.pIDDriveTrainTalonSRX1.getSelectedSensorVelocity(0)/);
 
         SmartDashboard.putNumber("Encoder2", RobotMap.pIDDriveTrainTalonSRX2.getSelectedSensorPosition(0));
         SmartDashboard.putString("Up One", "Button 1(X) Value: 1000");
