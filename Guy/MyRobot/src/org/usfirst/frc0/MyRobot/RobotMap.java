@@ -45,11 +45,11 @@ public class RobotMap {
         pIDDriveTrainTalonSRX1 = new WPI_TalonSRX(1);
         //pIDDriveTrainTalonSRX1.setSelectedSensorPosition(0, 0, 0);
     	RobotMap.pIDDriveTrainTalonSRX1.configOpenloopRamp(0,0);
-    	pIDDriveTrainTalonSRX1.set(ControlMode.PercentOutput, 0);
+    	//pIDDriveTrainTalonSRX1.set(ControlMode.PercentOutput, 0);
         pIDDriveTrainTalonSRX2 = new WPI_TalonSRX(2);
         
         
-        pIDDriveTrainDifferentialDrive1 = new DifferentialDrive(pIDDriveTrainTalonSRX1, pIDDriveTrainTalonSRX2);
+        pIDDriveTrainDifferentialDrive1 = new DifferentialDrive(null, pIDDriveTrainTalonSRX2);
         //LiveWindow.addActuator("PIDDriveTrain", "Differential Drive 1", pIDDriveTrainDifferentialDrive1);
         pIDDriveTrainDifferentialDrive1.setSafetyEnabled(true);
         pIDDriveTrainDifferentialDrive1.setExpiration(0.1);
