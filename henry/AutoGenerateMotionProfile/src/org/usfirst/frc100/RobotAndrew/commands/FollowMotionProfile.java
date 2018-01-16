@@ -91,7 +91,9 @@ public class FollowMotionProfile extends Command{
 	
 	public void execute() {
 		if(count < position.size()){
-			if(useVision == true || dist > 0){
+			if(useVision == false || dist > 0){
+				SmartDashboard.putNumber("current set", position.get(count));
+				
 				Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
 				Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));
 				

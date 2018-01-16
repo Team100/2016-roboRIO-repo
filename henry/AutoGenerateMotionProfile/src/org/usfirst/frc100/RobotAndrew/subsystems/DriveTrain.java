@@ -256,7 +256,8 @@ public class DriveTrain extends Subsystem {
 				if(maxSpeedReached < output){
 					maxSpeedReached = output;
 				} */
-				RobotMap.rightMaster.pidWrite(output);
+				SmartDashboard.putNumber("output for right", output);
+				RobotMap.rightMaster.pidWrite(-output);
 				
 			}
 		});
