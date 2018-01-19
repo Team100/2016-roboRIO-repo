@@ -1,4 +1,4 @@
-## Check out the NT documentation at: http://robotpy.readthedocs.io/en/stable/guide/nt.html#networktables-guide
+# Check out the NT documentation at: http://robotpy.readthedocs.io/en/stable/guide/nt.html#networktables-guide
 import TestData
 import Delay
 import programs

@@ -1,6 +1,5 @@
 from networktables import NetworkTables  # Installed with pip
 import time  # To create delays
-import random  # To randomly generate numbers
 import config  # To integrate the configurations from config.py
 import datetime # To get the current time
 
