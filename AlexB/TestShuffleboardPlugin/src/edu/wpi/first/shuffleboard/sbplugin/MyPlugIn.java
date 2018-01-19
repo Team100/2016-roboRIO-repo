@@ -22,7 +22,6 @@ import edu.wpi.first.shuffleboard.api.widget.WidgetType;
 @Requires(group = "edu.wpi.first.shuffleboard", name = "Base", minVersion = "1.0.0")
 public class MyPlugIn extends Plugin {
 
-
 	@Override
 	public List<ComponentType> getComponents() {
 		System.out.println ("in MyPlugIn.getComponents");
