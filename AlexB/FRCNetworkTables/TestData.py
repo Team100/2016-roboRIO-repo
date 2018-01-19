@@ -18,10 +18,6 @@ def run():
         'SmartDashboard')  # All changes are in /SmartDashbaord/ to allow SmartDashbaord to see it
     print("GOT TABLE")
 
-    # This retrieves a boolean at /SmartDashboard/foo
-    foo = table.getBoolean('foo', True)  # Example of retrieving data
-
-    table.putBoolean('bar', False)  # Example of putting data
 
     print("PUT VALUE IN NETWORK TABLE")
 
