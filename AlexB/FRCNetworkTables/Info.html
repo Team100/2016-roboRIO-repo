@@ -77,5 +77,19 @@ You can use Outlineviewer.jar to ensure that your computer can connect to the Ro
 <p>__main__.py has been commented to help you understand what is going on. If you have other issues, look at it to help debug.
 <br>
 I recommend that you look at <a href="http://robotpy.readthedocs.io/en/stable/guide/nt.html#networktables-guide">This page</a> to learn more about NetworkTables.</p>
+
+<h1>Master/Slave Delay System</h1>
+<h2>Introduction</h2>
+<p>I have modified the original program to test the delay from one computer to another.</p>
+<h3>Setup</h3>
+<p>
+    You must have:
+    <ul>
+        <li>A master computer that publishes (such as a Raspberry Pi)</li>
+        <li>An intermediary server (usually a RoboRIO)</li>
+        <li>A slave computer that recieves data (such as a PC)</li>
+    </ul>
+    Change the mode to <code>programs.delay_master</code> in __main__.py to run the master system or <code>programs.delay_slave</code> to be the slave system.
+</p>
 </body>
 </html>

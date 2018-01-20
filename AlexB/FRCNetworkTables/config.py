@@ -1,2 +1,2 @@
 # CONFIGURATION FOR THE NETWORK TABLES
-ip = 'localhost'
+ip = '169.254.1.252'

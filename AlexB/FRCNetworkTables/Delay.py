@@ -10,6 +10,7 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
+i = 0
 def run_master():
 
     print("STARTED")
@@ -18,33 +19,32 @@ def run_master():
 
     print("Allocating time to connect")
     time.sleep(5)  # It takes a couple of seconds to connect to the Network Table
-    table = NetworkTables.getTable(
-        'SmartDashboard')  # All changes are in /SmartDashbaord/ to allow SmartDashbaord to see it
-    if(table):
+    table1 = NetworkTables.getTable(
+        'table1')  # All changes are in /SmartDashbaord/ to allow SmartDashbaord to see it
+
+    table2 = NetworkTables.getTable(
+        'table2')
+    if(table1):
         print("TABLE EXISTS")
     print("GOT TABLE")
     time.sleep(2)
 
-    # This retrieves a boolean at /SmartDashboard/foo
-    foo = table.getBoolean('foo', True)  # Example of retrieving data
-
-    table.putBoolean('bar', False)  # Example of putting data
+    #
 
     print("PUT VALUE IN NETWORK TABLE")
 
-    def startMasterDelay():  # This is a function for creating random values
-        table.putString('Time', datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S-%f")[:-3])  # Sends the current date and time
-        datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S-%f")[:-3]
-        print("YR-MO-DY-HR-MN-SC-MSC")
-        print(datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S-%f")[:-3])
-        time.sleep(0.02)  # Wait 20 milliseconds
-        print('PUT DATA')
+    def entryListener(table, key, value, isNew):
+        global i
+        if(table == table1):
+            table2.putString("fromMaster",value)
+            print("RECIEVED AND SENT DATA ", i)
+            i += 1
 
+    table1.addEntryListener(entryListener)
 
-    runLoop = True  # Boolean to run loop. Set to false to stop loop or terminate process
-    print("Loop Started")
-    while (runLoop):
-        startMasterDelay()  # Call the function to generate random values
+    while(1):
+        print("",end="")
+        time.sleep(1)
 
 
 def run_slave():
@@ -57,32 +57,30 @@ def run_slave():
 
     print("Allocating time to connect")
     time.sleep(5)  # It takes a couple of seconds to connect to the Network Table
-    table = NetworkTables.getTable(
-        'SmartDashboard')  # All changes are in /SmartDashbaord/ to allow SmartDashbaord to see it
+    table1 = NetworkTables.getTable(
+        'table1')  # All changes are in /SmartDashbaord/ to allow SmartDashbaord to see it
+
+    table2 = NetworkTables.getTable(
+        'table2')
     print("GOT TABLE")
 
-    # This retrieves a boolean at /SmartDashboard/foo
-    foo = table.getBoolean('foo', True)  # Example of retrieving data
-
-    table.putBoolean('bar', False)  # Example of putting data
-
-    print("PUT VALUE IN NETWORK TABLE")
-
-
-
-
-    print("Loop Started")
-    runLoop = True
-    while(runLoop):
-        if prevval == "":
-            prevval = " "
-        now = datetime.datetime.now()
-        sentData = table.getString('Time', 'ERROR')  # Chooses a random value between 1 and 1000
-        if prevval != sentData and sentData != 'ERROR':
-            difference = datetime.datetime.strptime(sentData,"%y-%m-%d-%H-%M-%S-%f") - now
+    def entryListener(table, key, value, isNew):
+        if(table==table2):
+            now = datetime.datetime.utcnow().strftime("%y-%m-%d-%H-%M-%S-%f")
+            # print("ORIGINAL:", datetime.datetime.strptime(value, "%y-%m-%d-%H-%M-%S-%f"))
+            # print("     NOW:", now)
+            difference = datetime.datetime.strptime(now, "%y-%m-%d-%H-%M-%S-%f") - datetime.datetime.strptime(value, "%y-%m-%d-%H-%M-%S-%f")
             print(difference)
-            prevval = sentData
-            print("GOT STRING")
-        else:
-            print("Invalid String:", sentData)
+            # print("GOT STRING")
+            table1.putString("fromSlave",datetime.datetime.utcnow().strftime("%y-%m-%d-%H-%M-%S-%f"))
 
+
+
+    table2.addEntryListener(entryListener)
+    table1.putString("fromSlave", datetime.datetime.utcnow().strftime("%y-%m-%d-%H-%M-%S-%f"))
+    print("PUT DATA")
+
+    while (1):
+        print("", end="")
+        table1.putString("fromSlave", datetime.datetime.utcnow().strftime("%y-%m-%d-%H-%M-%S-%f"))
+        time.sleep(1)
