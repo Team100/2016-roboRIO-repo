@@ -54,9 +54,9 @@ public class Robot extends IterativeRobot {
 		prefs.putDouble("I", 0.01);
 		prefs.putDouble("D", 1);
 		prefs.putDouble("F", 0.5);
-		prefs.putDouble("Setpoint", 0);
-		prefs.putDouble("Accel", 0);
-		prefs.putDouble("DesiredVelocity", 0);
+		prefs.putDouble("Setpoint", 4000);
+		prefs.putDouble("Accel", 100);
+		prefs.putDouble("DesiredVelocity", 150);
 		lim1 = new DigitalInput(0);
 		pot = new AnalogInput(0);
 
@@ -92,17 +92,18 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("EncoderValueForTalonSRX1", m_motor.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("TalonSRX1Velocity", m_motor.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Desiried SetPoint", positionSetpoint);
-
 		if (m_joystick.getRawButton(1)) {
 			double targetPos = m_joystick.getY() * 1680 * 10.0;
-			m_motor.set(ControlMode.MotionMagic, pot.getValue()*2);
-			 if(lim1.get() == true){
-					m_motor.set(ControlMode.MotionMagic, 5000);
-				}
-		//} else if(m_joystick.getRawButton(2)){
-	        //m_motor.configClosedloopRamp(0, 0);
-			
-			//m_motor.set(ControlMode.Position, 16000);
+			m_motor.set(ControlMode.MotionMagic, positionSetpoint);
+			if(lim1.get()){
+				m_motor.set(ControlMode.Velocity, 0);
+		        m_motor.setSelectedSensorPosition(0, 0, 0);
+
+			}
+		} else if(lim1.get()){
+	        m_motor.setSelectedSensorPosition(0, 0, 0);
+			m_motor.set(ControlMode.Velocity, 0);
+
 		}else{
 			m_motor.set(ControlMode.PercentOutput, -m_joystick.getY());
 		}
