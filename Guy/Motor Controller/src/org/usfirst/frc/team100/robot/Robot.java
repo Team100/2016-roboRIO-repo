@@ -63,7 +63,7 @@ public class Robot extends IterativeRobot {
 		m_motor = new TalonSRX(1);
 		m_joystick = new Joystick(kJoystickPort);
         m_motor.configClosedloopRamp(0, 0);
-        m_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        m_motor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
         m_motor.configOpenloopRamp(0, 0);
        // m_motor.configMotionCruiseVelocity(70, 0);
        // m_motor.configMotionAcceleration(10, 0);
