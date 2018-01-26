@@ -64,8 +64,8 @@ public class OI {
     public JoystickButton button10;
     public JoystickButton button11;
     public JoystickButton button12;
-    public Joystick leftController;
-    public Joystick rightStick;
+    public static Joystick leftController;
+    public static Joystick rightStick;
     public Joystick autoModeSelect;
     public Joystick operator;
 
