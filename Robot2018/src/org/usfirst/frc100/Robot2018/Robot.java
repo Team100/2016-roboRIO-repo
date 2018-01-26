@@ -86,6 +86,9 @@ public class Robot extends TimedRobot {
         m_motor.configNominalOutputReverse(0.0f, 0);
    	
    }
+    public static void PutData(WPI_TalonSRX m_motor, String nameOfMotor){
+    	SmartDashboard.putNumber(nameOfMotor, m_motor.getSelectedSensorPosition(0));
+    }
     @Override
     public void robotInit() {
         RobotMap.init();
@@ -159,5 +162,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        PutData(RobotMap.elevatorElevatorTalon, "ElevatorMotor");
     }
 }
