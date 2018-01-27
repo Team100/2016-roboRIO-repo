@@ -16,7 +16,7 @@ import org.usfirst.frc100.Robot2018.Robot;
 public class updatePreferences extends Command {
 	/**
 	 * DEFINE YOUR PREFERENCES HERE
-	 * Preference Format: {@code <Season>-<Subsystem>-<Group>-<name> ===> 2018-Lift-PIDF-kP}
+	 * Preference Format: {@code FRC<Season><Subsystem><Group><name> ===> FRC2018LiftPIDFkP}
 	 * Variable Format: {@code PREF<Season><Subsystem><Group><name>  ===> PREF2018LiftPIDFkP}
 	 */
 	
@@ -39,16 +39,25 @@ public class updatePreferences extends Command {
     protected void initialize() {
     	/**
     	 * Creates a new variable to get the data from preferences
-    	 * Example: PREF2018TestPreferencesOne = Robot.prefs.getDouble("2018-Test-Preferences-one", 0.0);
+    	 * Example: PREF2018TestPreferencesOne = Robot.prefs.getDouble("2018-Test-Preferences-One", 0.0);
     	 * Duplicate the line below and change the appropriate values for your new variable
     	 */
-    	PREF2018TestPreferencesOne = Robot.prefs.getDouble("2018-Test-Preferences-one", 0.0);
+    	
+    	SmartDashboard.putBoolean("InUP", true);
+    	System.out.println("Started =======================================================================================");
+    	Robot.prefs.putDouble("FRC2018TestPreferencesOne", 5);
+    	double PREF2018TestPreferencesOne = Robot.prefs.getDouble("FRC2018TestPreferencesOne", 0); // <===== Goes Wrong Here
+    	SmartDashboard.putBoolean("LOADED", false);
+    	SmartDashboard.putString("TestPref", Double.toString(PREF2018TestPreferencesOne));
+    	SmartDashboard.putString("MReachedValue", "VALID");
+    	System.out.println(PREF2018TestPreferencesOne);
+    	SmartDashboard.putBoolean("InUP", false);
     
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("2018-Test-Preferences-one", PREF2018TestPreferencesOne);
+    	//SmartDashboard.putString("TestPref", Double.toString(PREF2018TestPreferencesOne));
     }
 
     // Make this return true when this Command no longer needs to run execute()
