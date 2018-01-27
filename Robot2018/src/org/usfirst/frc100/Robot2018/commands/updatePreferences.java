@@ -5,7 +5,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc100.Robot2018.Robot;
 
-
+/**
+ * 
+ * @author Team100
+ *
+ *<h1> Update Preferences </h1>
+ *<p> Updates the preferences </p>
+ * 
+ */
 public class updatePreferences extends Command {
 	/**
 	 * DEFINE YOUR PREFERENCES HERE
