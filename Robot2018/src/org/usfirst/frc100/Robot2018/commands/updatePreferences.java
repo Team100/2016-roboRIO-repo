@@ -40,6 +40,7 @@ public class updatePreferences extends Command {
     	/**
     	 * Creates a new variable to get the data from preferences
     	 * Example: PREF2018TestPreferencesOne = Robot.prefs.getDouble("2018-Test-Preferences-one", 0.0);
+    	 * Duplicate the line below and change the appropriate values for your new variable
     	 */
     	PREF2018TestPreferencesOne = Robot.prefs.getDouble("2018-Test-Preferences-one", 0.0);
     
