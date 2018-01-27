@@ -11,6 +11,7 @@
 
 package org.usfirst.frc100.Robot2018;
 
+import org.usfirst.frc100.Robot2017.commands.updatePreferneces;
 import org.usfirst.frc100.Robot2018.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
@@ -64,6 +65,9 @@ public class OI {
     public JoystickButton button10;
     public JoystickButton button11;
     public JoystickButton button12;
+    
+    public JoystickButton updatePrefs;
+    
     public Joystick leftController;
     public Joystick rightStick;
     public Joystick autoModeSelect;
@@ -81,6 +85,13 @@ public class OI {
         rightStick = new Joystick(1);
         
         leftController = new Joystick(0);
+        
+        /**
+         * Update preferences on joystick button
+         */
+        
+        updatePrefs = new JoystickButton(rightStick, 4); // Was set to (leftController, 4) before, but I had to change because (LC,4). Make sure that (rightStick, 4) is valid
+        updatePrefs.whenPressed(new updatePreferences());
         
         button12 = new JoystickButton(leftController, 12);
         button12.whileHeld(new WinchWind());

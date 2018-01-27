@@ -9,8 +9,8 @@ import org.usfirst.frc100.Robot2018.Robot;
 public class updatePreferences extends Command {
 	/**
 	 * DEFINE YOUR PREFERENCES HERE
-	 * Preference Format: <Season>-<Subsystem>-<Group>-<name> ===> 2018-Lift-PIDF-kP
-	 * Variable Format: PREF<Season><Subsystem><Group><name>  ===> PREF2018LiftPIDFkP
+	 * Preference Format: {@code <Season>-<Subsystem>-<Group>-<name> ===> 2018-Lift-PIDF-kP}
+	 * Variable Format: {@code PREF<Season><Subsystem><Group><name>  ===> PREF2018LiftPIDFkP}
 	 */
 	
 	public double PREF2018TestPreferencesOne;
