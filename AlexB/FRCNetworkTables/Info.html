@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NetworkTableGenerator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <h1>Network Table Generator</h1>
+    <h2>By Team 100</h2>
+    <hr>
+    <h2>Getting Started</h2>
+    <h3>What you need</h3>
+    <p>
+    <ul>
+        <li>Python 3.x <ul><li>You NEED to get PIP</li></ul></li>
+        <li>PyCharm CE</li>
+        <li><a href="#installingPNT">PyNetworkTables</a></li>
+    </ul>
+    </p>
+    <a name="installingPNT"></a>
+    <h3>Installing PyNetworkTables</h3>
+    <p>Once you have Python and PIP installed, update pip with <code>python -m pip install --upgrade pip</code> and then install with <code>pip install pynetworktables</code></p>
+    <hr>
+    <h2>Configuration</h2>
+    <h3>IP Configuration</h3>
+    <p>To configure your motors, edit <i>config.py</i>. Look for the line that says:
+    <br>
+    <code>
+        ip = 'xxx'
+    </code>
+    Change the value depending on your configuration:
+        <ul>
+        <li><code>'localhost'</code> - Running NTserver on your PC in OutlineViewer Server Mode</li>
+        <li><code>'172.22.11.2'</code> - Put local IP for USB connection</li>
+        <li><code>'10.xx.xx.2'</code> - Network IP for competitions</li>
+    </ul>
+    </p>
+<br>
+<h2>Running the code</h2>
+<ol>
+    <li>Start Eclipse</li>
+    <li>Download a program</li>
+    <li>Open PyCharm</li>
+    <li>Open the NetworkTable project</li>
+    <li>Configure your setup in config.py</li>
+    <li>Open FRC Driver Station</li>
+    <li>Open Shuffleboard</li>
+    <li>Enable DriverStation</li>
+    <li>Run main.py in PyCharm or in Command Prompt</li>
+    <li>Stop when done</li>
+</ol>
+        <p><i>If this does not work, check the PyCharm debugger. If it does not say <code>INFO:nt:CONNECTED xxx.xx.xx.x port xxxx (Robot)</code> or similar, a connection to the robot has failed.</i></p>
+        <hr>
+    <h2>Debugging</h2>
+    <a name="#ConnectionFailed"></a>
+    <h3>Connection Failed</h3>
+    If a connection has failed, check that:
+    <ul>
+        <li>
+            The IP in config.py is correct
+        </li>
+        <li>
+            The robot has code downloaded
+        </li>
+        <li>
+            The driver station is enabled
+        </li>
+        <li>
+            The computer and RoboRIO are on the same network
+         </li>
+    </ul>
+You can use Outlineviewer.jar to ensure that your computer can connect to the RoboRIO.
+<hr>
+<h2>Looking at the code</h2>
+<p>__main__.py has been commented to help you understand what is going on. If you have other issues, look at it to help debug.
+<br>
+I recommend that you look at <a href="http://robotpy.readthedocs.io/en/stable/guide/nt.html#networktables-guide">This page</a> to learn more about NetworkTables.</p>
+
+<h1>Master/Slave Delay System</h1>
+<h2>Introduction</h2>
+<p>I have modified the original program to test the delay from one computer to another.</p>
+<h3>Setup</h3>
+<p>
+    You must have:
+    <ul>
+        <li>A master computer that publishes (such as a Raspberry Pi)</li>
+        <li>An intermediary server (usually a RoboRIO)</li>
+        <li>A slave computer that recieves data (such as a PC)</li>
+    </ul>
+    Change the mode to <code>programs.delay_master</code> in __main__.py to run the master system or <code>programs.delay_slave</code> to be the slave system.
+</p>
+</body>
+</html>
