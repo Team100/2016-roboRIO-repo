@@ -132,8 +132,8 @@ public class MotionVel extends Command {
     	if(counter < path.smoothRightVelocity.length){
     		SmartDashboard.putNumber("actual setpoint", ((path.smoothRightVelocity[counter][1]/1.04667)/10)*8192);
     		SmartDashboard.putNumber("actual setpointL", ((path.smoothLeftVelocity[counter][1]/1.04667)/10)*8192);
-    		RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, -((path.smoothRightVelocity[counter][1]/1.04667)/10)*8192);
-    		RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, ((path.smoothLeftVelocity[counter][1]/1.04667)/10)*8192);
+    		RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, -(((path.smoothRightVelocity[counter][1])/1.04667)/10)*8192);
+    		RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, (((path.smoothLeftVelocity[counter][1])/1.04667)/10)*8192);
     		
     	} else {
     		finish = true; 

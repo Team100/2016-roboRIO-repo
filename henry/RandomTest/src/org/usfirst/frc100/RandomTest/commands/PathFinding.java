@@ -22,6 +22,7 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -57,7 +58,10 @@ public class PathFinding extends Command {
 	double d2; 
 	double a2;
 	Trajectory trajectory;
-	
+	Trajectory leftT;
+	Trajectory rightT;
+	long startTime;
+	long currentTime;
     public PathFinding() {
     	requires(Robot.driveTrain);
     	System.out.println("hi");
@@ -71,10 +75,13 @@ public class PathFinding extends Command {
     	finish = false;
     	counter = 0;
     	timer = new Timer();
+    	startTime = System.currentTimeMillis();
     	Waypoint [] points = new Waypoint[]{
+    			/*
     			 new Waypoint(-4, -1, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
     			    new Waypoint(-2, -2, 0),                        // Waypoint @ x=-2, y=-2, exit angle=0 radians
     			    new Waypoint(0, 0, 0)   
+    			    */
     			/*
     			new Waypoint(0, 0, Pathfinder.d2r(90)), //90, 45, 45, 90
     			new  Waypoint(1, 2, Pathfinder.d2r(45)),
@@ -85,57 +92,64 @@ public class PathFinding extends Command {
     			//new Waypoint(-3, 8, 0), 
     		//	new Waypoint(-3, 10.5, 0), 
     			//new Waypoint(0, 0, 0), 
-    			//new Waypoint(1, 0, 0)
+    			//new Waypoint(1, 0, 0) 10,3
+    			new Waypoint(0, 0, 0), 
+    			new Waypoint(1.5, .45, Pathfinder.d2r(45)), //1.5, .45
+    			new Waypoint(3.2, .914, 0), //3.2, .914
     			
     	};
     	
-    	p = Robot.prefs.getDouble("pathP",
+    	p = Robot.prefs.getDouble("P",
 				0);
-    	i = Robot.prefs.getDouble("pathI",
+    	i = Robot.prefs.getDouble("I",
 				0);
-    	d = Robot.prefs.getDouble("pathD",
+    	d = Robot.prefs.getDouble("D",
 				0);
-    	a = Robot.prefs.getDouble("pathV",
+    	a = Robot.prefs.getDouble("F",
 				0);
     	
-    	p2 = Robot.prefs.getDouble("pathP",
+    	p2 = Robot.prefs.getDouble("PL",
 				0);
-    	i2 = Robot.prefs.getDouble("pathI",
+    	i2 = Robot.prefs.getDouble("IL",
 				0);
-    	d2 = Robot.prefs.getDouble("PathD",
+    	d2 = Robot.prefs.getDouble("DL",
 				0);
-    	a2 = Robot.prefs.getDouble("PathV",
+    	a2 = Robot.prefs.getDouble("FL",
 				0);
-    	// Arguments:
-    	// Fit Method:          HERMITE_CUBIC or HERMITE_QUINTIC
-    	// Sample Count:        SAMPLES_HIGH (100 000)
-//    	                      SAMPLES_LOW  (10 000)
-//    	                      SAMPLES_FAST (1 000)
-    	// Time Step:           0.05 Seconds
-    	// Max Velocity:        1.7 m/s
-    	// Max Acceleration:    2.0 m/s/s
-    	// Max Jerk:            60.0 m/s/s/s
+    	/*
+    	RobotMap.driveTrainTalonSRX1.config_kF(0, p, 10); //.123
+    	RobotMap.driveTrainTalonSRX1.config_kP(0, i, 10); //.2
+        RobotMap.driveTrainTalonSRX1.config_kI(0, d, 10);
+    	RobotMap.driveTrainTalonSRX1.config_kD(0, a, 10);
+    
+    	RobotMap.driveTrainTalonSRX2.config_kF(0, p2, 10); //.34 //.22
+    	RobotMap.driveTrainTalonSRX2.config_kP(0, i2, 10); //.189
+    	RobotMap.driveTrainTalonSRX2.config_kI(0, d2, 10); //2.0E-4
+    	RobotMap.driveTrainTalonSRX2.config_kD(0, a2, 10); //0
     	RobotMap.gyro.reset();
     	RobotMap.driveTrainTalonSRX1.setSelectedSensorPosition(0, 0, 0);
     	RobotMap.driveTrainTalonSRX2.setSelectedSensorPosition(0, 0, 0);
-    	
-    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 10.1, 16.7, 60);//17.08);
+    	*/
+    	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1
+    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.5, 5.1/2.5, 8);//17.08);
     	trajectory = Pathfinder.generate(points, config);
     
-    	TankModifier modifier = new TankModifier(trajectory).modify(2.3);
-        left = new EncoderFollower(modifier.getLeftTrajectory());
-        right = new EncoderFollower(modifier.getRightTrajectory());
-    	left.configureEncoder(RobotMap.driveTrainTalonSRX1.getSelectedSensorPosition(0), 8192, .3333);
-    	right.configureEncoder(RobotMap.driveTrainTalonSRX2.getSelectedSensorPosition(0), 8192, .3333);
+    	TankModifier modifier = new TankModifier(trajectory).modify(.7);
+    	leftT = modifier.getLeftTrajectory();
+    	rightT = modifier.getRightTrajectory();
+       // left = new EncoderFollower(modifier.getLeftTrajectory());
+        //right = new EncoderFollower(modifier.getRightTrajectory());
+        
+    	//left.configureEncoder(RobotMap.driveTrainTalonSRX1.getSelectedSensorPosition(0), 8192, .3333);
+    	//right.configureEncoder(RobotMap.driveTrainTalonSRX2.getSelectedSensorPosition(0), 8192, .3333);
     	//left.configurePIDVA(p, i, d, 1 / 10.1, a);
     	//right.configurePIDVA(p2, i2, d2, 1 / 10.1, a2);
-    	left.configurePIDVA(p, i, d, 0, a);
-    	right.configurePIDVA(p2, i2, d2, 0, a2);
-    	System.out.println("hi");
     	for (int i = 0; i < trajectory.length(); i++) {
     	    Trajectory.Segment seg = trajectory.get(i);
+    	    modifier.getRightTrajectory();
     	    
-    	    System.out.printf("%f, %f\n",seg.x, seg.y);
+    	    System.out.println(i/10.0);
+    	  //  System.out.printf("%f, %f\n",seg.x *3.28, seg.y*3.28);//, seg.heading, seg.velocity);
     	    /*System.out.printf("%f,%f,%f,%f,%f,%f,%f,%f\n", 
     	        seg.dt, seg.x, seg.y, seg.position, seg.velocity, 
     	            seg.acceleration, seg.jerk, seg.heading); */
@@ -148,7 +162,11 @@ public class PathFinding extends Command {
     @Override
     protected void execute() {
     	//System.out.println("hi");
-    	 
+    	/*
+    	long ellapsedTime = System.currentTimeMillis();
+    	SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
+	    SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
+    	if(counter < trajectory.length() && (startTime - ellapsedTime)%100 ==0){
     	SmartDashboard.putNumber("Pp", p);
     	SmartDashboard.putNumber("Pi", i);
     	SmartDashboard.putNumber("Pd", d);
@@ -157,30 +175,28 @@ public class PathFinding extends Command {
     	SmartDashboard.putNumber("Pil", i2);
     	SmartDashboard.putNumber("Pdl", d2);
     	SmartDashboard.putNumber("Pal", a2);
-    	SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
-	     SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
-    	double l = left.calculate(RobotMap.driveTrainTalonSRX1.getSelectedSensorPosition(0));
-    	double r = right.calculate(RobotMap.driveTrainTalonSRX2.getSelectedSensorPosition(0));
     	
-    	
+	    Trajectory.Segment segL = leftT.get(counter); 
+	    Trajectory.Segment segR = rightT.get(counter);
 
     	double gyro_heading = RobotMap.gyro.getAngle();//... your gyro code here ...    // Assuming the gyro is giving a value in degrees
-    	double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
+    	double desired_heading = Pathfinder.r2d(segR.heading);  // Should also be in degrees
 
     	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
     	double turn = 0.8 * (-1.0/80.0) * angleDifference;
+    	
+    	double setR = -(segR.velocity + turn); 
+    	double setL = segL.velocity - turn;
+    	
+    	RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, (((setR*3.28)/1.04667)/10)*8192);
+ 		RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, (((setL*3.28)/1.04667)/10)*8192);
 
-    	//RobotMap.driveTrainTalonSRX1.set(-(r - turn));
-    	//RobotMap.driveTrainTalonSRX2.set(-(l + turn));
-    	//System.out.println(	trajectory.get(counter));
-    	SmartDashboard.putNumber("Left Desired", r-turn);
-    	SmartDashboard.putNumber("Right Desired", l - turn);
-    	if(counter < trajectory.length()){
+    	
     		counter++; 
-    	}
-    	if(left.isFinished()){ 
+    	} else {
     		finish = true;
-    	}
+    	} */
+    	
     	
     	
     }
