@@ -65,16 +65,15 @@ public class OI {
     public JoystickButton button10;
     public JoystickButton button11;
     public JoystickButton button12;
-<<<<<<< HEAD
+
     
     public JoystickButton updatePrefs;
     
-    public Joystick leftController;
-    public Joystick rightStick;
-=======
+
+
     public static Joystick leftController;
     public static Joystick rightStick;
->>>>>>> 2018-Robot
+
     public Joystick autoModeSelect;
     public Joystick operator;
 
