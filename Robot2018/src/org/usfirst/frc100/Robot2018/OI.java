@@ -65,7 +65,7 @@ public class OI {
     public JoystickButton button10;
     public JoystickButton button11;
     public JoystickButton button12;
-<<<<<<< HEAD
+
 
     
     public JoystickButton updatePrefs;
@@ -75,13 +75,8 @@ public class OI {
     public static Joystick leftController;
     public static Joystick rightStick;
 
-=======
-    
-    public JoystickButton updatePrefs;
-    
-    public Joystick leftController;
-    public Joystick rightStick;
->>>>>>> parent of 1f93aba... Merge branch '2018-Robot' into AlexBExplorations
+
+
     public Joystick autoModeSelect;
     public Joystick operator;
 
