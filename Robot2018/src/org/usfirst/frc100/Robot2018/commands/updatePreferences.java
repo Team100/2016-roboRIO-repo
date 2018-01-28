@@ -45,11 +45,11 @@ public class updatePreferences extends Command {
     	
     	SmartDashboard.putBoolean("InUP", true);
     	System.out.println("Started =======================================================================================");
-    	Robot.prefs.putDouble("FRC2018TestPreferencesOne", 5);
-    	double PREF2018TestPreferencesOne = Robot.prefs.getDouble("FRC2018TestPreferencesOne", 0); // <===== Goes Wrong Here
+    	//Robot.prefs.putDouble("FRC2018TestPreferencesOne", 5);
+    	double PREF2018TestPreferencesOne = Robot.prefs.getDouble("FRC2018TestPreferencesOne", 1); // <===== Goes Wrong Here
     	SmartDashboard.putBoolean("LOADED", false);
     	SmartDashboard.putString("TestPref", Double.toString(PREF2018TestPreferencesOne));
-    	SmartDashboard.putString("MReachedValue", "VALID");
+ 
     	System.out.println(PREF2018TestPreferencesOne);
     	SmartDashboard.putBoolean("InUP", false);
     
