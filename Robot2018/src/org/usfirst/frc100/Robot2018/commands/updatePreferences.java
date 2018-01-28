@@ -20,7 +20,7 @@ public class updatePreferences extends Command {
 	 * Variable Format: {@code FRC<Season><Subsystem><Group><name>  ===> FRC2018LiftPIDFkP}
 	 */
 	
-	public double PREF2018TestPreferencesOne;
+	public double FRC2018TestPreferencesOne;
 	
 	/*
 	 * END OF Variable creation
@@ -40,12 +40,15 @@ public class updatePreferences extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	/**
-    	 * Creates a new variable to get the data from preferences
+    	 * Utilizes a variable to get the data from preferences
     	 * Example: PREF2018TestPreferencesOne = Robot.prefs.getDouble("2018-Test-Preferences-One", 0.0);
     	 * Duplicate the line below and change the appropriate values for your new variable
     	 */
     	
-    	double FRC2018TestPreferencesOne = Robot.prefs.getDouble("PREF2018TestPreferencesOne", 1);
+    	
+    	
+    	FRC2018TestPreferencesOne = Robot.prefs.getDouble("PREF2018TestPreferencesOne", 1);
+    	SmartDashboard.putString("TestPref", Double.toString(FRC2018TestPreferencesOne));
     
     }
 
@@ -74,7 +77,7 @@ public class updatePreferences extends Command {
     }
 
     // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    // subsystems is scheduled to run	
     protected void interrupted() {
     	/**
     	 * Interrupted Not Used 
