@@ -59,9 +59,11 @@ public class PathFinding extends Command {
 	double a2;
 	Trajectory trajectory;
 	Trajectory leftT;
+	
 	Trajectory rightT;
 	long startTime;
 	long currentTime;
+	long timeInt;
     public PathFinding() {
     	requires(Robot.driveTrain);
     	System.out.println("hi");
@@ -71,31 +73,21 @@ public class PathFinding extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	
+    	timeInt = 100;
     	finish = false;
     	counter = 0;
     	timer = new Timer();
     	startTime = System.currentTimeMillis();
     	Waypoint [] points = new Waypoint[]{
     			/*
-    			 new Waypoint(-4, -1, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-    			    new Waypoint(-2, -2, 0),                        // Waypoint @ x=-2, y=-2, exit angle=0 radians
-    			    new Waypoint(0, 0, 0)   
-    			    */
-    			/*
-    			new Waypoint(0, 0, Pathfinder.d2r(90)), //90, 45, 45, 90
-    			new  Waypoint(1, 2, Pathfinder.d2r(45)),
-    		
-    			new Waypoint(3, 3, Pathfinder.d2r(45)),
-    			new Waypoint(4, 5, Pathfinder.d2r(90)), */
-    			//new Waypoint(-1, 3, 0),
-    			//new Waypoint(-3, 8, 0), 
-    		//	new Waypoint(-3, 10.5, 0), 
-    			//new Waypoint(0, 0, 0), 
-    			//new Waypoint(1, 0, 0) 10,3
     			new Waypoint(0, 0, 0), 
     			new Waypoint(1.5, .45, Pathfinder.d2r(45)), //1.5, .45
     			new Waypoint(3.2, .914, 0), //3.2, .914
+    			*/
+    			new Waypoint(0, 0, 0), 
+    			new Waypoint(1.371, -.57, Pathfinder.d2r(-45)), //4.5
+    			new Waypoint(3.05, -2.0, 0), //2.4
+    			
     			
     	};
     	
@@ -116,22 +108,22 @@ public class PathFinding extends Command {
 				0);
     	a2 = Robot.prefs.getDouble("FL",
 				0);
-    	/*
-    	RobotMap.driveTrainTalonSRX1.config_kF(0, p, 10); //.123
-    	RobotMap.driveTrainTalonSRX1.config_kP(0, i, 10); //.2
-        RobotMap.driveTrainTalonSRX1.config_kI(0, d, 10);
-    	RobotMap.driveTrainTalonSRX1.config_kD(0, a, 10);
+    	
+    	RobotMap.driveTrainTalonSRX1.config_kP(0, p, 10); //.123
+    	RobotMap.driveTrainTalonSRX1.config_kI(0, i, 10); //.2
+        RobotMap.driveTrainTalonSRX1.config_kD(0, d, 10);
+    	RobotMap.driveTrainTalonSRX1.config_kF(0, a, 10);
     
-    	RobotMap.driveTrainTalonSRX2.config_kF(0, p2, 10); //.34 //.22
-    	RobotMap.driveTrainTalonSRX2.config_kP(0, i2, 10); //.189
-    	RobotMap.driveTrainTalonSRX2.config_kI(0, d2, 10); //2.0E-4
-    	RobotMap.driveTrainTalonSRX2.config_kD(0, a2, 10); //0
+    	RobotMap.driveTrainTalonSRX2.config_kP(0, p2, 10); //.34 //.22
+    	RobotMap.driveTrainTalonSRX2.config_kI(0, i2, 10); //.189
+    	RobotMap.driveTrainTalonSRX2.config_kD(0, d2, 10); //2.0E-4
+    	RobotMap.driveTrainTalonSRX2.config_kF(0, a2, 10); //0
     	RobotMap.gyro.reset();
     	RobotMap.driveTrainTalonSRX1.setSelectedSensorPosition(0, 0, 0);
     	RobotMap.driveTrainTalonSRX2.setSelectedSensorPosition(0, 0, 0);
-    	*/
-    	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1
-    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.5, 5.1/2.5, 8);//17.08);
+    	
+    	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                             1.7 1.7   2.5 2.5
+    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.5, 5.1/1.5, 20);//17.08);
     	trajectory = Pathfinder.generate(points, config);
     
     	TankModifier modifier = new TankModifier(trajectory).modify(.7);
@@ -144,59 +136,81 @@ public class PathFinding extends Command {
     	//right.configureEncoder(RobotMap.driveTrainTalonSRX2.getSelectedSensorPosition(0), 8192, .3333);
     	//left.configurePIDVA(p, i, d, 1 / 10.1, a);
     	//right.configurePIDVA(p2, i2, d2, 1 / 10.1, a2);
+    	/*
     	for (int i = 0; i < trajectory.length(); i++) {
     	    Trajectory.Segment seg = trajectory.get(i);
     	    modifier.getRightTrajectory();
     	    
-    	    System.out.println(i/10.0);
-    	  //  System.out.printf("%f, %f\n",seg.x *3.28, seg.y*3.28);//, seg.heading, seg.velocity);
+    	   // System.out.println(i/10.0);
+    	    System.out.printf("%f, %f\n",seg.x *3.22, seg.y*3.28);//, seg.heading, seg.velocity);
     	    /*System.out.printf("%f,%f,%f,%f,%f,%f,%f,%f\n", 
     	        seg.dt, seg.x, seg.y, seg.position, seg.velocity, 
     	            seg.acceleration, seg.jerk, seg.heading); */
-    	}
+    	//} 
     
-    	  
-    }
+      
+    } 
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
     	//System.out.println("hi");
-    	/*
+    	
     	long ellapsedTime = System.currentTimeMillis();
     	SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
 	    SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
-    	if(counter < trajectory.length() && (startTime - ellapsedTime)%100 ==0){
-    	SmartDashboard.putNumber("Pp", p);
-    	SmartDashboard.putNumber("Pi", i);
-    	SmartDashboard.putNumber("Pd", d);
-    	SmartDashboard.putNumber("Pa", a);
-    	SmartDashboard.putNumber("Ppl", p2);
-    	SmartDashboard.putNumber("Pil", i2);
-    	SmartDashboard.putNumber("Pdl", d2);
-    	SmartDashboard.putNumber("Pal", a2);
+   
+    		SmartDashboard.putNumber("Pp", p);
+    		SmartDashboard.putNumber("Pi", i);
+    		SmartDashboard.putNumber("Pd", d);
+    		SmartDashboard.putNumber("Pa", a);
+    		SmartDashboard.putNumber("Ppl", p2);
+    		SmartDashboard.putNumber("Pil", i2);
+    		SmartDashboard.putNumber("Pdl", d2);
+    		SmartDashboard.putNumber("Pal", a2);
     	
-	    Trajectory.Segment segL = leftT.get(counter); 
-	    Trajectory.Segment segR = rightT.get(counter);
-
+    		Trajectory.Segment segL = leftT.get(counter); 
+    		Trajectory.Segment segR = (rightT.get(counter));
+    		//System.out.println(segL.velocity);
+    		
+    		
+	    
     	double gyro_heading = RobotMap.gyro.getAngle();//... your gyro code here ...    // Assuming the gyro is giving a value in degrees
     	double desired_heading = Pathfinder.r2d(segR.heading);  // Should also be in degrees
 
     	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    	double turn = 0.8 * (-1.0/80.0) * angleDifference;
+    	double turn = 0.2 * (-1.0/80.0) * angleDifference;
     	
-    	double setR = -(segR.velocity + turn); 
-    	double setL = segL.velocity - turn;
+    	SmartDashboard.putNumber("turn", turn);
+    	
+    	double setR = -segR.velocity;
+    	double setL = segL.velocity;
+    //	double setR = -(segR.velocity + turn); //-segR.velocity;// -(segR.velocity + turn); 
+    //	double setL = (segL.velocity - turn);//segL.velocity;//(segL.velocity - turn);
+    	
+    	SmartDashboard.putNumber("leftS", (setL*3.28));
+    	SmartDashboard.putNumber("RightS", -(setR*3.28));///1.04667)/10)*8192);
     	
     	RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, (((setR*3.28)/1.04667)/10)*8192);
  		RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, (((setL*3.28)/1.04667)/10)*8192);
-
-    	
+		
+    		
+    	if(counter < leftT.length()){
     		counter++; 
-    	} else {
-    		finish = true;
-    	} */
+    	} 
     	
+    	if(counter >= leftT.length()){
+    		finish = true;
+    	}
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		
+    	//	counter++;
+    	SmartDashboard.putBoolean("finish", finish);
     	
     	
     }
