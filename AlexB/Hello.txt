@@ -1,0 +1,17 @@
+Hi. Welcome to my folder.
+
+Here are all of the projects that I have worked on. I recommend that you check them out.
+
+I have a Python NetworkTable Speed Tester.
+	You can check out my documentation in FRCNetworkTables/Info.html
+	It is designed for two computers (Mac, Win, Linux) using a Roborio as an intermediary stage.
+
+TestShuffleboardPlugin doesn't work currently. Look at Laura's
+
+PWMTest tests the NavX as a PWM
+
+DataMonitor is a copy of the official NavX project that prints all useful data to SmartDashboard.
+
+Enjoy!
+
+-Alex B
