@@ -32,7 +32,9 @@ public class updatePreferences extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	
-    	//CONSTRCTOR NOT USED
+    	/**
+    	 * Constructor not used
+    	 */
     }
 
     // Called just before this Command runs the first time
@@ -43,30 +45,39 @@ public class updatePreferences extends Command {
     	 * Duplicate the line below and change the appropriate values for your new variable
     	 */
     	
-    	System.out.println("Started =======================================================================================");
     	double FRC2018TestPreferencesOne = Robot.prefs.getDouble("PREF2018TestPreferencesOne", 1);
     
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//SmartDashboard.putString("TestPref", Double.toString(PREF2018TestPreferencesOne));
+    	/**
+    	 * Update data to SmartDashboard
+    	 */
+    	SmartDashboard.putString("TestPref", Double.toString(FRC2018TestPreferencesOne));
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
-        // isFinished NOT USED
+        /**
+         * isFinished NOT USED
+         */
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	// end NOT USED
+    	/**
+    	 * end NOT USED
+    	 */
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	//Interrupted Not Used 
+    	/**
+    	 * Interrupted Not Used 
+    	 */
     }
 }
