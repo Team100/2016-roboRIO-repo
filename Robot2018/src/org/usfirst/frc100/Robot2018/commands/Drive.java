@@ -11,10 +11,7 @@
 
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc100.Robot2018.OI;
 import org.usfirst.frc100.Robot2018.Robot;
-import org.usfirst.frc100.Robot2018.subsystems.DriveTrain;
 
 /**
  *
@@ -41,13 +38,11 @@ public class Drive extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	DriveTrain.takeJoyStickInputs(OI.leftController, OI.rightStick);
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	DriveTrain.takeJoyStickInputs(OI.leftController, OI.rightStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()
