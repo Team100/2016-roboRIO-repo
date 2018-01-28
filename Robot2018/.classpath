@@ -11,7 +11,10 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
+<<<<<<< HEAD
+=======
 	<classpathentry kind="var" path="USERLIBS_DIR/niVisionWPI.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/sf2-frc.jar"/>
+>>>>>>> 178d7fbc1b145b28ea8885fcb94dbb3e4c7ad7ec
 	<classpathentry kind="output" path="bin"/>
 </classpath>
