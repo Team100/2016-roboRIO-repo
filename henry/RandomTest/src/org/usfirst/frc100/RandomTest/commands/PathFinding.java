@@ -85,9 +85,15 @@ public class PathFinding extends Command {
     			new Waypoint(3.2, .914, 0), //3.2, .914
     			*/
     			new Waypoint(0, 0, 0), 
-    			new Waypoint(1.371, -.57, Pathfinder.d2r(-45)), //4.5
-    			new Waypoint(3.05, -2.0, 0), //2.4
+    			new Waypoint(1.0, -1.0, Pathfinder.d2r(-45)), //4.5 1.371    .57
+    			new Waypoint(2.84, -1.67, 0), //2.4  3.05
+    						//2.84  1.67
     			
+    			/* 
+    			 new Waypoint (0, 0, 0), 
+    			 new Waypoint(1.371, .57, Pathfinder.d2r(45)), 
+    			 new Waypoint(2.84, 1.67, 0), 
+    			 */
     			
     	};
     	
