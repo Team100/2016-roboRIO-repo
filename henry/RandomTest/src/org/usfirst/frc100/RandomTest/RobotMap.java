@@ -59,7 +59,7 @@ public class RobotMap {
         driveTrainTalonSRX3.setInverted(true);
         driveTrainTalonSRX2.setInverted(true);
         driveTrainTalonSRX4.setInverted(true);
-      //  driveTrainTalonSRX1.setSensorPhase(true);
+        driveTrainTalonSRX1.setSensorPhase(true);
         driveTrainTalonSRX2.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         
        // driveTrainTalonSRX3.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
