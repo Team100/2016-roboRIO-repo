@@ -86,8 +86,8 @@ public class PathFinding extends Command {
     			*/
     			new Waypoint(0, 0, 0), 
     			new Waypoint(1.0, -1.0, Pathfinder.d2r(-45)), //4.5 1.371    .57
-    			new Waypoint(2.84, -1.67, 0), //2.4  3.05
-    						//2.84  1.67
+    			new Waypoint(2.3, -1.75, 0), //2.4  3.05
+    						//2.82  1.67
     			
     			/* 
     			 new Waypoint (0, 0, 0), 
@@ -124,15 +124,15 @@ public class PathFinding extends Command {
     	RobotMap.driveTrainTalonSRX2.config_kI(0, i2, 10); //.189
     	RobotMap.driveTrainTalonSRX2.config_kD(0, d2, 10); //2.0E-4
     	RobotMap.driveTrainTalonSRX2.config_kF(0, a2, 10); //0
-    	RobotMap.gyro.reset();
+    // 	RobotMap.gyro.reset();
     	RobotMap.driveTrainTalonSRX1.setSelectedSensorPosition(0, 0, 0);
     	RobotMap.driveTrainTalonSRX2.setSelectedSensorPosition(0, 0, 0);
     	
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                             1.7 1.7   2.5 2.5
-    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.5, 5.1/1.5, 20);//17.08);
+    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.0, 5.1/2.0, 20);//17.08);
     	trajectory = Pathfinder.generate(points, config);
     
-    	TankModifier modifier = new TankModifier(trajectory).modify(.7);
+    	TankModifier modifier = new TankModifier(trajectory).modify(.67);
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
        // left = new EncoderFollower(modifier.getLeftTrajectory());
@@ -181,13 +181,13 @@ public class PathFinding extends Command {
     		
     		
 	    
-    	double gyro_heading = RobotMap.gyro.getAngle();//... your gyro code here ...    // Assuming the gyro is giving a value in degrees
+    	//double gyro_heading = RobotMap.gyro.getAngle();//... your gyro code here ...    // Assuming the gyro is giving a value in degrees
     	double desired_heading = Pathfinder.r2d(segR.heading);  // Should also be in degrees
 
-    	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    	double turn = 0.2 * (-1.0/80.0) * angleDifference;
+    	//double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
+    //	double turn = 0.2 * (-1.0/80.0) * angleDifference;
     	
-    	SmartDashboard.putNumber("turn", turn);
+    	//SmartDashboard.putNumber("turn", turn);
     	
     	double setR = -segR.velocity;
     	double setL = segL.velocity;
@@ -197,8 +197,8 @@ public class PathFinding extends Command {
     	SmartDashboard.putNumber("leftS", (setL*3.28));
     	SmartDashboard.putNumber("RightS", -(setR*3.28));///1.04667)/10)*8192);
     	
-    	RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, (((setR*3.28)/1.04667)/10)*8192);
- 		RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, (((setL*3.28)/1.04667)/10)*8192);
+    	RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
+ 		RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);
 		
     		
     	if(counter < leftT.length()){
