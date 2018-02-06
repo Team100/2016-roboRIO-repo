@@ -3,13 +3,13 @@ package org.usfirst.frc100.Robot2017.commands;
 
 
 import org.usfirst.frc100.Robot2017.Robot;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 
 public class AutoDriveToPeg extends CommandGroup {
 
     public AutoDriveToPeg() {
+
     	  
     	// addSequential(new GenerateSPath(7.8, 4.5)); //4.5 7.8
     	 addSequential(new FollowMotionProfile(5.5));
