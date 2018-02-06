@@ -79,22 +79,11 @@ public class PathFinding extends Command {
     	timer = new Timer();
     	startTime = System.currentTimeMillis();
     	Waypoint [] points = new Waypoint[]{
-    			/*
-    			new Waypoint(0, 0, 0), 
-    			new Waypoint(1.5, .45, Pathfinder.d2r(45)), //1.5, .45
-    			new Waypoint(3.2, .914, 0), //3.2, .914
-    			*/
+    		
     			new Waypoint(0, 0, 0), 
     			new Waypoint(1.0, -1.0, Pathfinder.d2r(-45)), //4.5 1.371    .57
     			new Waypoint(2.3, -1.75, 0), //2.4  3.05
-    						//2.82  1.67
-    			
-    			/* 
-    			 new Waypoint (0, 0, 0), 
-    			 new Waypoint(1.371, .57, Pathfinder.d2r(45)), 
-    			 new Waypoint(2.84, 1.67, 0), 
-    			 */
-    			
+    		
     	};
     	
     	p = Robot.prefs.getDouble("P",
@@ -135,24 +124,6 @@ public class PathFinding extends Command {
     	TankModifier modifier = new TankModifier(trajectory).modify(.67);
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
-       // left = new EncoderFollower(modifier.getLeftTrajectory());
-        //right = new EncoderFollower(modifier.getRightTrajectory());
-        
-    	//left.configureEncoder(RobotMap.driveTrainTalonSRX1.getSelectedSensorPosition(0), 8192, .3333);
-    	//right.configureEncoder(RobotMap.driveTrainTalonSRX2.getSelectedSensorPosition(0), 8192, .3333);
-    	//left.configurePIDVA(p, i, d, 1 / 10.1, a);
-    	//right.configurePIDVA(p2, i2, d2, 1 / 10.1, a2);
-    	/*
-    	for (int i = 0; i < trajectory.length(); i++) {
-    	    Trajectory.Segment seg = trajectory.get(i);
-    	    modifier.getRightTrajectory();
-    	    
-    	   // System.out.println(i/10.0);
-    	    System.out.printf("%f, %f\n",seg.x *3.22, seg.y*3.28);//, seg.heading, seg.velocity);
-    	    /*System.out.printf("%f,%f,%f,%f,%f,%f,%f,%f\n", 
-    	        seg.dt, seg.x, seg.y, seg.position, seg.velocity, 
-    	            seg.acceleration, seg.jerk, seg.heading); */
-    	//} 
     
       
     } 
