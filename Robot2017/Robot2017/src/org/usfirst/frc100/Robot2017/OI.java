@@ -39,7 +39,8 @@ public class OI {
     public JoystickButton closeGear;
     public JoystickButton openFlap;
     public JoystickButton closeFlap;
-    public JoystickButton manipulatorClimb;
+    public JoystickButton climberNudgeUpButton;
+    public JoystickButton climberNudgeDownButton;
     
     //Driver Commands
     public JoystickButton updatePrefs;
@@ -49,6 +50,7 @@ public class OI {
     public JoystickButton driverClimb;
     public JoystickButton lowshift;
     public JoystickButton highShift;
+    public JoystickButton tester;
     
     //Things?
  	public JoystickButton binary1;
@@ -57,6 +59,8 @@ public class OI {
  	public JoystickButton binary4;
 
     public OI() {
+    	//Prefrences
+    	
     	// Joysticks
         autoModeSelect = new Joystick(3);
         operater = new Joystick(2);
@@ -73,13 +77,13 @@ public class OI {
       	
       	//manipulator things
       	shoot = new JoystickButton(operater, 4);
-      	shoot.whenPressed(new Shoot(0.5));
+      	shoot.whenPressed(new Shoot(.5));
       	
         pickUp = new JoystickButton(operater, 3);
-        pickUp.whenPressed(new PickUp(0.75));
+        pickUp.whenPressed(new PickUp(.75));
         
-        dump = new JoystickButton(operater, 1);
-        dump.whenPressed(new Dump(0.75));
+        pickUp = new JoystickButton(operater, 1);
+        pickUp.whenPressed(new PickUp(.75));
         
         stopMotors = new JoystickButton(operater, 2);
         stopMotors.whenPressed(new StopMotors());
@@ -96,27 +100,32 @@ public class OI {
         closeFlap = new JoystickButton(operater, 5);
         closeFlap.whenPressed(new CloseFlap(0.25));
         
-        manipulatorClimb = new JoystickButton(operater, 9);
-        manipulatorClimb.whenPressed(new Climb());
+        climberNudgeDownButton = new JoystickButton(operater, 9);
+        climberNudgeDownButton.whenPressed(new ClimbNudge("down", 4));
+        
+        climberNudgeUpButton = new JoystickButton(operater, 10);
+        climberNudgeUpButton.whenPressed(new ClimbNudge("up", 4));
         
         //driver things
         updatePrefs = new JoystickButton(leftController, 4);
-        updatePrefs.whenPressed(new L90Degrees());
+        updatePrefs.whenPressed(new updatePreferneces());
         
-        autoDrive = new JoystickButton(leftController, 3);
-        autoDrive.whenPressed(new R90Degrees());
+        autoDrive = new JoystickButton(autoModeSelect, 9);
+        autoDrive.whenPressed(new StraightAuto());
         
         turnAround = new JoystickButton(leftController, 5);
-        turnAround.whenPressed(new TurnAround());
+       turnAround.whenPressed(new TurnToAngle("vision"));    
         
         driverClimb = new JoystickButton(rightController, 5);
         driverClimb.whenPressed(new Climb());
 
-        lowshift = new JoystickButton(leftController, 1);
-        lowshift.whenPressed(new LowGearShift(0.25));
+        //lowshift = new JoystickButton(leftController, 1);
+        //lowshift.whenPressed(new LowGearShift(0.25));
         
         highShift = new JoystickButton(rightController, 1);
         highShift.whenPressed(new HighGearShift(0.25));
+        
+     //   tester = new JoystickButton(rightController, 3)
     }
 
     public Joystick getleftController() {

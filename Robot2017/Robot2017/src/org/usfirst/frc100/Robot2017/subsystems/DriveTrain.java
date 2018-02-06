@@ -60,6 +60,8 @@ public class DriveTrain extends Subsystem {
 
 	private final RobotDrive robotDrive = RobotMap.driveTrainRobotDrive;
 	
+	public boolean bel = true; 
+	
 		public final ADXRS450_Gyro gyro = RobotMap.gyro;
 		private static final double DEFAULT_DRIVE_TRAIN_KP = .9; //.004
 		private static final double DEFAULT_DRIVE_TRAIN_KI = 0.00;
@@ -176,7 +178,7 @@ public class DriveTrain extends Subsystem {
 					//RobotMap.rightMaster.pidWrite(velRight);
 					
 				}
-			});
+			});           
 			
 			pidVelLeft = new PIDControllerHenry(driveVelP, driveVelI , driveVelF, new PIDSource() { // .58823
 				PIDSourceType m_sourceType = PIDSourceType.kRate;
@@ -204,11 +206,11 @@ public class DriveTrain extends Subsystem {
 				}
 			});
 	    	
-	    	pidPosLeft = new PIDControllerHenry(driveTrain_kP, driveTrain_kI, 0, driveTrain_kF, new PIDSource() { // .04 0 0 for 180
+	    	pidPosLeft = new PIDControllerHenry(driveVelP, driveVelI, 0, driveVelF, new PIDSource() { // .04 0 0 for 180
 				PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 				public double pidGet() {
-					return (RobotMap.driveTrainLeftEncoder.getDistance() * -1);
+					return (RobotMap.driveTrainRightEncoder.getDistance() );
 					
 					
 				}
@@ -227,13 +229,14 @@ public class DriveTrain extends Subsystem {
 					double o = v;
 					
 					if(countTwo <  FollowMotionProfile.position.size() && o > FollowMotionProfile.velocity.get(countTwo)){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
-						o = FollowMotionProfile.velocity.get(countTwo);
-						overRiddenL++;
+					//	o = FollowMotionProfile.velocity.get(countTwo);
+						//overRiddenL++;
 					} 
 					if(countTwo < FollowMotionProfile.position.size()){
-						countTwo++;
+					//	countTwo++;
 					}
-					RobotMap.leftMaster.pidWrite(o);
+					SmartDashboard.putNumber("pidOutputStuff", -o);
+					RobotMap.leftMaster.pidWrite(-o);
 
 				}
 			});
@@ -241,7 +244,7 @@ public class DriveTrain extends Subsystem {
 				PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 				public double pidGet() {
-					return RobotMap.driveTrainRightEncoder.getDistance();
+					return RobotMap.driveTrainLeftEncoder.getDistance();
 				}
 
 				@Override
@@ -259,7 +262,7 @@ public class DriveTrain extends Subsystem {
 					double output  = d;
 					
 					if(count < FollowMotionProfile.position.size() && output > FollowMotionProfile.velocity.get(count)){//&& countR == 0){//maxOutput MotionProfile.Points[count][1]) {
-						output = FollowMotionProfile.velocity.get(count);
+						//output = FollowMotionProfile.velocity.get(count);
 						overRiddenR++;
 					} 
 					
@@ -271,7 +274,8 @@ public class DriveTrain extends Subsystem {
 					if(maxSpeedReached < output){
 						maxSpeedReached = output;
 					}
-					RobotMap.rightMaster.pidWrite(output);
+				//	SmartDashboard.putNumber("pidOutputStuff", output);
+					RobotMap.rightMaster.pidWrite(-output);
 					
 				}
 			});
@@ -295,8 +299,8 @@ public class DriveTrain extends Subsystem {
 	    		}, new PIDOutput() {
 	    			public void pidWrite(double d) {
 	    				
-	    				RobotMap.rightMaster.pidWrite(d);///2);
-	    				RobotMap.leftMaster.pidWrite(-d);///2);
+	    				RobotMap.rightMaster.pidWrite(-d);///2);
+	    				RobotMap.leftMaster.pidWrite(d);///2);
 	    				
 	    			}
 	    		});
@@ -312,11 +316,19 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("DriveTrain/Left Encoder Count", driveTrainLeftEncoder.get());
 		SmartDashboard.putNumber("DriveTrain/Left Encoder Distance", driveTrainLeftEncoder.getDistance());
     	SmartDashboard.putNumber("DriveTrain/Left Encoder Rate", driveTrainLeftEncoder.getRate());
+    	SmartDashboard.putBoolean("DriveTrain/LeftA", RobotMap.leftA.get());
+    	SmartDashboard.putBoolean("DriveTrain/LeftB", RobotMap.leftB.get());
+    	SmartDashboard.putNumber("DriveTrain/LError", pidPosLeft.getError());
+    	SmartDashboard.putNumber("DriveTrain/Set DriveLeft", pidPosLeft.getSetpoint());
 		
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Raw", driveTrainRightEncoder.getRaw());
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Count", driveTrainRightEncoder.get());
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Distance", driveTrainRightEncoder.getDistance());
 		SmartDashboard.putNumber("DriveTrain/Right Encoder Rate", driveTrainRightEncoder.getRate());
+    	SmartDashboard.putBoolean("DriveTrain/RightA", RobotMap.rightA.get());
+    	SmartDashboard.putBoolean("DriveTrain/RightB", RobotMap.rightB.get());
+    	SmartDashboard.putNumber("DriveTrain/RError", pidPosRight.getError());
+    	SmartDashboard.putNumber("DriveTrain/Set DriveRight", pidPosRight.getSetpoint());
 
     	SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersDistance:", Math.abs(driveTrainRightEncoder.getDistance() - driveTrainLeftEncoder.getDistance()));
 		SmartDashboard.putNumber("DriveTrain/DifferenceOfEncodersRate:", Math.abs(driveTrainRightEncoder.getRate() - driveTrainLeftEncoder.getRate()));
@@ -327,8 +339,19 @@ public class DriveTrain extends Subsystem {
 	}
     
     public void driveRobot(Joystick joy, Joystick joy2){
-    	robotDrive.tankDrive(joy.getRawAxis(1), -joy2.getRawAxis(1));
+		//Robot.driveTrain.robotDrive.tankDrive(joy.getRawAxis(1), -joy2.getRawAxis(1));
+		//Robot.driveTrain.robotDrive.arcadeDrive(-joy.getRawAxis(0), -joy2.getRawAxis(1));	//L = L/R, R = F/B
+    	Robot.driveTrain.robotDrive.arcadeDrive(-joy2.getRawAxis(0), -joy.getRawAxis(1));	//L = F/B, R = L/R
     }
+    
+    public void driveRobot(double l, double r){
+		//Robot.driveTrain.robotDrive.tankDrive(-l, r);
+		//Robot.driveTrain.robotDrive.arcadeDrive(-joy.getRawAxis(0), -joy2.getRawAxis(1));	//L = L/R, R = F/B
+    	//Robot.driveTrain.robotDrive.arcadeDrive(-joy2.getRawAxis(0), -joy.getRawAxis(1));	//L = F/B, R = L/R
+		Robot.driveTrain.robotDrive.arcadeDrive(-l, r);
+    }
+    
+    
 
     public void stop(){
     	robotDrive.tankDrive(0, 0);

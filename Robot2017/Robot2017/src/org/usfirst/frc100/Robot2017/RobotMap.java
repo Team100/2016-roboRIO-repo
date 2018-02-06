@@ -103,18 +103,25 @@ public class RobotMap {
     //Other Things
     public static Compressor compressor;
     public static Compressor pressureSwitch;
-    
+    public static DigitalInput leftA;
+    public static DigitalInput leftB;
+    public static DigitalInput rightA;
+    public static DigitalInput rightB;
     public static PowerDistributionPanel pdp;
 	
     public static void init() {
     	//DriveTrain Things 
-    	driveTrainLeftEncoder = new Encoder(0,1);
+    	leftA = new DigitalInput(0);
+    	leftB = new DigitalInput(1);
+    	rightA = new DigitalInput(2);
+    	rightB  = new DigitalInput(3);
+    	driveTrainLeftEncoder = new Encoder(leftA,leftB);
     	LiveWindow.addSensor("driveTrain", "leftEncoder", driveTrainLeftEncoder);
-    	driveTrainLeftEncoder.setDistancePerPulse(1.0/1937.2032);
+     	driveTrainLeftEncoder.setDistancePerPulse(1.0/45.4);
     	
-    	driveTrainRightEncoder = new Encoder(2, 3);
+    	driveTrainRightEncoder = new Encoder(rightA, rightB);
     	LiveWindow.addSensor("driveTrain", "rightEncoder", driveTrainRightEncoder);
-    	driveTrainRightEncoder.setDistancePerPulse(1.0/1937.2032);
+    	driveTrainRightEncoder.setDistancePerPulse(1.0/484.26);//45.4);
     	
     	rightMaster	= new CANTalon(5);
     	LiveWindow.addActuator("driveTrain", "rightMaster", rightMaster);
@@ -146,14 +153,14 @@ public class RobotMap {
         gyro = new ADXRS450_Gyro();
         LiveWindow.addActuator("driveTrain", "gyro", gyro);
         
-        driveTrainShifter = new Solenoid(0);
+        driveTrainShifter = new Solenoid(2);
         LiveWindow.addActuator("driveTrain", "driveTrainShifter", driveTrainShifter);
     	
     	//GearMech Things
-        gearMechDrop= new Solenoid(1);
+        gearMechDrop= new Solenoid(0);
         LiveWindow.addActuator("gearMech", "gearMechDrop", gearMechDrop);
         
-        gearMechFlap= new Solenoid(2);
+        gearMechFlap= new Solenoid(1);
         LiveWindow.addActuator("gearMech", "gearMechFlap", gearMechFlap);
     	
     	//BallHandling Things
@@ -163,13 +170,13 @@ public class RobotMap {
         outsideRoller = new VictorSP(0);
         LiveWindow.addActuator("pickUp", "outsideRoller", outsideRoller);
     	
-    	pickUpFlap= new Solenoid(3);
+    	pickUpFlap= new Solenoid(7);
     	LiveWindow.addActuator("pickUp", "pickUpFlap", pickUpFlap);
     	
     	elevator = new VictorSP(1);
         LiveWindow.addActuator("pickUp", "elevator", elevator);
         
-        dumperLift= new Solenoid(4);
+        dumperLift= new Solenoid(3);
         LiveWindow.addActuator("gearMech", "dumperLift", dumperLift);
         
         //PeterssUnbeatableScalingMechanismWithoutpNeumatics Things

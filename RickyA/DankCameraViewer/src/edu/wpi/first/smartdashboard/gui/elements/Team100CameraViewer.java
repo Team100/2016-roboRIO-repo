@@ -71,7 +71,7 @@ public class Team100CameraViewer extends StaticWidget implements ITableListener 
                 try{
                     System.out.println("Connecting to camera");
                     ipChanged = false;
-                    URL url = new URL("http://"+ipString+"/mjpg/video.mjpg");
+                    URL url = new URL(ipString);
                     connection = url.openConnection();
                     connection.setReadTimeout(250);
                     stream = connection.getInputStream();

@@ -77,6 +77,7 @@ public class OpenGear extends Command {
 			    	Robot.ballHandling.setState(BallHandlingState.pickingUp);
 					cState = Robot.ballHandling.getState();
 
+		    		done = true;
 					
 					break;
 				case clearElevator:
@@ -100,7 +101,6 @@ public class OpenGear extends Command {
 			    		Robot.ballHandling.setElevator(-1);		//add pref for speed?
 				    	Robot.ballHandling.setOutsideRoller(1);	//add pref for speed?
 
-			    		done = true;
 					}
 					
 					break;

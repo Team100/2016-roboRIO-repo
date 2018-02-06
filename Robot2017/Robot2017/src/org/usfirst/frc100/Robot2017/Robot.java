@@ -11,17 +11,25 @@
 
 package org.usfirst.frc100.Robot2017;
 
+import edu.wpi.first.wpilibj.CameraServer;
+
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 import org.usfirst.frc100.Robot2017.OI;
 import org.usfirst.frc100.Robot2017.RobotMap;
 import org.usfirst.frc100.Robot2017.commands.*;
 import org.usfirst.frc100.Robot2017.subsystems.*;
+
+import com.ctre.CANTalon.TalonControlMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -41,6 +49,7 @@ public class Robot extends IterativeRobot {
     public static GearMech gearMech;
     public static PeterssUnbeatableScalingMechanismWithoutpNeumatics peterssUnbeatableScalingMechanismWithoutpNeumatics;
     public static Knewmatics knewmatics;
+    public static double gameTime;
     
     public static final boolean robotWorks = false;
 
@@ -56,7 +65,8 @@ public class Robot extends IterativeRobot {
         peterssUnbeatableScalingMechanismWithoutpNeumatics = new PeterssUnbeatableScalingMechanismWithoutpNeumatics();
         knewmatics = new Knewmatics();
         gearMech = new GearMech();
-        
+        gameTime = DriverStation.getInstance().getMatchTime();
+        CameraServer.getInstance().startAutomaticCapture();
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
         // constructed yet. Thus, their requires() statements may grab null
@@ -64,7 +74,8 @@ public class Robot extends IterativeRobot {
         oi = new OI();
 
         // instantiate the command used for the autonomous period
-        autonomousCommand = new AutonomousCommand();
+     //   autonomousCommand = new AutoDrive(4);
+        //autonomousCommand = new AutoDriveToPeg();
     }
 
     /**
@@ -80,11 +91,42 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
+    	if(RobotMap.leftFollower.getControlMode() != TalonControlMode.Follower){
+    		RobotMap.leftFollower.changeControlMode(TalonControlMode.Follower);
+    		RobotMap.leftFollower.set(3);
+    		RobotMap.leftFollower.setSafetyEnabled(false);
+    	}
+    	if(RobotMap.rightFollwer.getControlMode() != TalonControlMode.Follower){
+    		RobotMap.rightFollwer.changeControlMode(TalonControlMode.Follower);
+    		RobotMap.rightFollwer.set(5);
+    		RobotMap.rightFollwer.setSafetyEnabled(false);
+    	}
         // schedule the autonomous command (example)
         if (autonomousCommand != null){
         	autonomousCommand.start();
         }
         int modeSelect = oi.selector();
+       
+		switch (modeSelect) {
+		case 0:
+			new AutoDriveToPeg().start();
+			break;
+		case 1: // rock wall
+			// new AutonomousDriveForward(10, .5).start();
+			new AutoDriveToPegOtherSide().start();
+			// new AutonomousDriveForward(800, .558).start();
+			break;
+		case 2: // moat
+			new StraightAuto().start();
+			break;
+		case 3:	
+			new AutoDrive(3).start();
+			break;
+		
+		default:
+			
+			break;
+		}
         SmartDashboard.putNumber("Autonomous Mode" , modeSelect);
         new UpdateDashboard().start();
     }
@@ -97,6 +139,18 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	if(RobotMap.leftFollower.getControlMode() != TalonControlMode.Follower){
+    		RobotMap.leftFollower.changeControlMode(TalonControlMode.Follower);
+    		RobotMap.leftFollower.set(3);
+    		RobotMap.leftFollower.setSafetyEnabled(false);
+    	}
+    	if(RobotMap.rightFollwer.getControlMode() != TalonControlMode.Follower){
+    		RobotMap.rightFollwer.changeControlMode(TalonControlMode.Follower);
+    		RobotMap.rightFollwer.set(5);
+    		RobotMap.rightFollwer.setSafetyEnabled(false);
+    	}
+    	RobotMap.driveTrainLeftEncoder.reset();
+    	RobotMap.driveTrainRightEncoder.reset();
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -110,7 +164,9 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        driveTrain.driveRobot(oi.leftController, oi.rightController);
+       // driveTrain.driveRobot(oi.leftController, oi.rightController);
+    	SmartDashboard.putNumber("joy value", -Robot.oi.leftController.getRawAxis(1));
+    	SmartDashboard.putNumber("angle set", Robot.driveTrain.pidAngle.getSetpoint());
     }
 
     /**

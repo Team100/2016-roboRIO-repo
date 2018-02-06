@@ -2,6 +2,8 @@
 package org.usfirst.frc100.Robot2017.commands;
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc100.Robot2017.Robot;
 import org.usfirst.frc100.Robot2017.RobotMap;
 
@@ -20,14 +22,18 @@ public class GenerateSPath extends Command{
 	FalconPathPlanner path;
 	
 	public GenerateSPath(double distR, double distL){
-		requires(Robot.driveTrain);
+
+		
 		distanceRight = distR;
 		distanceLeft = distL;
 		count2 = 0;
 		count = 0;
+		requires(Robot.driveTrain);
+
 		
 	}
 	public void initialize(){
+		/*
 		count = 0;
 		double[][] waypoints = new double[][]{
 			{1, 1},
@@ -111,7 +117,9 @@ public class GenerateSPath extends Command{
 	}
 	protected boolean isFinished() {
 		if(count2 >= positionL.size())// && count2 >= positionR.size() )
-			return true;
+
+			 return true;
+
 		else 
 			return false; 
 	}
