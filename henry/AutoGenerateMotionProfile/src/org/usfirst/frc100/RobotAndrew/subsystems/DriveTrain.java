@@ -44,7 +44,7 @@ public class DriveTrain extends Subsystem {
 	private static final double DEFAULT_DRIVE_TRAIN_VP = .9; //.004
 	private static final double DEFAULT_DRIVE_TRAIN_VI = 0.00;
 	private static final double DEFAULT_DRIVE_TRAIN_VF = .2; //.58823
-	//private static final double rP = .9; 
+
 	public double driveTrain_kP;
 	public double driveTrain_kI;
 	public double driveTrain_kF;
@@ -256,9 +256,7 @@ public class DriveTrain extends Subsystem {
 				if(maxSpeedReached < output){
 					maxSpeedReached = output;
 				} */
-
 				RobotMap.rightMaster.pidWrite(output);
-
 				
 			}
 		});
