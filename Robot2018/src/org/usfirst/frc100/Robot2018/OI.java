@@ -11,11 +11,11 @@
 
 package org.usfirst.frc100.Robot2018;
 
-import org.usfirst.frc100.Robot2018.commands.updatePreferences;
-import org.usfirst.frc100.Robot2018.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
+
+import org.usfirst.frc100.Robot2018.commands.*;
 import org.usfirst.frc100.Robot2018.subsystems.*;
 
 
