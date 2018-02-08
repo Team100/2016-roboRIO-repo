@@ -2,8 +2,8 @@ package org.usfirst.frc100.Robot2018.commands;
 
 import java.util.ArrayList;
 
-import org.usfirst.frc100.RobotAndrew.Robot;
-import org.usfirst.frc100.RobotAndrew.RobotMap;
+import org.usfirst.frc100.Robot2018.Robot;
+import org.usfirst.frc100.Robot2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

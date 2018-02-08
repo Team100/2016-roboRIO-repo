@@ -1,6 +1,6 @@
 package org.usfirst.frc100.Robot2018.commands;
 
-import org.usfirst.frc100.RobotAndrew.RobotMap;
+import org.usfirst.frc100.Robot2018.RobotMap;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.tables.ITable;

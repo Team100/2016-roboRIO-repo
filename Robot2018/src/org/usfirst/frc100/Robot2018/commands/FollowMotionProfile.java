@@ -8,8 +8,8 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 
-import org.usfirst.frc100.RobotAndrew.Robot;
-import org.usfirst.frc100.RobotAndrew.RobotMap;
+import org.usfirst.frc100.Robot2018.Robot;
+import org.usfirst.frc100.Robot2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
