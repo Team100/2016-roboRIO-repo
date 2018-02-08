@@ -1,7 +1,6 @@
 package org.usfirst.frc100.Robot2017.commands;
 
 
-
 import java.util.ArrayList;
 
 
@@ -14,7 +13,6 @@ import org.usfirst.frc100.Robot2017.Robot;
 import org.usfirst.frc100.Robot2017.RobotMap;
 //import org.usfirst.frc100.RobotAndrew.commands.AutoGenerate;
 //import org.usfirst.frc100.RobotAndrew.commands.GetVisionData;
-
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -73,7 +71,7 @@ public class FollowMotionProfile extends Command{
 	public void initialize() {
 		if(useVision == true){
 			vision = new GetVisionData();
-			dist = (((vision.calculateDistance()-12)/12)) - stageValue;// - stageValue);//- 6; -12//(vision.calculateDistance()-20)/12);
+			dist = (((vision.calculateDistance())/12)) - stageValue;// - stageValue);//- 6; -12//(vision.calculateDistance()-20)/12);
 			profile = new AutoGenerate(dist, 2.5); //3.5 dist
 			profile.generateProfile();
 		} else { 
@@ -96,6 +94,7 @@ public class FollowMotionProfile extends Command{
 	
 	
 	public void execute() {
+		
 		if(count < position.size()){
 			if(useVision == true || dist > 0){
 				Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
@@ -105,27 +104,24 @@ public class FollowMotionProfile extends Command{
 				Robot.driveTrain.pidPosLeft.setSetpoint(-position.get(count));
 				Robot.driveTrain.pidPosRight.setSetpoint(-position.get(count));
 			} 
+			else {
+				Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
+				Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));
+			}
 			count++;
+			SmartDashboard.putNumber("counter fMP", count);
+			SmartDashboard.putNumber("sizeDistP", position.size());
 		}
 	}
 
 	protected boolean isFinished() {
-		if(count == position.size() || dist > 100){ return true;} else { return false;}
+		if(count >= position.size() || dist > 100){ return true;} else { return false;}
 	}
 	protected void end(){
 		Robot.driveTrain.pidPosLeft.disable();
 		Robot.driveTrain.pidPosRight.disable();
-		Robot.driveTrain.stop();
+		Robot.driveTrain.pidPosLeft.reset();
+		Robot.driveTrain.pidPosRight.reset();
+		//Robot.driveTrain.stop();
 	}
 }
-/*public class FollowMotionProfile extends Command{
-	int count = 0;
-	int changevalue = 0;
-	double setP;
-	double setPP;
-	double dist;
-	double distanceHolder;
-	public GetVisionData vision;
-	public static ArrayList<Double> position; //= new ArrayList<Double>();
-	public static ArrayList<Double> velocity; //= new ArrayList<Double>();
-	public AutoGenerate profile; 
