@@ -77,8 +77,8 @@ public class FollowMotionProfile extends Command{
 		position = profile.returnPos();
 		velocity = profile.returnVel();
 		count = 0;
-		RobotMap.encoderLeft.reset(); 
-		RobotMap.encoderRight.reset();
+		RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0); 
+		RobotMap.driveTrainRightMaster.setSelectedSensorPosition(0, 0, 0); 
 		Robot.driveTrain.pidPosRight.setAbsoluteTolerance(0.1);
 		Robot.driveTrain.pidPosLeft.setAbsoluteTolerance(0.1);
 		Robot.driveTrain.pidVelRight.setAbsoluteTolerance(0.01);

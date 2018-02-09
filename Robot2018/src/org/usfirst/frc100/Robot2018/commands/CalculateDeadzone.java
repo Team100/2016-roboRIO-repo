@@ -21,13 +21,13 @@ public class CalculateDeadzone extends Command{
 	
 	public void execute() {
 		
-		if(calculate && RobotMap.encoderRight.getRate() > 0) {
-			posDeadzone = RobotMap.driveTrainright.get();
+		if(calculate && RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0) > 0) {
+			posDeadzone = RobotMap.driveTrainRightMaster.get();
 			calculate = false;
 		}
 		
-		if(calculateback && RobotMap.encoderRight.getRate() < 0) {
-			negDeadzone = RobotMap.driveTrainright.get();
+		if(calculateback && RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0) < 0) {
+			negDeadzone = RobotMap.driveTrainLeftMaster.get();
 			calculateback = false;
 		}
 		SmartDashboard.putNumber("posDeadzone", posDeadzone);
