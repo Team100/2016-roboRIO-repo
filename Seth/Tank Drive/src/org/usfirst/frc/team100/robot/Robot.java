@@ -9,7 +9,9 @@ package org.usfirst.frc.team100.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,20 +26,22 @@ public class Robot extends IterativeRobot {
 	private DifferentialDrive m_myRobot;
 	private Joystick m_leftStick;
 	private Joystick m_rightStick;
-	private TalonSRX rightFollower = new TalonSRX(3);
-	private TalonSRX leftFollower = new TalonSRX(4);
+	private WPI_TalonSRX rightMaster = new WPI_TalonSRX(1);
+	private WPI_TalonSRX leftMaster = new WPI_TalonSRX(2);
+	private WPI_VictorSPX rightFollower = new WPI_VictorSPX(3);
+	private WPI_VictorSPX leftFollower = new WPI_VictorSPX(4);
 
 	@Override
 	public void robotInit() {
-		m_myRobot = new DifferentialDrive(new WPI_TalonSRX(1), new WPI_TalonSRX(2));
+		m_myRobot = new DifferentialDrive(rightMaster, leftMaster);
 		m_leftStick = new Joystick(0);
 		m_rightStick = new Joystick(1);
-		rightFollower.set(ControlMode.Follower, 1);
-		leftFollower.set(ControlMode.Follower, 2);
+		rightFollower.follow(rightMaster);
+		leftFollower.follow(leftMaster);
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		m_myRobot.tankDrive(m_leftStick.getY(), m_rightStick.getY());
+		m_myRobot.tankDrive(m_leftStick.getY()*-1, m_rightStick.getY()*-1);
 	}
 }
