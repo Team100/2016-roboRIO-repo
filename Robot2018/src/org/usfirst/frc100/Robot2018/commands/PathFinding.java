@@ -25,6 +25,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -77,13 +78,26 @@ public class PathFinding extends Command {
     	timeInt = 100;
     	finish = false;
     	counter = 0;
-    	timer = new Timer();
+    	//timer = new Timer();
     	startTime = System.currentTimeMillis();
     	Waypoint [] points = new Waypoint[]{
-    		
+    		//right
     			new Waypoint(0, 0, 0), 
-    			new Waypoint(1.0, -1.0, Pathfinder.d2r(-45)), //4.5 1.371    .57
+    			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
     			new Waypoint(2.3, -1.75, 0), //2.4  3.05
+    			
+    			/* left
+    			new Waypoint(0, 0, 0), 
+    			new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
+    			new Waypoint(2.55, 1.45, 0), //2.4  3.05\
+    			*/
+    			/*
+    			new Waypoint(0, 0, 0), 
+    			new Waypoint(4.97, 0, Pathfinder.d2r(0)), //4.5 1.371    .57
+    			new Waypoint(6.0, 3.657, Pathfinder.d2r(80)), 
+    			new Waypoint(6.223, 4.59, Pathfinder.d2r(20)),//2.4  3.05\
+    			*/
+    			
     		
     	};
     	
@@ -115,17 +129,28 @@ public class PathFinding extends Command {
     	RobotMap.driveTrainLeftMaster.config_kD(0, d2, 10); //2.0E-4
     	RobotMap.driveTrainLeftMaster.config_kF(0, a2, 10); //0
     // 	RobotMap.gyro.reset();
-    	RobotMap.driveTrainRightMaster.setSelectedSensorPosition(0, 0, 0);
     	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
     	
-    	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                             1.7 1.7   2.5 2.5
-    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.0, 5.1/2.0, 20);//17.08);
+    	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                    //change this to 20 ms                                  1.7 1.7   2.5 2.5
+    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.2, 5.1/2.2, 20);//17.08);
     	trajectory = Pathfinder.generate(points, config);
     
     	TankModifier modifier = new TankModifier(trajectory).modify(.67);
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
-    
+    	for (int i = 0; i < trajectory.length(); i++) {
+    	    Trajectory.Segment seg = trajectory.get(i);
+    	    
+    	    System.out.printf("%f,%f,\n", 
+    	       seg.x, seg.y);
+    	}
+    	timer = new Timer();
+    	timer.schedule(new TimerTask() {
+    	    @Override
+    	    public void run() {
+    	    	parseArray();
+    	    }
+    	  }, 0, 100);
       
     } 
 
@@ -135,8 +160,14 @@ public class PathFinding extends Command {
     	//System.out.println("hi");
     	
     	long ellapsedTime = System.currentTimeMillis();
-    	SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)*10*1.04667)/8192));
-	    SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)*10*1.04667)/8192));
+    	
+    	
+    	
+    }
+    
+    public void parseArray(){
+    	//SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
+	    //SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
    
     		SmartDashboard.putNumber("Pp", p);
     		SmartDashboard.putNumber("Pi", i);
@@ -190,12 +221,6 @@ public class PathFinding extends Command {
 		
     	//	counter++;
     	SmartDashboard.putBoolean("finish", finish);
-    	
-    	
-    }
-    
-    public void parseArray(){
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -207,7 +232,7 @@ public class PathFinding extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-    	//Robot.driveTrain.stop();
+   // 	Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
