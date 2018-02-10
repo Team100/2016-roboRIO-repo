@@ -180,12 +180,13 @@ public class PathFinding extends Command {
     	if(counter >= leftT.length()){
     		finish = true;
     	}
+    	/*
     	try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  
+		}  */
 		
     	//	counter++;
     	SmartDashboard.putBoolean("finish", finish);

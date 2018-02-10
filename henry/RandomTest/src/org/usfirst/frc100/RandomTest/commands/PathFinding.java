@@ -80,10 +80,14 @@ public class PathFinding extends Command {
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
     	Waypoint [] points = new Waypoint[]{
-    		
+    		/*
     			new Waypoint(0, 0, 0), 
-    			new Waypoint(1.0, -1.0, Pathfinder.d2r(-45)), //4.5 1.371    .57
+    			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
     			new Waypoint(2.3, -1.75, 0), //2.4  3.05
+    			*/
+    			new Waypoint(0, 0, 0), 
+    			new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
+    			new Waypoint(2.55, 1.45, 0), //2.4  3.05
     		
     	};
     	
@@ -119,7 +123,7 @@ public class PathFinding extends Command {
     	RobotMap.driveTrainTalonSRX2.setSelectedSensorPosition(0, 0, 0);
     	
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                    //change this to 20 ms                                  1.7 1.7   2.5 2.5
-    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.0, 5.1/2.0, 20);//17.08);
+    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.2, 5.1/2.2, 20);//17.08);
     	trajectory = Pathfinder.generate(points, config);
     
     	TankModifier modifier = new TankModifier(trajectory).modify(.67);
