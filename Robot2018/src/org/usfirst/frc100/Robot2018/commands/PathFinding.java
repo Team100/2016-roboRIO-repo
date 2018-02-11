@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 
 
-/*
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import jaci.pathfinder.Pathfinder;
@@ -41,7 +41,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 /**
  *
- qwerty
+ */
 public class PathFinding extends Command {
 
 
@@ -92,13 +92,13 @@ public class PathFinding extends Command {
     			new Waypoint(0, 0, 0), 
     			new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
     			new Waypoint(2.55, 1.45, 0), //2.4  3.05\
-    			qwerty
+    			*/
     			/*
     			new Waypoint(0, 0, 0), 
     			new Waypoint(4.97, 0, Pathfinder.d2r(0)), //4.5 1.371    .57
     			new Waypoint(6.0, 3.657, Pathfinder.d2r(80)), 
     			new Waypoint(6.223, 4.59, Pathfinder.d2r(20)),//2.4  3.05\
-    			qwerty
+    			*/
     			
     		
     	};
@@ -219,7 +219,7 @@ public class PathFinding extends Command {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  qwerty
+		}  */
 		
     	//	counter++;
     	SmartDashboard.putBoolean("finish", finish);
@@ -242,4 +242,4 @@ public class PathFinding extends Command {
     @Override
     protected void interrupted() {
     }
-}*/
+}
