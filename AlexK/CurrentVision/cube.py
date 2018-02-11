@@ -12,13 +12,13 @@ class Pipeline:
         """initializes all values to presets or None if need to be set
         """
 
-        self.__rgb_threshold_red = [75.67446043165468, 228.89078498293517]
-        self.__rgb_threshold_green = [116.95143884892086, 255.0]
-        self.__rgb_threshold_blue = [0.0, 122.27815699658704]
+        self.__hsv_threshold_hue = [16.18705035971223, 69.419795221843]
+        self.__hsv_threshold_saturation = [64.84712230215828, 209.3088737201365]
+        self.__hsv_threshold_value = [130.71043165467623, 255.0]
 
-        self.rgb_threshold_output = None
+        self.hsv_threshold_output = None
 
-        self.__find_contours_input = self.rgb_threshold_output
+        self.__find_contours_input = self.hsv_threshold_output
         self.__find_contours_external_only = True
 
         self.find_contours_output = None
@@ -26,15 +26,15 @@ class Pipeline:
         self.__filter_contours_contours = self.find_contours_output
         self.__filter_contours_min_area = 11000.0
         self.__filter_contours_min_perimeter = 0.0
-        self.__filter_contours_min_width = 0
-        self.__filter_contours_max_width = 1000
-        self.__filter_contours_min_height = 0
-        self.__filter_contours_max_height = 1000
+        self.__filter_contours_min_width = 0.0
+        self.__filter_contours_max_width = 1000.0
+        self.__filter_contours_min_height = 0.0
+        self.__filter_contours_max_height = 1000.0
         self.__filter_contours_solidity = [0.0, 100.0]
-        self.__filter_contours_max_vertices = 1000000
-        self.__filter_contours_min_vertices = 0
-        self.__filter_contours_min_ratio = 0
-        self.__filter_contours_max_ratio = 1000
+        self.__filter_contours_max_vertices = 1000000.0
+        self.__filter_contours_min_vertices = 0.0
+        self.__filter_contours_min_ratio = 0.0
+        self.__filter_contours_max_ratio = 1000.0
 
         self.filter_contours_output = None
 
@@ -47,12 +47,12 @@ class Pipeline:
         """
         Runs the pipeline and sets all outputs to new values.
         """
-        # Step RGB_Threshold0:
-        self.__rgb_threshold_input = source0
-        (self.rgb_threshold_output) = self.__rgb_threshold(self.__rgb_threshold_input, self.__rgb_threshold_red, self.__rgb_threshold_green, self.__rgb_threshold_blue)
+        # Step HSV_Threshold0:
+        self.__hsv_threshold_input = source0
+        (self.hsv_threshold_output) = self.__hsv_threshold(self.__hsv_threshold_input, self.__hsv_threshold_hue, self.__hsv_threshold_saturation, self.__hsv_threshold_value)
 
         # Step Find_Contours0:
-        self.__find_contours_input = self.rgb_threshold_output
+        self.__find_contours_input = self.hsv_threshold_output
         (self.find_contours_output) = self.__find_contours(self.__find_contours_input, self.__find_contours_external_only)
 
         # Step Filter_Contours0:
@@ -63,20 +63,22 @@ class Pipeline:
         self.__convex_hulls_contours = self.filter_contours_output
         (self.convex_hulls_output) = self.__convex_hulls(self.__convex_hulls_contours)
 
+        return self.convex_hulls_output
+
 
     @staticmethod
-    def __rgb_threshold(input, red, green, blue):
-        """Segment an image based on color ranges.
+    def __hsv_threshold(input, hue, sat, val):
+        """Segment an image based on hue, saturation, and value ranges.
         Args:
             input: A BGR numpy.ndarray.
-            red: A list of two numbers the are the min and max red.
-            green: A list of two numbers the are the min and max green.
-            blue: A list of two numbers the are the min and max blue.
+            hue: A list of two numbers the are the min and max hue.
+            sat: A list of two numbers the are the min and max saturation.
+            lum: A list of two numbers the are the min and max value.
         Returns:
             A black and white numpy.ndarray.
         """
-        out = cv2.cvtColor(input, cv2.COLOR_BGR2RGB)
-        return cv2.inRange(out, (red[0], green[0], blue[0]),  (red[1], green[1], blue[1]))
+        out = cv2.cvtColor(input, cv2.COLOR_BGR2HSV)
+        return cv2.inRange(out, (hue[0], sat[0], val[0]),  (hue[1], sat[1], val[1]))
 
     @staticmethod
     def __find_contours(input, external_only):

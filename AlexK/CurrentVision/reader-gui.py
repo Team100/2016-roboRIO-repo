@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 IM_CENTER = 159.5
 DPP = 0.214
-CAMERA_URI = "http://raspberrypi.local:5802/?action=stream"
+CAMERA_URI = 0
 NT_URI = "roborio-100-frc.local"
 
 
@@ -44,19 +44,23 @@ def push_networktables(table, rect, centers, ang, dist):
 
 
 if __name__ == "__main__":
-    camera = cv2.VideoCapture(CAMERA_URI)
     NetworkTables.initialize(server=NT_URI)
     cameraTable = NetworkTables.getTable("Camera")
     wait(5)
+    camera = cv2.VideoCapture(CAMERA_URI)
 
     while True:
-        try:
-            g, frame = camera.read()
-#            frame = cv2.resize(frame, (320, 240))
+        g, frame = camera.read()
 
-            rect, centers, att, dtt = process_grip(frame)
+        rect, centers, att, dtt = process_grip(frame)
 
-            push_networktables(cameraTable, rect, centers, att, dtt)
-        except KeyboardInterrupt:
+        push_networktables(cameraTable, rect, centers, att, dtt)
+
+        cv2.rectangle(frame, (rect[0], rect[1]),
+                      (rect[0] + rect[2], rect[1] + rect[3]), (0, 255, 0), 2)
+
+        cv2.imshow("Video", frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            cv2.destroyAllWindows()
             camera.release()
             break
