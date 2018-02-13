@@ -146,9 +146,6 @@ public class OI {
         shiftoff.whenPressed(new shiftOff());
         
 
-
-  
-=======
         SmartDashboard.putData("WinchWind", new WinchWind());
 
 
