@@ -32,11 +32,16 @@ public class UpdateSmartDashboard extends Command {
     	 * Put all SmartDashboard stuff below the following line
     	 */
     	////////////////////////////////BRAKE////////////////////////////////
+    	
+    	SmartDashboard.putData("Auto mode", Robot.chooser);
+    	
+    	
     	SmartDashboard.putNumber("posDeadzone",CalculateDeadzone.posDeadzone);
 		SmartDashboard.putNumber("negDeadzone", CalculateDeadzone.negDeadzone);
 		
-	
 		
+	
+		SmartDashboard.putData("WinchWind", new WinchWind());
 		SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("Drive", new Drive());
         SmartDashboard.putData("ElevatorUp", new ElevatorUp());

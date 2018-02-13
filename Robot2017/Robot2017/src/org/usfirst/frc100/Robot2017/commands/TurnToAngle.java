@@ -8,7 +8,6 @@ import org.usfirst.frc100.Robot2017.RobotMap;
 //import org.usfirst.frc100.RobotAndrew.commands.AutoGenerate;
 //import org.usfirst.frc100.RobotAndrew.commands.GetVisionData;
 
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -43,7 +42,6 @@ public class TurnToAngle extends Command{
 	
 	public void initialize(){
 		counter = 0;
-
 		RobotMap.gyro.reset();
 		Robot.driveTrain.pidAngle.reset();    // this part can be changes for law of sines
 		Robot.driveTrain.pidAngle.setAbsoluteTolerance(0.3);
@@ -114,6 +112,5 @@ public class TurnToAngle extends Command{
 		Robot.driveTrain.pidAngle.disable();
 		Robot.driveTrain.pidAngle.reset();
 	}
-
 }
 
