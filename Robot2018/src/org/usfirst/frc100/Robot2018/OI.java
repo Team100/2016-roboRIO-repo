@@ -83,27 +83,25 @@ public class OI {
         
         leftController = new Joystick(0);
         
-        button12 = new JoystickButton(leftController, 12);
+        button12 = new JoystickButton(operator, 9);
         button12.whileHeld(new WinchWind());
-        button11 = new JoystickButton(leftController, 11);
-        button11.whileHeld(new ClimbAdjust());
-        button10 = new JoystickButton(leftController, 10);
+        //button11 = new JoystickButton(leftController, 11);
+        //button11.whileHeld(new ClimbAdjust());
+        button10 = new JoystickButton(operator, 7);
         button10.whenPressed(new ClimbDown());
-        button9 = new JoystickButton(leftController, 9);
+        button9 = new JoystickButton(operator, 5);
         button9.whenPressed(new ClimbUp());
-        button8 = new JoystickButton(leftController, 8);
+        button8 = new JoystickButton(operator, 3);
         button8.whileHeld(new IntakeOut());
-        button7 = new JoystickButton(leftController, 7);
+        button7 = new JoystickButton(operator, 4);
         button7.whileHeld(new IntakeIn());
-        button6 = new JoystickButton(leftController, 6);
-        button6.whileHeld(new ElevatorAdjust());
-        button5 = new JoystickButton(leftController, 1);
+        button5 = new JoystickButton(leftController, 2);
         button5.whenPressed(new ElevatorArmDown());
         button4 = new JoystickButton(leftController, 4);
         button4.whenPressed(new ElevatorArmUp());
-        button3 = new JoystickButton(leftController, 3);
+        button3 = new JoystickButton(operator, 8);
         button3.whenPressed(new ElevatorDown());
-        button2 = new JoystickButton(leftController, 2);
+        button2 = new JoystickButton(operator, 6);
         button2.whenPressed(new ElevatorUp());
         button1 = new JoystickButton(leftController, 1);
         button1.whenPressed(new shift());
