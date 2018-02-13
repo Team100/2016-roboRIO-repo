@@ -22,6 +22,7 @@ public class FollowMotionProfile extends Command{
 	double dist;
 	double distanceHolder;
 	public GetVisionData vision;
+	public static double currentSet;
 	public static ArrayList<Double> position; //= new ArrayList<Double>();
 	public static ArrayList<Double> velocity; //= new ArrayList<Double>();
 	public AutoGenerate profile;
@@ -31,6 +32,7 @@ public class FollowMotionProfile extends Command{
 	public static ArrayList<Double> positionL;
 	public boolean useVision;
 	public double stageValue;
+	
 	static Timer timer = new Timer();
 	private static final String SmartDashoard = null;
 
@@ -92,7 +94,8 @@ public class FollowMotionProfile extends Command{
 	public void execute() {
 		if(count < position.size()){
 			if(useVision == false || dist > 0){
-				SmartDashboard.putNumber("current set", position.get(count));
+				
+				currentSet = position.get(count);
 				
 				Robot.driveTrain.pidPosLeft.setSetpoint(position.get(count));
 				Robot.driveTrain.pidPosRight.setSetpoint(position.get(count));

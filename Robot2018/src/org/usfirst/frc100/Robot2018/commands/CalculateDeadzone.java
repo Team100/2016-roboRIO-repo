@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CalculateDeadzone extends Command{
-	public double posDeadzone;
-	public double negDeadzone;
+	public static double posDeadzone;
+	public static double negDeadzone;
 	public boolean calculate = true;
 	public boolean calculateback = true;
 	public CalculateDeadzone(){
@@ -30,8 +30,7 @@ public class CalculateDeadzone extends Command{
 			negDeadzone = RobotMap.driveTrainLeftMaster.get();
 			calculateback = false;
 		}
-		SmartDashboard.putNumber("posDeadzone", posDeadzone);
-		SmartDashboard.putNumber("negDeadzone", negDeadzone);
+		new UpdateSmartDashboard();
 	}
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
