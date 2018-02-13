@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnToAngle extends Command{
-	int countOnTarget = 0;
+	static int countOnTarget = 0;
 	double initialAngle = 0;
-	boolean cancelPID;
+	static boolean cancelPID;
 	double desiredAngle;
 	double currentAngle;
 	double angless;
@@ -78,10 +78,7 @@ public class TurnToAngle extends Command{
 			}
 			counter++;
 		}
-		SmartDashboard.putBoolean("target", Robot.driveTrain.pidAngle.onTarget());
-		SmartDashboard.putBoolean("pidState", cancelPID);
-		SmartDashboard.putNumber("angleerrors", Robot.driveTrain.pidAngle.getError());
-		SmartDashboard.putNumber("AverageAngleError", Robot.driveTrain.pidAngle.getAvgError());
+		
 		if(Robot.driveTrain.pidAngle.onTarget() && countOnTarget == 0){
 			countOnTarget++;
 		} else if(Robot.driveTrain.pidAngle.onTarget() && countOnTarget > 0){
@@ -89,7 +86,7 @@ public class TurnToAngle extends Command{
 		} else {
 			countOnTarget = 0;
 		}
-		SmartDashboard.putNumber("countTraget", countOnTarget);
+		new UpdateSmartDashboard();
 	}
 	protected boolean isFinished() {
 
