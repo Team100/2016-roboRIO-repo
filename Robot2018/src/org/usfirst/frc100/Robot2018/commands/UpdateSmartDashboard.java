@@ -56,15 +56,7 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("ClimbAdjust", new ClimbAdjust());
         SmartDashboard.putData("WinchWind", new WinchWind());
         
-        /**
-         * Errors with the below
-         * @see org.usfirst.frc100.robot2018.commands.TurnToAngle
-         */
-        SmartDashboard.putBoolean("target", Robot.driveTrain.pidAngle.onTarget());
-		SmartDashboard.putBoolean("pidState", TurnToAngle.cancelPID);
-		SmartDashboard.putNumber("angleerrors", Robot.driveTrain.pidAngle.getError());
-		SmartDashboard.putNumber("AverageAngleError", Robot.driveTrain.pidAngle.getAvgError());
-		SmartDashboard.putNumber("countTraget", TurnToAngle.countOnTarget);
+       
     }
 
     // Called repeatedly when this Command is scheduled to run
