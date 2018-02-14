@@ -11,13 +11,7 @@
 
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc100.Robot2018.OI;
 import org.usfirst.frc100.Robot2018.Robot;
-import org.usfirst.frc100.Robot2018.RobotMap;
-import org.usfirst.frc100.Robot2018.subsystems.Elevator;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 /**
  *
@@ -44,14 +38,11 @@ public class ElevatorAdjust extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	Elevator.protect();
-    	RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(5));
     }
 
     // Make this return true when this Command no longer needs to run execute()
