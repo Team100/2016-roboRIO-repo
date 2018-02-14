@@ -7,11 +7,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h1>Network Table Generator</h1>
-    <h2>By Team 100</h2>
+<h6><i>This documentation is using an online version of Bootstrap. I recommend that you connect on the internet for better formatting</i></h6>
+    <h1 class="display-1">Network Table Generator</h1>
+    <h2 class="display-3">By Team 100</h2>
     <hr>
-    <h2>Getting Started</h2>
-    <h3>What you need</h3>
+    <h2 class="display-3">Getting Started</h2>
+    <h3 class="display-4">What you need</h3>
     <p>
     <ul>
         <li>Python 3.x <ul><li>You NEED to get PIP</li></ul></li>
@@ -20,11 +21,11 @@
     </ul>
     </p>
     <a name="installingPNT"></a>
-    <h3>Installing PyNetworkTables</h3>
+    <h3 class="display-4">Installing PyNetworkTables</h3>
     <p>Once you have Python and PIP installed, update pip with <code>python -m pip install --upgrade pip</code> and then install with <code>pip install pynetworktables</code></p>
     <hr>
-    <h2>Configuration</h2>
-    <h3>IP Configuration</h3>
+    <h2 class="display-3">Configuration</h2>
+    <h3 class="display-4">IP Configuration</h3>
     <p>To configure your motors, edit <i>config.py</i>. Look for the line that says:
     <br>
     <code>
@@ -38,7 +39,7 @@
     </ul>
     </p>
 <br>
-<h2>Running the code</h2>
+<h2 class="display-3">Running the code</h2>
 <ol>
     <li>Start Eclipse</li>
     <li>Download a program</li>
@@ -53,9 +54,9 @@
 </ol>
         <p><i>If this does not work, check the PyCharm debugger. If it does not say <code>INFO:nt:CONNECTED xxx.xx.xx.x port xxxx (Robot)</code> or similar, a connection to the robot has failed.</i></p>
         <hr>
-    <h2>Debugging</h2>
+    <h2 class="display-3">Debugging</h2>
     <a name="#ConnectionFailed"></a>
-    <h3>Connection Failed</h3>
+    <h3 class="display-4">Connection Failed</h3>
     If a connection has failed, check that:
     <ul>
         <li>
@@ -73,15 +74,15 @@
     </ul>
 You can use Outlineviewer.jar to ensure that your computer can connect to the RoboRIO.
 <hr>
-<h2>Looking at the code</h2>
+<h2 class="display-3">Looking at the code</h2>
 <p>__main__.py has been commented to help you understand what is going on. If you have other issues, look at it to help debug.
 <br>
 I recommend that you look at <a href="http://robotpy.readthedocs.io/en/stable/guide/nt.html#networktables-guide">This page</a> to learn more about NetworkTables.</p>
 
-<h1>Master/Slave Delay System</h1>
-<h2>Introduction</h2>
+<h1 class="display-2">Master/Slave Delay System</h1>
+<h2 class="display-3">Introduction</h2>
 <p>I have modified the original program to test the delay from one computer to another.</p>
-<h3>Setup</h3>
+<h3 class="display-4">Setup</h3>
 <p>
     You must have:
     <ul>
@@ -91,5 +92,21 @@ I recommend that you look at <a href="http://robotpy.readthedocs.io/en/stable/gu
     </ul>
     Change the mode to <code>programs.delay_master</code> in __main__.py to run the master system or <code>programs.delay_slave</code> to be the slave system.
 </p>
+<h3 class="display-4">Usage</h3>
+<p>The slave sends the data to the master. The master then immediately turns the data back around to the slave. They utilize different network tables for each.
+<br>
+The time will be returned to the slave, and measures <i>slave -> master -> slave</i> round trip.
+<br>
+<code>Note that there will be some differentiation in the time. I recommend that you average the times to get the best measurement.</code></p>
+<hr>
+    <h1 class="display-1">More info</h1>
+<p>I have commented the code to make it easier to understand what is going on. I recommend that you read through the comments and code if you have problems.</p>
+<code>
+    __main__.py //Main intializer that calls other functions
+    <br>
+    Delay.py //Code for both master and slave for delay
+    <br>
+    TestData.py //Put speed test
+</code>
 </body>
 </html>
