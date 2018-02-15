@@ -40,7 +40,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 /**
- * @author Alex Beaver
+ * @author Alex Beaver and Henry
+ * 
  * 
  * Path Finding test code for the purpose of parameterization
  * TODO Get Parameterization Working 

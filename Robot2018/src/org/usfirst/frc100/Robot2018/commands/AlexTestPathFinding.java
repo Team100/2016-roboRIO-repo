@@ -5,7 +5,8 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 
 /**
- *
+ * @author Alex Beaver
+ * This is the test file for the autonomous Path Finding stuff. IT HAS NOT BEEN TESTED YET
  */
 public class AlexTestPathFinding extends Command {
 
@@ -22,20 +23,14 @@ public class AlexTestPathFinding extends Command {
         			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
         			new Waypoint(2.3, -1.75, 0), //2.4  3.05
         			
-        			/* left
-        			new Waypoint(0, 0, 0), 
-        			new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
-        			new Waypoint(2.55, 1.45, 0), //2.4  3.05\
-        			*/
-        			/*
-        			new Waypoint(0, 0, 0), 
-        			new Waypoint(4.97, 0, Pathfinder.d2r(0)), //4.5 1.371    .57
-        			new Waypoint(6.0, 3.657, Pathfinder.d2r(80)), 
-        			new Waypoint(6.223, 4.59, Pathfinder.d2r(20)),//2.4  3.05\
-        			*/
+        			
         			
         		
         	};
+    	
+    	/**
+    	 * This is how we set the PathFinding logic with the points
+    	 */
     	new AlexPathFinding(points);
     }
 
