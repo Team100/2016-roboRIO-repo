@@ -55,7 +55,7 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("ClimbDown", new ClimbDown());
         SmartDashboard.putData("ClimbAdjust", new ClimbAdjust());
         SmartDashboard.putData("WinchWind", new WinchWind());
-        SmartDashoard.putData("Test Pathfinding Param. stuff", new AlexTestPathFinding());
+        SmartDashboard.putData("Test Pathfinding Param. stuff", new AlexTestPathFinding());
         
        
     }
