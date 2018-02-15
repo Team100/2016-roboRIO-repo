@@ -77,7 +77,16 @@ public class AlexPathFinding extends Command {
     public AlexPathFinding(Waypoint [] mypoints) {
     	requires(Robot.driveTrain);
     	System.out.println("hi");
-    	paramPoints = mypoints;
+    	//paramPoints = mypoints;
+    	Waypoint [] paramPoints = new Waypoint[]{
+        		//right
+        			new Waypoint(0.0,0.0,0.0),
+        			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
+        			new Waypoint(2.3, -1.75, 0), //2.4  3.05
+        		
+        		
+        	};
+    	
   
     }
 
@@ -86,14 +95,15 @@ public class AlexPathFinding extends Command {
     protected void initialize() {
     	SmartDashboard.putBoolean("EnteredTestPathFinding", true);
     	System.out.println("PARAMETER POINTS BELOW========================================================");
-    	System.out.println(paramPoints[1]);
+    	System.out.println(paramPoints.toString());
     	System.out.println("END");
     	timeInt = 100;
     	finish = false;
     	counter = 0;
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
-    	Waypoint [] points = new Waypoint[] {paramPoints};
+    	Waypoint [] points = new Waypoint[] {};
+    	
     	
     	
     	p = Robot.prefs.getDouble("P",
@@ -128,7 +138,7 @@ public class AlexPathFinding extends Command {
     	
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                    //change this to 20 ms                                  1.7 1.7   2.5 2.5
     	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.2, 5.1/2.2, 20);//17.08);
-    	trajectory = Pathfinder.generate(points, config);
+    	trajectory = Pathfinder.generate(paramPoints, config);
     
     	TankModifier modifier = new TankModifier(trajectory).modify(.67);
     	leftT = modifier.getLeftTrajectory();
@@ -143,6 +153,7 @@ public class AlexPathFinding extends Command {
     	timer.schedule(new TimerTask() {
     	    @Override
     	    public void run() {
+    	    	System.out.println("Entered run()");
     	    	parseArray();
     	    }
     	  }, 0, 100);
@@ -161,6 +172,7 @@ public class AlexPathFinding extends Command {
     }
     
     public void parseArray(){
+    	SmartDashboard.putBoolean("PathFindingParsing", true);
     	//SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
 	    //SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
    
@@ -197,6 +209,7 @@ public class AlexPathFinding extends Command {
     	
     	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
  		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);
+ 		SmartDashboard.putBoolean("SetControlMode", true);
 		
     		
     	if(counter < leftT.length()){

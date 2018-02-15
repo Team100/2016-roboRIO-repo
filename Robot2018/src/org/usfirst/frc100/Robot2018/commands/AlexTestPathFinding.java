@@ -24,25 +24,22 @@ public class AlexTestPathFinding extends Command {
     	SmartDashboard.putBoolean("EnteredTestPathFinding", true);
     	Waypoint [] points = new Waypoint[]{
         		//right
-        			new Waypoint(0, 0, 0), 
+        			new Waypoint(0.0,0.0,0.0),
         			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
         			new Waypoint(2.3, -1.75, 0), //2.4  3.05
-        			
-        			
-        			
-        			
+        		
         		
         	};
-    	
-    	double mypoints [][]= new double [index][(int)point];
-    	mypoints = {{0,0,0},{1,-1.2,Pathfinder.d2r(-45)},{2.3,-1.75,0}};
+    	System.out.println("TO STRING OF POINTS========================================");
+    	System.out.println(points.toString());
+    	System.out.println("END");
     	
     	SmartDashboard.putBoolean("EnteredTestPathFinding", false);
     	
     	/**
     	 * This is how we set the PathFinding logic with the points
     	 */
-    	AlexPathFinding AlexPathFinding = new AlexPathFinding(mypoints);
+    	AlexPathFinding AlexPathFinding = new AlexPathFinding(points);
     	AlexPathFinding.start();
     }
 
