@@ -52,7 +52,7 @@ public class AlexPathFinding extends Command {
 
 	private boolean finish; 
 	private int counter; 
-	private Waypoint [] paramPoints;
+	private Waypoint[] paramPoints;
 	//FalconPathPlanner path;
 	Timer timer; 
 	//boolean finish; 
@@ -84,13 +84,17 @@ public class AlexPathFinding extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+    	SmartDashboard.putBoolean("EnteredTestPathFinding", true);
+    	System.out.println("PARAMETER POINTS BELOW========================================================");
+    	System.out.println(paramPoints[1]);
+    	System.out.println("END");
     	timeInt = 100;
     	finish = false;
     	counter = 0;
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
-    	Waypoint [] points = new Waypoint[] {};
-    	points = paramPoints;
+    	Waypoint [] points = new Waypoint[] {paramPoints};
+    	
     	
     	p = Robot.prefs.getDouble("P",
 				0);

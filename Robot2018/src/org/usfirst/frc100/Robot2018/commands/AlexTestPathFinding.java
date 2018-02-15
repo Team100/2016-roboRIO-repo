@@ -1,6 +1,7 @@
 package org.usfirst.frc100.Robot2018.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 
@@ -9,14 +10,18 @@ import jaci.pathfinder.Waypoint;
  * This is the test file for the autonomous Path Finding stuff. IT HAS NOT BEEN TESTED YET
  */
 public class AlexTestPathFinding extends Command {
+	
+    int index;
+    double point;
 
-    public AlexTestPathFinding() {
+	public AlexTestPathFinding() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	SmartDashboard.putBoolean("EnteredTestPathFinding", true);
     	Waypoint [] points = new Waypoint[]{
         		//right
         			new Waypoint(0, 0, 0), 
@@ -25,13 +30,20 @@ public class AlexTestPathFinding extends Command {
         			
         			
         			
+        			
         		
         	};
+    	
+    	double mypoints [][]= new double [index][(int)point];
+    	mypoints = {{0,0,0},{1,-1.2,Pathfinder.d2r(-45)},{2.3,-1.75,0}};
+    	
+    	SmartDashboard.putBoolean("EnteredTestPathFinding", false);
     	
     	/**
     	 * This is how we set the PathFinding logic with the points
     	 */
-    	new AlexPathFinding(points);
+    	AlexPathFinding AlexPathFinding = new AlexPathFinding(mypoints);
+    	AlexPathFinding.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
