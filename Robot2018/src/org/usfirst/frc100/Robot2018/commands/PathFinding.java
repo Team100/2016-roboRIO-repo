@@ -70,7 +70,7 @@ public class PathFinding extends Command {
 	long timeInt;
     public PathFinding() {
     	requires(Robot.driveTrain);
-    	System.out.println("hi");
+    	//System.out.println("hi");
   
     }
 

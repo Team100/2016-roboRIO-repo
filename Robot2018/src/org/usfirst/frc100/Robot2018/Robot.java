@@ -192,14 +192,15 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-
+        SmartDashboard.putData("TestPath", new AlexTestPathFinding());
+        SmartDashboard.putData("Henry test path", new PathFinding());
         DriverStation = prefs.getBoolean("DriverStation", false);
         ArcadeDrive = prefs.getBoolean("ArcadeDrive", false);
         SmartDashboard.putBoolean("ArcadeDrive On", ArcadeDrive);
         SmartDashboard.putBoolean("DriverStation On", DriverStation);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();
-        if(OI.leftController.getRawButton(1)){
+        /*if(OI.leftController.getRawButton(1)){
         	RobotMap.driveTrainShiftingSolenoid.set(true);
         }else if(OI.rightStick.getRawButton(1)) {
         	
@@ -208,7 +209,7 @@ public class Robot extends TimedRobot {
         	RobotMap.driveTrainShiftingSolenoid.set(true);
         }else if(OI.operator.getRawButtonPressed(2)) {
         	RobotMap.driveTrainShiftingSolenoid.set(false);
-        }
+        }*/
         if(DriverStation){
         	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
         	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());

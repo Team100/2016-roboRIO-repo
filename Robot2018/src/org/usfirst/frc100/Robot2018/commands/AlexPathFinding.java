@@ -49,7 +49,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 public class AlexPathFinding extends Command {
 
-
+	public static boolean isGoing;
 	private boolean finish; 
 	private int counter; 
 	private Waypoint[] paramPoints;
@@ -93,7 +93,8 @@ public class AlexPathFinding extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	SmartDashboard.putBoolean("EnteredTestPathFinding", true);
+    	isGoing = false;
+    	SmartDashboard.putBoolean("EnteredTestPathFinding", isGoing);
     	System.out.println("PARAMETER POINTS BELOW========================================================");
     	System.out.println(paramPoints.toString());
     	System.out.println("END");
@@ -172,7 +173,8 @@ public class AlexPathFinding extends Command {
     }
     
     public void parseArray(){
-    	SmartDashboard.putBoolean("PathFindingParsing", true);
+    	isGoing = true;
+    	SmartDashboard.putBoolean("PathFindingParsing", isGoing);
     	//SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
 	    //SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
    
@@ -229,6 +231,7 @@ public class AlexPathFinding extends Command {
 		
     	//	counter++;
     	SmartDashboard.putBoolean("finish", finish);
+    	SmartDashboard.putBoolean("PathFindingParsing", isGoing);
     }
 
     // Make this return true when this Command no longer needs to run execute()
