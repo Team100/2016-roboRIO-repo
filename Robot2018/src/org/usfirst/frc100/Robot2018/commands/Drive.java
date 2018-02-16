@@ -11,6 +11,11 @@
 
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc100.Robot2018.OI;
+import org.usfirst.frc100.Robot2018.Robot;
+import org.usfirst.frc100.Robot2018.RobotMap;
 import org.usfirst.frc100.Robot2018.Robot;
 
 /**
@@ -43,7 +48,23 @@ public class Drive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	
+
+    	/*if(Robot.DriverStation){
+        	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
+        	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
+        	if(Robot.ArcadeDrive){
+        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), OI.rightStick.getX());
+        	}else{
+        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
+        	}
+        }else{
+        	SmartDashboard.putNumber("Logitech", OI.operator.getY());
+        	if(Robot.ArcadeDrive){
+        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(4));
+        	}else{
+        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.operator.getRawAxis(1), OI.operator.getRawAxis(5));
+        	}
+        }*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
