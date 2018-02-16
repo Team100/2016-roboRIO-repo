@@ -7,7 +7,10 @@ import jaci.pathfinder.Waypoint;
 
 /**
  * @author Alex Beaver
- * This is the test file for the autonomous Path Finding stuff. IT HAS NOT BEEN TESTED YET
+ * This is the example code that should exist for EACH Auton path
+ * 
+ * This may be refered to as the initializing controller
+ * 
  */
 public class AlexTestPathFinding extends Command {
 	
@@ -22,6 +25,10 @@ public class AlexTestPathFinding extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	SmartDashboard.putBoolean("EnteredTestPathFinding", true);
+    	
+    	/**
+    	 * Waypoint array that gets pushed in to the logic controller
+    	 */
     	Waypoint [] points = new Waypoint[]{
         		//right
         			new Waypoint(0.0,0.0,0.0),
