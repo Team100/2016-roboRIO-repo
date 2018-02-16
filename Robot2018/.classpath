@@ -24,8 +24,6 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/niVisionWPI.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/sf2-frc.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/charsets.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/deploy.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/javaws.jar"/>
@@ -48,5 +46,6 @@
 	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_152/jre/lib/plugin.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_152/jre/lib/resources.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_152/jre/lib/rt.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
