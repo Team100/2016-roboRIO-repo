@@ -48,6 +48,7 @@ public class Drive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+
     	/*if(Robot.DriverStation){
         	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
         	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
@@ -64,7 +65,6 @@ public class Drive extends Command {
         		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.operator.getRawAxis(1), OI.operator.getRawAxis(5));
         	}
         }*/
-
     }
 
     // Make this return true when this Command no longer needs to run execute()
