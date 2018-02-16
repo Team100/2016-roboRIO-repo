@@ -10,6 +10,7 @@
 
 
 package org.usfirst.frc100.Robot2018.commands;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 
@@ -63,26 +64,37 @@ public class PathFinding extends Command {
 	double a2;
 	Trajectory trajectory;
 	Trajectory leftT;
-	
+	Waypoint points [];
 	Trajectory rightT;
 	long startTime;
 	long currentTime;
 	long timeInt;
+	String mode;
+	
     public PathFinding() {
+    	
     	requires(Robot.driveTrain);
     	System.out.println("hi");
   
+    }
+    public PathFinding(String a){
+    	
+    	requires(Robot.driveTrain);
+    	mode = a;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+    	
     	timeInt = 100;
     	finish = false;
     	counter = 0;
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
+    	
     	Waypoint [] points = new Waypoint[]{
+
     		//right
     			//new Waypoint(0, 0, 0), 
     			//new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
@@ -102,6 +114,24 @@ public class PathFinding extends Command {
     			
     		
     	};
+
+        	 
+    	if(mode == "Left") {
+    		 points = new Waypoint[]{
+    			new Waypoint(0, 0, 0), 
+        		new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
+        		new Waypoint(2.55, 1.45, 0), //2.4  3.05\
+    		};
+    	}
+    	if(mode == "Right"){
+    		 points = new Waypoint []{
+    			new Waypoint(0, 0, 0), 
+				new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
+				new Waypoint(2.3, -1.75, 0),
+    		};
+    	}
+    	
+
     	
     	p = Robot.prefs.getDouble("P",
 				0);
@@ -141,12 +171,8 @@ public class PathFinding extends Command {
     	TankModifier modifier = new TankModifier(trajectory).modify(.67);
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
-    	for (int i = 0; i < trajectory.length(); i++) {
-    	    Trajectory.Segment seg = trajectory.get(i);
-    	    
-    	    System.out.printf("%f,%f,\n", 
-    	       seg.x, seg.y);
-    	}
+    
+    	
     	timer = new Timer();
     	timer.schedule(new TimerTask() {
     	    @Override
@@ -201,7 +227,7 @@ public class PathFinding extends Command {
     //	double setL = (segL.velocity - turn);//segL.velocity;//(segL.velocity - turn);
     	
     	SmartDashboard.putNumber("leftS", (setL*3.28));
-    	SmartDashboard.putNumber("RightS", -(setR*3.28));///1.04667)/10)*8192);
+    	SmartDashboard.putNumber("RightS", -(setR*3.28));
     	
     	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
  		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);
@@ -214,15 +240,7 @@ public class PathFinding extends Command {
     	if(counter >= leftT.length()){
     		finish = true;
     	}
-    	/*
-    	try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  */
-		
-    	//	counter++;
+    
     	SmartDashboard.putBoolean("finish", finish);
     }
 

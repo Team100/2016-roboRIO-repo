@@ -9,14 +9,9 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc100.Robot2018.commands;
+package org.usfirst.frc100.SethRobot.commands;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc100.Robot2018.OI;
-import org.usfirst.frc100.Robot2018.Robot;
-import org.usfirst.frc100.Robot2018.RobotMap;
-import org.usfirst.frc100.Robot2018.Robot;
+import org.usfirst.frc100.SethRobot.Robot;
 
 /**
  *
@@ -41,46 +36,25 @@ public class Drive extends Command {
     }
 
     // Called just before this Command runs the first time
-    @Override
     protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    @Override
     protected void execute() {
-
-    	/*if(Robot.DriverStation){
-        	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
-        	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
-        	if(Robot.ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), OI.rightStick.getX());
-        	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
-        	}
-        }else{
-        	SmartDashboard.putNumber("Logitech", OI.operator.getY());
-        	if(Robot.ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(4));
-        	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.operator.getRawAxis(1), OI.operator.getRawAxis(5));
-        	}
-        }*/
+    	Robot.driveTrain.TankDrive(Robot.oi.joystick1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    @Override
     protected boolean isFinished() {
         return false;
     }
 
     // Called once after isFinished returns true
-    @Override
     protected void end() {
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    @Override
     protected void interrupted() {
     }
 }
