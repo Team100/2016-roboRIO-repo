@@ -25,7 +25,7 @@ import org.usfirst.frc100.Robot2018.subsystems.*;
 
 import java.util.*;
 
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -124,7 +124,7 @@ public class Robot extends TimedRobot {
         prefs.putBoolean("ArcadeDrive", false);
 		prefs.putBoolean("DriverStation", false);
         if (!prefs.containsKey("P")) {
-        	prefs.putDouble("P", 0);
+        	prefs.putDouble("P", 0.01);
         }
         if (!prefs.containsKey("I")) {
         	prefs.putDouble("I", 0);
@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
         }
         
         if (!prefs.containsKey("PL")) {
-        	prefs.putDouble("PL", 0);
+        	prefs.putDouble("PL", 0.01);
         }
         if (!prefs.containsKey("IL")) {
         	prefs.putDouble("IL", 0);
@@ -142,9 +142,12 @@ public class Robot extends TimedRobot {
         if (!prefs.containsKey("DL")) {
         	prefs.putDouble("DL", 0);
         }
+        if (!prefs.containsKey("F")) {
+        	prefs.putDouble("F", 0.3);
+        }
         if (!prefs.containsKey("FL")) {
 
-        	prefs.putDouble("FL", 0);
+        	prefs.putDouble("FL", 0.3);
         }
 
     }
@@ -212,18 +215,23 @@ public class Robot extends TimedRobot {
         }*/
         if(DriverStation){
         	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
-        	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
+        	SmartDashboard.putNumber("Right Stick", -OI.rightStick.getY());
         	if(ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(-OI.leftController.getY(), -OI.rightStick.getX());
+        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.leftController.getY()+OI.rightStick.getX());
+        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,-OI.leftController.getY()+OI.rightStick.getX());
         	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.leftController.getY(), -OI.rightStick.getY());
+        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.leftController.getY());
+        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, OI.rightStick.getY());
         	}
         }else{
         	SmartDashboard.putNumber("Logitech", OI.operator.getY());
         	if(ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(-OI.operator.getRawAxis(1), OI.operator.getRawAxis(4));
+        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput,OI.operator.getY()+OI.operator.getRawAxis(4));
+        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,-OI.operator.getY()+OI.operator.getRawAxis(4));
+        		//RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
         	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
+        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.operator.getY());
+        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(5));
         	}
         }
 

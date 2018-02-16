@@ -70,7 +70,7 @@ public class PathFinding extends Command {
 	long timeInt;
     public PathFinding() {
     	requires(Robot.driveTrain);
-    	//System.out.println("hi");
+    	System.out.println("hi");
   
     }
 
@@ -84,21 +84,21 @@ public class PathFinding extends Command {
     	startTime = System.currentTimeMillis();
     	Waypoint [] points = new Waypoint[]{
     		//right
-    			new Waypoint(0, 0, 0), 
-    			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
-    			new Waypoint(2.3, -1.75, 0), //2.4  3.05
+    			//new Waypoint(0, 0, 0), 
+    			//new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
+    			//new Waypoint(2.3, -1.75, 0), //2.4  3.05
     			
-    			/* left
-    			new Waypoint(0, 0, 0), 
-    			new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
-    			new Waypoint(2.55, 1.45, 0), //2.4  3.05\
-    			*/
-    			/*
+    			
+    			//new Waypoint(0, 0, 0), 
+    			//new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
+    			//new Waypoint(2.55, 1.45, 0), //2.4  3.05\
+    			
+    		
     			new Waypoint(0, 0, 0), 
     			new Waypoint(4.97, 0, Pathfinder.d2r(0)), //4.5 1.371    .57
     			new Waypoint(6.0, 3.657, Pathfinder.d2r(80)), 
     			new Waypoint(6.223, 4.59, Pathfinder.d2r(20)),//2.4  3.05\
-    			*/
+    			
     			
     		
     	};
@@ -132,7 +132,8 @@ public class PathFinding extends Command {
     	RobotMap.driveTrainLeftMaster.config_kF(0, a2, 10); //0
     // 	RobotMap.gyro.reset();
     	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
-    	
+    	RobotMap.driveTrainRightMaster.setSelectedSensorPosition(0, 0, 0);
+
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                    //change this to 20 ms                                  1.7 1.7   2.5 2.5
     	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.2, 5.1/2.2, 20);//17.08);
     	trajectory = Pathfinder.generate(points, config);
