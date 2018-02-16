@@ -34,7 +34,7 @@ public class UpdateSmartDashboard extends Command {
     	////////////////////////////////BRAKE////////////////////////////////
     	
     	SmartDashboard.putData("Auto mode", Robot.chooser);
-    	
+        SmartDashboard.putData("TestPathFinder", new AlexTestPathFinding());
     	
     	SmartDashboard.putNumber("posDeadzone",CalculateDeadzone.posDeadzone);
 		SmartDashboard.putNumber("negDeadzone", CalculateDeadzone.negDeadzone);
@@ -55,6 +55,7 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("ClimbDown", new ClimbDown());
         SmartDashboard.putData("ClimbAdjust", new ClimbAdjust());
         SmartDashboard.putData("WinchWind", new WinchWind());
+
         
        
     }
