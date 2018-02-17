@@ -121,7 +121,8 @@ public class OI {
         button2 = new JoystickButton(leftController, 2);
         button2.whenPressed(new ElevatorUp());
         
-        button1 = new JoystickButton(leftController, 1);
+        button1 = new JoystickButton(operator, 1);
+        button1.whenPressed(new PathFinding());
 
     
 
