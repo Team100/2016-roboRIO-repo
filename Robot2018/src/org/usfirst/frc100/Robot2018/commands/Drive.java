@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Robot2018.OI;
 import org.usfirst.frc100.Robot2018.Robot;
 import org.usfirst.frc100.Robot2018.RobotMap;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import org.usfirst.frc100.Robot2018.Robot;
 
 /**
@@ -50,22 +53,27 @@ public class Drive extends Command {
     @Override
     protected void execute() {
 
-    	/*if(Robot.DriverStation){
+    	if(!Robot.logitech){
         	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
-        	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
-        	if(Robot.ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), OI.rightStick.getX());
+        	SmartDashboard.putNumber("Right Stick", -OI.rightStick.getY());
+        	if(!Robot.TankDrive){
+        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.leftController.getY()+OI.rightStick.getX());
+        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,-OI.leftController.getY()+OI.rightStick.getX());
         	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
+        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.leftController.getY());
+        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, OI.rightStick.getY());
         	}
         }else{
         	SmartDashboard.putNumber("Logitech", OI.operator.getY());
-        	if(Robot.ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(4));
+        	if(!Robot.TankDrive){
+        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput,OI.operator.getY()+OI.operator.getRawAxis(4));
+        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,-OI.operator.getY()+OI.operator.getRawAxis(4));
+        		//RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
         	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.operator.getRawAxis(1), OI.operator.getRawAxis(5));
+        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.operator.getY());
+        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(5));
         	}
-        }*/
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

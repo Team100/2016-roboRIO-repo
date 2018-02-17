@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 
     public static SendableChooser<Command> chooser = new SendableChooser<>();
 
-	public static Boolean DriverStation;
+	public static Boolean logitech;
 	public static Boolean TankDrive;
 
     public static OI oi;
@@ -122,8 +122,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);
         SmartDashboard.putData("TestPath", new PathFindingLogicCode());
 
-        DriverStation = false;
-        TankDrive = false;
+        logitech= false;
+        TankDrive= false;
         prefs = Preferences.getInstance();
         prefs.putBoolean("TankDrive", false);
 		prefs.putBoolean("DriverStation", false);
@@ -208,7 +208,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         SmartDashboard.putData("Henry test path", new PathFinding());
-        DriverStation = prefs.getBoolean("DriverStation", false);
+        logitech = prefs.getBoolean("DriverStation", false);
         TankDrive = prefs.getBoolean("TankDrive", false);
         SmartDashboard.putBoolean("TankDrive On", TankDrive);
         SmartDashboard.putBoolean("DriverStation On", DriverStation);
@@ -224,27 +224,7 @@ public class Robot extends TimedRobot {
         }else if(OI.operator.getRawButtonPressed(2)) {
         	RobotMap.driveTrainShiftingSolenoid.set(false);
         }*/
-        if(DriverStation){
-        	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
-        	SmartDashboard.putNumber("Right Stick", -OI.rightStick.getY());
-        	if(!TankDrive){
-        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.leftController.getY()+OI.rightStick.getX());
-        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,-OI.leftController.getY()+OI.rightStick.getX());
-        	}else{
-        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.leftController.getY());
-        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, OI.rightStick.getY());
-        	}
-        }else{
-        	SmartDashboard.putNumber("Logitech", OI.operator.getY());
-        	if(!TankDrive){
-        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput,OI.operator.getY()+OI.operator.getRawAxis(4));
-        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,-OI.operator.getY()+OI.operator.getRawAxis(4));
-        		//RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
-        	}else{
-        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.operator.getY());
-        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(5));
-        	}
-        }
+        
 
         Scheduler.getInstance().run();
 

@@ -11,7 +11,12 @@
 
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc100.Robot2018.OI;
 import org.usfirst.frc100.Robot2018.Robot;
+import org.usfirst.frc100.Robot2018.RobotMap;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 /**
  *
@@ -43,6 +48,9 @@ public class WinchWind extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+    	if(OI.operator.getRawButton(3)){
+    		RobotMap.winchWinchTalon.set(ControlMode.PercentOutput, 70);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
