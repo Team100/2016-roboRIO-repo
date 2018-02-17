@@ -12,12 +12,12 @@ import jaci.pathfinder.Waypoint;
  * This may be refered to as the initializing controller
  * 
  */
-public class AlexTestPathFinding extends Command {
+public class PathFindingLogicCode extends Command {
 	
     int index;
     double point;
 
-	public AlexTestPathFinding() {
+	public PathFindingLogicCode() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -46,8 +46,8 @@ public class AlexTestPathFinding extends Command {
     	/**
     	 * This is how we set the PathFinding logic with the points
     	 */
-    	AlexPathFinding AlexPathFinding = new AlexPathFinding(points);
-    	AlexPathFinding.start();
+    	PathFindingLogicProcessor logicProcessor = new PathFindingLogicProcessor(points);
+    	logicProcessor.start();
     }
 
     // Called repeatedly when this Command is scheduled to run

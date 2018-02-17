@@ -118,7 +118,7 @@ public class Robot extends TimedRobot {
         new UpdateSmartDashboard();
 
         SmartDashboard.putData("Auto mode", chooser);
-        SmartDashboard.putData("TestPath", new AlexTestPathFinding());
+        SmartDashboard.putData("TestPath", new PathFindingLogicCode());
 
         DriverStation = false;
         ArcadeDrive = false;
@@ -204,7 +204,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        SmartDashboard.putData("TestPath", new AlexTestPathFinding());
+        SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         SmartDashboard.putData("Henry test path", new PathFinding());
         DriverStation = prefs.getBoolean("DriverStation", false);
         ArcadeDrive = prefs.getBoolean("ArcadeDrive", false);

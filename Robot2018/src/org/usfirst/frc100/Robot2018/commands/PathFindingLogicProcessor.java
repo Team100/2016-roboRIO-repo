@@ -49,7 +49,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
  * and send in a Jaci's Pathfinding array in each initializer 
  */
 
-public class AlexPathFinding extends Command {
+public class PathFindingLogicProcessor extends Command {
 	/**
 	 * 
 	 * All required variables
@@ -93,7 +93,7 @@ public class AlexPathFinding extends Command {
         	};
 	 * 
 	 */
-    public AlexPathFinding(Waypoint [] mypoints) {
+    public PathFindingLogicProcessor(Waypoint [] mypoints) {
     	requires(Robot.driveTrain);
     	System.out.println("hi");
     	//paramPoints = mypoints;
