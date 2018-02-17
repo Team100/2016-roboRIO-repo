@@ -49,7 +49,7 @@ public class Drive extends Command {
     @Override
     protected void execute() {
 
-    	/*if(Robot.DriverStation){
+    	/*if(!Robot.Logitech){
         	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
         	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
         	if(Robot.ArcadeDrive){

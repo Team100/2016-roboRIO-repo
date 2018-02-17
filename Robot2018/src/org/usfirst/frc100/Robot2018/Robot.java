@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 
     public static SendableChooser<Command> chooser = new SendableChooser<>();
 
-	public static Boolean DriverStation;
+	public static Boolean Logitech;
 	public static Boolean ArcadeDrive;
 
     public static OI oi;
@@ -120,11 +120,11 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);
         SmartDashboard.putData("TestPath", new PathFindingLogicCode());
 
-        DriverStation = false;
+        Logitech = false;
         ArcadeDrive = false;
         prefs = Preferences.getInstance();
         prefs.putBoolean("ArcadeDrive", false);
-		prefs.putBoolean("DriverStation", false);
+		prefs.putBoolean("Logitech", false);
         if (!prefs.containsKey("P")) {
         	prefs.putDouble("P", 0.01);
         }
@@ -171,6 +171,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
     	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	
     	if(gameData.charAt(0) == 'L'){
     		new LeftSwitch().start();
     	}
@@ -206,10 +207,10 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         SmartDashboard.putData("Henry test path", new PathFinding());
-        DriverStation = prefs.getBoolean("DriverStation", false);
+        Logitech = prefs.getBoolean("Logitech", false);
         ArcadeDrive = prefs.getBoolean("ArcadeDrive", false);
         SmartDashboard.putBoolean("ArcadeDrive On", ArcadeDrive);
-        SmartDashboard.putBoolean("DriverStation On", DriverStation);
+        SmartDashboard.putBoolean("Logitech On", Logitech);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();
         /*if(OI.leftController.getRawButton(1)){
@@ -222,7 +223,7 @@ public class Robot extends TimedRobot {
         }else if(OI.operator.getRawButtonPressed(2)) {
         	RobotMap.driveTrainShiftingSolenoid.set(false);
         }*/
-        if(DriverStation){
+        if(Logitech){
         	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
         	SmartDashboard.putNumber("Right Stick", -OI.rightStick.getY());
         	if(ArcadeDrive){
