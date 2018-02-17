@@ -80,7 +80,7 @@ public class DriveTrain extends Subsystem {
     /**
      * Variable for the NAVX IMU
      */
-    AHRS ahrs;
+    static AHRS ahrs;
     
     @Override
     public void initDefaultCommand() {
@@ -158,7 +158,12 @@ public class DriveTrain extends Subsystem {
     	navxQuaternionX = ahrs.getQuaternionX();
     	navxQuaternionY = ahrs.getQuaternionY();
     	navxQuaternionZ = ahrs.getQuaternionZ();
+    	
+    	new UpdateSmartDashboard();
+    	
     }
-
+    public static void resetNavXYaw() {
+    	ahrs.zeroYaw();
+    }
 }
 
