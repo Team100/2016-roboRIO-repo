@@ -40,15 +40,20 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 /**
- * @author Alex Beaver and Henry
+ * @author Alex Beaver
+ * Based on Henry's Code
  * 
  * 
  * Path Finding test code for the purpose of parameterization
- * TODO Get Parameterization Working 
+ * This is the logic controller for finding the paths. Create a new instance
+ * and send in a Jaci's Pathfinding array in each initializer 
  */
 
-public class AlexPathFinding extends Command {
-
+public class PathFindingLogicProcessor extends Command {
+	/**
+	 * 
+	 * All required variables
+	 */
 	public static boolean isGoing;
 	private boolean finish; 
 	private int counter; 
@@ -74,11 +79,11 @@ public class AlexPathFinding extends Command {
 	long startTime;
 	long currentTime;
 	long timeInt;
-    public AlexPathFinding(Waypoint [] mypoints) {
-    	requires(Robot.driveTrain);
-    	System.out.println("hi");
-    	//paramPoints = mypoints;
-    	Waypoint [] paramPoints = new Waypoint[]{
+	/**
+	 * 
+	 * @param mypoints - list of waypoints to calculate as a Jaci's Waypoint Array
+	 * 
+	 * Waypoint [] points = new Waypoint[]{
         		//right
         			new Waypoint(0.0,0.0,0.0),
         			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
@@ -86,6 +91,13 @@ public class AlexPathFinding extends Command {
         		
         		
         	};
+	 * 
+	 */
+    public PathFindingLogicProcessor(Waypoint [] mypoints) {
+    	requires(Robot.driveTrain);
+    	System.out.println("hi");
+    	//paramPoints = mypoints;
+    	Waypoint [] paramPoints = mypoints;
     	
   
     }
@@ -93,6 +105,9 @@ public class AlexPathFinding extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+    	/**
+    	 * Logic controller from code from HENRY
+    	 */
     	isGoing = false;
     	SmartDashboard.putBoolean("EnteredTestPathFinding", isGoing);
     	System.out.println("PARAMETER POINTS BELOW========================================================");
@@ -173,6 +188,9 @@ public class AlexPathFinding extends Command {
     }
     
     public void parseArray(){
+    	/**
+    	 * Parses the array of waypoints
+    	 */
     	isGoing = true;
     	SmartDashboard.putBoolean("PathFindingParsing", isGoing);
     	//SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
