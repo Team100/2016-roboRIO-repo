@@ -50,17 +50,31 @@ public class DoubleSolenoidControl extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	if(OI.operator.getRawButtonPressed(9)){
-    		if(RobotMap.DuoSol.get() == Value.kForward){
-    			RobotMap.DuoSol.set(DoubleSolenoid.Value.kOff);
-    		}else{
-    			RobotMap.DuoSol.set(DoubleSolenoid.Value.kForward);
+    	if(Robot.MaunalDuo){
+    		if(OI.operator.getRawButtonPressed(9)){
+    			if(RobotMap.DuoSol.get() == Value.kForward){
+    				RobotMap.DuoSol.set(DoubleSolenoid.Value.kOff);
+    			}else{
+    				RobotMap.DuoSol.set(DoubleSolenoid.Value.kForward);
+    			}
+    		}else if(OI.operator.getRawButtonPressed(10)){
+    			if(RobotMap.DuoSol.get() == Value.kReverse){
+    				RobotMap.DuoSol.set(Value.kOff);
+    			}else{
+    				RobotMap.DuoSol.set(Value.kReverse);
+    			}
     		}
-    	}else if(OI.operator.getRawButtonPressed(10)){
-    		if(RobotMap.DuoSol.get() == Value.kReverse){
-    			RobotMap.DuoSol.set(Value.kOff);
-    		}else{
-    			RobotMap.DuoSol.set(Value.kReverse);
+    	}else{
+    		if(OI.operator.getRawButtonPressed(9)){
+    			RobotMap.DuoSol.set(DoubleSolenoid.Value.kForward);
+    			new passTime();
+    			RobotMap.DuoSol.set(DoubleSolenoid.Value.kOff);
+    		}else if(OI.operator.getRawButtonPressed(10)){
+    			if(RobotMap.DuoSol.get() == Value.kReverse){
+    				RobotMap.DuoSol.set(Value.kOff);
+    			}else{
+    				RobotMap.DuoSol.set(Value.kReverse);
+    			}
     		}
     	}
     }

@@ -111,13 +111,13 @@ public class OI {
         button6 = new JoystickButton(operator, 6);
         button6.whileHeld(new ElevatorUp());
         button5 = new JoystickButton(operator, 5);
-        button5.whenPressed(new ElevatorArmUp());//this isn't required b/c its a solenoid so we can use conditionals
+        //button5.whenPressed(new ElevatorArmUp());//this isn't required b/c its a solenoid so we can use conditionals
         button4 = new JoystickButton(operator, 4);
         button4.whenPressed(new IntakeIn());
         button3 = new JoystickButton(operator, 2);
         button3.whenPressed(new IntakeOut());
         button2 = new JoystickButton(operator, 3);
-        button2.whenPressed(new WinchWind());
+        button2.whileHeld(new WinchWind());
         button1 = new JoystickButton(leftController, 1);
     
 

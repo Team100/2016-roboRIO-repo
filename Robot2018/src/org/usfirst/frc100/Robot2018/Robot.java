@@ -46,10 +46,10 @@ public class Robot extends TimedRobot {
     Command autonomousCommand;
 
     public static SendableChooser<Command> chooser = new SendableChooser<>();
-
+    public static boolean MaunalDuo;
 	public static Boolean logitech;
 	public static Boolean TankDrive;
-
+	public static double RequestedTime;
     public static OI oi;
 
     
@@ -125,7 +125,9 @@ public class Robot extends TimedRobot {
         logitech= false;
         TankDrive= false;
         prefs = Preferences.getInstance();
+        prefs.putDouble("Number of Seconds to Wait", 10);
         prefs.putBoolean("TankDrive", false);
+        prefs.putBoolean("Solenoid Maunal", false);
 		prefs.putBoolean("DriverStation", false);
         if (!prefs.containsKey("P")) {
         	prefs.putDouble("P", 0.01);
@@ -208,10 +210,12 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         SmartDashboard.putData("Henry test path", new PathFinding());
+        RequestedTime = prefs.getDouble("Number of Seconds to Wait", 10);
         logitech = prefs.getBoolean("DriverStation", false);
         TankDrive = prefs.getBoolean("TankDrive", false);
+        MaunalDuo = prefs.getBoolean("Solenoid Maunal", false);
         SmartDashboard.putBoolean("TankDrive On", TankDrive);
-        SmartDashboard.putBoolean("DriverStation On", DriverStation);
+        SmartDashboard.putBoolean("DriverStation On", logitech);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();
         /*if(OI.leftController.getRawButton(1)){

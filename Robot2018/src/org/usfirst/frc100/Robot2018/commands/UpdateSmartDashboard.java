@@ -46,7 +46,7 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("Drive", new Drive());
         SmartDashboard.putData("ElevatorUp", new ElevatorUp());
         SmartDashboard.putData("ElevatorDown", new ElevatorDown());
-        SmartDashboard.putData("ElevatorArmUp", new ElevatorArmUp());
+       // SmartDashboard.putData("ElevatorArmUp", new ElevatorArmUp());
         SmartDashboard.putData("ElevatorArmDown", new ElevatorArmDown());
         SmartDashboard.putData("ElevatorAdjust", new ElevatorAdjust());
         SmartDashboard.putData("IntakeIn", new IntakeIn());

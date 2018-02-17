@@ -65,8 +65,8 @@ public class ElevatorAdjust extends Command {
     			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getY());
     		}
     	}else{
-    		if(Robot.DriverStation){
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getY());
+    		if(Robot.logitech){
+    			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getY());
     		}
     	}
     }
