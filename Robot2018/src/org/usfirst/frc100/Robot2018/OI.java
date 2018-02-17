@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
 
 import org.usfirst.frc100.Robot2018.commands.*;
-import org.usfirst.frc100.Robot2018.subsystems.*;
+//import org.usfirst.frc100.Robot2018.subsystems.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -98,32 +98,27 @@ public class OI {
         
         leftController = new Joystick(0);
 
-        button12 = new JoystickButton(leftController, 12);
-        button12.whileHeld(new WinchWind());
-        button11 = new JoystickButton(leftController, 11);
-        button11.whileHeld(new ClimbAdjust());
-        button10 = new JoystickButton(leftController, 10);
-        button10.whenPressed(new ClimbDown());
-        button9 = new JoystickButton(leftController, 9);
-        button9.whenPressed(new ClimbUp());
-        button8 = new JoystickButton(leftController, 8);
-        button8.whileHeld(new IntakeOut());
-        button7 = new JoystickButton(leftController, 7);
-        button7.whileHeld(new IntakeIn());
-        button6 = new JoystickButton(leftController, 6);
-        button6.whileHeld(new ElevatorAdjust());
-        button5 = new JoystickButton(leftController, 1);
-        button5.whenPressed(new ElevatorArmDown());
-        button4 = new JoystickButton(leftController, 4);
-        button4.whenPressed(new ElevatorArmUp());
-        button3 = new JoystickButton(leftController, 3);
-        button3.whenPressed(new ElevatorDown());
-        button2 = new JoystickButton(leftController, 2);
-        button2.whenPressed(new ElevatorUp());
-        
-        button1 = new JoystickButton(operator, 1);
-        button1.whenPressed(new PathFinding());
-
+        //button12 = new JoystickButton(leftController, 12);
+        //button12.whileHeld(new WinchWind());
+        //button11 = new JoystickButton(leftController, 11);
+        //button11.whileHeld(new ClimbAdjust());
+        //button10 = new JoystickButton(leftController, 10);
+        //button10.whenPressed(new ElevatorArmUp());All these are buttons that dont exist on current joysticks;
+        button8 = new JoystickButton(operator, 8);
+        button8.whileHeld(new ElevatorDown());
+        button7 = new JoystickButton(operator, 7);
+        button7.whileHeld(new ClimbDown());
+        button6 = new JoystickButton(operator, 6);
+        button6.whileHeld(new ElevatorUp());
+        button5 = new JoystickButton(operator, 5);
+        button5.whenPressed(new ElevatorArmUp());//this isn't required b/c its a solenoid so we can use conditionals
+        button4 = new JoystickButton(operator, 4);
+        button4.whenPressed(new IntakeIn());
+        button3 = new JoystickButton(operator, 2);
+        button3.whenPressed(new IntakeOut());
+        button2 = new JoystickButton(operator, 3);
+        button2.whenPressed(new WinchWind());
+        button1 = new JoystickButton(leftController, 1);
     
 
         // SmartDashboard Buttons

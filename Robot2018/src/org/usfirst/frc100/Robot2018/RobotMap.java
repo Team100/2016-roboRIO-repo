@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -53,6 +54,7 @@ public class RobotMap {
     public static DigitalInput climbingArmClimbLim1;
     public static DigitalInput climbingArmClimbLim2;
     public static WPI_TalonSRX winchWinchTalon;
+    public static DoubleSolenoid DuoSol;
     public static WPI_VictorSPX winchWinchVictor1;
     public static WPI_VictorSPX winchWinchVictor2;
     public static Compressor miscCompressor;
@@ -166,7 +168,7 @@ public class RobotMap {
         winchWinchVictor2 = new WPI_VictorSPX(12);
         
         
-
+        DuoSol = new DoubleSolenoid(2,3); 
         
         
         miscCompressor = new Compressor(0);
