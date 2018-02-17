@@ -12,9 +12,9 @@ class Pipeline:
         """initializes all values to presets or None if need to be set
         """
 
-        self.__hsv_threshold_hue = [16.18705035971223, 69.419795221843]
-        self.__hsv_threshold_saturation = [64.84712230215828, 209.3088737201365]
-        self.__hsv_threshold_value = [130.71043165467623, 255.0]
+        self.__hsv_threshold_hue = [16.271186440677965, 69.419795221843]
+        self.__hsv_threshold_saturation = [128.41726618705036, 255.0]
+        self.__hsv_threshold_value = [92.29235255863107, 255.0]
 
         self.hsv_threshold_output = None
 
@@ -24,17 +24,17 @@ class Pipeline:
         self.find_contours_output = None
 
         self.__filter_contours_contours = self.find_contours_output
-        self.__filter_contours_min_area = 11000.0
-        self.__filter_contours_min_perimeter = 0.0
+        self.__filter_contours_min_area = 500.0
+        self.__filter_contours_min_perimeter = 75.0
         self.__filter_contours_min_width = 0.0
         self.__filter_contours_max_width = 1000.0
-        self.__filter_contours_min_height = 0.0
+        self.__filter_contours_min_height = 10.0
         self.__filter_contours_max_height = 1000.0
-        self.__filter_contours_solidity = [0.0, 100.0]
+        self.__filter_contours_solidity = [50.35971223021583, 100.0]
         self.__filter_contours_max_vertices = 1000000.0
-        self.__filter_contours_min_vertices = 0.0
+        self.__filter_contours_min_vertices = 10.0
         self.__filter_contours_min_ratio = 0.0
-        self.__filter_contours_max_ratio = 1000.0
+        self.__filter_contours_max_ratio = 10.0
 
         self.filter_contours_output = None
 
