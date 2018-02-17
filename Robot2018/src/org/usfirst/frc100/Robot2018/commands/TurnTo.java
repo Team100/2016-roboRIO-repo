@@ -26,6 +26,9 @@ public class TurnTo extends Command {
     	Waypoint[] points = new Waypoint[] {
     			new Waypoint(0,0,Pathfinder.d2r(degreeOffset)),
     	};
+    	
+    	PathFindingLogicProcessor turnLogicController = new PathFindingLogicProcessor(points);
+    	turnLogicController.start();
     }
 
     // Called repeatedly when this Command is scheduled to run

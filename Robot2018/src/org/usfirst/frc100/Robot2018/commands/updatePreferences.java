@@ -21,6 +21,14 @@ public class updatePreferences extends Command {
 	 */
 	
 	public double FRC2018TestPreferencesOne;
+	public double kP;
+	public double kI;
+	public double kD;
+	public double kA;
+	public double kP2;
+	public double kI2;
+	public double kD2;
+	public double kA2;
 	
 	/*
 	 * END OF Variable creation
@@ -49,6 +57,24 @@ public class updatePreferences extends Command {
     	
     	FRC2018TestPreferencesOne = Robot.prefs.getDouble("PREF2018TestPreferencesOne", 1);
     	SmartDashboard.putString("TestPref", Double.toString(FRC2018TestPreferencesOne));
+    	
+    	kP = Robot.prefs.getDouble("P",
+				0);
+    	kI = Robot.prefs.getDouble("I",
+				0);
+    	kD = Robot.prefs.getDouble("D",
+				0);
+    	kA = Robot.prefs.getDouble("F",
+				0);
+    	
+    	kP2 = Robot.prefs.getDouble("PL",
+				0);
+    	kI2 = Robot.prefs.getDouble("IL",
+				0);
+    	kD2 = Robot.prefs.getDouble("DL",
+				0);
+    	kA2 = Robot.prefs.getDouble("FL",
+				0);
     
     }
 

@@ -121,24 +121,16 @@ public class PathFindingLogicProcessor extends Command {
     	Waypoint [] points = new Waypoint[] {};
     	
     	
+    	updatePreferences preferences = new updatePreferences();
+    	p = preferences.kP;
+    	i = preferences.kI;
+    	d = preferences.kD;
+    	a = preferences.kA;
     	
-    	p = Robot.prefs.getDouble("P",
-				0);
-    	i = Robot.prefs.getDouble("I",
-				0);
-    	d = Robot.prefs.getDouble("D",
-				0);
-    	a = Robot.prefs.getDouble("F",
-				0);
-    	
-    	p2 = Robot.prefs.getDouble("PL",
-				0);
-    	i2 = Robot.prefs.getDouble("IL",
-				0);
-    	d2 = Robot.prefs.getDouble("DL",
-				0);
-    	a2 = Robot.prefs.getDouble("FL",
-				0);
+    	p2 = preferences.kP2;
+    	i2 = preferences.kI2;
+    	d2 = preferences.kD2;
+    	a2 = preferences.kA2;
     	
     	RobotMap.driveTrainRightMaster.config_kP(0, p, 10); //.123
     	RobotMap.driveTrainRightMaster.config_kI(0, i, 10); //.2
