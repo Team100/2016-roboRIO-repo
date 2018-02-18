@@ -120,3 +120,4 @@ install(TARGETS jetson-inference DESTINATION lib/jetson-inference EXPORT jetson-
 
 # install the cmake project, for importing
 install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
+
