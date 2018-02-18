@@ -22,5 +22,6 @@
 	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/resources.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/rt.jar"/>
 	<classpathentry kind="var" path="Pathfinder-Java"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

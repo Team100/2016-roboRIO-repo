@@ -92,7 +92,7 @@ public class PathFinding extends Command {
     	counter = 0;
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
-    	
+    	/*
     	Waypoint [] points = new Waypoint[]{
 
     		//right
@@ -113,7 +113,7 @@ public class PathFinding extends Command {
     			
     			
     		
-    	};
+    	}; */
 
         	 
     	if(mode == "Left") {
@@ -130,6 +130,9 @@ public class PathFinding extends Command {
 				new Waypoint(2.3, -1.75, 0),
     		};
     	}
+    	
+    	
+    	
     	
 
     	
