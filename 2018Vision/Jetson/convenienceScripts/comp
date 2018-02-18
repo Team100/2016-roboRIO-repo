@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /home/nvidia/jetson-inference/build/
+sudo make -j 4
+cd /home/nvidia/
+sudo rundt
