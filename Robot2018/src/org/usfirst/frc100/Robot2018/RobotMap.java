@@ -90,12 +90,12 @@ public class RobotMap {
 
 
         driveTrainLeftFollower = new WPI_VictorSPX(4);
-        driveTrainRightMaster.setInverted(false);
-        driveTrainLeftMaster.setInverted(false);
-        driveTrainLeftFollower.setInverted(false);
-        driveTrainRightFollower.setInverted(false);
-        driveTrainRightMaster.setSensorPhase(true);
-        driveTrainLeftMaster.setSensorPhase(false);
+        driveTrainRightMaster.setInverted(false); //true
+        driveTrainLeftMaster.setInverted(false); //true
+        driveTrainLeftFollower.setInverted(false); //true
+        driveTrainRightFollower.setInverted(false); //true
+        driveTrainRightMaster.setSensorPhase(true); //true
+        driveTrainLeftMaster.setSensorPhase(false); //false or delete
         
         driveTrainLeftFollower.set(ControlMode.Follower, 2);
         // driveTrainTalonSRX2.setInverted(true);

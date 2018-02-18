@@ -118,9 +118,9 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);
 
         DriverStation = false;
-        ArcadeDrive = false;
+        ArcadeDrive = true;
         prefs = Preferences.getInstance();
-        prefs.putBoolean("ArcadeDrive", false);
+        prefs.putBoolean("ArcadeDrive", true);
 		prefs.putBoolean("DriverStation", false);
         if (!prefs.containsKey("P")) {
         	prefs.putDouble("P", 0);
@@ -167,14 +167,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-    	/*
-    	gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	if(gameData.charAt(0) == 'L'){
-    		new LeftSwitch().start();
-    	}
-    	if(gameData.charAt(0) == 'R'){
-    		new RightSwitch().start();
-    	} */
+    	
+    	
         //autonomousCommand = chooser.getSelected();
         // schedule the autonomous command (example)
        // if (autonomousCommand != null) autonomousCommand.start();
@@ -202,44 +196,11 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-/*
-        DriverStation = prefs.getBoolean("DriverStation", false);
-        ArcadeDrive = prefs.getBoolean("ArcadeDrive", false);
-        SmartDashboard.putBoolean("ArcadeDrive On", ArcadeDrive);
-        SmartDashboard.putBoolean("DriverStation On", DriverStation);
-        SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get()); */
+
         SmartDashboard.putNumber("LeftE", RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("rightE", RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0));
         Scheduler.getInstance().run();
-        /*
-        if(OI.leftController.getRawButton(1)){
-        	RobotMap.driveTrainShiftingSolenoid.set(true);
-        }else if(OI.rightStick.getRawButton(1)) {
-        	
-        	RobotMap.driveTrainShiftingSolenoid.set(false);
-        }else if(OI.operator.getRawButtonPressed(1)) {
-        	RobotMap.driveTrainShiftingSolenoid.set(true);
-        }else if(OI.operator.getRawButtonPressed(2)) {
-        	RobotMap.driveTrainShiftingSolenoid.set(false);
-        }
-        if(DriverStation){
-        	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
-        	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
-        	if(ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), OI.rightStick.getX());
-        	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
-        	}
-        }else{
-        	SmartDashboard.putNumber("Logitech", OI.operator.getY());
-        	if(ArcadeDrive){
-        		//RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(2));
-        	}else{
-        		//RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
-        	}
-        	
-        }
-*/
+        
         Scheduler.getInstance().run();
 
     }
