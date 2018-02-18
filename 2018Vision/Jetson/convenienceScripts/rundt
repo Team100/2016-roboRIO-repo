@@ -1,0 +1,10 @@
+#!/bin/bash
+sudo ./jetson-inference/build/aarch64/bin/detectnet-camera\
+ -model '/home/nvidia/Documents/workingmodel/snapshot_iter_15600.caffemodel'\
+ -prototxt 'home/nvidia/Documents/workingmodel/deploy.prototxt'\
+ -input_blob 'data'\
+ -output_cvg 'coverage'\
+ -output_bbox 'bboxes'\
+ -mean_pixel 0.000000\
+ -threshold 0.750000\
+ -batch_size 2
