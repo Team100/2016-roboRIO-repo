@@ -27,6 +27,7 @@
 #include <chrono>
 #include <ctime>
 #include <sstream>
+#include <math.h>
 
 #include "networktables/NetworkTable.h" // MAKE SURE TO INCLUDE THIS BEFORE gl
 
@@ -36,6 +37,7 @@
 #include "glTexture.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
 
@@ -52,6 +54,15 @@ using namespace std;
 
 #define DEFAULT_CAMERA 1	// -1 for onboard camera, or change to index of /dev/video V4L2 camera (>=0)		
 //#define NET_IP "192.168.2.102" // ip
+#define CAMERA_POS_HEIGHT 110.5 //47 inches
+#define CAMERA_WIDTH 640
+#define CAMERA_HEIGHT 480
+#define FOV_X_RADS 0.980413654
+#define FOV_Y_RADS 0.71332305
+#define FOV_Y_RADS2 0.678758546 
+#define FOV_Y_RADS3 0.6
+
+#define PI 3.14159265359
 
 string ip = "192.168.2.101";
 string roborio_ip = "roborio-100-frc.local";
@@ -61,7 +72,7 @@ shared_ptr<NetworkTable> visionTable; // root networkTable
 double centerPixel [2] = {1.0,1.0} ;
 double bboxCoordinates [4] = {0.0, 0.0, 0.0, 0.0};
 double angle = 0.0;
-double distance = 0.0;
+//double distance = 0.0;
 
 bool signal_recieved = false;
 
@@ -83,7 +94,14 @@ int main( int argc, char** argv )
 {	
 
 	stringstream ss;
-
+	double degreesPerPixels [2] = {56.17/CAMERA_WIDTH, 40.86/CAMERA_HEIGHT}; // 0.980413654 rad x 0.71332305 rad
+	double radiansPerPixels [2] = {FOV_X_RADS/CAMERA_WIDTH, FOV_Y_RADS/CAMERA_HEIGHT};
+	double distance = 0.0;
+	double distance2 = 0.0;
+	double distance3 = 0.0;
+	double distance4 = 0.0;
+	double calibrated_offset = 117; // pixels
+	double distFromCenter = 0.0;
 
    	NetworkTable::SetClientMode();
    	NetworkTable::SetIPAddress(llvm::StringRef(roborio_ip));
@@ -145,7 +163,6 @@ int main( int argc, char** argv )
 		printf("detectnet-camera:   failed to initialize imageNet\n");
 		return 0;
 	}
-
 
 	/*
 	 * allocate memory for output bounding boxes and class confidence
@@ -244,11 +261,29 @@ int main( int argc, char** argv )
 				const int nc = confCPU[n*2+1];
 				float* bb = bbCPU + (n * 4);
 				
-				printf("bounding box %i   (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
+				//printf("bounding box %i   (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
 
 
 				centerPixel[0] = (bb[2]-bb[0])/2;
 				centerPixel[1] = (bb[3]-bb[1])/2;
+				
+				//distance = (CAMERA_HEIGHT/(tan((abs(bb[3]-(CAMERA_HEIGHT/2)))*radiansPerPixels[1])))/100;
+				distance = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS2/CAMERA_HEIGHT));
+				distance2 = 1.02*CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS2/CAMERA_HEIGHT));
+				distance3 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS/CAMERA_HEIGHT));
+				distance4 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-150))*FOV_Y_RADS3/CAMERA_HEIGHT));
+				
+				
+				//distFromCenter = abs((CAMERA_WIDTH/2)-((bb[2]-bb[0])/2)+bb[0]);
+				angle = (atan((320-(bb[0]+(bb[2]-bb[0])/2))/distance2)*(-180/PI));
+				//angle = centerPixel[0]*FOV_X_RADS/CAMERA_WIDTH;
+				//angle = atan(abs(360-centerPixel[1])/distance2);
+				//angle = angle *180/PI;
+
+
+				//angle = tan(abs(centerPixel[0]-(CAMERA_WIDTH/2)))*180/PI;
+				
+				//CAMERA_POS_HEIGHT/tan(abs(bb[3]-18)*FOV_Y_RADS/CAMERA_HEIGHT)
 
 				/*bboxCoordinates[0] = *bb[0];
 				bboxCoordinates[1] = *bb[1];
@@ -265,15 +300,23 @@ int main( int argc, char** argv )
 				visionString += string("[");
 
 				for (int i = 0; i < numBoundingBoxes; i++){
-					string jsonObject = string("\n\t{\n\t\t\"angle\": ")+to_string(0.4)+string(",\n\t\t\"distance\": ")+to_string(0.0)+string(",\n\t\t\"timestamp\": ")+ss.str()+string(",\n\t\t\"centerPixel\": [")+to_string(centerPixel[0])+string(", ")+to_string(centerPixel[1])+string("],\n\t\t\"bboxCoordinates\": [")+to_string(bb[0])+string(", ")+to_string(bb[1])+string(", ")+to_string(bb[2])+string(", ")+std::to_string(bb[3])+string("]\n\t},");
+					string jsonObject = string("\n\t{\n\t\t\"angle\": ")+to_string(angle)+string(",\n\t\t\"distance\": ")+to_string(distance2)+string(",\n\t\t\"timestamp\": ")+ss.str()+string(",\n\t\t\"centerPixel\": [")+to_string(centerPixel[0])+string(", ")+to_string(centerPixel[1])+string("],\n\t\t\"bboxCoordinates\": [")+to_string(bb[0])+string(", ")+to_string(bb[1])+string(", ")+to_string(bb[2])+string(", ")+std::to_string(bb[3])+string("]\n\t},");
 					visionString+=jsonObject;
 				}
+				
+				//printf("\nDistance: %f", distance/2.54);
+				//printf("\nDistance2: %f", distance2/2.54);
+				//printf("\nDistance3: %f", distance3/2.54);
+				//printf("\nDistance4: %f", distance4/2.54);
+				//printf("\nCenter Pixel[0]: %f\n", centerPixel[0]);
+				//printf("\nbb[2]: %f\n", centerPixel[0]-CAMERA_WIDTH/2);
+				//printf("\nFOV_X_DEGREES: %f\nCenterPix: %f\nDistFromCenter: %f px.\nAngle: %f\n degrees", FOV_X_RADS*180/PI, bb[0]+(bb[2]-bb[0])/2, 320-(bb[0]+(bb[2]-bb[0])/2), (atan((320-(bb[0]+(bb[2]-bb[0])/2))/distance2)*(-180/PI)));
 				
 				visionString.pop_back();
 				visionString+=string("\n]");
 				//printf("%s\n", visionString.c_str());
 
-				visionTable -> PutString("GodString", visionString);
+				visionTable -> PutString("VisionString", visionString);
 				visionString.clear();
 				//objects[n] -> PutNumber("Angle", angle);
 				//objects[n] -> PutNumber("Distance", distance);
@@ -363,3 +406,5 @@ int main( int argc, char** argv )
 	printf("detectnet-camera:  this concludes the test of the video device.\n");
 	return 0;
 }
+
+
