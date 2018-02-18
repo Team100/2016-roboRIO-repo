@@ -49,6 +49,7 @@ public class Drive extends Command {
     @Override
     protected void execute() {
 
+    		Robot.driveTrain.getJoy();
     	/*if(Robot.DriverStation){
         	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
         	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());

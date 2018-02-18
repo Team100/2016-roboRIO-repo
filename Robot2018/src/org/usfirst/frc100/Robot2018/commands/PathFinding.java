@@ -152,7 +152,7 @@ public class PathFinding extends Command {
     	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
     	
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                    //change this to 20 ms                                  1.7 1.7   2.5 2.5
-    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.2, 5.1/2.2, 20);//17.08);
+    	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.07/2.2, 5.1/2.2, 20);//17.08);
     	trajectory = Pathfinder.generate(points, config);
     
     	TankModifier modifier = new TankModifier(trajectory).modify(.67);
@@ -166,7 +166,7 @@ public class PathFinding extends Command {
     	    public void run() {
     	    	parseArray();
     	    }
-    	  }, 0, 100);
+    	  }, 0, 20);
       
     } 
 
@@ -188,11 +188,11 @@ public class PathFinding extends Command {
     		SmartDashboard.putNumber("Pp", p);
     		SmartDashboard.putNumber("Pi", i);
     		SmartDashboard.putNumber("Pd", d);
-    		SmartDashboard.putNumber("Pa", a);
+    		SmartDashboard.putNumber("Pf", a);
     		SmartDashboard.putNumber("Ppl", p2);
     		SmartDashboard.putNumber("Pil", i2);
     		SmartDashboard.putNumber("Pdl", d2);
-    		SmartDashboard.putNumber("Pal", a2);
+    		SmartDashboard.putNumber("Pfl", a2);
     	
     		Trajectory.Segment segL = leftT.get(counter); 
     		Trajectory.Segment segR = (rightT.get(counter));
@@ -208,13 +208,13 @@ public class PathFinding extends Command {
     	
     	//SmartDashboard.putNumber("turn", turn);
     	
-    	double setR = -segR.velocity;
+    	double setR = segR.velocity;
     	double setL = segL.velocity;
     //	double setR = -(segR.velocity + turn); //-segR.velocity;// -(segR.velocity + turn); 
     //	double setL = (segL.velocity - turn);//segL.velocity;//(segL.velocity - turn);
     	
-    	SmartDashboard.putNumber("leftS", (setL*3.28));
-    	SmartDashboard.putNumber("RightS", -(setR*3.28));
+    	SmartDashboard.putNumber("leftS", (setL*1508.965));
+    	SmartDashboard.putNumber("RightS", (setR*1508.965));
     	
     	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
  		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);

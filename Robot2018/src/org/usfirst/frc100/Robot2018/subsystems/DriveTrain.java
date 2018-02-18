@@ -11,6 +11,7 @@
 
 package org.usfirst.frc100.Robot2018.subsystems;
 
+import org.usfirst.frc100.Robot2018.OI;
 import org.usfirst.frc100.Robot2018.Robot;
 import org.usfirst.frc100.Robot2018.RobotMap;
 import org.usfirst.frc100.Robot2018.commands.*;
@@ -62,6 +63,9 @@ public class DriveTrain extends Subsystem {
     public void periodic() {
         // Put code here to be run every loop
     //	differentialDrive1.arcadeDrive(Robot.oi.leftController.getRawAxis(1), Robot.oi.rightStick.getRawAxis(0));
+    }
+    public void getJoy(){
+    	RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(2));
     }
     
 

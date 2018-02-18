@@ -83,7 +83,9 @@ public class PathFinding extends Command {
     		
     			new Waypoint(0, 0, 0), 
     			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
-    			new Waypoint(2.3, -1.75, 0),
+    			new Waypoint(2.3, -1.75, 0), 
+    			//new Waypoint(0, 0, 0), 
+    			//new Waypoint(2.3 , 0, 0),
     		//	new Waypoint(1.8, -2.3, Pathfinder.d2r(90) ),//2.4  3.05
     			
     			/* left
@@ -137,17 +139,18 @@ public class PathFinding extends Command {
     	TankModifier modifier = new TankModifier(trajectory).modify(.67);
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
+    	
     	for (int i = 0; i < trajectory.length(); i++) {
-    	    Trajectory.Segment seg = trajectory.get(i);
+    	   Trajectory.Segment seg = trajectory.get(i);
     	    
-    	    System.out.printf("%f,\n", 
-    	       seg.velocity);
-    	}
+    	    System.out.printf("%f, %f\n", 
+    	       seg.x, seg.y);
+    	} 
     	timer = new Timer();
     	timer.schedule(new TimerTask() {
     	    @Override
     	    public void run() {
-    	    //	parseArray();
+    	    	parseArray();
     	    }
     	  }, 0, 100);
       
@@ -197,10 +200,10 @@ public class PathFinding extends Command {
     //	double setL = (segL.velocity - turn);//segL.velocity;//(segL.velocity - turn);
     	
     	SmartDashboard.putNumber("leftS", (setL*3.28));
-    	SmartDashboard.putNumber("RightS", -(setR*3.28));///1.04667)/10)*8192);
+    	SmartDashboard.putNumber("RightS", (setR*3.28));///1.04667)/10)*8192);
     	
-    	//RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
- 		//RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);
+    	RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
+ 		RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);
 		
     		
     	if(counter < leftT.length()){
