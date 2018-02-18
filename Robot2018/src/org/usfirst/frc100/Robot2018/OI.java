@@ -121,9 +121,11 @@ public class OI {
         button2 = new JoystickButton(leftController, 2);
         button2.whenPressed(new ElevatorUp());
         
+
         button1 = new JoystickButton(leftController, 1);
         rightS = new JoystickButton(operator, 3);
         rightS.whenPressed(new PathFinding("Right"));
+
     
 
         // SmartDashboard Buttons

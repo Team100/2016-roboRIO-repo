@@ -49,23 +49,9 @@ public class Drive extends Command {
     @Override
     protected void execute() {
 
+
     		Robot.driveTrain.getJoy();
-    	/*if(Robot.DriverStation){
-        	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
-        	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
-        	if(Robot.ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), OI.rightStick.getX());
-        	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
-        	}
-        }else{
-        	SmartDashboard.putNumber("Logitech", OI.operator.getY());
-        	if(Robot.ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(4));
-        	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.operator.getRawAxis(1), OI.operator.getRawAxis(5));
-        	}
-        }*/
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

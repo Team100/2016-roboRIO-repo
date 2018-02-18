@@ -1,6 +1,7 @@
 package org.usfirst.frc100.Robot2018.commands;
 
 import org.usfirst.frc100.Robot2018.Robot;
+import org.usfirst.frc100.Robot2018.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,7 +35,7 @@ public class UpdateSmartDashboard extends Command {
     	////////////////////////////////BRAKE////////////////////////////////
     	
     	SmartDashboard.putData("Auto mode", Robot.chooser);
-    	
+        SmartDashboard.putData("TestPathFinder", new PathFindingLogicCode());
     	
     	SmartDashboard.putNumber("posDeadzone",CalculateDeadzone.posDeadzone);
 		SmartDashboard.putNumber("negDeadzone", CalculateDeadzone.negDeadzone);
@@ -55,6 +56,35 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("ClimbDown", new ClimbDown());
         SmartDashboard.putData("ClimbAdjust", new ClimbAdjust());
         SmartDashboard.putData("WinchWind", new WinchWind());
+        
+        /**
+         * All of the NavX Stuff
+         */
+        SmartDashboard.putBoolean("NavX-isConnected", DriveTrain.navxIsConnected);
+        SmartDashboard.putBoolean("NavX-isCalibrating", DriveTrain.navxIsCalibrating);
+        SmartDashboard.putNumber("NavX-pitch", DriveTrain.navxPitch);
+        SmartDashboard.putNumber("NavX-yaw", DriveTrain.navxYaw);
+        SmartDashboard.putNumber("NavX-roll", DriveTrain.navxRoll);
+        SmartDashboard.putNumber("NavX-compassHeading", DriveTrain.navxCompassHeading);
+        SmartDashboard.putNumber("NavX-fusedHeading", DriveTrain.navxFusedHeading);
+        SmartDashboard.putNumber("NavX-angle", DriveTrain.navxAngle);
+        SmartDashboard.putNumber("NavX-yawRate", DriveTrain.navxYawRate);
+        SmartDashboard.putNumber("NavX-accelX", DriveTrain.navxAccelX);
+        SmartDashboard.putNumber("NavX-accelY", DriveTrain.navxAccelY);
+        SmartDashboard.putBoolean("NavX-isMoving", DriveTrain.navxIsMoving);
+        SmartDashboard.putBoolean("NavX-isRotating", DriveTrain.navxIsRotating);
+        SmartDashboard.putNumber("NavX-velocityX", DriveTrain.navxVelocityX);
+        SmartDashboard.putNumber("NavX-velocityY", DriveTrain.navxVelocityY);
+        SmartDashboard.putNumber("NavX-displacementX", DriveTrain.navxDisplacementX);
+        SmartDashboard.putNumber("NavX-displacementY", DriveTrain.navxDisplacementY);
+        SmartDashboard.putNumber("NavX-RawGyroX", DriveTrain.navxRawGyroX);
+        SmartDashboard.putNumber("NavX-rawGyroY", DriveTrain.navxRawGyroY);
+        SmartDashboard.putNumber("NavX-quaternionW", DriveTrain.navxQuaternionW);
+        SmartDashboard.putNumber("NavX-quaternionX", DriveTrain.navxQuaternionX);
+        SmartDashboard.putNumber("NavX-quaternionY", DriveTrain.navxQuaternionY);
+        SmartDashboard.putNumber("NavX-quaternionZ", DriveTrain.navxQuaternionZ);
+        
+
         
        
     }

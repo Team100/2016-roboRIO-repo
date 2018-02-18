@@ -10,7 +10,6 @@
 
 
 package org.usfirst.frc100.Robot2018.commands;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 
@@ -41,13 +40,24 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 /**
- *
+ * @author Alex Beaver
+ * Based on Henry's Code
+ * 
+ * 
+ * Path Finding test code for the purpose of parameterization
+ * This is the logic controller for finding the paths. Create a new instance
+ * and send in a Jaci's Pathfinding array in each initializer 
  */
-public class PathFinding extends Command {
 
-
+public class PathFindingLogicProcessor extends Command {
+	/**
+	 * 
+	 * All required variables
+	 */
+	public static boolean isGoing;
 	private boolean finish; 
 	private int counter; 
+	private Waypoint[] paramPoints;
 	//FalconPathPlanner path;
 	Timer timer; 
 	//boolean finish; 
@@ -64,74 +74,53 @@ public class PathFinding extends Command {
 	double a2;
 	Trajectory trajectory;
 	Trajectory leftT;
-	Waypoint points [];
+	
 	Trajectory rightT;
 	long startTime;
 	long currentTime;
 	long timeInt;
-	String mode;
-	
-    public PathFinding() {
-    	
+	/**
+	 * 
+	 * @param mypoints - list of waypoints to calculate as a Jaci's Waypoint Array
+	 * 
+	 * Waypoint [] points = new Waypoint[]{
+        		//right
+        			new Waypoint(0.0,0.0,0.0),
+        			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
+        			new Waypoint(2.3, -1.75, 0), //2.4  3.05
+        		
+        		
+        	};
+	 * 
+	 */
+    public PathFindingLogicProcessor(Waypoint [] mypoints) {
     	requires(Robot.driveTrain);
     	System.out.println("hi");
-  
-    }
-    public PathFinding(String a){
+    	//paramPoints = mypoints;
+    	Waypoint [] paramPoints = mypoints;
     	
-    	requires(Robot.driveTrain);
-    	mode = a;
+  
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	
+    	/**
+    	 * Logic controller from code from HENRY
+    	 */
+    	isGoing = false;
+    	SmartDashboard.putBoolean("EnteredTestPathFinding", isGoing);
+    	System.out.println("PARAMETER POINTS BELOW========================================================");
+    	System.out.println(paramPoints.toString());
+    	System.out.println("END");
     	timeInt = 100;
     	finish = false;
     	counter = 0;
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
+    	Waypoint [] points = new Waypoint[] {};
     	
-    	Waypoint [] points = new Waypoint[]{
-
-    		//right
-    			//new Waypoint(0, 0, 0), 
-    			//new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
-    			//new Waypoint(2.3, -1.75, 0), //2.4  3.05
-    			
-    			
-    			//new Waypoint(0, 0, 0), 
-    			//new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
-    			//new Waypoint(2.55, 1.45, 0), //2.4  3.05\
-    			
-    		
-    			new Waypoint(0, 0, 0), 
-    			new Waypoint(4.97, 0, Pathfinder.d2r(0)), //4.5 1.371    .57
-    			new Waypoint(6.0, 3.657, Pathfinder.d2r(80)), 
-    			new Waypoint(6.223, 4.59, Pathfinder.d2r(20)),//2.4  3.05\
-    			
-    			
-    		
-    	};
-
-        	 
-    	if(mode == "Left") {
-    		 points = new Waypoint[]{
-    			new Waypoint(0, 0, 0), 
-        		new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
-        		new Waypoint(2.55, 1.45, 0), //2.4  3.05\
-    		};
-    	}
-    	if(mode == "Right"){
-    		 points = new Waypoint []{
-    			new Waypoint(0, 0, 0), 
-				new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
-				new Waypoint(2.3, -1.75, 0),
-    		};
-    	}
     	
-
     	
     	p = Robot.prefs.getDouble("P",
 				0);
@@ -139,7 +128,7 @@ public class PathFinding extends Command {
 				0);
     	d = Robot.prefs.getDouble("D",
 				0);
-    	a = Robot.prefs.getDouble("F",             //.45
+    	a = Robot.prefs.getDouble("F",
 				0);
     	
     	p2 = Robot.prefs.getDouble("PL",
@@ -148,7 +137,7 @@ public class PathFinding extends Command {
 				0);
     	d2 = Robot.prefs.getDouble("DL",
 				0);
-    	a2 = Robot.prefs.getDouble("FL",          //.45
+    	a2 = Robot.prefs.getDouble("FL",
 				0);
     	
     	RobotMap.driveTrainRightMaster.config_kP(0, p, 10); //.123
@@ -162,23 +151,28 @@ public class PathFinding extends Command {
     	RobotMap.driveTrainLeftMaster.config_kF(0, a2, 10); //0
     // 	RobotMap.gyro.reset();
     	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
-
+    	
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                    //change this to 20 ms                                  1.7 1.7   2.5 2.5
     	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.2, 5.1/2.2, 20);//17.08);
-    	trajectory = Pathfinder.generate(points, config);
+    	trajectory = Pathfinder.generate(paramPoints, config);
     
     	TankModifier modifier = new TankModifier(trajectory).modify(.67);
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
-    
-    	
+    	for (int i = 0; i < trajectory.length(); i++) {
+    	    Trajectory.Segment seg = trajectory.get(i);
+    	    
+    	    System.out.printf("%f,%f,\n", 
+    	       seg.x, seg.y);
+    	}
     	timer = new Timer();
     	timer.schedule(new TimerTask() {
     	    @Override
     	    public void run() {
+    	    	System.out.println("Entered run()");
     	    	parseArray();
     	    }
-    	  }, 0, 20);
+    	  }, 0, 100);
       
     } 
 
@@ -194,17 +188,22 @@ public class PathFinding extends Command {
     }
     
     public void parseArray(){
+    	/**
+    	 * Parses the array of waypoints
+    	 */
+    	isGoing = true;
+    	SmartDashboard.putBoolean("PathFindingParsing", isGoing);
     	//SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
 	    //SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
    
     		SmartDashboard.putNumber("Pp", p);
     		SmartDashboard.putNumber("Pi", i);
     		SmartDashboard.putNumber("Pd", d);
-    		SmartDashboard.putNumber("Pf", a);
+    		SmartDashboard.putNumber("Pa", a);
     		SmartDashboard.putNumber("Ppl", p2);
     		SmartDashboard.putNumber("Pil", i2);
     		SmartDashboard.putNumber("Pdl", d2);
-    		SmartDashboard.putNumber("Pfl", a2);
+    		SmartDashboard.putNumber("Pal", a2);
     	
     		Trajectory.Segment segL = leftT.get(counter); 
     		Trajectory.Segment segR = (rightT.get(counter));
@@ -215,20 +214,22 @@ public class PathFinding extends Command {
     	//double gyro_heading = RobotMap.gyro.getAngle();//... your gyro code here ...    // Assuming the gyro is giving a value in degrees
     	double desired_heading = Pathfinder.r2d(segR.heading);  // Should also be in degrees
 
-    	/*
-    	 	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-			double turn = 0.8 * (-1.0/80.0) * angleDifference;
-			setLeftMotors(l + turn);
-			setRightMotors(r - turn);
-    	 */
-    	double setR = segR.velocity;
+    	//double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
+    //	double turn = 0.2 * (-1.0/80.0) * angleDifference;
+    	
+    	//SmartDashboard.putNumber("turn", turn);
+    	
+    	double setR = -segR.velocity;
     	double setL = segL.velocity;
+    //	double setR = -(segR.velocity + turn); //-segR.velocity;// -(segR.velocity + turn); 
+    //	double setL = (segL.velocity - turn);//segL.velocity;//(segL.velocity - turn);
     	
-    	SmartDashboard.putNumber("leftS", (setL*1508.965));
-    	SmartDashboard.putNumber("RightS", (setR*1508.965));
+    	SmartDashboard.putNumber("leftS", (setL*3.28));
+    	SmartDashboard.putNumber("RightS", -(setR*3.28));///1.04667)/10)*8192);
     	
-    	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, setR*1508.965);
- 		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, setL*1508.965);
+    	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
+ 		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);
+ 		SmartDashboard.putBoolean("SetControlMode", true);
 		
     		
     	if(counter < leftT.length()){
@@ -238,8 +239,17 @@ public class PathFinding extends Command {
     	if(counter >= leftT.length()){
     		finish = true;
     	}
-    
+    	/*
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  */
+		
+    	//	counter++;
     	SmartDashboard.putBoolean("finish", finish);
+    	SmartDashboard.putBoolean("PathFindingParsing", isGoing);
     }
 
     // Make this return true when this Command no longer needs to run execute()
