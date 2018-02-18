@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
     double P; 
     double I; 
     double D; 
+    double F;
     double time;
     double PL; 
     double IL; 
@@ -118,13 +119,15 @@ public class Robot extends TimedRobot {
         new UpdateSmartDashboard();
 
         SmartDashboard.putData("Auto mode", chooser);
-        SmartDashboard.putData("TestPath", new PathFindingLogicCode());
+       // SmartDashboard.putData("TestPath", new PathFindingLogicCode());
+
 
         Logitech = false;
-        ArcadeDrive = false;
+        ArcadeDrive = true;
         prefs = Preferences.getInstance();
-        prefs.putBoolean("ArcadeDrive", false);
+        prefs.putBoolean("ArcadeDrive", true);
 		prefs.putBoolean("Logitech", false);
+
         if (!prefs.containsKey("P")) {
         	prefs.putDouble("P", 0.01);
         }
@@ -133,6 +136,9 @@ public class Robot extends TimedRobot {
         }
         if (!prefs.containsKey("D")) {
         	prefs.putDouble("D", 0);
+        }
+        if (!prefs.containsKey("F")) {
+        	prefs.putDouble("F", 0);
         }
         
         if (!prefs.containsKey("PL")) {
@@ -170,14 +176,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+
     	
-    	if(gameData.charAt(0) == 'L'){
-    		new LeftSwitch().start();
-    	}
-    	if(gameData.charAt(0) == 'R'){
-    		new RightSwitch().start();
-    	}
+    	
+
         //autonomousCommand = chooser.getSelected();
         // schedule the autonomous command (example)
        // if (autonomousCommand != null) autonomousCommand.start();
@@ -205,6 +207,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+
         SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         SmartDashboard.putData("Henry test path", new PathFinding());
         Logitech = prefs.getBoolean("Logitech", false);
@@ -213,37 +216,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("Logitech On", Logitech);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();
-        /*if(OI.leftController.getRawButton(1)){
-        	RobotMap.driveTrainShiftingSolenoid.set(true);
-        }else if(OI.rightStick.getRawButton(1)) {
-        	
-        	RobotMap.driveTrainShiftingSolenoid.set(false);
-        }else if(OI.operator.getRawButtonPressed(1)) {
-        	RobotMap.driveTrainShiftingSolenoid.set(true);
-        }else if(OI.operator.getRawButtonPressed(2)) {
-        	RobotMap.driveTrainShiftingSolenoid.set(false);
-        }*/
-        if(Logitech){
-        	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
-        	SmartDashboard.putNumber("Right Stick", -OI.rightStick.getY());
-        	if(ArcadeDrive){
-        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.leftController.getY()+OI.rightStick.getX());
-        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,-OI.leftController.getY()+OI.rightStick.getX());
-        	}else{
-        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.leftController.getY());
-        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, OI.rightStick.getY());
-        	}
-        }else{
-        	SmartDashboard.putNumber("Logitech", OI.operator.getY());
-        	if(ArcadeDrive){
-        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput,OI.operator.getY()+OI.operator.getRawAxis(4));
-        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,-OI.operator.getY()+OI.operator.getRawAxis(4));
-        		//RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
-        	}else{
-        		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.operator.getY());
-        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(5));
-        	}
-        }
 
         Scheduler.getInstance().run();
 

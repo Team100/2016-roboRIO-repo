@@ -80,21 +80,25 @@ public class PathFinding extends Command {
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
     	Waypoint [] points = new Waypoint[]{
-    		/*
+    		
     			new Waypoint(0, 0, 0), 
     			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
-    			new Waypoint(2.3, -1.75, 0), //2.4  3.05
-    			*/
+    			new Waypoint(2.3, -1.75, 0), 
+    			//new Waypoint(0, 0, 0), 
+    			//new Waypoint(2.3 , 0, 0),
+    		//	new Waypoint(1.8, -2.3, Pathfinder.d2r(90) ),//2.4  3.05
+    			
     			/* left
     			new Waypoint(0, 0, 0), 
     			new Waypoint(1.0, 1.1, Pathfinder.d2r(45)), //4.5 1.371    .57
     			new Waypoint(2.55, 1.45, 0), //2.4  3.05\
     			*/
+    			/*
     			new Waypoint(0, 0, 0), 
     			new Waypoint(4.97, 0, Pathfinder.d2r(0)), //4.5 1.371    .57
     			new Waypoint(6.0, 3.657, Pathfinder.d2r(80)), 
     			new Waypoint(6.223, 4.59, Pathfinder.d2r(20)),//2.4  3.05\
-    		
+    		*/
     	};
     	
     	p = Robot.prefs.getDouble("P",
@@ -135,12 +139,13 @@ public class PathFinding extends Command {
     	TankModifier modifier = new TankModifier(trajectory).modify(.67);
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
+    	
     	for (int i = 0; i < trajectory.length(); i++) {
-    	    Trajectory.Segment seg = trajectory.get(i);
+    	   Trajectory.Segment seg = trajectory.get(i);
     	    
-    	    System.out.printf("%f,%f,\n", 
+    	    System.out.printf("%f, %f\n", 
     	       seg.x, seg.y);
-    	}
+    	} 
     	timer = new Timer();
     	timer.schedule(new TimerTask() {
     	    @Override
@@ -195,10 +200,10 @@ public class PathFinding extends Command {
     //	double setL = (segL.velocity - turn);//segL.velocity;//(segL.velocity - turn);
     	
     	SmartDashboard.putNumber("leftS", (setL*3.28));
-    	SmartDashboard.putNumber("RightS", -(setR*3.28));///1.04667)/10)*8192);
+    	SmartDashboard.putNumber("RightS", (setR*3.28));///1.04667)/10)*8192);
     	
-    	//RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
- 		//RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);
+    	RobotMap.driveTrainTalonSRX1.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
+ 		RobotMap.driveTrainTalonSRX2.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);
 		
     		
     	if(counter < leftT.length()){
