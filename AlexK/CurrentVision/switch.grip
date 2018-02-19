@@ -25,26 +25,29 @@
     <edu.wpi.grip.core.sources.CameraSource>
       <property name="deviceNumber" value="0"/>
     </edu.wpi.grip.core.sources.CameraSource>
+    <edu.wpi.grip.core.sources.CameraSource>
+      <property name="address" value="http://raspberrypi.local:5802/?action=stream"/>
+    </edu.wpi.grip.core.sources.CameraSource>
   </sources>
   <steps>
     <edu.wpi.grip.core.Step name="HSV Threshold">
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="0"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="1">
         <value>
-          <double>79.31654676258992</double>
-          <double>106.27986348122867</double>
+          <double>53.417266187050345</double>
+          <double>98.60068259385666</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="2">
         <value>
-          <double>80.26079136690647</double>
-          <double>222.36348122866895</double>
+          <double>142.17625899280577</double>
+          <double>255.0</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="3">
         <value>
-          <double>255.0</double>
-          <double>255.0</double>
+          <double>95.48561151079136</double>
+          <double>181.02389078498294</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.OutputSocketImpl step="0" socket="0" previewed="true"/>
@@ -59,13 +62,13 @@
     <edu.wpi.grip.core.Step name="Filter Contours">
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="1">
-        <value>0.0</value>
+        <value>150.0</value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="2">
         <value>0.0</value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="3">
-        <value>0.0</value>
+        <value>5.0</value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="4">
         <value>1000.0</value>
@@ -78,7 +81,7 @@
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="7">
         <value>
-          <double>0.0</double>
+          <double>50.359712230215834</double>
           <double>100.0</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
@@ -103,19 +106,19 @@
   </steps>
   <connections>
     <edu.wpi.grip.core.Connection>
-      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="false"/>
-      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="2" socket="0" previewed="false"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="0"/>
     </edu.wpi.grip.core.Connection>
     <edu.wpi.grip.core.Connection>
       <edu.wpi.grip.core.sockets.OutputSocketImpl step="0" socket="0" previewed="true"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="0"/>
     </edu.wpi.grip.core.Connection>
     <edu.wpi.grip.core.Connection>
-      <edu.wpi.grip.core.sockets.OutputSocketImpl step="2" socket="0" previewed="false"/>
-      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="0"/>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="false"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
     </edu.wpi.grip.core.Connection>
     <edu.wpi.grip.core.Connection>
-      <edu.wpi.grip.core.sockets.OutputSocketImpl source="1" socket="0" previewed="true"/>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl source="2" socket="0" previewed="true"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="0"/>
     </edu.wpi.grip.core.Connection>
   </connections>
@@ -130,9 +133,9 @@
   </settings>
   <codeGenerationSettings>
     <language>Python</language>
-    <className>GripPipeline</className>
+    <className>Pipeline</className>
     <implementWpilibPipeline>false</implementWpilibPipeline>
-    <saveDir>E:\Robotics\Vision\Points\Switch</saveDir>
+    <saveDir>E:\Robotics\2018Robot</saveDir>
     <packageName></packageName>
     <moduleName>switcha</moduleName>
   </codeGenerationSettings>
