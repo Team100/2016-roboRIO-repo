@@ -67,7 +67,7 @@ public class OI {
     public JoystickButton button10;
     public JoystickButton button11;
     public JoystickButton button12;
-
+    public JoystickButton rightS; 
 
 
     
@@ -121,8 +121,10 @@ public class OI {
         button2 = new JoystickButton(leftController, 2);
         button2.whenPressed(new ElevatorUp());
         
-        button1 = new JoystickButton(operator, 1);
-        button1.whenPressed(new PathFinding());
+
+        button1 = new JoystickButton(leftController, 1);
+        rightS = new JoystickButton(operator, 3);
+        rightS.whenPressed(new PathFinding("Right"));
 
     
 

@@ -139,7 +139,7 @@ public class PathFinding extends Command {
 				0);
     	d = Robot.prefs.getDouble("D",
 				0);
-    	a = Robot.prefs.getDouble("F",
+    	a = Robot.prefs.getDouble("F",             //.45
 				0);
     	
     	p2 = Robot.prefs.getDouble("PL",
@@ -148,7 +148,7 @@ public class PathFinding extends Command {
 				0);
     	d2 = Robot.prefs.getDouble("DL",
 				0);
-    	a2 = Robot.prefs.getDouble("FL",
+    	a2 = Robot.prefs.getDouble("FL",          //.45
 				0);
     	
     	RobotMap.driveTrainRightMaster.config_kP(0, p, 10); //.123
@@ -162,7 +162,6 @@ public class PathFinding extends Command {
     	RobotMap.driveTrainLeftMaster.config_kF(0, a2, 10); //0
     // 	RobotMap.gyro.reset();
     	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
-    	RobotMap.driveTrainRightMaster.setSelectedSensorPosition(0, 0, 0);
 
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1                                                    //change this to 20 ms                                  1.7 1.7   2.5 2.5
     	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.1, 3.07/2.2, 5.1/2.2, 20);//17.08);
@@ -179,7 +178,7 @@ public class PathFinding extends Command {
     	    public void run() {
     	    	parseArray();
     	    }
-    	  }, 0, 100);
+    	  }, 0, 20);
       
     } 
 
@@ -201,11 +200,11 @@ public class PathFinding extends Command {
     		SmartDashboard.putNumber("Pp", p);
     		SmartDashboard.putNumber("Pi", i);
     		SmartDashboard.putNumber("Pd", d);
-    		SmartDashboard.putNumber("Pa", a);
+    		SmartDashboard.putNumber("Pf", a);
     		SmartDashboard.putNumber("Ppl", p2);
     		SmartDashboard.putNumber("Pil", i2);
     		SmartDashboard.putNumber("Pdl", d2);
-    		SmartDashboard.putNumber("Pal", a2);
+    		SmartDashboard.putNumber("Pfl", a2);
     	
     		Trajectory.Segment segL = leftT.get(counter); 
     		Trajectory.Segment segR = (rightT.get(counter));
@@ -216,21 +215,20 @@ public class PathFinding extends Command {
     	//double gyro_heading = RobotMap.gyro.getAngle();//... your gyro code here ...    // Assuming the gyro is giving a value in degrees
     	double desired_heading = Pathfinder.r2d(segR.heading);  // Should also be in degrees
 
-    	//double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
-    //	double turn = 0.2 * (-1.0/80.0) * angleDifference;
-    	
-    	//SmartDashboard.putNumber("turn", turn);
-    	
-    	double setR = -segR.velocity;
+    	/*
+    	 	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
+			double turn = 0.8 * (-1.0/80.0) * angleDifference;
+			setLeftMotors(l + turn);
+			setRightMotors(r - turn);
+    	 */
+    	double setR = segR.velocity;
     	double setL = segL.velocity;
-    //	double setR = -(segR.velocity + turn); //-segR.velocity;// -(segR.velocity + turn); 
-    //	double setL = (segL.velocity - turn);//segL.velocity;//(segL.velocity - turn);
     	
-    	SmartDashboard.putNumber("leftS", (setL*3.28));
-    	SmartDashboard.putNumber("RightS", -(setR*3.28));
+    	SmartDashboard.putNumber("leftS", (setL*1508.965));
+    	SmartDashboard.putNumber("RightS", (setR*1508.965));
     	
-    	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, setR*1508.965);//(((setR*3.28)/1.04667)/10)*8192);
- 		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, setL*1508.965);//(((setL*3.28)/1.04667)/10)*8192);
+    	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, setR*1508.965);
+ 		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, setL*1508.965);
 		
     		
     	if(counter < leftT.length()){

@@ -107,7 +107,7 @@ public class DriveTrain extends Subsystem {
 
     public void takeJoyInputs(Joystick joy){
     	//RobotMap.driveTrainTalonSRX1.set(ControlMode.PercentOutput, 0);
-    	robotDriveTrain.arcadeDrive(joy.getRawAxis(1), joy.getRawAxis(4));
+    	robotDriveTrain.arcadeDrive(joy.getRawAxis(1), joy.getRawAxis(2)); //4
     //	RobotMap.driveTrainTalonSRX2.set(joy.getRawAxis(1));
     	//RobotMap.driveTrainTalonSRX2.set(joy.getRawAxis(1));
     	SmartDashboard.putNumber("joy raw" , joy.getRawAxis(1));
