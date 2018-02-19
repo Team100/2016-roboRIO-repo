@@ -184,8 +184,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();//1.04667)/10)*8192
-        SmartDashboard.putNumber("velR", RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)/1508.965 * 3.28);///4096/1.5);
-        SmartDashboard.putNumber("velL", RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)/1508.965 *3.28);
+        
     //    SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
 	//     SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
     }

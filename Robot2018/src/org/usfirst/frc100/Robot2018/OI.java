@@ -15,6 +15,7 @@ package org.usfirst.frc100.Robot2018;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
+import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc100.Robot2018.commands.*;
 import org.usfirst.frc100.Robot2018.subsystems.*;
@@ -69,7 +70,8 @@ public class OI {
     public JoystickButton button12;
     public JoystickButton rightS; 
 
-
+    public JoystickButton BS; 
+    public JoystickButton BR; 
     
     public JoystickButton updatePrefs;
     
@@ -116,11 +118,20 @@ public class OI {
         button5.whenPressed(new ElevatorArmDown());
         button4 = new JoystickButton(leftController, 4);
         button4.whenPressed(new ElevatorArmUp());
-        button3 = new JoystickButton(leftController, 3);
-        button3.whenPressed(new ElevatorDown());
-        button2 = new JoystickButton(leftController, 2);
-        button2.whenPressed(new ElevatorUp());
         
+        button3 = new JoystickButton(operator, 2);
+        button3.whenPressed(new shiftOff());
+        button2 = new JoystickButton(operator, 1);
+        button2.whenPressed(new shift());
+        
+       // button3 = new JoystickButton(operator, 2);
+        //button3.whenPressed(new PathFinding("BackR"));
+        //button2 = new JoystickButton(operator, 1);
+        //button2.whenPressed(new PathFinding("BS"));
+        BS = new JoystickButton(operator, 5); 
+        BS.whenPressed(new PathFinding("BS"));
+        BR = new JoystickButton(operator, 6); 
+        BR.whenPressed(new PathFinding("BackR"));
 
         button1 = new JoystickButton(leftController, 1);
         rightS = new JoystickButton(operator, 3);
@@ -130,9 +141,9 @@ public class OI {
 
         // SmartDashboard Buttons
         new UpdateSmartDashboard();
-        button1.whenPressed(new shift());
+      //  button1.whenPressed(new shift());
         shiftoff = new JoystickButton(rightStick, 1);
-        shiftoff.whenPressed(new shiftOff());
+        //shiftoff.whenPressed(new shiftOff());
         
 
         SmartDashboard.putData("WinchWind", new WinchWind());

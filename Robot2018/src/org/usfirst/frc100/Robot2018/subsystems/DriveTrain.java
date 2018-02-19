@@ -82,7 +82,7 @@ public class DriveTrain extends Subsystem {
     /**
      * Variable for the NAVX IMU
      */
-    static AHRS ahrs;
+    
     
     @Override
     public void initDefaultCommand() {
@@ -95,26 +95,7 @@ public class DriveTrain extends Subsystem {
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
-        try {
-			/***********************************************************************
-			 * navX-MXP:
-			 * - Communication via RoboRIO MXP (SPI, I2C, TTL UART) and USB.            
-			 * - See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface.
-			 * 
-			 * navX-Micro:
-			 * - Communication via I2C (RoboRIO MXP or Onboard) and USB.
-			 * - See http://navx-micro.kauailabs.com/guidance/selecting-an-interface.
-			 * 
-			 * Multiple navX-model devices on a single robot are supported.
-			 ************************************************************************/
-            //ahrs = new AHRS(SerialPort.Port.kUSB1);
-            //ahrs = new AHRS(SerialPort.Port.kMXP, SerialDataType.kProcessedData, (byte)200);
-            //ahrs = new AHRS(SPI.Port.kMXP);
-            ahrs = new AHRS(I2C.Port.kOnboard); // Uses onboard I2C port
-        	ahrs.enableLogging(true); // Sends debugging logging
-        } catch (RuntimeException ex ) {
-            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-        }
+      
     }
 
     @Override
@@ -122,6 +103,7 @@ public class DriveTrain extends Subsystem {
         // Put code here to be run every loop
     //	differentialDrive1.arcadeDrive(Robot.oi.leftController.getRawAxis(1), Robot.oi.rightStick.getRawAxis(0));
     	updateNavxIMU();
+    	
     }
     public void getJoy(){
     	if(OI.leftController.getRawButton(1)){
@@ -145,12 +127,13 @@ public class DriveTrain extends Subsystem {
         }else{
         	SmartDashboard.putNumber("Logitech", OI.operator.getY());
         	if(Robot.ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(4));
+        		differentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), OI.operator.getRawAxis(4));
         	}else{
         		RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
         	}
         	
         }
+     //   System.out.println("running");
     }
     
 
@@ -161,40 +144,43 @@ public class DriveTrain extends Subsystem {
     	/**
     	 * Updates all of the data from the Navx IMU Sensor
     	 */
-    	navxIsConnected = ahrs.isConnected();
-    	navxIsCalibrating = ahrs.isCalibrating();
-    	navxPitch = ahrs.getPitch();
-    	navxYaw = ahrs.getYaw();
-    	navxRoll = ahrs.getRoll();
-    	navxCompassHeading = ahrs.getCompassHeading();
-    	navxFusedHeading = ahrs.getFusedHeading();
-    	navxAngle = ahrs.getAngle();
-    	navxYawRate = ahrs.getRate();
-    	navxAccelX = ahrs.getWorldLinearAccelX();
-    	navxAccelY = ahrs.getWorldLinearAccelY();
-    	navxIsMoving = ahrs.isMoving();
-    	navxIsRotating = ahrs.isRotating();
-    	navxVelocityX = ahrs.getVelocityX();
-    	navxVelocityY = ahrs.getVelocityY();
-    	navxDisplacementX = ahrs.getDisplacementX();
-    	navxDisplacementY = ahrs.getDisplacementY();
+    	
+    	navxIsConnected = Robot.ahrs.isConnected();
+    	navxIsCalibrating = Robot.ahrs.isCalibrating();
+    	navxPitch = Robot.ahrs.getPitch();
+    	navxYaw = Robot.ahrs.getYaw();
+    	navxRoll = Robot.ahrs.getRoll();
+    	navxCompassHeading = Robot.ahrs.getCompassHeading();
+    	navxFusedHeading = Robot.ahrs.getFusedHeading();
+    	navxAngle = Robot.ahrs.getAngle();
+    	navxYawRate = Robot.ahrs.getRate();
+    	navxAccelX = Robot.ahrs.getWorldLinearAccelX();
+    	navxAccelY = Robot.ahrs.getWorldLinearAccelY();
+    	navxIsMoving = Robot.ahrs.isMoving();
+    	navxIsRotating = Robot.ahrs.isRotating();
+    	navxVelocityX = Robot.ahrs.getVelocityX();
+    	navxVelocityY = Robot.ahrs.getVelocityY();
+    	navxDisplacementX = Robot.ahrs.getDisplacementX();
+    	navxDisplacementY = Robot.ahrs.getDisplacementY();
     	/**
     	 * Below are variables that you should not use unless critical. Use the condensed versions above for better data
     	 */
-    	navxRawGyroX = ahrs.getRawGyroX();
-    	navxRawGyroY = ahrs.getRawGyroY();
+    	
+    	navxRawGyroX = Robot.ahrs.getRawGyroX();
+    	navxRawGyroY = Robot.ahrs.getRawGyroY();
     	
     	
-    	navxQuaternionW = ahrs.getQuaternionW();
-    	navxQuaternionX = ahrs.getQuaternionX();
-    	navxQuaternionY = ahrs.getQuaternionY();
-    	navxQuaternionZ = ahrs.getQuaternionZ();
+    	navxQuaternionW = Robot.ahrs.getQuaternionW();
+    	navxQuaternionX = Robot.ahrs.getQuaternionX();
+    	navxQuaternionY = Robot.ahrs.getQuaternionY();
+    	navxQuaternionZ = Robot.ahrs.getQuaternionZ();
+    	
     	
     	new UpdateSmartDashboard();
     	
     }
     public static void resetNavXYaw() {
-    	ahrs.zeroYaw();
+    	Robot.ahrs.zeroYaw();
     }
 }
 
