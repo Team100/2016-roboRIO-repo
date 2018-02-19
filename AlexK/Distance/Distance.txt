@@ -1,5 +1,0 @@
-True Width: 13in
-Distance: 32in
-Pixel Width: 137px
-
-Focal Length: 337.23
