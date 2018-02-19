@@ -49,8 +49,8 @@ public class Drive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-
-
+    	//System.out.println("run");
+    	//RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(4));
     		Robot.driveTrain.getJoy();
     	
     }
@@ -64,6 +64,7 @@ public class Drive extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+    	RobotMap.driveTrainDifferentialDrive1.arcadeDrive(0, 0);
     }
 
     // Called when another command which requires one or more of the same

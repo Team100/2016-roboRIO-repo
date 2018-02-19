@@ -70,11 +70,11 @@ public class RobotMap {
 
         
         
-        //driveTrainDifferentialDrive1 = new DifferentialDrive(driveTrainRightMaster, driveTrainLeftMaster);
+        driveTrainDifferentialDrive1 = new DifferentialDrive(driveTrainRightMaster, driveTrainLeftMaster);
         //LiveWindow.addActuator("DriveTrain", "DifferentialDrive1", driveTrainDifferentialDrive1);
-        //driveTrainDifferentialDrive1.setSafetyEnabled(true);
-        //driveTrainDifferentialDrive1.setExpiration(0.1);
-        //driveTrainDifferentialDrive1.setMaxOutput(1.0);
+        driveTrainDifferentialDrive1.setSafetyEnabled(false);
+        driveTrainDifferentialDrive1.setExpiration(0.1);
+        driveTrainDifferentialDrive1.setMaxOutput(1.0);
 
         driveTrainRightFollower = new WPI_VictorSPX(3);
         
@@ -85,12 +85,12 @@ public class RobotMap {
 
 
         driveTrainLeftFollower = new WPI_VictorSPX(4);
-        driveTrainRightMaster.setInverted(false); //make sure these are correct on the actual drive train. 
-        driveTrainLeftMaster.setInverted(false); 
-        driveTrainLeftFollower.setInverted(false); 
-        driveTrainRightFollower.setInverted(false); 
-        driveTrainRightMaster.setSensorPhase(true); 
-        driveTrainLeftMaster.setSensorPhase(false); 
+        driveTrainRightMaster.setInverted(true); //make sure these are correct on the actual drive train. 
+        driveTrainLeftMaster.setInverted(true); 
+        driveTrainLeftFollower.setInverted(true); 
+        driveTrainRightFollower.setInverted(true); 
+        driveTrainRightMaster.setSensorPhase(false); 
+        driveTrainLeftMaster.setSensorPhase(true); 
         
         driveTrainLeftFollower.set(ControlMode.Follower, 2);
         // driveTrainTalonSRX2.setInverted(true);
