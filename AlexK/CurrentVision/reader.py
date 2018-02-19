@@ -1,4 +1,5 @@
 import cv2
+from math import tan
 from json import dumps
 from networktables import NetworkTables
 from time import sleep as wait, time
@@ -8,60 +9,45 @@ from switch import Pipeline as SwitchPipeline
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-IM_CENTER = 159.5
-DPP = 0.214
-CAMERA_URI = "http://raspberrypi.local:5802/?action=stream"
-NT_URI = "raspberrypi.local"
-
-"""
-def process_grip(image):
-    cube = Pipeline()
-    switch = Pipeline()
-    contours = cube.process(image)
-    if len(contours) == 0:
-        contours = switch.process(image)
-
-    cx, cy = 0, 0
-    for contour in contours:
-        M = cv2.moments(contour)
-        cx += int(M["m10"] / M["m00"])
-        cy += int(M["m01"] / M["m00"])
-
-    if len(contours) != 0:
-        x, y, w, h = cv2.boundingRect(contours[0])
-        cx = cx/len(contours)
-        cy = cy/len(contours)
-    else:
-        x, y, w, h = 0, 0, 0, 0
-
-    att = round((cx - IM_CENTER) * DPP, 4)
-    dtt = 0
-
-    return (x, y, w, h), (cx, cy), att, dtt"""
+IM_CENTER = 159.5  # Image width divided by 2 & subtracted by 0.5
+HDPP = 0.1962  # Number of degrees
+VPPD = 6  # Number of pixels
+CAMERA_HEIGHT = 17  # In inches
+HORI_PIXEL = 4  # Pixel horizontal (180 degrees) with camera
+CAMERA_URI = "http://raspberrypi.local:5802/?action=stream"  # MJPG URL or camera number
+NT_URI = "raspberrypi.local"  # NetworkTables server location
+SWITCH = False  # Enable switch detection
 
 
 def process_grip(image, table):
     cube = CubePipeline()
-    contours = cube.process(image)
-    contours.sort(key=cv2.contourArea, reverse=True)
+    ccontours = cube.process(image)
+    ccontours.sort(key=cv2.contourArea, reverse=True)
+    cdata, cbbox = compute_cube(ccontours)
+    push_networktable(table, cdata, 0)
 
-    data, bbox = compute_cube(contours)
-    push_networktable(table, data)
+    sbbox = []
+    if SWITCH:
+        switch = SwitchPipeline()
+        scontours = switch.process(image)
+        scontours.sort(key=cv2.contourArea, reverse=True)
+        sdata, sbbox = compute_switch(scontours)
+        push_networktable(table, sdata, 1)
 
-    return bbox
+    return cbbox, sbbox
 
 
 def compute_cube(contours):
     objects = []
     xywh = []
 
-    for contour in contours:
-        M = cv2.moments(contour)
-        cx = int(M["m10"] / M["m00"])
-        cy = int(M["m01"] / M["m00"])
+    for contour in contours[:1]:
+        m = cv2.moments(contour)
+        cx = int(m["m10"] / m["m00"])
+        cy = int(m["m01"] / m["m00"])
         x, y, w, h = cv2.boundingRect(contour)
-        att = round((cx - IM_CENTER) * DPP, 4)
-        dtt = 0
+        att = round((cx - IM_CENTER) * HDPP, 4)
+        dtt = calc_distance(y+h)
 
         objects.append(assemble_json(cx, cy, x, y, w, h, att, dtt))
         xywh.append([x, y, w, h])
@@ -71,28 +57,26 @@ def compute_cube(contours):
 
 def compute_switch(contours):
     objects = []
+    xywh = []
 
-    for i, contour in enumerate(contours[::2]):
-        cx, cy = 0, 0
-
-        try:
-            M1 = cv2.moments(contour)
-            M2 = cv2.moments(contours[i+1])
-            cx += int(M1["m10"] / M1["m00"])
-            cx += int(M2["m10"] / M2["m00"])
-            cy += int(M1["m01"] / M1["m00"])
-            cy += int(M2["m01"] / M2["m00"])
-        except IndexError:
-            pass
-
-        cx = int(cx/2)
-        cy = int(cy/2)
-
+    for contour in contours:
+        m = cv2.moments(contour)
+        cx = int(m["m10"] / m["m00"])
+        cy = int(m["m01"] / m["m00"])
         x, y, w, h = cv2.boundingRect(contour)
-        att = round((cx - IM_CENTER) * DPP, 4)
+        att = round((cx - IM_CENTER) * HDPP, 4)
         dtt = 0
 
         objects.append(assemble_json(cx, cy, x, y, w, h, att, dtt))
+        xywh.append([x, y, w, h])
+
+    return objects, xywh
+
+
+def calc_distance(from_horizontal):
+    from_horizontal -= HORI_PIXEL
+    rad_horizontal = from_horizontal / 6 / 57.3
+    return round(CAMERA_HEIGHT / tan(rad_horizontal), 4)
 
 
 def assemble_json(cx, cy, x, y, w, h, att, dtt):
@@ -105,9 +89,12 @@ def assemble_json(cx, cy, x, y, w, h, att, dtt):
     }
 
 
-def push_networktable(table, objects):
+def push_networktable(table, objects, cs):
     json = dumps(objects)
-    table.putString("JSON", json)
+    if cs == 0:
+        table.putString("JSON", json)
+    else:
+        table.putString("Switch", json)
 
 
 if __name__ == "__main__":
@@ -119,19 +106,7 @@ if __name__ == "__main__":
     while True:
         try:
             g, frame = camera.read()
-            cv2.resize(frame, (320, 240))
-
-            #bbox = process_grip(frame, cameraTable)
             process_grip(frame, cameraTable)
-
-            #for box in bbox:
-            #    cv2.rectangle(frame, (box[0], box[1]),
-            #                  (box[0] + box[2], box[1] + box[3]), (255, 0, 255), 2)
-
-            #cv2.imshow("Video", frame)
-            #if cv2.waitKey(1) & 0xFF == ord('q'):
-            #    cv2.destroyAllWindows()
-            #    camera.release()
 
         except KeyboardInterrupt:
             cv2.destroyAllWindows()
