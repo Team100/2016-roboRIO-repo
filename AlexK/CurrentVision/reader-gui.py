@@ -20,66 +20,92 @@ SWITCH = False  # Enable switch detection
 
 
 def process_grip(image, table):
+    # Check for cubes
     cube = CubePipeline()
     ccontours = cube.process(image)
+    # Sort by contour size
     ccontours.sort(key=cv2.contourArea, reverse=True)
+    # Push data from contours to NetworkTables
     cdata, cbbox = compute_cube(ccontours)
     push_networktable(table, cdata, 0)
 
+    # Check if switch needs to be detected
     sbbox = []
     if SWITCH:
+        # Check for switch vision targets
         switch = SwitchPipeline()
         scontours = switch.process(image)
+        # Sort by contour size
         scontours.sort(key=cv2.contourArea, reverse=True)
+        # Push data from contours to NetworkTables
         sdata, sbbox = compute_switch(scontours)
         push_networktable(table, sdata, 1)
 
+    # Return bounding boxes
     return cbbox, sbbox
 
 
 def compute_cube(contours):
+    # Create lists for targets' data and bounding boxes
     objects = []
     xywh = []
 
-    for contour in contours[:1]:
+    # Iterate over all contours
+    for contour in contours:
+        # Get center x and y
         m = cv2.moments(contour)
         cx = int(m["m10"] / m["m00"])
         cy = int(m["m01"] / m["m00"])
+        # Create bounding box
         x, y, w, h = cv2.boundingRect(contour)
+        # Get angle and distance to target
         att = round((cx - IM_CENTER) * HDPP, 4)
         dtt = calc_distance(y+h)
 
+        # Add to respective lists
         objects.append(assemble_json(cx, cy, x, y, w, h, att, dtt))
         xywh.append([x, y, w, h])
 
+    # Return target data and bounding boxes
     return objects, xywh
 
 
 def compute_switch(contours):
+    # Create lists for targets' data and bounding boxes
     objects = []
     xywh = []
 
+    # Iterate over all contours
     for contour in contours:
+        # Get center x and y
         m = cv2.moments(contour)
         cx = int(m["m10"] / m["m00"])
         cy = int(m["m01"] / m["m00"])
+        # Create bounding box
         x, y, w, h = cv2.boundingRect(contour)
+        # Get angle and distance to target
         att = round((cx - IM_CENTER) * HDPP, 4)
-        dtt = 0
+        dtt = calc_distance(y+h)
 
+        # Add to respective lists
         objects.append(assemble_json(cx, cy, x, y, w, h, att, dtt))
         xywh.append([x, y, w, h])
 
+    # Return target data and bounding boxes
     return objects, xywh
 
 
 def calc_distance(from_horizontal):
+    # Account for horizontal pixel offset
     from_horizontal -= HORI_PIXEL
+    # Convert to radians per pixel
     rad_horizontal = from_horizontal / 6 / 57.3
+    # Return distance to target
     return round(CAMERA_HEIGHT / tan(rad_horizontal), 4)
 
 
 def assemble_json(cx, cy, x, y, w, h, att, dtt):
+    # Return dict of all passed in data
     return {
         "CenterPixel": (cx, cy),
         "BboxCoordinates": (x, y, w, h),
@@ -90,39 +116,52 @@ def assemble_json(cx, cy, x, y, w, h, att, dtt):
 
 
 def push_networktable(table, objects, cs):
+    # Convert to JSON
     json = dumps(objects)
+    # Check if cube or switch
     if cs == 0:
+        # Put in cube field
         table.putString("JSON", json)
     else:
+        # Put in switch field
         table.putString("Switch", json)
 
 
 if __name__ == "__main__":
+    # Connect to NetworkTables
     NetworkTables.initialize(server=NT_URI)
-    cameraTable = NetworkTables.getTable("Camera")
     wait(5)
+    cameraTable = NetworkTables.getTable("Camera")
+    # Open camera stream
     camera = cv2.VideoCapture(CAMERA_URI)
 
+    # Process frames forever
     while True:
         try:
-            g, frame = camera.read()
-
+            # Read frame
+            _, frame = camera.read()
+            # Process through GRIP
             c_bbox, s_bbox = process_grip(frame, cameraTable)
 
+            # Display cube bounding boxes on image
             for box in c_bbox:
                 cv2.rectangle(frame, (box[0], box[1]),
                               (box[0] + box[2], box[1] + box[3]), (255, 0, 255), 2)
 
+            # Display switch bounding boxes on image
             for box in s_bbox:
                 cv2.rectangle(frame, (box[0], box[1]),
                               (box[0] + box[2], box[1] + box[3]), (0, 255, 0), 2)
 
+            # Display stream
             cv2.imshow("Video", frame)
+            # Shutdown stream on 'q' press
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 cv2.destroyAllWindows()
                 camera.release()
                 break
 
+        # Shutdown on SIGKILL
         except KeyboardInterrupt:
             cv2.destroyAllWindows()
             camera.release()
