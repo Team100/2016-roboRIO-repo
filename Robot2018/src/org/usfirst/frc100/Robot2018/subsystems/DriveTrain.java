@@ -95,15 +95,17 @@ public class DriveTrain extends Subsystem {
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
-      
+
     }
 
     @Override
     public void periodic() {
         // Put code here to be run every loop
     //	differentialDrive1.arcadeDrive(Robot.oi.leftController.getRawAxis(1), Robot.oi.rightStick.getRawAxis(0));
+
     	updateNavxIMU();
     	
+
     }
     public void getJoy(){
     	if(OI.leftController.getRawButton(1)){
