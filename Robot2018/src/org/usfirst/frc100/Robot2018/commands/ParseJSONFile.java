@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //import org.json.simple.*;
 //import org.json.simple.parser.JSONParser;
@@ -21,10 +22,8 @@ public class ParseJSONFile extends Command {
     public ParseJSONFile() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    }
-
-    // Called just before this Command runs the first time
-    protected void initialize() {
+    	SmartDashboard.putBoolean("RunningParseJSON", true);
+    	System.out.println("===================================================================================================");
     	String myJSONData = "{\"name\":\"test\",\"value\":\"ABC\"}";// Put the JSON data into this string
     	JSONParser parser = new JSONParser();
         JSONObject myParsedData = new JSONObject();
@@ -47,7 +46,15 @@ public class ParseJSONFile extends Command {
         /**
          * Gets value for index "name"
          */
-        System.out.println(myParsedData.get("name")); //  Change 'name' to ideal 
+        String myStringData = myParsedData.toString();
+        System.out.println(myStringData); //  Change 'name' to ideal 
+        SmartDashboard.putString("JSONResult", myStringData);
+        SmartDashboard.putBoolean("RunningParseJSON", false);
+    }
+
+    // Called just before this Command runs the first time
+    protected void initialize() {
+    
     }
 
     // Called repeatedly when this Command is scheduled to run
