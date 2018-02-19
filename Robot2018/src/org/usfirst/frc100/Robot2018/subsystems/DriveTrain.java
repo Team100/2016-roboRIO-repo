@@ -93,6 +93,7 @@ public class DriveTrain extends Subsystem {
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
+        /*
         try {
 			/***********************************************************************
 			 * navX-MXP:
@@ -104,7 +105,7 @@ public class DriveTrain extends Subsystem {
 			 * - See http://navx-micro.kauailabs.com/guidance/selecting-an-interface.
 			 * 
 			 * Multiple navX-model devices on a single robot are supported.
-			 ************************************************************************/
+			 ************************************************************************//*
             //ahrs = new AHRS(SerialPort.Port.kUSB1);
             //ahrs = new AHRS(SerialPort.Port.kMXP, SerialDataType.kProcessedData, (byte)200);
             //ahrs = new AHRS(SPI.Port.kMXP);
@@ -113,13 +114,14 @@ public class DriveTrain extends Subsystem {
         } catch (RuntimeException ex ) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
+        */
     }
 
     @Override
     public void periodic() {
         // Put code here to be run every loop
     //	differentialDrive1.arcadeDrive(Robot.oi.leftController.getRawAxis(1), Robot.oi.rightStick.getRawAxis(0));
-    	updateNavxIMU();
+    	//updateNavxIMU();
     }
     
 

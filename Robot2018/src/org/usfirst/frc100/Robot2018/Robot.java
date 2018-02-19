@@ -84,6 +84,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+    	UpdateSmartDashboard mySmartDashboard = new UpdateSmartDashboard();
     	SmartDashboard.putBoolean("EnteredTestPathFinding", false);
     	SmartDashboard.putBoolean("PathFindingParsing", false);
     	SmartDashboard.putBoolean("SetControlMode", false);
