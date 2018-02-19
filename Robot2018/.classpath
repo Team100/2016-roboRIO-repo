@@ -10,17 +10,11 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/niVisionWPI.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/charsets.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/deploy.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/javaws.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/jce.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/jfr.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/jfxswt.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/jsse.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/management-agent.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/plugin.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/resources.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_161/lib/rt.jar"/>
-	<classpathentry kind="var" path="Pathfinder-Java"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/sf2-frc.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Team100/Downloads/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Team100/wpilib/user/java/lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

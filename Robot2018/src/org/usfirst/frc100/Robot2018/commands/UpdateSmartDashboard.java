@@ -18,6 +18,7 @@ public class UpdateSmartDashboard extends Command {
     public UpdateSmartDashboard() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	initialize();
     }
 
     // Called just before this Command runs the first time
@@ -56,7 +57,8 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("ClimbDown", new ClimbDown());
         SmartDashboard.putData("ClimbAdjust", new ClimbAdjust());
         SmartDashboard.putData("WinchWind", new WinchWind());
-        
+        SmartDashboard.putData("JSON", new ParseJSONFile());
+        System.out.println("SMART DASHBOARD UPDATE============================");
         /**
          * All of the NavX Stuff
          */
