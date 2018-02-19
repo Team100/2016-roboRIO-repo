@@ -12,9 +12,9 @@ class Pipeline:
         """initializes all values to presets or None if need to be set
         """
 
-        self.__hsv_threshold_hue = [16.271186440677965, 69.419795221843]
-        self.__hsv_threshold_saturation = [128.41726618705036, 255.0]
-        self.__hsv_threshold_value = [92.29235255863107, 255.0]
+        self.__hsv_threshold_hue = [21.0431654676259, 56.78174184202128]
+        self.__hsv_threshold_saturation = [90.80935251798562, 255.0]
+        self.__hsv_threshold_value = [103.19244604316546, 255.0]
 
         self.hsv_threshold_output = None
 
@@ -30,7 +30,7 @@ class Pipeline:
         self.__filter_contours_max_width = 1000.0
         self.__filter_contours_min_height = 10.0
         self.__filter_contours_max_height = 1000.0
-        self.__filter_contours_solidity = [50.35971223021583, 100.0]
+        self.__filter_contours_solidity = [50.143884892086334, 100.0]
         self.__filter_contours_max_vertices = 1000000.0
         self.__filter_contours_min_vertices = 10.0
         self.__filter_contours_min_ratio = 0.0
