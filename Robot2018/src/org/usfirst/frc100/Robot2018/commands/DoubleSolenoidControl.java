@@ -74,7 +74,7 @@ public class DoubleSolenoidControl extends Command {
     				RobotMap.DuoSol.set(Value.kOff);
     			}else{
     				RobotMap.DuoSol.set(Value.kReverse);
-    			}
+    			}	
     		}
     	}
     }

@@ -3,6 +3,9 @@
  */
 package Main;
 
+import java.io.PrintWriter;
+
+;
 /**
  * @author guydw
  *
@@ -10,6 +13,10 @@ package Main;
 public class PrintToSystem {
 	private static long currentTime;
 	private static boolean done;
+	static double[] a;
+	private static double[] b;
+	PrintWriter writer;
+	int i;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		done = false;
@@ -24,6 +31,7 @@ public class PrintToSystem {
 			done = true;
 			
 		}
+		//OI.rec.whenPressed(new Record());
 		/*for(long i = 0; i >= 100000000; i++){
 			if(System.nanoTime() >=  currentTime + 1000){
 				System.out.println("It Worked!");
