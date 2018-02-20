@@ -29,6 +29,8 @@
 #include <sstream>
 #include <math.h>
 
+#include <fstream>
+
 #include "networktables/NetworkTable.h" // MAKE SURE TO INCLUDE THIS BEFORE gl
 
 #include "gstCamera.h"
@@ -95,7 +97,6 @@ time_t time_since_epoch() {
 int main( int argc, char** argv )
 {	
 
- 	//fprintf(stderr, "Usage: %s [-ilw] [file...]\n", argv[0]);
 	stringstream ss;
 	double degreesPerPixels [2] = {56.17/CAMERA_WIDTH, 40.86/CAMERA_HEIGHT}; // 0.980413654 rad x 0.71332305 rad
 	double radiansPerPixels [2] = {FOV_X_RADS/CAMERA_WIDTH, FOV_Y_RADS/CAMERA_HEIGHT};
@@ -105,16 +106,18 @@ int main( int argc, char** argv )
 	double distance4 = 0.0;
 	double calibrated_offset = 117; // pixels
 	double distFromCenter = 0.0;
-	bool calibrateMode = false;
+	bool calibrationMode = false;
 	ifstream coorFile;
 	double zero_pixel = 0.0;
+	double calibrationDistance = 0.0;
+	ofstream outputFile;
 
-	coorFile.open("/home/nvidia/Documents/coordinate.txt");
+	/*coorFile.open("/home/nvidia/Documents/coordinate.txt");
 	if (!coorFile) {
-    		printf("Unable to open file datafile.txt");
+    		printf("Unable to open file coordinate.txt");
     		exit(1);   // call system to stop
-	}
-	coorFile >> zero_pixel;
+	}*/
+	//coorFile >> zero_pixel;
 
    	NetworkTable::SetClientMode();
    	NetworkTable::SetIPAddress(llvm::StringRef(roborio_ip));
@@ -128,9 +131,23 @@ int main( int argc, char** argv )
 		printf("%i [%s]  ", i, argv[i]);
 		
 	printf("\n\n");
-	
+	//string cal;
 
-	printf("***************************************\n%s", argv[argc-1]);
+	//double *yeet;
+	printf("***************************************\nDistance: %s", argv[argc-1]);
+	if (argc > 16){ // distance param detected
+		calibrationMode = true;
+		//cal = argv[argc-1];
+		calibrationDistance = stod(string(argv[argc-1]));
+		//string myStr(argv[argc-1]);
+		//double a, b;
+		outputFile.open("/home/nvidia/Documents/coordinate.txt");
+		//sscanf(argv[argc-1],"%lf,%lf",&a,&b);
+	
+	}
+
+	argc-=1; // to get rid of extra 'distance' parameter
+
 	//if (argv[argc-1] == fgf)
 
 	/*
@@ -276,68 +293,77 @@ int main( int argc, char** argv )
 				const int nc = confCPU[n*2+1];
 				float* bb = bbCPU + (n * 4);
 				
-				//printf("bounding box %i   (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
+				if (calibrationMode == true){
+					zero_pixel = bb[3]+atan((1.02*CAMERA_POS_HEIGHT)/calibrationDistance)*CAMERA_HEIGHT/FOV_Y_RADS2;
+					outputFile << zero_pixel;
+					outputFile.close();
+					printf("CALIBRATION MODE");
+					break;
+				} else {
+					printf("RUN MODE");
+					//printf("bounding box %i   (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
 
 
-				centerPixel[0] = (bb[2]-bb[0])/2;
-				centerPixel[1] = (bb[3]-bb[1])/2;
+					centerPixel[0] = (bb[2]-bb[0])/2;
+					centerPixel[1] = (bb[3]-bb[1])/2;
 				
-				//distance = (CAMERA_HEIGHT/(tan((abs(bb[3]-(CAMERA_HEIGHT/2)))*radiansPerPixels[1])))/100;
-				distance = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS2/CAMERA_HEIGHT));
+					//distance = (CAMERA_HEIGHT/(tan((abs(bb[3]-(CAMERA_HEIGHT/2)))*radiansPerPixels[1])))/100;
+					distance = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS2/CAMERA_HEIGHT));
 
-				distance2 = 1.02*CAMERA_POS_HEIGHT/(tan((abs(bb[3]-zero_pixel))*FOV_Y_RADS2/CAMERA_HEIGHT));
+					distance2 = 1.02*CAMERA_POS_HEIGHT/(tan((abs(bb[3]-zero_pixel))*FOV_Y_RADS2/CAMERA_HEIGHT));
 
-				distance3 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS/CAMERA_HEIGHT));
-				distance4 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-150))*FOV_Y_RADS3/CAMERA_HEIGHT));
-				
-				
-				//distFromCenter = abs((CAMERA_WIDTH/2)-((bb[2]-bb[0])/2)+bb[0]);
-				angle = (atan((320-(bb[0]+(bb[2]-bb[0])/2))/distance2)*(-180/PI));
-				//angle = centerPixel[0]*FOV_X_RADS/CAMERA_WIDTH;
-				//angle = atan(abs(360-centerPixel[1])/distance2);
-				//angle = angle *180/PI;
-
-
-				//angle = tan(abs(centerPixel[0]-(CAMERA_WIDTH/2)))*180/PI;
-				
-				//CAMERA_POS_HEIGHT/tan(abs(bb[3]-18)*FOV_Y_RADS/CAMERA_HEIGHT)
-
-				/*bboxCoordinates[0] = *bb[0];
-				bboxCoordinates[1] = *bb[1];
-				bboxCoordinates[2] = *bb[2];
-				bboxCoordinates[3] = *bb[3];
-				
-				bbLeft = *bb[0];
-				bbTop= *bb[1];
-				bbRight = *bb[2];
-				bbBottom = *bb[3];*/
+					distance3 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS/CAMERA_HEIGHT));
+					distance4 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-150))*FOV_Y_RADS3/CAMERA_HEIGHT));
 				
 				
-				ss << time_since_epoch();
-				visionString += string("[");
+					//distFromCenter = abs((CAMERA_WIDTH/2)-((bb[2]-bb[0])/2)+bb[0]);
+					angle = (atan((320-(bb[0]+(bb[2]-bb[0])/2))/distance2)*(-180/PI));
+					//angle = centerPixel[0]*FOV_X_RADS/CAMERA_WIDTH;
+					//angle = atan(abs(360-centerPixel[1])/distance2);
+					//angle = angle *180/PI;
+				
 
-				for (int i = 0; i < numBoundingBoxes; i++){
-					string jsonObject = string("\n\t{\n\t\t\"angle\": ")+to_string(angle)+string(",\n\t\t\"distance\": ")+to_string(distance2)+string(",\n\t\t\"timestamp\": ")+ss.str()+string(",\n\t\t\"centerPixel\": [")+to_string(centerPixel[0])+string(", ")+to_string(centerPixel[1])+string("],\n\t\t\"bboxCoordinates\": [")+to_string(bb[0])+string(", ")+to_string(bb[1])+string(", ")+to_string(bb[2])+string(", ")+std::to_string(bb[3])+string("]\n\t},");
-					visionString+=jsonObject;
+					//angle = tan(abs(centerPixel[0]-(CAMERA_WIDTH/2)))*180/PI;
+				
+					//CAMERA_POS_HEIGHT/tan(abs(bb[3]-18)*FOV_Y_RADS/CAMERA_HEIGHT)
+
+					/*bboxCoordinates[0] = *bb[0];
+					bboxCoordinates[1] = *bb[1];
+					bboxCoordinates[2] = *bb[2];
+					bboxCoordinates[3] = *bb[3];
+				
+					bbLeft = *bb[0];
+					bbTop= *bb[1];
+					bbRight = *bb[2];
+					bbBottom = *bb[3];*/
+				
+				
+					ss << time_since_epoch();
+					visionString += string("[");
+
+					for (int i = 0; i < numBoundingBoxes; i++){
+						string jsonObject = string("\n\t{\n\t\t\"angle\": ")+to_string(angle)+string(",\n\t\t\"distance\": ")+to_string(distance2)+string(",\n\t\t\"timestamp\": ")+ss.str()+string(",\n\t\t\"centerPixel\": [")+to_string(centerPixel[0])+string(", ")+to_string(centerPixel[1])+string("],\n\t\t\"bboxCoordinates\": [")+to_string(bb[0])+string(", ")+to_string(bb[1])+string(", ")+to_string(bb[2])+string(", ")+std::to_string(bb[3])+string("]\n\t},");
+						visionString+=jsonObject;
+					}
+				
+					//printf("\nDistance: %f", distance/2.54);
+					printf("\nDistance: %f", distance2/2.54);
+					//printf("\nDistance3: %f", distance3/2.54);
+					//printf("\nDistance4: %f", distance4/2.54);
+					//printf("\nCenter Pixel[0]: %f\n", centerPixel[0]);
+					//printf("\nbb[2]: %f\n", centerPixel[0]-CAMERA_WIDTH/2);
+					//printf("\nFOV_X_DEGREES: %f\nCenterPix: %f\nDistFromCenter: %f px.\nAngle: %f\n degrees", FOV_X_RADS*180/PI, bb[0]+(bb[2]-bb[0])/2, 320-(bb[0]+(bb[2]-bb[0])/2), (atan((320-(bb[0]+(bb[2]-bb[0])/2))/distance2)*(-180/PI)));
+				
+					visionString.pop_back();
+					visionString+=string("\n]");
+					//printf("%s\n", visionString.c_str());
+
+					visionTable -> PutString("VisionString", visionString);
+					visionString.clear();
+					//objects[n] -> PutNumber("Angle", angle);
+					//objects[n] -> PutNumber("Distance", distance);
+					//objects[n] -> PutNumber("Timestamp", time_since_epoch());
 				}
-				
-				//printf("\nDistance: %f", distance/2.54);
-				printf("\nDistance: %f", distance2/2.54);
-				//printf("\nDistance3: %f", distance3/2.54);
-				//printf("\nDistance4: %f", distance4/2.54);
-				//printf("\nCenter Pixel[0]: %f\n", centerPixel[0]);
-				//printf("\nbb[2]: %f\n", centerPixel[0]-CAMERA_WIDTH/2);
-				//printf("\nFOV_X_DEGREES: %f\nCenterPix: %f\nDistFromCenter: %f px.\nAngle: %f\n degrees", FOV_X_RADS*180/PI, bb[0]+(bb[2]-bb[0])/2, 320-(bb[0]+(bb[2]-bb[0])/2), (atan((320-(bb[0]+(bb[2]-bb[0])/2))/distance2)*(-180/PI)));
-				
-				visionString.pop_back();
-				visionString+=string("\n]");
-				//printf("%s\n", visionString.c_str());
-
-				visionTable -> PutString("VisionString", visionString);
-				visionString.clear();
-				//objects[n] -> PutNumber("Angle", angle);
-				//objects[n] -> PutNumber("Distance", distance);
-				//objects[n] -> PutNumber("Timestamp", time_since_epoch());
 				
 				if( nc != lastClass || n == (numBoundingBoxes - 1) )
 				{
