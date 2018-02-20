@@ -1,10 +1,33 @@
 #!/bin/bash
-sudo ./jetson-inference/build/aarch64/bin/detectnet-camera\
- -model '/home/nvidia/Documents/workingmodel/snapshot_iter_15600.caffemodel'\
- -prototxt 'home/nvidia/Documents/workingmodel/deploy.prototxt'\
- -input_blob 'data'\
- -output_cvg 'coverage'\
- -output_bbox 'bboxes'\
- -mean_pixel 0.000000\
- -threshold 0.750000\
- -batch_size 2
+
+if [ "$#" == 2 ]; then
+    echo "Calibration Distance: $1"
+    echo "Camera Height: $2"
+
+    sudo ./jetson-inference/build/aarch64/bin/detectnet-camera\
+         -model '/home/nvidia/Documents/workingmodel/snapshot_iter_15600.caffemodel'\
+         -prototxt 'home/nvidia/Documents/workingmodel/deploy.prototxt'\
+         -input_blob 'data'\
+         -output_cvg 'coverage'\
+         -output_bbox 'bboxes'\
+         -mean_pixel 0.000000\
+         -threshold 0.750000\
+         -batch_size 2\
+         -distance $1\
+         -cam_height $2
+
+elif [ "$#" == 0 ]; then
+    echo "Deployment Mode"
+    sudo ./jetson-inference/build/aarch64/bin/detectnet-camera\
+         -model '/home/nvidia/Documents/workingmodel/snapshot_iter_15600.caffemodel'\
+         -prototxt 'home/nvidia/Documents/workingmodel/deploy.prototxt'\
+         -input_blob 'data'\
+         -output_cvg 'coverage'\
+         -output_bbox 'bboxes'\
+         -mean_pixel 0.000000\
+         -threshold 0.750000\
+         -batch_size 2
+
+else
+   echo "Usage: [distance (in)] [camera height (in)], leave blank for inference mode"
+fi
