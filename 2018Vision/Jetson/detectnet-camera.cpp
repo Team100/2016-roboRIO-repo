@@ -57,7 +57,7 @@ using namespace std;
 
 #define DEFAULT_CAMERA 1	// -1 for onboard camera, or change to index of /dev/video V4L2 camera (>=0)		
 //#define NET_IP "192.168.2.102" // ip
-#define CAMERA_POS_HEIGHT 110.5 //47 inches
+//#define CAMERA_POS_HEIGHT 110.5 //47 inches
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 480
 #define FOV_X_RADS 0.980413654
@@ -111,13 +111,14 @@ int main( int argc, char** argv )
 	double zero_pixel = 0.0;
 	double calibrationDistance = 0.0;
 	ofstream outputFile;
+	double CAMERA_POS_HEIGHT = 110.5;
+	double displacementX = 0.0;
 
-	/*coorFile.open("/home/nvidia/Documents/coordinate.txt");
-	if (!coorFile) {
-    		printf("Unable to open file coordinate.txt");
-    		exit(1);   // call system to stop
-	}*/
-	//coorFile >> zero_pixel;
+/*difference = 320-(bb[0]+((bb[0]+bb[2])/2)
+					diffInRadians = FOV_X_RADS*difference/CAMERA_WIDTH;
+					angle = atan((-PI/180)*diffInRadians/distance2)*180/PI;*/
+	double difference;
+	double diffInRadians;
 
    	NetworkTable::SetClientMode();
    	NetworkTable::SetIPAddress(llvm::StringRef(roborio_ip));
@@ -134,19 +135,33 @@ int main( int argc, char** argv )
 	//string cal;
 
 	//double *yeet;
-	printf("***************************************\nDistance: %s", argv[argc-1]);
-	if (argc > 16){ // distance param detected
+	//printf("***************************************\nDistance: %s", argv[argc-1]);
+	
+	printf("******************************************************************************");
+	printf("Number of args: %i", argc);
+
+	if (argc > 17) { // distance param detected
 		calibrationMode = true;
 		//cal = argv[argc-1];
-		calibrationDistance = stod(string(argv[argc-1]));
+		calibrationDistance = stod(string(argv[argc-3]))*2.54;
+		CAMERA_POS_HEIGHT = stod(string(argv[argc-1]))*2.54;
 		//string myStr(argv[argc-1]);
 		//double a, b;
 		outputFile.open("/home/nvidia/Documents/coordinate.txt");
+		argc=17; // reset back to amount of parameters expected by detectnet
 		//sscanf(argv[argc-1],"%lf,%lf",&a,&b);
-	
+	} else {
+		calibrationMode = false;
+		coorFile.open("/home/nvidia/Documents/coordinate.txt");
+		if (!coorFile) {
+    			printf("Unable to open file coordinate.txt");
+    			exit(1);   // call system to stop
+		}
+		coorFile >> zero_pixel;
 	}
-
-	argc-=1; // to get rid of extra 'distance' parameter
+	
+	printf("\nCalibration distance: %f\nCAM_POS_HEIGHT: %f", calibrationDistance, CAMERA_POS_HEIGHT);
+	
 
 	//if (argv[argc-1] == fgf)
 
@@ -275,8 +290,8 @@ int main( int argc, char** argv )
 		int numBoundingBoxes = maxBoxes;
 	
 		if( net->Detect((float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), bbCPU, &numBoundingBoxes, confCPU))
-		{
-			printf("%i bounding boxes detected\n", numBoundingBoxes);
+		{		
+//			printf("%i bounding boxes detected\n", numBoundingBoxes);
 		
 			int lastClass = 0;
 			int lastStart = 0;
@@ -294,30 +309,55 @@ int main( int argc, char** argv )
 				float* bb = bbCPU + (n * 4);
 				
 				if (calibrationMode == true){
-					zero_pixel = bb[3]+atan((1.02*CAMERA_POS_HEIGHT)/calibrationDistance)*CAMERA_HEIGHT/FOV_Y_RADS2;
+					zero_pixel = abs(bb[3]-atan(CAMERA_POS_HEIGHT/calibrationDistance)*CAMERA_HEIGHT/FOV_Y_RADS2);
 					outputFile << zero_pixel;
 					outputFile.close();
-					printf("CALIBRATION MODE");
-					break;
+					printf("Zero pixel: %f\n", zero_pixel);
+					//printf("TestDistance: %f\n", CAMERA_POS_HEIGHT/(tan((abs(bb[3]-zero_pixel))*FOV_Y_RADS2/CAMERA_HEIGHT))/2.54);
+					//break;
 				} else {
-					printf("RUN MODE");
+					
 					//printf("bounding box %i   (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
 
-
-					centerPixel[0] = (bb[2]-bb[0])/2;
+					centerPixel[0] = bb[0]+(bb[2]-bb[0])/2;
 					centerPixel[1] = (bb[3]-bb[1])/2;
 				
 					//distance = (CAMERA_HEIGHT/(tan((abs(bb[3]-(CAMERA_HEIGHT/2)))*radiansPerPixels[1])))/100;
-					distance = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS2/CAMERA_HEIGHT));
+					//distance = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS2/CAMERA_HEIGHT));
+					distance2 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-zero_pixel))*FOV_Y_RADS2/CAMERA_HEIGHT)); // zero_pixel
 
-					distance2 = 1.02*CAMERA_POS_HEIGHT/(tan((abs(bb[3]-zero_pixel))*FOV_Y_RADS2/CAMERA_HEIGHT));
-
-					distance3 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS/CAMERA_HEIGHT));
-					distance4 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-150))*FOV_Y_RADS3/CAMERA_HEIGHT));
+					//distance3 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS/CAMERA_HEIGHT));
+					//distance4 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-150))*FOV_Y_RADS3/CAMERA_HEIGHT));
 				
 				
 					//distFromCenter = abs((CAMERA_WIDTH/2)-((bb[2]-bb[0])/2)+bb[0]);
-					angle = (atan((320-(bb[0]+(bb[2]-bb[0])/2))/distance2)*(-180/PI));
+					printf("*************************************************************\n");
+					difference = 320-centerPixel[0];
+					diffInRadians = (FOV_X_RADS*1.1/CAMERA_WIDTH)*difference;
+
+					angle = atan2(diffInRadians, distance2/2.54)*-18000/PI;
+
+					printf("\nDif in pix: %f", difference);
+					printf("/nDiff in degrees: %f", diffInRadians*180/PI);
+
+					//angle = atan((-180*FOV_X_RADS/(CAMERA_WIDTH*PI))*(320-bb[0]-(bb[0]+bb[2])/2)/distance2);
+					//angle = (atan((CAMERA_WIDTH/FOV_Y_RADS)*(320-(bb[0]+(bb[2]-bb[0])/2))/(distance2*2.54))*(-180/PI));
+					//displacementX = (FOV_X_RADS/CAMERA_WIDTH)*(320-bb[0]-(bb[0]+bb[2])/2);
+					displacementX = (tan(angle*PI/180)*distance2*1.15*2.54/10); //inches
+					angle = sqrt(distance2*distance2+displacementX*displacementX); 
+					printf("\nAngle1: %f \nDisplacementX: %f in.\n", angle, displacementX);
+					/*angle = (atan(0.95*(320-(bb[0]+(bb[2]-bb[0])/2))/(distance2*2.54))*(-180/PI));
+					displacementX = (tan(angle*PI/180)*distance2/2.54); //inches
+					printf("\nAngle2: %f \nDisplacementX: %f in.\n", angle, displacementX);
+					angle = (atan(1.*(320-(bb[0]+(bb[2]-bb[0])/2))/(distance2*2.54))*(-180/PI));
+					displacementX = (tan(angle*PI/180)*distance2/2.54); //inches
+					printf("\nAngle3: %f \nDisplacementX: %f in.\n", angle, displacementX);
+					angle = (atan(1.4*(320-(bb[0]+(bb[2]-bb[0])/2))/(distance2*2.54))*(-180/PI));
+					displacementX = (tan(angle*PI/180)*distance2/2.54); //inches
+					printf("\nAngle4: %f \nDisplacementX: %f in.\n", angle, displacementX);*/
+					printf("************************************************************\n");
+					//angle = (atan((320-(bb[0]+(bb[2]-bb[0])/2))/distance2)*(-180/PI));
+					
 					//angle = centerPixel[0]*FOV_X_RADS/CAMERA_WIDTH;
 					//angle = atan(abs(360-centerPixel[1])/distance2);
 					//angle = angle *180/PI;
@@ -342,12 +382,13 @@ int main( int argc, char** argv )
 					visionString += string("[");
 
 					for (int i = 0; i < numBoundingBoxes; i++){
-						string jsonObject = string("\n\t{\n\t\t\"angle\": ")+to_string(angle)+string(",\n\t\t\"distance\": ")+to_string(distance2)+string(",\n\t\t\"timestamp\": ")+ss.str()+string(",\n\t\t\"centerPixel\": [")+to_string(centerPixel[0])+string(", ")+to_string(centerPixel[1])+string("],\n\t\t\"bboxCoordinates\": [")+to_string(bb[0])+string(", ")+to_string(bb[1])+string(", ")+to_string(bb[2])+string(", ")+std::to_string(bb[3])+string("]\n\t},");
+						string jsonObject = string("\n\t{\n\t\t\"angle\": ")+to_string(angle)+string(",\n\t\t\"distance\": ")+to_string(distance2)+string(",\n\t\t\"displacementX\": ")+to_string(displacementX)+string(",\n\t\t\"timestamp\": ")+ss.str()+string(",\n\t\t\"centerPixel\": [")+to_string(centerPixel[0])+string(", ")+to_string(centerPixel[1])+string("],\n\t\t\"bboxCoordinates\": [")+to_string(bb[0])+string(", ")+to_string(bb[1])+string(", ")+to_string(bb[2])+string(", ")+std::to_string(bb[3])+string("]\n\t},");
 						visionString+=jsonObject;
 					}
 				
 					//printf("\nDistance: %f", distance/2.54);
-					printf("\nDistance: %f", distance2/2.54);
+					printf("\nDistance : %f in.\nZero_Pix: %f\n", distance2/2.54, zero_pixel);
+					printf("\nAngle: %f \nDisplacementX: %f in.\n", angle, displacementX);
 					//printf("\nDistance3: %f", distance3/2.54);
 					//printf("\nDistance4: %f", distance4/2.54);
 					//printf("\nCenter Pixel[0]: %f\n", centerPixel[0]);
