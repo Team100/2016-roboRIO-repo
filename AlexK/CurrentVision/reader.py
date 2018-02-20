@@ -101,7 +101,7 @@ def calc_distance(from_horizontal):
     # Convert to radians per pixel
     rad_horizontal = from_horizontal / 6 / 57.3
     # Return distance to target
-    return round(CAMERA_HEIGHT / tan(rad_horizontal), 4)
+    return round((CAMERA_HEIGHT / tan(rad_horizontal)) - 2, 4)
 
 
 def assemble_json(cx, cy, x, y, w, h, att, dtt):

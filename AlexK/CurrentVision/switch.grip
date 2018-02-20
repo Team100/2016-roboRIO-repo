@@ -23,9 +23,6 @@
       <property name="path[17]" value="E:\Robotics\Vision\Target Images\Straight_9ft.jpg"/>
     </edu.wpi.grip.core.sources.MultiImageFileSource>
     <edu.wpi.grip.core.sources.CameraSource>
-      <property name="deviceNumber" value="0"/>
-    </edu.wpi.grip.core.sources.CameraSource>
-    <edu.wpi.grip.core.sources.CameraSource>
       <property name="address" value="http://raspberrypi.local:5802/?action=stream"/>
     </edu.wpi.grip.core.sources.CameraSource>
   </sources>
@@ -34,20 +31,20 @@
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="0"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="1">
         <value>
-          <double>53.417266187050345</double>
-          <double>98.60068259385666</double>
+          <double>71.22302158273384</double>
+          <double>118.5665529010239</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="2">
         <value>
-          <double>142.17625899280577</double>
+          <double>71.08812949640287</double>
           <double>255.0</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="3">
         <value>
-          <double>95.48561151079136</double>
-          <double>181.02389078498294</double>
+          <double>128.41726618705036</double>
+          <double>255.0</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.OutputSocketImpl step="0" socket="0" previewed="true"/>
@@ -81,7 +78,7 @@
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="7">
         <value>
-          <double>50.359712230215834</double>
+          <double>74.64028776978418</double>
           <double>100.0</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
@@ -106,20 +103,20 @@
   </steps>
   <connections>
     <edu.wpi.grip.core.Connection>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="false"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
+    </edu.wpi.grip.core.Connection>
+    <edu.wpi.grip.core.Connection>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl source="1" socket="0" previewed="true"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="0"/>
+    </edu.wpi.grip.core.Connection>
+    <edu.wpi.grip.core.Connection>
       <edu.wpi.grip.core.sockets.OutputSocketImpl step="2" socket="0" previewed="false"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="0"/>
     </edu.wpi.grip.core.Connection>
     <edu.wpi.grip.core.Connection>
       <edu.wpi.grip.core.sockets.OutputSocketImpl step="0" socket="0" previewed="true"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="0"/>
-    </edu.wpi.grip.core.Connection>
-    <edu.wpi.grip.core.Connection>
-      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="false"/>
-      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
-    </edu.wpi.grip.core.Connection>
-    <edu.wpi.grip.core.Connection>
-      <edu.wpi.grip.core.sockets.OutputSocketImpl source="2" socket="0" previewed="true"/>
-      <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="0"/>
     </edu.wpi.grip.core.Connection>
   </connections>
   <settings>

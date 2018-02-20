@@ -4,7 +4,7 @@ from json import dumps
 from networktables import NetworkTables
 from time import sleep as wait, time
 from cube import Pipeline as CubePipeline
-from switch import Pipeline as SwitchPipeline
+from swtich import Pipeline as SwitchPipeline
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -14,6 +14,7 @@ HDPP = 0.1962  # Number of degrees
 VPPD = 6  # Number of pixels
 CAMERA_HEIGHT = 17  # In inches
 HORI_PIXEL = 4  # Pixel horizontal (180 degrees) with camera
+DIST_OFFSET = 5  # Inches to offset distance
 CAMERA_URI = "http://raspberrypi.local:5802/?action=stream"  # MJPG URL or camera number
 NT_URI = "raspberrypi.local"  # NetworkTables server location
 SWITCH = False  # Enable switch detection
@@ -101,7 +102,7 @@ def calc_distance(from_horizontal):
     # Convert to radians per pixel
     rad_horizontal = from_horizontal / 6 / 57.3
     # Return distance to target
-    return round(CAMERA_HEIGHT / tan(rad_horizontal), 4)
+    return round((CAMERA_HEIGHT / tan(rad_horizontal)) - DIST_OFFSET, 4)
 
 
 def assemble_json(cx, cy, x, y, w, h, att, dtt):
