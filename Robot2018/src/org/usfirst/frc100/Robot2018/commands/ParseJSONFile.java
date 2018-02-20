@@ -23,7 +23,7 @@ public class ParseJSONFile extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	SmartDashboard.putBoolean("RunningParseJSON", true);
-    	System.out.println("===================================================================================================");
+    	
     	String myJSONData = "{\"name\":\"test\",\"value\":\"ABC\"}";// Put the JSON data into this string
     	JSONParser parser = new JSONParser();
         JSONObject myParsedData = new JSONObject();
