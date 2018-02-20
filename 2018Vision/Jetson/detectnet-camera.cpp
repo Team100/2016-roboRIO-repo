@@ -49,6 +49,7 @@
 #include "cudaFont.h"
 
 #include "detectNet.h"
+#include <fstream>
 
 using namespace std;
 
@@ -74,6 +75,7 @@ double bboxCoordinates [4] = {0.0, 0.0, 0.0, 0.0};
 double angle = 0.0;
 //double distance = 0.0;
 
+
 bool signal_recieved = false;
 
 void sig_handler(int signo)
@@ -93,6 +95,7 @@ time_t time_since_epoch() {
 int main( int argc, char** argv )
 {	
 
+ 	//fprintf(stderr, "Usage: %s [-ilw] [file...]\n", argv[0]);
 	stringstream ss;
 	double degreesPerPixels [2] = {56.17/CAMERA_WIDTH, 40.86/CAMERA_HEIGHT}; // 0.980413654 rad x 0.71332305 rad
 	double radiansPerPixels [2] = {FOV_X_RADS/CAMERA_WIDTH, FOV_Y_RADS/CAMERA_HEIGHT};
@@ -102,6 +105,16 @@ int main( int argc, char** argv )
 	double distance4 = 0.0;
 	double calibrated_offset = 117; // pixels
 	double distFromCenter = 0.0;
+	bool calibrateMode = false;
+	ifstream coorFile;
+	double zero_pixel = 0.0;
+
+	coorFile.open("/home/nvidia/Documents/coordinate.txt");
+	if (!coorFile) {
+    		printf("Unable to open file datafile.txt");
+    		exit(1);   // call system to stop
+	}
+	coorFile >> zero_pixel;
 
    	NetworkTable::SetClientMode();
    	NetworkTable::SetIPAddress(llvm::StringRef(roborio_ip));
@@ -116,6 +129,9 @@ int main( int argc, char** argv )
 		
 	printf("\n\n");
 	
+
+	printf("***************************************\n%s", argv[argc-1]);
+	//if (argv[argc-1] == fgf)
 
 	/*
 	 * parse network type from CLI arguments
@@ -218,7 +234,6 @@ int main( int argc, char** argv )
 	
 	printf("\ndetectnet-camera:  camera open for streaming\n");
 	
-	
 	/*
 	 * processing loop
 	 */
@@ -269,7 +284,9 @@ int main( int argc, char** argv )
 				
 				//distance = (CAMERA_HEIGHT/(tan((abs(bb[3]-(CAMERA_HEIGHT/2)))*radiansPerPixels[1])))/100;
 				distance = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS2/CAMERA_HEIGHT));
-				distance2 = 1.02*CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS2/CAMERA_HEIGHT));
+
+				distance2 = 1.02*CAMERA_POS_HEIGHT/(tan((abs(bb[3]-zero_pixel))*FOV_Y_RADS2/CAMERA_HEIGHT));
+
 				distance3 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-180))*FOV_Y_RADS/CAMERA_HEIGHT));
 				distance4 = CAMERA_POS_HEIGHT/(tan((abs(bb[3]-150))*FOV_Y_RADS3/CAMERA_HEIGHT));
 				
@@ -305,7 +322,7 @@ int main( int argc, char** argv )
 				}
 				
 				//printf("\nDistance: %f", distance/2.54);
-				//printf("\nDistance2: %f", distance2/2.54);
+				printf("\nDistance: %f", distance2/2.54);
 				//printf("\nDistance3: %f", distance3/2.54);
 				//printf("\nDistance4: %f", distance4/2.54);
 				//printf("\nCenter Pixel[0]: %f\n", centerPixel[0]);
