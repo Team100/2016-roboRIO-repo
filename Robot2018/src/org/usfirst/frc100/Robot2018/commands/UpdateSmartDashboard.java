@@ -18,6 +18,7 @@ public class UpdateSmartDashboard extends Command {
     public UpdateSmartDashboard() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+
     	initialize();
     }
 
@@ -29,6 +30,7 @@ public class UpdateSmartDashboard extends Command {
     	 * Make sure to use {@code SmartDashboard.putXyz("key",value);}
     	 */
     	// This is a test to make sure that this command is run.
+
     	SmartDashboard.putBoolean("UpdateSmartDashbaordRun", true);
     	/*
     	 * Put all SmartDashboard stuff below the following line
@@ -85,6 +87,16 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putNumber("NavX-quaternionX", DriveTrain.navxQuaternionX);
         SmartDashboard.putNumber("NavX-quaternionY", DriveTrain.navxQuaternionY);
         SmartDashboard.putNumber("NavX-quaternionZ", DriveTrain.navxQuaternionZ);
+    }
+
+    // Called just before this Command runs the first time
+    protected void initialize() {
+    	/**
+    	 * Here is where we are publishing everything to {@code SmartDashboard}
+    	 * Make sure that all of your updates are put here. It will make everything easier in the long run!
+    	 * Make sure to use {@code SmartDashboard.putXyz("key",value);}
+    	 */
+    	// This is a test to make sure that this command is run.
         
 
         
