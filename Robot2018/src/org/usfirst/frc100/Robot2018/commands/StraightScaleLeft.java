@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class LeftSwitch extends CommandGroup {
+public class StraightScaleLeft extends CommandGroup {
 
-    public LeftSwitch() {
-    	addSequential(new PathFinding("Left"));
+    public StraightScaleLeft() {
+    	addSequential(new PathFinding("ScaleSR"));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
