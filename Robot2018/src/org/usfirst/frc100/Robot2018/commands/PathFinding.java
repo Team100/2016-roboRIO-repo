@@ -75,7 +75,7 @@ public class PathFinding extends Command {
     public PathFinding() {
     	
     	requires(Robot.driveTrain);
-    	System.out.println("hi");
+  //  	System.out.println("hi");
   
     }
     public PathFinding(String a){
@@ -217,7 +217,11 @@ public class PathFinding extends Command {
     		}; 
     	}
     	
-    	
+    	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);
+    	//Everything needs to be in meters
+    	//Keep in mind that computing paths takes a long time 
+    	//because the roborio isnt really that powerful
+    	//Once you have a path, it makes sense to load all the data you want to use into an array
 
     	
     	p = Robot.prefs.getDouble("P",
@@ -237,6 +241,8 @@ public class PathFinding extends Command {
 				0);
     	a2 = Robot.prefs.getDouble("FL",          //.45
 				0);
+    	//when tuning, use feedforward gain first, then tweak a little p
+    	//dont need to really touch the i or d gain
     	
     	RobotMap.driveTrainRightMaster.config_kP(0, p, 10); //.123
     	RobotMap.driveTrainRightMaster.config_kI(0, i, 10); //.2
@@ -253,8 +259,9 @@ public class PathFinding extends Command {
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1  
     	//change this to 20 ms                                  1.7 1.7   2.5 2.5
     	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.07/2.2, 5.1/2.2, 20);//17.08);
+    	//Keep first and second arguement the same, the refresh rate in seconds, max vel, max acc, max jerk);
     	trajectory = Pathfinder.generate(points, config);
-    	TankModifier modifier = new TankModifier(trajectory).modify(.67);
+    	TankModifier modifier = new TankModifier(trajectory).modify(.67); //modify the width between wheels
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
     	
@@ -275,7 +282,7 @@ public class PathFinding extends Command {
     	    public void run() {
     	    	parseArray();
     	    }
-    	  }, 0, 20);
+    	  }, 0, 20); //this number must match refresh rate
       
     } 
 
@@ -303,8 +310,8 @@ public class PathFinding extends Command {
     		SmartDashboard.putNumber("Pdl", d2);
     		SmartDashboard.putNumber("Pfl", a2);
     	
-    		Trajectory.Segment segL = leftT.get(counter); 
-    		Trajectory.Segment segR = (rightT.get(counter));
+    		Trajectory.Segment segL = leftT.get(counter); //get left and right profile data
+    		Trajectory.Segment segR = (rightT.get(counter)); //access each point and count every iterations
     	/*
     		double leftV = path[counter][0];
     		double rightV = path[counter][1]; 
@@ -315,7 +322,7 @@ public class PathFinding extends Command {
         	double desired_heading = Pathfinder.r2d(segR.heading); //angle // Should also be in degrees
     	
     	 	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - (Robot.ahrs.getAngle()*-1));
-			double turn = .87* (-1.0/80.0) * angleDifference; //.80
+			double turn = .87* (-1.0/80.0) * angleDifference; //.80 tweek the first value for how the robot tracks angle
 		//	setLeftMotors(l + turn);
 			//setRightMotors(r - turn);
 			double setR; 
@@ -326,14 +333,15 @@ public class PathFinding extends Command {
 			} else {
 			 setR = segR.velocity-turn; //rightV - turn;
 	    	 setL = segL.velocity+turn; //leftV + turn;
-			}
+			} //this corrects the robots heading
+			//you can access a lot of data at each segment index like heading, acc, velocity etc
     	//double setR = segR.velocity;
     	//double setL = segL.velocity;
     	
-    	SmartDashboard.putNumber("leftS", (setL*1508.965));
+    	SmartDashboard.putNumber("leftS", (setL*1508.965)); //this multiplier is a combination of gearing, how often encoder updates, and wheel diameter
     	SmartDashboard.putNumber("RightS", (setR*1508.965));
     	
-    	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (setR*rightM)*1508.965);
+    	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (setR*rightM)*1508.965); 
     	RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (setL*leftM)*1508.965);
 		
     	//path.length
@@ -351,7 +359,7 @@ public class PathFinding extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return finish;
+        return finish; //end command when the array is fully parsed
      }
 
     // Called once after isFinished returns true

@@ -85,10 +85,10 @@ public class RobotMap {
 
 
         driveTrainLeftFollower = new WPI_VictorSPX(4);
-        driveTrainRightMaster.setInverted(true); //make sure these are correct on the actual drive train. 
-        driveTrainLeftMaster.setInverted(true); 
-        driveTrainLeftFollower.setInverted(true); 
-        driveTrainRightFollower.setInverted(true); 
+        driveTrainRightMaster.setInverted(false); //make sure these are correct on the actual drive train. 
+        driveTrainLeftMaster.setInverted(false); 
+        driveTrainLeftFollower.setInverted(false); 
+        driveTrainRightFollower.setInverted(false); 
         driveTrainRightMaster.setSensorPhase(false); 
         driveTrainLeftMaster.setSensorPhase(true); 
         
