@@ -203,7 +203,16 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-
+    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	if(gameData.length() > 0)
+        {
+    		if(gameData.charAt(0) == 'L')
+    		{
+	//Put left auto code here
+    		} else {
+	//Put right auto code here
+    		}
+        }
     	
     	
 
