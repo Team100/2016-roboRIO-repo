@@ -102,12 +102,10 @@ public class RobotMap {
 
         LiveWindow.addActuator("DriveTrain", "ShiftingSolenoid", driveTrainShiftingSolenoid);
         
-        elevatorElevatorTalon = new WPI_TalonSRX(4);
+        elevatorElevatorTalon = new WPI_TalonSRX(5);
+        elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         
-        
-        elevatorElevatorVictor = new WPI_VictorSPX(5);
-        
-        
+        elevatorElevatorVictor = new WPI_VictorSPX(7);        
         elevatorElevatorVictor2 = new WPI_VictorSPX(6);
         
         
@@ -136,16 +134,16 @@ public class RobotMap {
         elevatorArmEleArmLim2 = new DigitalInput(3);
         LiveWindow.addSensor("ElevatorArm", "EleArmLim2", elevatorArmEleArmLim2);
         
-        intakeIntakeMaster = new WPI_TalonSRX(7);
+        intakeIntakeMaster = new WPI_TalonSRX(8);
         
         
-        intakeIntakeFollower = new WPI_VictorSPX(8);
+        intakeIntakeFollower = new WPI_VictorSPX(9);
         
         
         intakeIntakeDigSensorb = new DigitalInput(4);
         LiveWindow.addSensor("Intake", "IntakeDigSensor b", intakeIntakeDigSensorb);
         
-        climbingArmClimbingTalon = new WPI_TalonSRX(9);
+        climbingArmClimbingTalon = new WPI_TalonSRX(10);
         
         
         climbingArmClimbLim1 = new DigitalInput(5);
@@ -154,13 +152,13 @@ public class RobotMap {
         climbingArmClimbLim2 = new DigitalInput(6);
         LiveWindow.addSensor("ClimbingArm", "ClimbLim2", climbingArmClimbLim2);
         
-        winchWinchTalon = new WPI_TalonSRX(10);
+        winchWinchTalon = new WPI_TalonSRX(11);
         
         
-        winchWinchVictor1 = new WPI_VictorSPX(11);
+        winchWinchVictor1 = new WPI_VictorSPX(12);
         
         
-        winchWinchVictor2 = new WPI_VictorSPX(12);
+        //winchWinchVictor2 = new WPI_VictorSPX(13);
         
         
 

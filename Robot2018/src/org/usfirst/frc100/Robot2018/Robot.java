@@ -253,6 +253,7 @@ public class Robot extends TimedRobot {
         ArcadeDrive = prefs.getBoolean("ArcadeDrive", false);
         SmartDashboard.putBoolean("ArcadeDrive On", ArcadeDrive);
         SmartDashboard.putBoolean("Logitech On", Logitech);
+        SmartDashboard.putNumber("Position", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("velR", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)/1508.965) * 3.28);///4096/1.5);
         SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)/1508.965) *3.28);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
