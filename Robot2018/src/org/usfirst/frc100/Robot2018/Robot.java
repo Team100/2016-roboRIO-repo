@@ -145,7 +145,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);
        // SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         
-        SmartDashboard.putData("JSON", new ParseJSONFile());
+        //SmartDashboard.putData("JSON", new ParseJSONFile());
 
 
         Logitech = false;
@@ -184,7 +184,7 @@ public class Robot extends TimedRobot {
         	prefs.putDouble("FL", 0.3);
         }
         
-        new ParseJSONFile();
+      //  new ParseJSONFile();
     }
 
     /**
@@ -223,6 +223,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
     	 ahrs.reset();
+    	 Robot.driveTrain.pidAngle.reset();
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -236,6 +237,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
     	//System.out.println("running");
+    	SmartDashboard.putNumber("NavX-angle", ahrs.getAngle());
         SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         SmartDashboard.putData("Henry test path", new PathFinding());
         Logitech = prefs.getBoolean("Logitech", false);
