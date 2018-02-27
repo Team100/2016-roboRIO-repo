@@ -54,24 +54,12 @@ public class Record extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute(){
+    	
     	a[i] = OI.left.getY();
     	b[i] = OI.right.getX();
     	i = i++;
-    	System.out.println("hi");
-
-		try {
-			writer = new PrintWriter("AutoWrite.txt", "UTF-8");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("no!");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			System.out.println("No!");
-		}
-    	writer.println("a stream =" + a);
-    	writer.println("b stream =" +b);
-    	writer.close();
+    	System.out.println(a);
+    	
     }
     // Make this return true when this Command no longer needs to run execute()
     @Override

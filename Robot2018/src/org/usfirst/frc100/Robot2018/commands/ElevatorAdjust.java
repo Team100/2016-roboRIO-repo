@@ -50,14 +50,14 @@ public class ElevatorAdjust extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	if(RobotMap.elevatorElevatorLim1.get()/*The top limitSwitch*/){
-    		RobotMap.elevatorElevatorTalon.stopMotor();
-    		positionTalon = RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) - 100;
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)-100);
-    		if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) > positionTalon-20 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)< positionTalon+20){
-    			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getY());
-    		}
-    	}else if(RobotMap.elevatorElevatorLim2.get()/*The bottom limitSwitch*/){
+    	//if(RobotMap.elevatorElevatorLim1.get()/*The top limitSwitch*/){
+    		//RobotMap.elevatorElevatorTalon.stopMotor();
+    		//positionTalon = RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) - 100;
+    		//RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)-100);
+    		//if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) > positionTalon-20 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)< positionTalon+20){
+    			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(5));
+    		//}
+    	/*}else if(RobotMap.elevatorElevatorLim2.get()/*The bottom limitSwitch){
     		RobotMap.elevatorElevatorTalon.stopMotor();
     		positionTalon = RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) + 100;
     		RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)+100);
@@ -68,7 +68,7 @@ public class ElevatorAdjust extends Command {
     		if(Robot.logitech){
     			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getY());
     		}
-    	}
+    	}*/
     }
 
     // Make this return true when this Command no longer needs to run execute()

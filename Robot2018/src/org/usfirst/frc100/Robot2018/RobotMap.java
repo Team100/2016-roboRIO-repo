@@ -84,8 +84,8 @@ public class RobotMap {
 
         driveTrainRightFollower = new WPI_VictorSPX(3);
         
-        driveTrainRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        driveTrainLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+       // driveTrainRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        //driveTrainLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 
         
 
@@ -107,16 +107,16 @@ public class RobotMap {
 
         LiveWindow.addActuator("DriveTrain", "ShiftingSolenoid", driveTrainShiftingSolenoid);
         
-        elevatorElevatorTalon = new WPI_TalonSRX(4);
-        elevatorElevatorTalon.set(ControlMode.MotionProfile, 0);
+        elevatorElevatorTalon = new WPI_TalonSRX(5);
+        elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
         
         
-        elevatorElevatorVictor = new WPI_VictorSPX(5);
-        elevatorElevatorVictor.set(ControlMode.Follower,4);
+        elevatorElevatorVictor = new WPI_VictorSPX(6);
+        elevatorElevatorVictor.set(ControlMode.Follower,5);
         
         
-        elevatorElevatorVictor2 = new WPI_VictorSPX(6);
-        elevatorElevatorVictor2.set(ControlMode.Follower,4);
+        elevatorElevatorVictor2 = new WPI_VictorSPX(7);
+        elevatorElevatorVictor2.set(ControlMode.Follower,5);
         
 
         
@@ -143,18 +143,18 @@ public class RobotMap {
         elevatorArmEleArmLim2 = new DigitalInput(3);
         LiveWindow.addSensor("ElevatorArm", "EleArmLim2", elevatorArmEleArmLim2);
         
-        intakeIntakeMaster = new WPI_TalonSRX(7);
+        intakeIntakeMaster = new WPI_TalonSRX(8);
         intakeIntakeMaster.set(ControlMode.PercentOutput, 0);
         
         
-        intakeIntakeFollower = new WPI_VictorSPX(8);
-        intakeIntakeFollower.set(ControlMode.Follower,7);
+        intakeIntakeFollower = new WPI_VictorSPX(9);
+        intakeIntakeFollower.set(ControlMode.Follower,8);
         
         
         intakeIntakeDigSensorb = new DigitalInput(4);
         LiveWindow.addSensor("Intake", "IntakeDigSensor b", intakeIntakeDigSensorb);
         
-        climbingArmClimbingTalon = new WPI_TalonSRX(9);
+        climbingArmClimbingTalon = new WPI_TalonSRX(10);
         climbingArmClimbingTalon.set(ControlMode.PercentOutput, 0);
         
   
@@ -164,16 +164,16 @@ public class RobotMap {
         climbingArmClimbLim2 = new DigitalInput(6);
         LiveWindow.addSensor("ClimbingArm", "ClimbLim2", climbingArmClimbLim2);
         
-        winchWinchTalon = new WPI_TalonSRX(10);
+        winchWinchTalon = new WPI_TalonSRX(11);
         winchWinchTalon.set(ControlMode.PercentOutput,0);
         
         
-        winchWinchVictor1 = new WPI_VictorSPX(11);
-        winchWinchVictor1.set(ControlMode.Follower,10);
+        winchWinchVictor1 = new WPI_VictorSPX(12);
+        winchWinchVictor1.set(ControlMode.Follower,11);
         
         
-        winchWinchVictor2 = new WPI_VictorSPX(12);
-        winchWinchVictor2.set(ControlMode.Follower, 10);
+        winchWinchVictor2 = new WPI_VictorSPX(13);
+        winchWinchVictor2.set(ControlMode.Follower, 11);
         
         
         DuoSol = new DoubleSolenoid(2,3); 
