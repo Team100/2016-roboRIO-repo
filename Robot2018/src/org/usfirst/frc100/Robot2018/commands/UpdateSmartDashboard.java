@@ -60,7 +60,7 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("ClimbAdjust", new ClimbAdjust());
         SmartDashboard.putData("WinchWind", new WinchWind());
         SmartDashboard.putData("JSON", new ParseJSONFile());
-        System.out.println("SMART DASHBOARD UPDATE============================");
+        //System.out.println("SMART DASHBOARD UPDATE============================");
         /**
          * All of the NavX Stuff
          */
@@ -90,18 +90,19 @@ public class UpdateSmartDashboard extends Command {
     }
 
     // Called just before this Command runs the first time
+    /*
     protected void initialize() {
     	/**
     	 * Here is where we are publishing everything to {@code SmartDashboard}
     	 * Make sure that all of your updates are put here. It will make everything easier in the long run!
     	 * Make sure to use {@code SmartDashboard.putXyz("key",value);}
-    	 */
+    	 *
     	// This is a test to make sure that this command is run.
         
 
         
        
-    }
+    }*/
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {

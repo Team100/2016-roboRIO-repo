@@ -47,7 +47,7 @@ public class ParseJSONFile extends Command {
          * Gets value for index "name"
          */
         String myStringData = myParsedData.toString();
-        System.out.println(myStringData); //  Change 'name' to ideal 
+        //System.out.println(myStringData); //  Change 'name' to ideal 
         SmartDashboard.putString("JSONResult", myStringData);
         SmartDashboard.putBoolean("RunningParseJSON", false);
     }
