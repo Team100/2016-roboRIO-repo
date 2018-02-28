@@ -73,6 +73,8 @@ public class Robot extends IterativeRobot {
 		//m_motor2.set(ControlMode.PercentOutput, 0);
 		m_motor3.set(ControlMode.Follower, kMotorPort1);
 		
+		m_motor2.follow(m_motor1);
+		m_motor3.follow(m_motor1);
 		m_motor2.setInverted(false);
 		m_motor3.setInverted(true);
 		
@@ -87,11 +89,14 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		double val = m_joystick.getY() / 4.0; // limit to +/- 3 Volts
 		m_motor1.set(ControlMode.PercentOutput, val);
-		m_motor2.set(ControlMode.PercentOutput, val);
+		//m_motor2.set(ControlMode.PercentOutput, val);
 		
 		//m_motor2.set(ControlMode.Follower, kMotorPort1);
 		//m_motor3.set(ControlMode.Follower, kMotorPort1);
-		m_motor3.set(ControlMode.PercentOutput, val);
+		//m_motor3.set(ControlMode.PercentOutput, val);
+		
+		m_motor2.follow(m_motor1);
+		m_motor3.follow(m_motor1);
 		
 		reportSensors();
 		SmartDashboard.putNumber("Motor1", m_motor1.getMotorOutputPercent());
