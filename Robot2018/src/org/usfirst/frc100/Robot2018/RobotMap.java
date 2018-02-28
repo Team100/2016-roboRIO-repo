@@ -93,8 +93,9 @@ public class RobotMap {
         driveTrainLeftMaster.setSensorPhase(true); 
         
         driveTrainLeftFollower.set(ControlMode.Follower, 2);
+        driveTrainLeftFollower.follow(driveTrainLeftMaster);
         // driveTrainTalonSRX2.setInverted(true);
-        driveTrainRightFollower.set(ControlMode.Follower, 1);
+        driveTrainRightFollower.follow(driveTrainRightMaster);
         
 
         driveTrainShiftingSolenoid = new Solenoid(0,0);
@@ -112,7 +113,10 @@ public class RobotMap {
         
         
 
+        elevatorElevatorVictor.follow(elevatorElevatorTalon);
+        elevatorElevatorVictor2.follow(elevatorElevatorTalon);
         
+        elevatorElevatorVictor2.setInverted(true); ///////////////////////////////////////////////////I THINK THAT THIS IS SUPPOSED TO BE 2 BUT I AM NOT CERTAIN - ALEX B
 
 
         elevatorElevatorLim1 = new DigitalInput(0);
@@ -141,6 +145,8 @@ public class RobotMap {
         
         intakeIntakeFollower = new WPI_VictorSPX(8);
         
+        intakeIntakeFollower.follow(intakeIntakeMaster);
+        
         
         intakeIntakeDigSensorb = new DigitalInput(4);
         LiveWindow.addSensor("Intake", "IntakeDigSensor b", intakeIntakeDigSensorb);
@@ -162,7 +168,8 @@ public class RobotMap {
         
         winchWinchVictor2 = new WPI_VictorSPX(12);
         
-        
+        winchWinchVictor1.follow(winchWinchTalon);
+        winchWinchVictor2.follow(winchWinchTalon);
 
         
         
