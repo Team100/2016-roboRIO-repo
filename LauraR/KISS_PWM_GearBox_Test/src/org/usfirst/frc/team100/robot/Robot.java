@@ -8,6 +8,7 @@
 package org.usfirst.frc.team100.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,6 +30,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * range from -1 to 1 making it easy to work together.
  */
 public class Robot extends IterativeRobot {
+	
+	public static Preferences prefs = Preferences.getInstance(); //Creates preferences object
+	
+	private double P;
+	private double I;
+	private double D;
+	private double A;
+	
 	private static final int kMotorPort1 = 5;
 	private static final int kMotorPort2 = 6;
 	private static final int kMotorPort3 = 7;
@@ -42,12 +52,12 @@ public class Robot extends IterativeRobot {
 	private VictorSPX m_motor2;
 	private VictorSPX m_motor3;
 	private Joystick m_joystick;
-	private Encoder m_encoder;
+	//private Encoder m_encoder;
 	private DigitalInput m_high_limit;
 	private DigitalInput m_low_limit;
 	
-	private DigitalInput m_EncoderA;
-	private DigitalInput m_EncoderB;
+	//private DigitalInput m_EncoderA;
+	//private DigitalInput m_EncoderB;
 
 	@Override
 	public void robotInit() {
@@ -59,16 +69,37 @@ public class Robot extends IterativeRobot {
 		
 		m_high_limit = new DigitalInput(kHighLimitPort);
 		m_low_limit = new DigitalInput(kLowLimitPort);
-		m_EncoderA = new DigitalInput(kEncoderAPort);
-		m_EncoderB = new DigitalInput(kEncoderBPort);
+		//m_EncoderA = new DigitalInput(kEncoderAPort);
+		//m_EncoderB = new DigitalInput(kEncoderBPort);
 		
-		m_encoder = new Encoder(m_EncoderA, m_EncoderB);
+		//m_encoder = new Encoder(m_EncoderA, m_EncoderB);
 		m_joystick = new Joystick(kJoystickPort);
+		
+m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		
+		if (!prefs.containsKey("elevP")) {
+        	prefs.putDouble("elevP", 0.01);
+        }
+        if (!prefs.containsKey("elevI")) {
+        	prefs.putDouble("elevI", 0);
+        }
+        if (!prefs.containsKey("elevD")) {
+        	prefs.putDouble("elevD", 0);
+        }
+        if (!prefs.containsKey("elevA")) {
+        	prefs.putDouble("elevA", 0);
+        }
+        
+        
+        
+		
+		
+		
 	}
 
 	@Override
 	public void teleopInit() {
-		m_motor1.set(ControlMode.PercentOutput, 0);
+		m_motor1.set(ControlMode.MotionMagic, 1000);
 		m_motor2.set(ControlMode.PercentOutput, 0);
 		//m_motor2.set(ControlMode.PercentOutput, 0);
 		m_motor3.set(ControlMode.Follower, kMotorPort1);
@@ -102,14 +133,35 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Motor1", m_motor1.getMotorOutputPercent());
 		SmartDashboard.putNumber("Motor2",  m_motor2.getMotorOutputPercent());
 		SmartDashboard.putNumber("Motor3", m_motor3.getMotorOutputPercent());
+		
+		P = Robot.prefs.getDouble("P",
+				0);
+    	I = Robot.prefs.getDouble("I",
+				0);
+    	D = Robot.prefs.getDouble("D",
+				0);
+    	A = Robot.prefs.getDouble("A",             //.45
+				0);
+
+    	m_motor1.config_kP(0, P, 10);
+    	m_motor1.config_kI(0, I, 10);
+    	m_motor1.config_kD(0, D, 10);
+    	m_motor1.config_kF(0, A, 10);
+    	
+    	
+    	m_motor1.set(ControlMode.MotionMagic, 1000);
+		
+	
 	}
 	
 	void reportSensors() {
-		SmartDashboard.putNumber("Encoder", m_encoder.getRaw());
+		//SmartDashboard.putNumber("Encoder", m_encoder.getRaw());
 		SmartDashboard.putBoolean("High Limit", m_high_limit.get());
 		SmartDashboard.putBoolean("LowLimit", m_low_limit.get());
 		
-		SmartDashboard.putBoolean("EncA", m_EncoderA.get());
-		SmartDashboard.putBoolean("EncB", m_EncoderB.get());
+		//SmartDashboard.putBoolean("EncA", m_EncoderA.get());
+		//SmartDashboard.putBoolean("EncB", m_EncoderB.get());
+		SmartDashboard.putNumber("TalonENC", m_motor1.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("TalonVEL", m_motor1.getSelectedSensorVelocity(0));
 	}
 }
