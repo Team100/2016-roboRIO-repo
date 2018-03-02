@@ -53,7 +53,6 @@ public class Drive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-<<<<<<< HEAD
 
     	if(!Robot.logitech){
         	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
@@ -70,18 +69,11 @@ public class Drive extends Command {
         	if(!Robot.TankDrive){
         		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput,OI.operator.getY()+OI.operator.getRawAxis(4));
         		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,-OI.operator.getY()+OI.operator.getRawAxis(4));
-        		//RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
         	}else{
         		RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, OI.operator.getY());
-        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(5));
+        		RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(3));
         	}
         }
-=======
-    	//System.out.println("run");
-    	//RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(4));
-    		Robot.driveTrain.getJoy();
-    	
->>>>>>> master
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -55,27 +55,27 @@ public class ElevatorAdjust extends Command {
     		//positionTalon = RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) - 100;
     		//RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)-100);
     		//if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) > positionTalon-20 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)< positionTalon+20){
-    			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(5));
+    			
     		//}
     	/*}else if(RobotMap.elevatorElevatorLim2.get()/*The bottom limitSwitch){
     		RobotMap.elevatorElevatorTalon.stopMotor();
     		positionTalon = RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) + 100;
     		RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)+100);
     		if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) > positionTalon-20 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)< positionTalon+20){
-    			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getY());
-    		}
+    			*/RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(3));}
+    		/*}
     	}else{
     		if(Robot.logitech){
     			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getY());
     		}
-    	}*/
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return false;
-    }
+    }*/
 
     // Called once after isFinished returns true
     @Override
@@ -87,4 +87,10 @@ public class ElevatorAdjust extends Command {
     @Override
     protected void interrupted() {
     }
+
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

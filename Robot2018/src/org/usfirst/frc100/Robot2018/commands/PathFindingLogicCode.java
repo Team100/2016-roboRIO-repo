@@ -1,4 +1,4 @@
-package org.usfirst.frc100.Robot2018.commands;
+/*package org.usfirst.frc100.Robot2018.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,7 +11,7 @@ import jaci.pathfinder.Waypoint;
  * 
  * This may be refered to as the initializing controller
  * 
- */
+ *
 public class PathFindingLogicCode extends Command {
 	
     int index;
@@ -28,7 +28,7 @@ public class PathFindingLogicCode extends Command {
     	
     	/**
     	 * Waypoint array that gets pushed in to the logic controller
-    	 */
+    	 *
     	Waypoint [] points = new Waypoint[]{
         		//right
         			new Waypoint(0.0,0.0,0.0),
@@ -45,7 +45,7 @@ public class PathFindingLogicCode extends Command {
     	
     	/**
     	 * This is how we set the PathFinding logic with the points
-    	 */
+    	 *
     	PathFindingLogicProcessor logicProcessor = new PathFindingLogicProcessor(points);
     	logicProcessor.start();
     }
@@ -68,3 +68,4 @@ public class PathFindingLogicCode extends Command {
     protected void interrupted() {
     }
 }
+*/

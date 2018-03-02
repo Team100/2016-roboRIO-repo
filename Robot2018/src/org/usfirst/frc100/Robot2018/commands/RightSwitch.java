@@ -1,7 +1,7 @@
 package org.usfirst.frc100.Robot2018.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-
+import edu.wpi.first.wpilibj.command.*;
+import org.usfirst.frc100.Robot2018.commands.*;
 /**
  *
  */
@@ -9,7 +9,7 @@ public class RightSwitch extends CommandGroup {
 
     public RightSwitch() {
     	
-    	addSequential(new PathFinding());
+    	//addSequential(new PathFinding());
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

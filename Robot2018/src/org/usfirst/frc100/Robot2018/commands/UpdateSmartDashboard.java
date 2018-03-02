@@ -38,7 +38,7 @@ public class UpdateSmartDashboard extends Command {
     	////////////////////////////////BRAKE////////////////////////////////
     	
     	SmartDashboard.putData("Auto mode", Robot.chooser);
-        SmartDashboard.putData("TestPathFinder", new PathFindingLogicCode());
+        //SmartDashboard.putData("TestPathFinder", new PathFindingLogicCode());
     	
     	SmartDashboard.putNumber("posDeadzone",CalculateDeadzone.posDeadzone);
 		SmartDashboard.putNumber("negDeadzone", CalculateDeadzone.negDeadzone);
@@ -59,8 +59,8 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("ClimbDown", new ClimbDown());
         SmartDashboard.putData("ClimbAdjust", new ClimbAdjust());
         SmartDashboard.putData("WinchWind", new WinchWind());
-        SmartDashboard.putData("JSON", new ParseJSONFile());
-        System.out.println("SMART DASHBOARD UPDATE============================");
+       // SmartDashboard.putData("JSON", new ParseJSONFile());
+      //  System.out.println("SMART DASHBOARD UPDATE============================");
         /**
          * All of the NavX Stuff
          */
@@ -90,7 +90,7 @@ public class UpdateSmartDashboard extends Command {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    //protected void initialize() {
     	/**
     	 * Here is where we are publishing everything to {@code SmartDashboard}
     	 * Make sure that all of your updates are put here. It will make everything easier in the long run!
@@ -101,7 +101,7 @@ public class UpdateSmartDashboard extends Command {
 
         
        
-    }
+    //}
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {

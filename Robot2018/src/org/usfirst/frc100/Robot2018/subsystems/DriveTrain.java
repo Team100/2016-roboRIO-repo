@@ -131,7 +131,7 @@ public class DriveTrain extends Subsystem {
         	if(Robot.ArcadeDrive){
         		differentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), OI.operator.getRawAxis(4));
         	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
+        		RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(3));
         	}
         	
         }

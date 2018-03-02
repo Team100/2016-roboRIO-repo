@@ -11,6 +11,8 @@
 
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc100.Robot2018.Robot;
 import org.usfirst.frc100.Robot2018.RobotMap;
 
@@ -50,13 +52,13 @@ public class ElevatorDown extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	if(RobotMap.elevatorElevatorLim1.get()){
-			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
-    	}else{
+//    	if(RobotMap.elevatorElevatorLim1.get()){
+	//		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
+    	//}else{
     		if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) < 5 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) > -5){
     			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
     			done = true;
-    		}
+    		//}
     	}
     }
 

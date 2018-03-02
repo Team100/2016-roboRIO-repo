@@ -1,4 +1,4 @@
-package org.usfirst.frc100.Robot2018.commands;
+/*package org.usfirst.frc100.Robot2018.commands;
 
 import org.usfirst.frc100.Robot2018.subsystems.DriveTrain;
 
@@ -8,7 +8,7 @@ import jaci.pathfinder.Waypoint;
 
 /**
  *
- */
+ *
 public class TurnTo extends Command {
 	private static float degreeOffset;
 	private static float currentHead;
@@ -50,4 +50,4 @@ public class TurnTo extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-}
+}*/
