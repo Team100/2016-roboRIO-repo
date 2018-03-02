@@ -89,6 +89,7 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         if (!prefs.containsKey("elevA")) {
         	prefs.putDouble("elevA", 0);
         }
+
         
         
         
@@ -99,41 +100,9 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 
 	@Override
 	public void teleopInit() {
-		m_motor1.set(ControlMode.MotionMagic, 1000);
-		m_motor2.set(ControlMode.PercentOutput, 0);
-		//m_motor2.set(ControlMode.PercentOutput, 0);
-		m_motor3.set(ControlMode.Follower, kMotorPort1);
-		
-		m_motor2.follow(m_motor1);
-		m_motor3.follow(m_motor1);
-		m_motor2.setInverted(false);
-		m_motor3.setInverted(true);
-		
-	}
 
-	@Override
-	public void disabledPeriodic() {
-		reportSensors();
-	}
+		
 
-	@Override
-	public void teleopPeriodic() {
-		double val = m_joystick.getY() / 4.0; // limit to +/- 3 Volts
-		m_motor1.set(ControlMode.PercentOutput, val);
-		//m_motor2.set(ControlMode.PercentOutput, val);
-		
-		//m_motor2.set(ControlMode.Follower, kMotorPort1);
-		//m_motor3.set(ControlMode.Follower, kMotorPort1);
-		//m_motor3.set(ControlMode.PercentOutput, val);
-		
-		m_motor2.follow(m_motor1);
-		m_motor3.follow(m_motor1);
-		
-		reportSensors();
-		SmartDashboard.putNumber("Motor1", m_motor1.getMotorOutputPercent());
-		SmartDashboard.putNumber("Motor2",  m_motor2.getMotorOutputPercent());
-		SmartDashboard.putNumber("Motor3", m_motor3.getMotorOutputPercent());
-		
 		P = Robot.prefs.getDouble("P",
 				0);
     	I = Robot.prefs.getDouble("I",
@@ -147,6 +116,52 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
     	m_motor1.config_kI(0, I, 10);
     	m_motor1.config_kD(0, D, 10);
     	m_motor1.config_kF(0, A, 10);
+       m_motor1.configClosedloopRamp(1, 0);
+       m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+       m_motor1.selectProfileSlot(0, 0);
+
+
+       m_motor1.setSensorPhase(false);
+       m_motor1.configNominalOutputForward(0.0f, 0);
+       m_motor1.configNominalOutputReverse(0.0f, 0);
+       m_motor1.configMotionAcceleration(10, 0);
+       m_motor1.configMotionCruiseVelocity(10, 0);
+       m_motor1.configPeakOutputForward(.2, 0);
+       m_motor1.configPeakOutputReverse(.2, 0);
+       m_motor1.setInverted(false);
+		m_motor2.setInverted(false);
+		m_motor3.setInverted(true);
+		m_motor1.set(ControlMode.MotionMagic, 1000);
+		m_motor2.follow(m_motor1);
+		m_motor3.follow(m_motor1);
+
+		
+	}
+
+	@Override
+	public void disabledPeriodic() {
+		reportSensors();
+	}
+
+	@Override
+	public void teleopPeriodic() {
+//		double val = m_joystick.getY() / 4.0; // limit to +/- 3 Volts
+//		m_motor1.set(ControlMode.PercentOutput, val);
+		//m_motor2.set(ControlMode.PercentOutput, val);
+		
+		//m_motor2.set(ControlMode.Follower, kMotorPort1);
+		//m_motor3.set(ControlMode.Follower, kMotorPort1);
+		//m_motor3.set(ControlMode.PercentOutput, val);
+//		
+//		m_motor2.follow(m_motor1);
+//		m_motor3.follow(m_motor1);
+		
+		reportSensors();
+		SmartDashboard.putNumber("Motor1", m_motor1.getMotorOutputPercent());
+		SmartDashboard.putNumber("Motor2",  m_motor2.getMotorOutputPercent());
+		SmartDashboard.putNumber("Motor3", m_motor3.getMotorOutputPercent());
+		
+
     	
     	
     	m_motor1.set(ControlMode.MotionMagic, 1000);
