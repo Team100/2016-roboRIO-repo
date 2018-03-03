@@ -110,7 +110,8 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
     	D = Robot.prefs.getDouble("D",
 				0);
     	A = Robot.prefs.getDouble("A",             //.45
-				0);
+				0.2);
+    	Robot.prefs.putDouble("A", 0.2);
 
     	m_motor1.config_kP(0, P, 10);
     	m_motor1.config_kI(0, I, 10);
@@ -128,12 +129,17 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
        m_motor1.configMotionCruiseVelocity(10, 0);
        m_motor1.configPeakOutputForward(.2, 0);
        m_motor1.configPeakOutputReverse(.2, 0);
+       
+		m_motor1.setSelectedSensorPosition(0, 0, 10);
+
        m_motor1.setInverted(false);
 		m_motor2.setInverted(false);
 		m_motor3.setInverted(true);
-		m_motor1.set(ControlMode.MotionMagic, 1000);
+		m_motor1.set(ControlMode.MotionMagic, 1000); //This is showing as MotionMagic in WebDash
+		
 		m_motor2.follow(m_motor1);
 		m_motor3.follow(m_motor1);
+		System.out.println("LOADED");
 
 		
 	}
@@ -161,10 +167,6 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		SmartDashboard.putNumber("Motor2",  m_motor2.getMotorOutputPercent());
 		SmartDashboard.putNumber("Motor3", m_motor3.getMotorOutputPercent());
 		
-
-    	
-    	
-    	m_motor1.set(ControlMode.MotionMagic, 1000);
 		
 	
 	}
