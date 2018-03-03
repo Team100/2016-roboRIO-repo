@@ -17,8 +17,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Victor;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -36,7 +35,7 @@ public class Robot extends IterativeRobot {
 	private double P;
 	private double I;
 	private double D;
-	private double A;
+	private double F;
 	
 	private static final int kMotorPort1 = 5;
 	private static final int kMotorPort2 = 6;
@@ -52,12 +51,12 @@ public class Robot extends IterativeRobot {
 	private VictorSPX m_motor2;
 	private VictorSPX m_motor3;
 	private Joystick m_joystick;
-	//private Encoder m_encoder;
+	private Encoder m_encoder;
 	private DigitalInput m_high_limit;
 	private DigitalInput m_low_limit;
 	
-	//private DigitalInput m_EncoderA;
-	//private DigitalInput m_EncoderB;
+	private DigitalInput m_EncoderA;
+	private DigitalInput m_EncoderB;
 
 	@Override
 	public void robotInit() {
@@ -69,10 +68,10 @@ public class Robot extends IterativeRobot {
 		
 		m_high_limit = new DigitalInput(kHighLimitPort);
 		m_low_limit = new DigitalInput(kLowLimitPort);
-		//m_EncoderA = new DigitalInput(kEncoderAPort);
-		//m_EncoderB = new DigitalInput(kEncoderBPort);
+		m_EncoderA = new DigitalInput(kEncoderAPort);
+		m_EncoderB = new DigitalInput(kEncoderBPort);
 		
-		//m_encoder = new Encoder(m_EncoderA, m_EncoderB);
+		m_encoder = new Encoder(m_EncoderA, m_EncoderB);
 		m_joystick = new Joystick(kJoystickPort);
 		
 m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -86,8 +85,8 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         if (!prefs.containsKey("elevD")) {
         	prefs.putDouble("elevD", 0);
         }
-        if (!prefs.containsKey("elevA")) {
-        	prefs.putDouble("elevA", 0);
+        if (!prefs.containsKey("elevF")) {
+        	prefs.putDouble("elevF", 3.1);
         }
 
         
@@ -109,15 +108,15 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 				0);
     	D = Robot.prefs.getDouble("D",
 				0);
-    	A = Robot.prefs.getDouble("A",             //.45
+    	F = Robot.prefs.getDouble("F",             //.45
 				0.2);
-    	Robot.prefs.putDouble("A", 0.2);
+    	Robot.prefs.putDouble("F", 3.1);
 
     	m_motor1.config_kP(0, P, 10);
     	m_motor1.config_kI(0, I, 10);
     	m_motor1.config_kD(0, D, 10);
-    	m_motor1.config_kF(0, A, 10);
-       m_motor1.configClosedloopRamp(1, 0);
+    	m_motor1.config_kF(0, F, 10);
+      // m_motor1.configClosedloopRamp(1, 0);
        m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
        m_motor1.selectProfileSlot(0, 0);
 
@@ -125,17 +124,19 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
        m_motor1.setSensorPhase(false);
        m_motor1.configNominalOutputForward(0.0f, 0);
        m_motor1.configNominalOutputReverse(0.0f, 0);
-       m_motor1.configMotionAcceleration(10, 0);
-       m_motor1.configMotionCruiseVelocity(10, 0);
+       m_motor1.configMotionAcceleration(5, 0);
+       m_motor1.configMotionCruiseVelocity(30, 0);
        m_motor1.configPeakOutputForward(.2, 0);
-       m_motor1.configPeakOutputReverse(.2, 0);
+       m_motor1.configPeakOutputReverse(-.2, 0);
+       m_motor1.configClosedLoopPeakOutput(0, .2, 0);
        
 		m_motor1.setSelectedSensorPosition(0, 0, 10);
 
        m_motor1.setInverted(false);
 		m_motor2.setInverted(false);
 		m_motor3.setInverted(true);
-		m_motor1.set(ControlMode.MotionMagic, 1000); //This is showing as MotionMagic in WebDash
+		m_motor1.set(ControlMode.MotionMagic, 200); //This is showing as MotionMagic in WebDash
+		//m_motor1.set(ControlMode.PercentOutput, 0);
 		
 		m_motor2.follow(m_motor1);
 		m_motor3.follow(m_motor1);
@@ -172,13 +173,16 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 	}
 	
 	void reportSensors() {
-		//SmartDashboard.putNumber("Encoder", m_encoder.getRaw());
+		SmartDashboard.putNumber("Encoder", m_encoder.getRaw());
 		SmartDashboard.putBoolean("High Limit", m_high_limit.get());
 		SmartDashboard.putBoolean("LowLimit", m_low_limit.get());
 		
-		//SmartDashboard.putBoolean("EncA", m_EncoderA.get());
-		//SmartDashboard.putBoolean("EncB", m_EncoderB.get());
+		SmartDashboard.putBoolean("EncA", m_EncoderA.get());
+		SmartDashboard.putBoolean("EncB", m_EncoderB.get());
 		SmartDashboard.putNumber("TalonENC", m_motor1.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("TalonVEL", m_motor1.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Position Error", m_motor1.getClosedLoopError(0));
+		SmartDashboard.putNumber("TrajectoryPosition", m_motor1.getActiveTrajectoryPosition());
+		SmartDashboard.putNumber("Trajector Velocity",  m_motor1.getActiveTrajectoryVelocity());
 	}
 }
