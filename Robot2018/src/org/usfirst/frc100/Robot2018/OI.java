@@ -72,7 +72,7 @@ public class OI {
 
     public JoystickButton BS; 
     public JoystickButton BR; 
-    
+    public JoystickButton leftS;
     public JoystickButton updatePrefs;
     
 
@@ -129,14 +129,15 @@ public class OI {
         //button2 = new JoystickButton(operator, 1);
         //button2.whenPressed(new PathFinding("BS"));
         BS = new JoystickButton(operator, 5); 
-        BS.whenPressed(new PathFinding("BS"));
-        BR = new JoystickButton(operator, 6); 
-        BR.whenPressed(new PathFinding("BackR"));
+        BS.whenPressed(new PathFinding("Left"));
+        BR = new JoystickButton(operator, 8); 
+        BR.whenPressed(new GoToAngle(20));
 
         button1 = new JoystickButton(leftController, 1);
         rightS = new JoystickButton(operator, 3);
         rightS.whenPressed(new PathFinding("Right"));
-
+        leftS = new JoystickButton(operator, 6); 
+        leftS.whenPressed(new PathFinding("ScaleTurnLeft"));
     
 
         // SmartDashboard Buttons

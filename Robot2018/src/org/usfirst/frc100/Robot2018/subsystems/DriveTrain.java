@@ -24,6 +24,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -77,12 +81,57 @@ public class DriveTrain extends Subsystem {
     public static float navxQuaternionX;
     public static float navxQuaternionY;
     public static float navxQuaternionZ;
+    public double angleP; 
+    public double angleI; 
+    public double angleD;
+    public PIDController pidAngle;
     
     
     /**
      * Variable for the NAVX IMU
      */
-    
+    public DriveTrain(){
+		if (!Robot.prefs.containsKey("angleP")) {
+			Robot.prefs.putDouble("angleP", 1);
+		}
+		if (!Robot.prefs.containsKey("angleI")) {
+			Robot.prefs.putDouble("angleI", 0);
+		}
+		if (!Robot.prefs.containsKey("angleD")) {
+			Robot.prefs.putDouble("angleD", 0);
+		}
+
+		angleP = Robot.prefs.getDouble("angleP",
+				.01);
+		angleI = Robot.prefs.getDouble("angleI",
+				0);
+		angleD = Robot.prefs.getDouble("angleD",
+				0);
+    	pidAngle = new PIDController(angleP,  angleI, angleD, new PIDSource() { // .58823
+			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+
+			public double pidGet() {
+				return Robot.ahrs.getAngle();
+			}
+
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				m_sourceType = pidSource;
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return m_sourceType;
+			}
+		}, new PIDOutput() {
+			public void pidWrite(double d) {
+				
+				RobotMap.driveTrainRightFollower.pidWrite(d);///2);
+				RobotMap.driveTrainLeftMaster.pidWrite(d);///2);
+				
+			}
+		});
+    }
     
     @Override
     public void initDefaultCommand() {

@@ -19,15 +19,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ParseJSONFile extends Command {
 
-    public ParseJSONFile() {
+	public String a;
+	JSONObject myParsedData;
+    public ParseJSONFile(String s) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	SmartDashboard.putBoolean("RunningParseJSON", true);
     	System.out.println("===================================================================================================");
     	String myJSONData = "{\"name\":\"test\",\"value\":\"ABC\"}";// Put the JSON data into this string
     	JSONParser parser = new JSONParser();
-        JSONObject myParsedData = new JSONObject();
-        
+    	myParsedData = new JSONObject();
+        a = s;
         /**
          * Tests if data is valid otherwise throws nil object
          */
@@ -48,9 +50,17 @@ public class ParseJSONFile extends Command {
          */
         String myStringData = myParsedData.toString();
         System.out.println(myStringData); //  Change 'name' to ideal 
+        myParsedData.get("test");
         SmartDashboard.putString("JSONResult", myStringData);
         SmartDashboard.putBoolean("RunningParseJSON", false);
+        
     }
+    
+    public String Data(){
+    	return  myParsedData.get(a).toString();
+    }
+    
+   
 
     // Called just before this Command runs the first time
     protected void initialize() {

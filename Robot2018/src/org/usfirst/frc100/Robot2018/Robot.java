@@ -145,7 +145,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);
        // SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         
-        SmartDashboard.putData("JSON", new ParseJSONFile());
+        //SmartDashboard.putData("JSON", new ParseJSONFile());
 
 
         Logitech = false;
@@ -184,7 +184,7 @@ public class Robot extends TimedRobot {
         	prefs.putDouble("FL", 0.3);
         }
         
-        new ParseJSONFile();
+      //  new ParseJSONFile();
     }
 
     /**
@@ -203,7 +203,16 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-
+    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	if(gameData.length() > 0)
+        {
+    		if(gameData.charAt(0) == 'L')
+    		{
+	//Put left auto code here
+    		} else {
+	//Put right auto code here
+    		}
+        }
     	
     	
 
@@ -223,6 +232,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
     	 ahrs.reset();
+    	 Robot.driveTrain.pidAngle.reset();
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -236,12 +246,14 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
     	//System.out.println("running");
+    	SmartDashboard.putNumber("NavX-angle", ahrs.getAngle());
         SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         SmartDashboard.putData("Henry test path", new PathFinding());
         Logitech = prefs.getBoolean("Logitech", false);
         ArcadeDrive = prefs.getBoolean("ArcadeDrive", false);
         SmartDashboard.putBoolean("ArcadeDrive On", ArcadeDrive);
         SmartDashboard.putBoolean("Logitech On", Logitech);
+        SmartDashboard.putNumber("Position", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("velR", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)/1508.965) * 3.28);///4096/1.5);
         SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)/1508.965) *3.28);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
