@@ -92,9 +92,11 @@ public class RobotMap {
         driveTrainRightMaster.setSensorPhase(false); 
         driveTrainLeftMaster.setSensorPhase(true); 
         
-        driveTrainLeftFollower.set(ControlMode.Follower, 2);
+        driveTrainRightFollower.follow(driveTrainRightMaster);
+        driveTrainLeftFollower.follow(driveTrainLeftMaster);
+       // driveTrainLeftFollower.set(ControlMode.Follower, 2);
         // driveTrainTalonSRX2.setInverted(true);
-        driveTrainRightFollower.set(ControlMode.Follower, 1);
+        //driveTrainRightFollower.set(ControlMode.Follower, 1);
         
 
         driveTrainShiftingSolenoid = new Solenoid(0,0);
