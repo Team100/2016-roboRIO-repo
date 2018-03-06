@@ -107,7 +107,7 @@ public class RobotMap {
         
         elevatorElevatorTalon = new WPI_TalonSRX(5);
         elevatorElevatorTalon.setInverted(true);
-        elevatorElevatorTalon.setSensorPhase(true);
+        elevatorElevatorTalon.setSensorPhase(false);
 
         //elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
         
