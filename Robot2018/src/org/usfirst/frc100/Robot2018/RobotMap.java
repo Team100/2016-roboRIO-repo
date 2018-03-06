@@ -103,10 +103,15 @@ public class RobotMap {
         LiveWindow.addActuator("DriveTrain", "ShiftingSolenoid", driveTrainShiftingSolenoid);
         
         elevatorElevatorTalon = new WPI_TalonSRX(5);
+        elevatorElevatorTalon.setSensorPhase(false);
         elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        elevatorElevatorTalon.setInverted(false);
         
-        elevatorElevatorVictor = new WPI_VictorSPX(7);        
+        elevatorElevatorVictor = new WPI_VictorSPX(7);  
+        elevatorElevatorVictor.setInverted(true);
         elevatorElevatorVictor2 = new WPI_VictorSPX(6);
+        elevatorElevatorVictor.setInverted(false);
+
         
         
 

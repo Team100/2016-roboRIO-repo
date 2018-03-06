@@ -61,6 +61,10 @@ public class Robot extends TimedRobot {
     double I; 
     double D; 
     double F;
+    double PE; 
+    double IE; 
+    double DE; 
+    double FE;
     double time;
     double PL; 
     double IL; 
@@ -87,7 +91,27 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-    	
+    	if (!prefs.containsKey("PE")) {
+        	prefs.putDouble("PE", 0.01);
+        }
+        if (!prefs.containsKey("IE")) {
+        	prefs.putDouble("IE", 0);
+        }
+        if (!prefs.containsKey("DE")) {
+        	prefs.putDouble("DE", 0);
+        }
+        if (!prefs.containsKey("FE")) {
+        	prefs.putDouble("FE", 3.1);
+        }
+    	RobotMap.elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        RobotMap.elevatorElevatorTalon.selectProfileSlot(0, 0);
+        RobotMap.elevatorElevatorTalon.setSensorPhase(false);
+        RobotMap.elevatorElevatorTalon.configNominalOutputForward(0.0f, 0);
+        RobotMap.elevatorElevatorTalon.configNominalOutputReverse(0.0f, 0);
+        RobotMap.elevatorElevatorTalon.configMotionAcceleration(60, 0);
+        RobotMap.elevatorElevatorTalon.configMotionCruiseVelocity(30, 0);
+        RobotMap.elevatorElevatorTalon.configPeakOutputForward(.2, 0);
+        RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-.2, 0);
     	SmartDashboard.putBoolean("EnteredTestPathFinding", false);
     	SmartDashboard.putBoolean("PathFindingParsing", false);
     	SmartDashboard.putBoolean("SetControlMode", false);
@@ -232,6 +256,14 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
     	 ahrs.reset();
+    	 PE = Robot.prefs.getDouble("PE",
+ 				0);
+     	IE = Robot.prefs.getDouble("IE",
+ 				0);
+     	DE = Robot.prefs.getDouble("DE",
+ 				0);
+     	FE = Robot.prefs.getDouble("FE",             //.45
+ 				0.2);
     	 Robot.driveTrain.pidAngle.reset();
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
@@ -258,6 +290,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)/1508.965) *3.28);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();
+        RobotMap.elevatorElevatorTalon.config_kP(0, PE, 0);
+    	RobotMap.elevatorElevatorTalon.config_kI(0, IE, 0);
+    	RobotMap.elevatorElevatorTalon.config_kD(0, DE, 0);
+    	RobotMap.elevatorElevatorTalon.config_kF(0, FE, 0);
 
         //Scheduler.getInstance().run();
 
