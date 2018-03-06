@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
-
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -44,7 +44,8 @@ public class Robot extends IterativeRobot {
 	private static final int kLowLimitPort = 1;
 	private static final int kEncoderAPort = 2;
 	private static final int kEncoderBPort = 3;
-	
+	private static JoystickButton zero;
+	private static JoystickButton twoHundred;
 	private static final int kJoystickPort = 0;
 
 	private TalonSRX m_motor1;
@@ -63,8 +64,8 @@ public class Robot extends IterativeRobot {
 		m_motor1 = new TalonSRX (kMotorPort1);
 		m_motor2 = new VictorSPX (kMotorPort2);
 		m_motor3 = new VictorSPX (kMotorPort3);
-		
-		
+		zero = new JoystickButton(m_joystick,1);
+		twoHundred = new JoystickButton(m_joystick, 2);
 		
 		m_high_limit = new DigitalInput(kHighLimitPort);
 		m_low_limit = new DigitalInput(kLowLimitPort);
@@ -74,26 +75,21 @@ public class Robot extends IterativeRobot {
 		m_encoder = new Encoder(m_EncoderA, m_EncoderB);
 		m_joystick = new Joystick(kJoystickPort);
 		
-m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		
-		if (!prefs.containsKey("elevP")) {
-        	prefs.putDouble("elevP", 0.01);
+		if (!prefs.containsKey("P")) {
+        	prefs.putDouble("P", 0.01);
         }
-        if (!prefs.containsKey("elevI")) {
-        	prefs.putDouble("elevI", 0);
+        if (!prefs.containsKey("I")) {
+        	prefs.putDouble("I", 0);
         }
-        if (!prefs.containsKey("elevD")) {
-        	prefs.putDouble("elevD", 0);
+        if (!prefs.containsKey("D")) {
+        	prefs.putDouble("D", 0);
         }
-        if (!prefs.containsKey("elevF")) {
-        	prefs.putDouble("elevF", 3.1);
+        if (!prefs.containsKey("F")) {
+        	prefs.putDouble("F", 3.1);
         }
 
-        
-        
-        
-		
-		
 		
 	}
 
@@ -112,10 +108,10 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 				0.2);
     	Robot.prefs.putDouble("F", 3.1);
 
-    	m_motor1.config_kP(0, P, 10);
-    	m_motor1.config_kI(0, I, 10);
-    	m_motor1.config_kD(0, D, 10);
-    	m_motor1.config_kF(0, F, 10);
+    	m_motor1.config_kP(0, P, 0);
+    	m_motor1.config_kI(0, I, 0);
+    	m_motor1.config_kD(0, D, 0);
+    	m_motor1.config_kF(0, F, 0);
       // m_motor1.configClosedloopRamp(1, 0);
        m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
        m_motor1.selectProfileSlot(0, 0);
@@ -124,18 +120,18 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
        m_motor1.setSensorPhase(false);
        m_motor1.configNominalOutputForward(0.0f, 0);
        m_motor1.configNominalOutputReverse(0.0f, 0);
-       m_motor1.configMotionAcceleration(5, 0);
+       m_motor1.configMotionAcceleration(60, 0);
        m_motor1.configMotionCruiseVelocity(30, 0);
        m_motor1.configPeakOutputForward(.2, 0);
        m_motor1.configPeakOutputReverse(-.2, 0);
-       m_motor1.configClosedLoopPeakOutput(0, .2, 0);
+       //m_motor1.configClosedLoopPeakOutput(0, .2, 0);
        
 		m_motor1.setSelectedSensorPosition(0, 0, 10);
 
        m_motor1.setInverted(false);
 		m_motor2.setInverted(false);
 		m_motor3.setInverted(true);
-		m_motor1.set(ControlMode.MotionMagic, 200); //This is showing as MotionMagic in WebDash
+		m_motor1.set(ControlMode.MotionMagic, 0); //This is showing as MotionMagic in WebDash
 		//m_motor1.set(ControlMode.PercentOutput, 0);
 		
 		m_motor2.follow(m_motor1);
@@ -151,9 +147,14 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 	}
 
 	@Override
-	public void teleopPeriodic() {
-//		double val = m_joystick.getY() / 4.0; // limit to +/- 3 Volts
-//		m_motor1.set(ControlMode.PercentOutput, val);
+	public void teleopPeriodic(){
+		double val = m_joystick.getY() / 4.0; // limit to +/- 3 Volts
+		if(m_joystick.getRawButtonPressed(1)){
+			gotoTwoHundred();
+		}else if(m_joystick.getRawButtonPressed(2)){
+			gotoZero();
+		}
+	//	m_motor1.set(ControlMode.PercentOutput, val);
 		//m_motor2.set(ControlMode.PercentOutput, val);
 		
 		//m_motor2.set(ControlMode.Follower, kMotorPort1);
@@ -169,6 +170,8 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		SmartDashboard.putNumber("Motor3", m_motor3.getMotorOutputPercent());
 		
 		
+		
+		
 	
 	}
 	
@@ -181,8 +184,17 @@ m_motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		SmartDashboard.putBoolean("EncB", m_EncoderB.get());
 		SmartDashboard.putNumber("TalonENC", m_motor1.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("TalonVEL", m_motor1.getSelectedSensorVelocity(0));
+		
 		SmartDashboard.putNumber("Position Error", m_motor1.getClosedLoopError(0));
 		SmartDashboard.putNumber("TrajectoryPosition", m_motor1.getActiveTrajectoryPosition());
 		SmartDashboard.putNumber("Trajector Velocity",  m_motor1.getActiveTrajectoryVelocity());
+		
+	}
+	void gotoTwoHundred() {
+		m_motor1.set(ControlMode.MotionMagic, 200);
+	}
+	
+	void gotoZero() {
+		m_motor1.set(ControlMode.MotionMagic, 0);
 	}
 }
