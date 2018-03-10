@@ -383,7 +383,7 @@ public class PathFinding extends Command {
     	RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (setL*leftM)*1508.965);
 		
     	//path.length
-    	if(counter < leftT.length()){             
+    	if(counter < path.length){             
     		counter++; 
     	} 
     	
