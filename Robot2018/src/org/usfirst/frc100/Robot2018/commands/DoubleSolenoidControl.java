@@ -67,7 +67,7 @@ public class DoubleSolenoidControl extends Command {
     	}else{
     		if(OI.operator.getRawButtonPressed(9)){
     			RobotMap.DuoSol.set(DoubleSolenoid.Value.kForward);
-    			new passTime();
+    			new passTime(1);
     			RobotMap.DuoSol.set(DoubleSolenoid.Value.kOff);
     		}else if(OI.operator.getRawButtonPressed(10)){
     			if(RobotMap.DuoSol.get() == Value.kReverse){

@@ -10,6 +10,9 @@ public class RightSwitch extends CommandGroup {
     public RightSwitch() {
     	
     	addSequential(new PathFinding("Right"));
+    	addSequential(new ElevatorUp());
+    	addSequential(new IntakeOut());
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

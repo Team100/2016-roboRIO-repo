@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class passTime extends Command {
 	public static double timePassed;
-	private boolean done;
-    public passTime() {
+	public static boolean done;
+	double t;
+    public passTime(double time) {
+    	t = time;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -23,7 +25,8 @@ public class passTime extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(System.nanoTime() ==  timePassed + 1000*(Robot.RequestedTime)) {
+    	//Robot.RequestedTime
+    	if(System.nanoTime() ==  timePassed + 1000*(t)) {
     		done = true;
     	}
     	
