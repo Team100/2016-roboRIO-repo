@@ -106,14 +106,15 @@ public class RobotMap {
         elevatorElevatorTalon = new WPI_TalonSRX(5);
         elevatorElevatorTalon.setSensorPhase(false);
         elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        elevatorElevatorTalon.setInverted(false);
+        elevatorElevatorTalon.setInverted(true);
         
-        elevatorElevatorVictor = new WPI_VictorSPX(7);  
+        elevatorElevatorVictor = new WPI_VictorSPX(6);  
         elevatorElevatorVictor.follow(elevatorElevatorTalon);
-        elevatorElevatorVictor.setInverted(true);
-        elevatorElevatorVictor2 = new WPI_VictorSPX(6);
         elevatorElevatorVictor.setInverted(false);
+        elevatorElevatorVictor2 = new WPI_VictorSPX(7);
+        elevatorElevatorVictor2.setInverted(false);
         elevatorElevatorVictor2.follow(elevatorElevatorTalon);
+        
         elevatorElevatorLim1 = new DigitalInput(0);
         LiveWindow.addSensor("Elevator", "ElevatorLim1", elevatorElevatorLim1);
         
