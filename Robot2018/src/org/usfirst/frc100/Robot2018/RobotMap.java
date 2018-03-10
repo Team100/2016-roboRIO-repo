@@ -179,9 +179,6 @@ public class RobotMap {
         
         miscCompressor = new Compressor(0);
         
-
-        miscCompressor = new Compressor(0);
-
         LiveWindow.addActuator("Misc", "Compressor", miscCompressor);
         DuoSol = new DoubleSolenoid(2,3); 
 		

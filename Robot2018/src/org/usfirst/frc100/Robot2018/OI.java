@@ -70,6 +70,9 @@ public class OI {
     public JoystickButton button12;
     public JoystickButton rightS; 
 
+    public JoystickButton buttona;
+    public JoystickButton buttonb;
+    
     public JoystickButton BS; 
     public JoystickButton BR; 
     public JoystickButton leftS;
@@ -108,6 +111,12 @@ public class OI {
         button10.whenPressed(new ClimbDown());
         button9 = new JoystickButton(leftController, 9);
         button9.whenPressed(new ClimbUp());
+        
+        buttona = new JoystickButton(operator, 7);
+        buttona.whenPressed(new ElevatorArmUp());        
+        buttonb = new JoystickButton(operator, 8);
+        buttonb.whenPressed(new ElevatorArmDown());
+        
         button8 = new JoystickButton(operator, 5);
         button8.whenPressed(new IntakeOut());
         button7 = new JoystickButton(operator, 6);
