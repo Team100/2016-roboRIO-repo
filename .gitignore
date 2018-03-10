@@ -16,3 +16,5 @@ hs_err_pid*
 .repository
 build
 bin
+/.recommenders/
+Robot2018/.classpath

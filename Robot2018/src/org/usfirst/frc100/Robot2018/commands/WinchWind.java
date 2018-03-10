@@ -12,6 +12,9 @@
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Robot2018.Robot;
+import org.usfirst.frc100.Robot2018.RobotMap;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 /**
  *
@@ -43,6 +46,8 @@ public class WinchWind extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+    	RobotMap.winchWinchTalon.set(ControlMode.PercentOutput, 1);
+    	System.out.println("ENTERED WinchWind.execute()");
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -54,11 +59,13 @@ public class WinchWind extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+    	RobotMap.winchWinchTalon.set(ControlMode.PercentOutput, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+    	end();
     }
 }

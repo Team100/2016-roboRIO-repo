@@ -167,7 +167,7 @@ public class DriveTrain extends Subsystem {
         }else if(OI.operator.getRawButtonPressed(2)) {
         	RobotMap.driveTrainShiftingSolenoid.set(false);
         }
-        if(Robot.Logitech){
+        if(!Robot.Logitech){
         	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
         	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
         	if(Robot.ArcadeDrive){

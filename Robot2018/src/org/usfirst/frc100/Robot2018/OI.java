@@ -70,6 +70,9 @@ public class OI {
     public JoystickButton button12;
     public JoystickButton rightS; 
 
+    public JoystickButton buttona;
+    public JoystickButton buttonb;
+    
     public JoystickButton BS; 
     public JoystickButton BR; 
     public JoystickButton leftS;
@@ -108,7 +111,7 @@ public class OI {
       	binary3 = new JoystickButton(autoModeSelect, 3);
       	binary4 = new JoystickButton(autoModeSelect, 4);
 
-        button12 = new JoystickButton(leftController, 12);
+        button12 = new JoystickButton(operator, 1);
         button12.whileHeld(new WinchWind());
         button11 = new JoystickButton(leftController, 11);
         button11.whileHeld(new ClimbAdjust());
@@ -116,36 +119,46 @@ public class OI {
         button10.whenPressed(new ClimbDown());
         button9 = new JoystickButton(leftController, 9);
         button9.whenPressed(new ClimbUp());
-        button8 = new JoystickButton(leftController, 8);
-        button8.whileHeld(new IntakeOut());
-        button7 = new JoystickButton(leftController, 7);
+        
+        buttona = new JoystickButton(operator, 7);
+        buttona.whenPressed(new ElevatorArmUp());        
+        buttonb = new JoystickButton(operator, 8);
+        buttonb.whenPressed(new ElevatorArmDown());
+        
+        button8 = new JoystickButton(operator, 5);
+        button8.whenPressed(new IntakeOut());
+        button7 = new JoystickButton(operator, 6);
         button7.whileHeld(new IntakeIn());
         button6 = new JoystickButton(leftController, 6);
         button6.whileHeld(new ElevatorAdjust());
-        button5 = new JoystickButton(leftController, 1);
-        button5.whenPressed(new ElevatorArmDown());
-        button4 = new JoystickButton(leftController, 4);
-        button4.whenPressed(new ElevatorArmUp());
-        
+        button5 = new JoystickButton(operator, 3);
+        button5.whenPressed(new ElevatorDown());
+        button4 = new JoystickButton(operator, 4);
+        button4.whenPressed(new ElevatorUp());
         button3 = new JoystickButton(operator, 2);
         button3.whenPressed(new shiftOff());
+        /*
         button2 = new JoystickButton(operator, 1);
         button2.whenPressed(new shift());
-        
-       /*
-        BS = new JoystickButton(operator, 5); 
-        BS.whenPressed(new PathFinding("Left"));
-        BR = new JoystickButton(operator, 8); 
-        BR.whenPressed(new GoToAngle(20));
+
+        */
+       // button3 = new JoystickButton(operator, 2);
+        //button3.whenPressed(new PathFinding("BackR"));
+        //button2 = new JoystickButton(operator, 1);
+        //button2.whenPressed(new PathFinding("BS"));
+        //BS = new JoystickButton(operator, 5); 
+        //BS.whenPressed(new PathFinding("Left"));
+        //BR = new JoystickButton(operator, 8); 
+        //BR.whenPressed(new GoToAngle(20));
 
         button1 = new JoystickButton(leftController, 1);
-        rightS = new JoystickButton(operator, 3);
-        rightS.whenPressed(new PathFinding("Right"));
-        leftS = new JoystickButton(operator, 6); 
-        leftS.whenPressed(new PathFinding("ScaleTurnLeft"));
-    */
-        rightS = new JoystickButton(operator, 3);
-        rightS.whenPressed(new PathFinding("Straight"));
+        //rightS = new JoystickButton(operator, 3);
+        //rightS.whenPressed(new PathFinding("Right"));
+        //leftS = new JoystickButton(operator, 6); 
+        //leftS.whenPressed(new PathFinding("ScaleTurnLeft"));
+    
+
+
         // SmartDashboard Buttons
         new UpdateSmartDashboard();
       //  button1.whenPressed(new shift());

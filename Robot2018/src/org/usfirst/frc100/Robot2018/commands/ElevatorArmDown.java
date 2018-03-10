@@ -41,12 +41,9 @@ public class ElevatorArmDown extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	done = false;
-    	if(RobotMap.elevatorArmSolenoid.get()){
-    		RobotMap.elevatorArmSolenoid.set(false);
-    	}else{
-    		RobotMap.elevatorArmSolenoid.set(true);
-    	}
+    	done=false;
+    	RobotMap.elevatorArmSolenoid.set(true);
+
     }
 
     // Called repeatedly when this Command is scheduled to run
