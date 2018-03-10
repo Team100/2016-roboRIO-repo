@@ -138,20 +138,25 @@ public class RobotMap {
         LiveWindow.addSensor("ElevatorArm", "EleArmLim2", elevatorArmEleArmLim2);
         
         intakeIntakeMaster = new WPI_TalonSRX(8);
-        
+        intakeIntakeMaster.setInverted(false);
+        intakeIntakeMaster.configPeakOutputForward(0.15, 0);
+        intakeIntakeMaster.configPeakOutputReverse(-0.15, 0);
         
         intakeIntakeFollower = new WPI_VictorSPX(9);
-        
+        intakeIntakeFollower.setInverted(false);
         intakeIntakeFollower.follow(intakeIntakeMaster);
         
         intakeIntakeDigSensorb = new DigitalInput(4);
         LiveWindow.addSensor("Intake", "IntakeDigSensor b", intakeIntakeDigSensorb);
         
         climbingArmClimbingTalon = new WPI_TalonSRX(10);
-        
+        climbingArmClimbingTalon.setInverted(false);
+        climbingArmClimbingTalon.configPeakOutputForward(0.2, 0);
+        climbingArmClimbingTalon.configPeakOutputReverse(-0.2, 0);
         
         climbingArmClimbLim1 = new DigitalInput(5);
         LiveWindow.addSensor("ClimbingArm", "ClimbLim1", climbingArmClimbLim1);
+       
         
         climbingArmClimbLim2 = new DigitalInput(6);
         LiveWindow.addSensor("ClimbingArm", "ClimbLim2", climbingArmClimbLim2);
