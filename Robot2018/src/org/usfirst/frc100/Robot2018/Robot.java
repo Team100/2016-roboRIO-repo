@@ -223,6 +223,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+    
     	gameData = DriverStation.getInstance().getGameSpecificMessage();
     	int modeSelect = oi.selector();
     	if(gameData.length() > 0)
@@ -273,6 +274,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+    	new PathFinding("ScaleS").start();
     	 ahrs.reset();
     	 Robot.driveTrain.pidAngle.reset();
     	 EP= prefs.getDouble("EP", 0);

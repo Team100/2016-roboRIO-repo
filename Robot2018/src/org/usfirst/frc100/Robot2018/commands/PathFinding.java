@@ -85,7 +85,7 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
-    	if(mode == "Straight")
+    	if(mode == "null")
     		fastCalculation = false;
     	else
     		fastCalculation = true;
@@ -175,20 +175,32 @@ public class PathFinding extends Command {
     	if (mode == "ScaleSR"){
     		
     		Robot.ahrs.reset();
-    		
+    		path = paths.returnTurnRightScaleST();
     		points = new Waypoint[]{
     			new Waypoint(0, 0, 0), 
     			new Waypoint(5.8, 0, 0),
-    			new Waypoint(7.49, -.15, 0),
+    			new Waypoint(7.49, -.15, Pathfinder.d2r(0)),
+    		}; 
+    	}
+    	if (mode == "ScaleS"){
+    		
+    		Robot.ahrs.reset();
+    		path = paths.returnStraightScale();
+    		points = new Waypoint[]{
+    			new Waypoint(0, 0, 0), 
+    		//	new Waypoint(5.8, 0, 0),
+    			new Waypoint(7.49, 0, Pathfinder.d2r(0)),
     		}; 
     	}
     	
+    	
     	if(mode == "ScaleSL"){
     		Robot.ahrs.reset();
+    		path = paths.returnTurnLeftScaleST();
     		points = new Waypoint[]{
     				new Waypoint(0, 0, 0), 
     				new Waypoint(5.8, 0, 0),
-        			new Waypoint(7.49, .15, 0),	
+        			new Waypoint(7.49, .15, Pathfinder.d2r(0)),	
     		};
     	}
     	
@@ -229,6 +241,7 @@ public class PathFinding extends Command {
         			new Waypoint(2.7, 0, 0),//Pathfinder.d2r(0)), 
         			
         		}; 
+    		System.out.println("run");
     	}
     	
     	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);
@@ -281,13 +294,13 @@ public class PathFinding extends Command {
     	rightT = modifier.getRightTrajectory();
     	
     		
-    	/*
+    	
     	for (int i = 0; i < trajectory.length(); i++) {
     		Trajectory.Segment segL = leftT.get(i); 
     		Trajectory.Segment segR = (rightT.get(i));
     		System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
     	  
-    	}  */
+    	}  
     	
     	}
     	

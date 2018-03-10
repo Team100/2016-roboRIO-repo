@@ -11,6 +11,7 @@
 
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc100.Robot2018.OI;
 import org.usfirst.frc100.Robot2018.Robot;
@@ -50,32 +51,13 @@ public class ElevatorAdjust extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	//if(RobotMap.elevatorElevatorLim1.get()/*The top limitSwitch*/){
-    		//RobotMap.elevatorElevatorTalon.stopMotor();
-    		//positionTalon = RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) - 100;
-    		//RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)-100);
-    		//if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) > positionTalon-20 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)< positionTalon+20){
-    			
-    		//}
-    	/*}else if(RobotMap.elevatorElevatorLim2.get()/*The bottom limitSwitch){
-    		RobotMap.elevatorElevatorTalon.stopMotor();
-    		positionTalon = RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) + 100;
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)+100);
-    		if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) > positionTalon-20 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0)< positionTalon+20){
-    			*/RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(3));}
-    		/*}
-    	}else{
-    		if(Robot.logitech){
-    			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getY());
-    		}
-    	}
+    	RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3));
+    	SmartDashboard.putNumber("ElevatorMaster",RobotMap.elevatorElevatorTalon.getMotorOutputPercent());
+    	SmartDashboard.putNumber("ElevatorSlave1",RobotMap.elevatorElevatorVictor.getMotorOutputPercent());
+    	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
     }
     // Make this return true when this Command no longer needs to run execute()
-    @Override
-    protected boolean isFinished() {
-        return false;
-    }*/
-
+    
     // Called once after isFinished returns true
     @Override
     protected void end() {

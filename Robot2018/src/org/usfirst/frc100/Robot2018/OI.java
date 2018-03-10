@@ -144,7 +144,8 @@ public class OI {
         leftS = new JoystickButton(operator, 6); 
         leftS.whenPressed(new PathFinding("ScaleTurnLeft"));
     */
-
+        rightS = new JoystickButton(operator, 3);
+        rightS.whenPressed(new PathFinding("Straight"));
         // SmartDashboard Buttons
         new UpdateSmartDashboard();
       //  button1.whenPressed(new shift());
