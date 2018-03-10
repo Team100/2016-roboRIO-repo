@@ -57,7 +57,7 @@ public class RobotMap {
     public static DigitalInput climbingArmClimbLim2;
     public static WPI_TalonSRX winchWinchTalon;
     public static WPI_VictorSPX winchWinchVictor1;
-    public static WPI_VictorSPX winchWinchVictor2;
+    
     public static Compressor miscCompressor;
 	public static DoubleSolenoid DuoSol;
 	
@@ -108,6 +108,7 @@ public class RobotMap {
         elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         elevatorElevatorTalon.setInverted(false);
         
+        
         elevatorElevatorVictor = new WPI_VictorSPX(6);  
         elevatorElevatorVictor.follow(elevatorElevatorTalon);
         elevatorElevatorVictor.setInverted(false);
@@ -156,16 +157,17 @@ public class RobotMap {
         LiveWindow.addSensor("ClimbingArm", "ClimbLim2", climbingArmClimbLim2);
         
         winchWinchTalon = new WPI_TalonSRX(11);
-        
+        winchWinchTalon.configPeakOutputForward(0.15, 0);
+        winchWinchTalon.configPeakOutputReverse(0, 0);
         
         winchWinchVictor1 = new WPI_VictorSPX(12);
-        winchWinchVictor1.setInverted(false);
-        winchWinchTalon.follow(winchWinchTalon);
-        
+        winchWinchVictor1.setInverted(true);
+        winchWinchVictor1.follow(winchWinchTalon);
+        /*
         winchWinchVictor2 = new WPI_VictorSPX(13);
         winchWinchVictor2.setInverted(false);
         winchWinchVictor2.follow(winchWinchTalon);
-        
+        */
         
 
         
