@@ -100,7 +100,7 @@ public class OI {
         
         leftController = new Joystick(0);
 
-        button12 = new JoystickButton(leftController, 12);
+        button12 = new JoystickButton(leftController, 2);
         button12.whileHeld(new WinchWind());
         button11 = new JoystickButton(leftController, 11);
         button11.whileHeld(new ClimbAdjust());

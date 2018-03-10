@@ -159,10 +159,13 @@ public class RobotMap {
         
         
         winchWinchVictor1 = new WPI_VictorSPX(12);
+        winchWinchVictor1.setInverted(false);
         winchWinchTalon.follow(winchWinchTalon);
         
         winchWinchVictor2 = new WPI_VictorSPX(13);
+        winchWinchVictor2.setInverted(false);
         winchWinchVictor2.follow(winchWinchTalon);
+        
         
 
         
