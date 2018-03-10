@@ -274,7 +274,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-    	new PathFinding("ScaleS").start();
+    	//new PathFinding("ScaleS").start();
     	 ahrs.reset();
     	 Robot.driveTrain.pidAngle.reset();
     	 EP= prefs.getDouble("EP", 0);

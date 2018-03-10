@@ -359,6 +359,7 @@ public class PathFinding extends Command {
 				setR = segR.velocity-turn; //rightV - turn;
 	    	 	setL = segL.velocity+turn; //leftV + turn;
 				} 
+    		} else {
     			double leftV = path[counter][0];
         		double rightV = path[counter][1]; 
         		double angle = path[counter][2];
@@ -366,8 +367,8 @@ public class PathFinding extends Command {
             	
     	 		double angleDifference1 = Pathfinder.boundHalfDegrees(desired_heading1 - (Robot.ahrs.getAngle()*-1));
     	 		double turn1 = .87* (-1.0/80.0) * angleDifference1;
-        		setR = rightV - turn;
-        		setL = leftV + turn;
+        		setR = rightV - turn1;
+        		setL = leftV + turn1;
         		
     		}
 			//this corrects the robots heading
