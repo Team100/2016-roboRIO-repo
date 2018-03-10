@@ -46,6 +46,7 @@ public class PathFinding extends Command {
 	//FalconPathPlanner path;
 	Timer timer; 
 	//boolean finish; 
+	boolean fastCalculation;
 	int countZero;
 	EncoderFollower left; 
 	EncoderFollower right; 
@@ -84,6 +85,10 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
+    	if(mode == "Straight")
+    		fastCalculation = false;
+    	else
+    		fastCalculation = true;
     }
 
     // Called just before this Command runs the first time
@@ -217,6 +222,15 @@ public class PathFinding extends Command {
     		}; 
     	}
     	
+    	if(mode == "Straight"){
+    		points = new Waypoint[]{
+        			new Waypoint(0, 0, 0), 
+        			//new Waypoint(3.556, 0, 0), 
+        			new Waypoint(2.7, 0, 0),//Pathfinder.d2r(0)), 
+        			
+        		}; 
+    	}
+    	
     	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);
     	//Everything needs to be in meters
     	//Keep in mind that computing paths takes a long time 
@@ -258,6 +272,7 @@ public class PathFinding extends Command {
 
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1  
     	//change this to 20 ms                                  1.7 1.7   2.5 2.5
+    	if(!fastCalculation){
     	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.07/2.2, 5.1/2.2, 20);//17.08);
     	//Keep first and second arguement the same, the refresh rate in seconds, max vel, max acc, max jerk);
     	trajectory = Pathfinder.generate(points, config);
@@ -266,15 +281,15 @@ public class PathFinding extends Command {
     	rightT = modifier.getRightTrajectory();
     	
     		
-    	
+    	/*
     	for (int i = 0; i < trajectory.length(); i++) {
     		Trajectory.Segment segL = leftT.get(i); 
     		Trajectory.Segment segR = (rightT.get(i));
     		System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
     	  
-    	} 
+    	}  */
     	
-    
+    	}
     	
     	timer = new Timer();
     	timer.schedule(new TimerTask() {
@@ -300,7 +315,8 @@ public class PathFinding extends Command {
     public void parseArray(){
     	//SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
 	    //SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
-   
+    		double setR = 0; 
+    		double setL = 0;
     		SmartDashboard.putNumber("Pp", p);
     		SmartDashboard.putNumber("Pi", i);
     		SmartDashboard.putNumber("Pd", d);
@@ -309,9 +325,9 @@ public class PathFinding extends Command {
     		SmartDashboard.putNumber("Pil", i2);
     		SmartDashboard.putNumber("Pdl", d2);
     		SmartDashboard.putNumber("Pfl", a2);
-    	
-    		Trajectory.Segment segL = leftT.get(counter); //get left and right profile data
-    		Trajectory.Segment segR = (rightT.get(counter)); //access each point and count every iterations
+    		if(!fastCalculation){
+    			Trajectory.Segment segL = leftT.get(counter); //get left and right profile data
+    			Trajectory.Segment segR = (rightT.get(counter)); //access each point and count every iterations
     	/*
     		double leftV = path[counter][0];
     		double rightV = path[counter][1]; 
@@ -319,21 +335,29 @@ public class PathFinding extends Command {
     	*/
 	    
     	//double gyro_heading = RobotMap.gyro.getAngle();//... your gyro code here ...    // Assuming the gyro is giving a value in degrees
-        	double desired_heading = Pathfinder.r2d(segR.heading); //angle // Should also be in degrees
+        		double desired_heading = Pathfinder.r2d(segR.heading); //angle // Should also be in degrees
     	
-    	 	double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - (Robot.ahrs.getAngle()*-1));
-			double turn = .87* (-1.0/80.0) * angleDifference; //.80 tweek the first value for how the robot tracks angle
-		//	setLeftMotors(l + turn);
-			//setRightMotors(r - turn);
-			double setR; 
-			double setL;
-			if(mode == "BackR" ){
+    	 		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - (Robot.ahrs.getAngle()*-1));
+    	 		double turn = .87* (-1.0/80.0) * angleDifference; //.80 tweek the first value for how the robot tracks angle
+				if(mode == "BackR" ){
 				 setR = segR.velocity; //rightV
 		    	 setL = segL.velocity; //leftV
-			} else {
-			 setR = segR.velocity-turn; //rightV - turn;
-	    	 setL = segL.velocity+turn; //leftV + turn;
-			} //this corrects the robots heading
+				} else {
+				setR = segR.velocity-turn; //rightV - turn;
+	    	 	setL = segL.velocity+turn; //leftV + turn;
+				} 
+    			double leftV = path[counter][0];
+        		double rightV = path[counter][1]; 
+        		double angle = path[counter][2];
+        		double desired_heading1 = Pathfinder.r2d(angle); //angle // Should also be in degrees
+            	
+    	 		double angleDifference1 = Pathfinder.boundHalfDegrees(desired_heading1 - (Robot.ahrs.getAngle()*-1));
+    	 		double turn1 = .87* (-1.0/80.0) * angleDifference1;
+        		setR = rightV - turn;
+        		setL = leftV + turn;
+        		
+    		}
+			//this corrects the robots heading
 			//you can access a lot of data at each segment index like heading, acc, velocity etc
     	//double setR = segR.velocity;
     	//double setL = segL.velocity;

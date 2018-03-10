@@ -163,7 +163,7 @@ public class Robot extends TimedRobot {
 		prefs.putBoolean("Logitech", false);
 
         if (!prefs.containsKey("P")) {
-        	prefs.putDouble("P", 0.01);
+        	prefs.putDouble("P", 0.009);
         }
         if (!prefs.containsKey("I")) {
         	prefs.putDouble("I", 0);
@@ -176,7 +176,7 @@ public class Robot extends TimedRobot {
         }
         
         if (!prefs.containsKey("PL")) {
-        	prefs.putDouble("PL", 0.01);
+        	prefs.putDouble("PL", 0.009);
         }
         if (!prefs.containsKey("IL")) {
         	prefs.putDouble("IL", 0);
@@ -185,11 +185,11 @@ public class Robot extends TimedRobot {
         	prefs.putDouble("DL", 0);
         }
         if (!prefs.containsKey("F")) {
-        	prefs.putDouble("F", 0.3);
+        	prefs.putDouble("F", 0.39);
         }
         if (!prefs.containsKey("FL")) {
 
-        	prefs.putDouble("FL", 0.3);
+        	prefs.putDouble("FL", 0.39);
         }
         if (!prefs.containsKey("EP")) {
         	prefs.putDouble("EP", 0.01);
@@ -224,14 +224,36 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
     	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	int modeSelect = oi.selector();
     	if(gameData.length() > 0)
         {
-    		if(gameData.charAt(0) == 'L')
-    		{
-	//Put left auto code here
-    		} else {
-	//Put right auto code here
+    		switch(modeSelect){
+    		case 0:  //mid point switch
+    			if(gameData.charAt(0) == 'L')
+        		{
+    				new TurnLeftScale().start();
+        		} else if(gameData.charAt(0) == 'R') {
+        			new RightSwitch().start();
+        		}
+    			break;
+    		case 1: //start right side for scale
+    			if(gameData.charAt(1) == 'R'){
+    				new StraightScaleLeft().start();
+    			} else if(gameData.charAt(1) == 'L'){
+    				new TurnLeftScale().start();
+    			}
+    			break; //HOGARTH
+    		case 2:  //start left side for scale
+    			if(gameData.charAt(1) == 'L'){
+    				new StraightScaleRight().start();
+    			} else if(gameData.charAt(1) == 'R'){
+    				new TurnRightScale().start();
+    			}
+    			break;
+    		case 3: 
+    			new StraightSwitch().start();
     		}
+    		
         }
     	
     	
