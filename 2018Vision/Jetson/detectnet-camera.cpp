@@ -67,6 +67,8 @@ using namespace std;
 
 #define PI 3.14159265359
 
+#define X_OFFSET 8 // inches
+
 string ip = "192.168.2.101";
 string roborio_ip = "roborio-100-frc.local";
 
@@ -108,7 +110,10 @@ int main( int argc, char** argv )
 	double distFromCenter = 0.0;
 	bool calibrationMode = false;
 	ifstream coorFile;
+
 	double zero_pixel = 0.0;
+	double zero_x_pixel = 0.0;
+
 	double calibrationDistance = 0.0;
 	ofstream outputFile;
 	double CAMERA_POS_HEIGHT = 110.5;
@@ -157,7 +162,8 @@ int main( int argc, char** argv )
     			printf("Unable to open file coordinate.txt");
     			exit(1);   // call system to stop
 		}
-		coorFile >> zero_pixel;
+		coorFile >> zero_pixel;	// y
+		coorFile >> zero_x_pixel; // x
 	}
 	
 	printf("\nCalibration distance: %f\nCAM_POS_HEIGHT: %f", calibrationDistance, CAMERA_POS_HEIGHT);
@@ -310,9 +316,12 @@ int main( int argc, char** argv )
 				
 				if (calibrationMode == true){
 					zero_pixel = abs(bb[3]-atan(CAMERA_POS_HEIGHT/calibrationDistance)*CAMERA_HEIGHT/FOV_Y_RADS2);
-					outputFile << zero_pixel;
+					outputFile << zero_pixel; //y 
+					outputFile << endl;
+					outputFile << bb[0] + (bb[2]-bb[0])/2;
 					outputFile.close();
-					printf("Zero pixel: %f\n", zero_pixel);
+					printf("Zero x pixel: %f\n", bb[0] + (bb[2]-bb[0])/2);
+					printf("Zero y pixel: %f\n", zero_pixel);
 					//printf("TestDistance: %f\n", CAMERA_POS_HEIGHT/(tan((abs(bb[3]-zero_pixel))*FOV_Y_RADS2/CAMERA_HEIGHT))/2.54);
 					//break;
 				} else {
@@ -332,10 +341,11 @@ int main( int argc, char** argv )
 				
 					//distFromCenter = abs((CAMERA_WIDTH/2)-((bb[2]-bb[0])/2)+bb[0]);
 					printf("*************************************************************\n");
-					difference = 320-centerPixel[0];
-					diffInRadians = (FOV_X_RADS*1.1/CAMERA_WIDTH)*difference;
-
-					angle = atan2(diffInRadians, distance2/2.54)*-18000/PI;
+					difference = centerPixel[0]-zero_x_pixel;
+					diffInRadians = (FOV_X_RADS/CAMERA_WIDTH)*difference;
+					
+					angle = diffInRadians*180/PI;
+					//angle = atan2(diffInRadians, distance2/2.54)*-18000/PI;
 
 					printf("\nDif in pix: %f", difference);
 					printf("/nDiff in degrees: %f", diffInRadians*180/PI);
@@ -343,7 +353,7 @@ int main( int argc, char** argv )
 					//angle = atan((-180*FOV_X_RADS/(CAMERA_WIDTH*PI))*(320-bb[0]-(bb[0]+bb[2])/2)/distance2);
 					//angle = (atan((CAMERA_WIDTH/FOV_Y_RADS)*(320-(bb[0]+(bb[2]-bb[0])/2))/(distance2*2.54))*(-180/PI));
 					//displacementX = (FOV_X_RADS/CAMERA_WIDTH)*(320-bb[0]-(bb[0]+bb[2])/2);
-					displacementX = (tan(angle*PI/180)*distance2*1.15*2.54/10); //inches
+					displacementX = (tan(diffInRadians*1.107)*distance2*1.94*2.54/10); //inches
 					angle = sqrt(distance2*distance2+displacementX*displacementX); 
 					printf("\nAngle1: %f \nDisplacementX: %f in.\n", angle, displacementX);
 					/*angle = (atan(0.95*(320-(bb[0]+(bb[2]-bb[0])/2))/(distance2*2.54))*(-180/PI));
