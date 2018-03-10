@@ -84,6 +84,10 @@ public class OI {
     public Joystick autoModeSelect;
     public static Joystick operator;
     public static JoystickButton shiftoff;
+    public JoystickButton binary1;
+ 	public JoystickButton binary2;
+ 	public JoystickButton binary3;
+ 	public JoystickButton binary4;
 
 
 
@@ -99,6 +103,10 @@ public class OI {
         rightStick = new Joystick(1);
         
         leftController = new Joystick(0);
+        binary1 = new JoystickButton(autoModeSelect, 1);
+      	binary2 = new JoystickButton(autoModeSelect, 2);
+      	binary3 = new JoystickButton(autoModeSelect, 3);
+      	binary4 = new JoystickButton(autoModeSelect, 4);
 
         button12 = new JoystickButton(leftController, 12);
         button12.whileHeld(new WinchWind());
@@ -124,10 +132,7 @@ public class OI {
         button2 = new JoystickButton(operator, 1);
         button2.whenPressed(new shift());
         
-       // button3 = new JoystickButton(operator, 2);
-        //button3.whenPressed(new PathFinding("BackR"));
-        //button2 = new JoystickButton(operator, 1);
-        //button2.whenPressed(new PathFinding("BS"));
+       /*
         BS = new JoystickButton(operator, 5); 
         BS.whenPressed(new PathFinding("Left"));
         BR = new JoystickButton(operator, 8); 
@@ -138,8 +143,9 @@ public class OI {
         rightS.whenPressed(new PathFinding("Right"));
         leftS = new JoystickButton(operator, 6); 
         leftS.whenPressed(new PathFinding("ScaleTurnLeft"));
-    
-
+    */
+        rightS = new JoystickButton(operator, 3);
+        rightS.whenPressed(new PathFinding("Straight"));
         // SmartDashboard Buttons
         new UpdateSmartDashboard();
       //  button1.whenPressed(new shift());
@@ -161,6 +167,27 @@ public class OI {
     public Joystick getRightStick() {
         return rightStick;
     }
+    public int selector() {
+		boolean bin1Val = binary1.get();
+		boolean bin2Val = binary2.get();
+		boolean bin3Val = binary3.get();
+		boolean bin4Val = binary4.get();
+		int total = 0;
+
+		if (bin1Val) {
+			total += 1;
+		}
+		if (bin2Val) {
+			total += 2;
+		}
+		if (bin3Val) {
+			total += 4;
+		}
+		if (bin4Val) {
+			total += 8;
+		}
+		return total;
+	}
 
     public Joystick getAutoModeSelect() {
         return autoModeSelect;
