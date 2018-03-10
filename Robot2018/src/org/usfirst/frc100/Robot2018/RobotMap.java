@@ -111,6 +111,8 @@ public class RobotMap {
         
         elevatorElevatorVictor = new WPI_VictorSPX(7);        
         elevatorElevatorVictor2 = new WPI_VictorSPX(6);
+        elevatorElevatorVictor.follow(elevatorElevatorTalon);
+        elevatorElevatorVictor2.follow(elevatorElevatorTalon);
         
         
 
@@ -139,9 +141,8 @@ public class RobotMap {
         LiveWindow.addSensor("ElevatorArm", "EleArmLim2", elevatorArmEleArmLim2);
         
         intakeIntakeMaster = new WPI_TalonSRX(8);
-        
-        
         intakeIntakeFollower = new WPI_VictorSPX(9);
+        intakeIntakeFollower.follow(intakeIntakeMaster);
         
         
         intakeIntakeDigSensorb = new DigitalInput(4);
@@ -157,10 +158,8 @@ public class RobotMap {
         LiveWindow.addSensor("ClimbingArm", "ClimbLim2", climbingArmClimbLim2);
         
         winchWinchTalon = new WPI_TalonSRX(11);
-        
-        
         winchWinchVictor1 = new WPI_VictorSPX(12);
-        
+        winchWinchVictor1.follow(winchWinchTalon);
         
         //winchWinchVictor2 = new WPI_VictorSPX(13);
         
