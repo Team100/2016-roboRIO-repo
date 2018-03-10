@@ -11,6 +11,8 @@
 
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc100.Robot2018.Robot;
 import org.usfirst.frc100.Robot2018.RobotMap;
 
