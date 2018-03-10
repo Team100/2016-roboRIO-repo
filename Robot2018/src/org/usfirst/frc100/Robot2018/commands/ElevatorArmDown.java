@@ -12,6 +12,7 @@
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Robot2018.Robot;
+import org.usfirst.frc100.Robot2018.RobotMap;
 
 /**
  *
@@ -38,6 +39,7 @@ public class ElevatorArmDown extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+    	RobotMap.elevatorArmSolenoid.set(true);
     }
 
     // Called repeatedly when this Command is scheduled to run

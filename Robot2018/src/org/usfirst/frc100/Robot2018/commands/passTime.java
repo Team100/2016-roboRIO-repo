@@ -1,5 +1,8 @@
 package org.usfirst.frc100.Robot2018.commands;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.usfirst.frc100.Robot2018.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,23 +12,44 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class passTime extends Command {
 	public static double timePassed;
-	private boolean done;
-    public passTime() {
+	public static boolean done;
+	public static long StartTime;
+	public static double t;
+	public static boolean transfer;
+	Timer timer;
+    public passTime(double t){
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	transfer = false;
+    	done=false;
+    	StartTime = System.currentTimeMillis();
+    	timer = new Timer();
+    	timer.schedule(new TimerTask() {
+    	    @Override
+    	    public void run() {
+    	    	run();
+    	    }
+    	  }, 0, 20);
     	//taking the time in nanoseconds and  converting to milliseconds 
-    	timePassed = System.nanoTime()/1000000;
+    	//timePassed = System.nanoTime()/1000000000;
+    }
+    protected void run(){
+    	if((System.currentTimeMillis() - StartTime)/1000 > (2)) {
+    		done = true;
+    	}
+    	System.out.println("running");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(System.nanoTime() ==  timePassed + 1000*(10)) {
-    		done = true;
-    	}
+    	//if(System.nanoTime()/1000000000 >=  timePassed + (t)) {
+    		//done = true;
+    	//}
+    
     	
     }
 
@@ -36,6 +60,8 @@ public class passTime extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	transfer = true;
+    	
     }
 
     // Called when another command which requires one or more of the same

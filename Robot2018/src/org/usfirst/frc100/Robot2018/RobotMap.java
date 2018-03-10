@@ -50,7 +50,7 @@ public class RobotMap {
     public static DigitalInput elevatorArmEleArmLim1;
     public static DigitalInput elevatorArmEleArmLim2;
     public static WPI_TalonSRX intakeIntakeMaster;
-    public static WPI_VictorSPX intakeIntakeFollower;
+    public static WPI_TalonSRX intakeIntakeFollower; //TODO CHANGE TO VICTOR SPX
     public static DigitalInput intakeIntakeDigSensorb;
     public static WPI_TalonSRX climbingArmClimbingTalon;
     public static DigitalInput climbingArmClimbLim1;
@@ -142,8 +142,8 @@ public class RobotMap {
         intakeIntakeMaster.configPeakOutputForward(0.15, 0);
         intakeIntakeMaster.configPeakOutputReverse(-0.15, 0);
         
-        intakeIntakeFollower = new WPI_VictorSPX(9);
-        intakeIntakeFollower.setInverted(false);
+        intakeIntakeFollower = new WPI_TalonSRX(9);
+        intakeIntakeFollower.setInverted(true);
         intakeIntakeFollower.follow(intakeIntakeMaster);
         
         intakeIntakeDigSensorb = new DigitalInput(4);
@@ -165,7 +165,7 @@ public class RobotMap {
         winchWinchTalon.configPeakOutputForward(0.15, 0);
         winchWinchTalon.configPeakOutputReverse(0, 0);
         
-        winchWinchVictor1 = new WPI_VictorSPX(12);
+        winchWinchVictor1 = new WPI_VictorSPX(12);         //TODO CHANGE TO VICTOR SPX
         winchWinchVictor1.setInverted(true);
         winchWinchVictor1.follow(winchWinchTalon);
         /*

@@ -108,9 +108,9 @@ public class OI {
         button10.whenPressed(new ClimbDown());
         button9 = new JoystickButton(leftController, 9);
         button9.whenPressed(new ClimbUp());
-        button8 = new JoystickButton(leftController, 8);
-        button8.whileHeld(new IntakeOut());
-        button7 = new JoystickButton(leftController, 7);
+        button8 = new JoystickButton(operator, 5);
+        button8.whenPressed(new IntakeOut());
+        button7 = new JoystickButton(operator, 6);
         button7.whileHeld(new IntakeIn());
         button6 = new JoystickButton(leftController, 6);
         button6.whileHeld(new ElevatorAdjust());
