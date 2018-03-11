@@ -98,7 +98,7 @@ public class RobotMap {
         driveTrainRightFollower.follow(driveTrainRightMaster);
         
 
-        driveTrainShiftingSolenoid = new Solenoid(0,0);
+        driveTrainShiftingSolenoid = new Solenoid(0,1);
 
 
         LiveWindow.addActuator("DriveTrain", "ShiftingSolenoid", driveTrainShiftingSolenoid);
@@ -127,7 +127,7 @@ public class RobotMap {
       //  LiveWindow.addActuator("ElevatorArm", "Solenoid", elevatorArmSolenoid);
        // 
 
-        elevatorArmSolenoid = new Solenoid(0, 1);
+        elevatorArmSolenoid = new Solenoid(0, 0);
         LiveWindow.addActuator("ElevatorArm", "Solenoid", elevatorArmSolenoid);
         
 
@@ -139,8 +139,8 @@ public class RobotMap {
         
         intakeIntakeMaster = new WPI_TalonSRX(8);
         intakeIntakeMaster.setInverted(false);
-        intakeIntakeMaster.configPeakOutputForward(0.15, 0);
-        intakeIntakeMaster.configPeakOutputReverse(-0.15, 0);
+        intakeIntakeMaster.configPeakOutputForward(0.75, 0);
+        intakeIntakeMaster.configPeakOutputReverse(-0.75, 0);
         
         intakeIntakeFollower = new WPI_TalonSRX(9);
         intakeIntakeFollower.setInverted(true);

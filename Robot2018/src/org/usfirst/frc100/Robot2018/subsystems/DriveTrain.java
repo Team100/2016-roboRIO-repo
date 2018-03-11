@@ -126,9 +126,9 @@ public class DriveTrain extends Subsystem {
 		}, new PIDOutput() {
 			public void pidWrite(double d) {
 				
-				RobotMap.driveTrainRightFollower.pidWrite(d);///2);
+				RobotMap.driveTrainRightMaster.pidWrite(d);///2);
 				RobotMap.driveTrainLeftMaster.pidWrite(d);///2);
-				
+				System.out.println("IN PID OUTPUT");
 			}
 		});
     }
