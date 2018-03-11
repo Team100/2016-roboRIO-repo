@@ -1,7 +1,9 @@
 package org.usfirst.frc100.Robot2018.commands;
 
+
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 import org.usfirst.frc100.Robot2018.Robot;
 
@@ -18,6 +20,7 @@ public class passTime extends Command {
 	public static boolean transfer;
 	Timer timer;
     public passTime(double t){
+
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -42,6 +45,7 @@ public class passTime extends Command {
     		done = true;
     	}
     	System.out.println("running");
+
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -50,6 +54,7 @@ public class passTime extends Command {
     		//done = true;
     	//}
     
+
     	
     }
 
@@ -60,8 +65,10 @@ public class passTime extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+
     	transfer = true;
     	
+
     }
 
     // Called when another command which requires one or more of the same
@@ -69,3 +76,4 @@ public class passTime extends Command {
     protected void interrupted() {
     }
 }
+
