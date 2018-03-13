@@ -313,7 +313,7 @@ public class Robot extends TimedRobot {
  				0);
      	FE = Robot.prefs.getDouble("FE",             //.45
  				0.2);
-    	 Robot.driveTrain.pidAngle.reset();
+    	 //Robot.driveTrain.pidAngle.reset();
     	 EP= prefs.getDouble("EP", 0);
      	 EI= prefs.getDouble("EI", 0);
      	 ED= prefs.getDouble("ED", 0);

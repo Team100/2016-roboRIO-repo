@@ -160,30 +160,29 @@ public class DriveTrain extends Subsystem {
     	if(OI.leftController.getRawButton(1)){
         	RobotMap.driveTrainShiftingSolenoid.set(true);
         }else if(OI.rightStick.getRawButton(1)) {
-        	
         	RobotMap.driveTrainShiftingSolenoid.set(false);
         }else if(OI.operator.getRawButtonPressed(1)) {
         	RobotMap.driveTrainShiftingSolenoid.set(true);
         }else if(OI.operator.getRawButtonPressed(2)) {
         	RobotMap.driveTrainShiftingSolenoid.set(false);
         }
-        if(!Robot.Logitech){
-        	SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
-        	SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
-        	if(Robot.ArcadeDrive){
-        		RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), OI.rightStick.getX());
-        	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
-        	}
-        }else{
-        	SmartDashboard.putNumber("Logitech", OI.operator.getY());
-        	if(Robot.ArcadeDrive){
-        		differentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), OI.operator.getRawAxis(4));
-        	}else{
-        		RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
-        	}
+        //if(!Robot.Logitech){
+        	//SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
+        	//SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
+        	//if(Robot.ArcadeDrive){
+        RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), OI.rightStick.getX());
+        	//}else{
+        		//RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
+        	//}
+        //}else{
+        	//SmartDashboard.putNumber("Logitech", OI.operator.getY());
+        	//if(Robot.ArcadeDrive){
+        		//differentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), OI.operator.getRawAxis(4));
+        	//}else{
+        		//RobotMap.driveTrainDifferentialDrive1.tankDrive(-OI.operator.getRawAxis(1), -OI.operator.getRawAxis(5));
+        	//}
         	
-        }
+        //}
      //   System.out.println("running");
     }
     

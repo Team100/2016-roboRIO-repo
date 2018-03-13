@@ -128,13 +128,13 @@ public class OI {
         button8 = new JoystickButton(operator, 5);
         button8.whenPressed(new IntakeOut());
         button7 = new JoystickButton(operator, 6);
-        button7.whileHeld(new IntakeIn());
+        //button7.whileHeld(new IntakeIn());
         button6 = new JoystickButton(leftController, 6);
         button6.whileHeld(new ElevatorAdjust());
         button5 = new JoystickButton(operator, 3);
-        //button5.whenPressed(new ElevatorDown());
+        button5.whenPressed(new ElevatorDown());
         button4 = new JoystickButton(operator, 4);
-        //button4.whenPressed(new ElevatorUp());
+        button4.whenPressed(new ElevatorUp());
         
         button3 = new JoystickButton(operator, 2);
         button3.whenPressed(new shiftOff());
