@@ -69,7 +69,7 @@ public class OI {
         joystick1 = new Joystick(0);
         
         tryMotionMagic = new JoystickButton(joystick1, 3);
-        tryMotionMagic.whenPressed(new PathFinding());
+        tryMotionMagic.whenPressed(new PathFinding("Right"));
         updatePref = new JoystickButton(joystick1, 2);
         updatePref.whenPressed(new updatePreferneces());
         //tryCommand = new JoystickButton(joystick1, 1);
