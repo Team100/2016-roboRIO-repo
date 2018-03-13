@@ -75,13 +75,14 @@ public class ElevatorAdjust extends Command {
     			
     		}
     		prevdir = (int)Math.signum(OI.operator.getRawAxis(3));
-    	System.out.println("");
+    	//System.out.println("");
     	//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)+modifier);
     	//RobotMap.elevatorElevatorTalon.
     	SmartDashboard.putNumber("ElevatorMaster",RobotMap.elevatorElevatorTalon.getMotorOutputPercent());
     	SmartDashboard.putNumber("ElevatorSlave1",RobotMap.elevatorElevatorVictor.getMotorOutputPercent());
     	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
     	SmartDashboard.putNumber("JoyPercent", OI.operator.getRawAxis(3));
+    	SmartDashboard.putNumber("ElevatorENC", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
     	stickValue=OI.operator.getRawAxis(3);
 
     }

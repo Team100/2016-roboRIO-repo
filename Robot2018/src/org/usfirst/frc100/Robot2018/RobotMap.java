@@ -148,9 +148,11 @@ public class RobotMap {
         intakeIntakeMaster.configPeakOutputForward(0.75, 0);
         intakeIntakeMaster.configPeakOutputReverse(-0.75, 0);
         
-        intakeIntakeFollower = new WPI_TalonSRX(9);
+        intakeIntakeFollower = new WPI_TalonSRX(9); //WARNING: THIS IS NOT A FOLLOWER; IT GOES AS THE SAME POWER AS THE TALON
+        
         intakeIntakeFollower.setInverted(true);
-        intakeIntakeFollower.follow(intakeIntakeMaster);
+        
+        //intakeIntakeFollower.follow(intakeIntakeMaster);
 
         
         intakeIntakeDigSensorb = new DigitalInput(4);
