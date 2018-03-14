@@ -343,6 +343,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+    	SmartDashboard.putNumber("ElevatorENC", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
+
     	EP= prefs.getDouble("EP", 1);
     	EI= prefs.getDouble("EI", 0);
     	ED= prefs.getDouble("ED", 0);
@@ -367,8 +369,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("ArcadeDrive On", ArcadeDrive);
         SmartDashboard.putBoolean("Logitech On", Logitech);
         SmartDashboard.putNumber("Position", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("velR", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)/1508.965) * 3.28);///4096/1.5);
-        SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)/1508.965) *3.28);
+        SmartDashboard.putNumber("velR", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)));///4096/1.5);
+        SmartDashboard.putNumber("PosR", (RobotMap.driveTrainRightMaster.getSelectedSensorPosition(0)));
+
+        SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)));//1508.965) *3.28);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();
         RobotMap.elevatorElevatorTalon.config_kP(0, PE, 0);

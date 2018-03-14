@@ -58,7 +58,7 @@ public class ElevatorAdjust extends Command {
     		//modifier = -0.15;
     		//System.out.println("UP");
     		//System.out.println(OI.operator.getRawAxis(3));
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-0.085);
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3));
     	//}
     	//else if(OI.operator.getRawAxis(3) >= 0.1) {
     		//modifier = +0.2;
@@ -70,11 +70,11 @@ public class ElevatorAdjust extends Command {
     	//	modifier = -0.03;
     		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3));
     	//}
-    		if(prevdir == -1 && OI.operator.getRawAxis(3) >-0.000025) {
-    			RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.1);
+    		//if(prevdir == -1 && OI.operator.getRawAxis(3) >-0.000025) {
+    			//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.1);
     			
-    		}
-    		prevdir = (int)Math.signum(OI.operator.getRawAxis(3));
+    		//}
+    		//prevdir = (int)Math.signum(OI.operator.getRawAxis(3));
     	//System.out.println("");
     	//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)+modifier);
     	//RobotMap.elevatorElevatorTalon.
@@ -82,7 +82,6 @@ public class ElevatorAdjust extends Command {
     	SmartDashboard.putNumber("ElevatorSlave1",RobotMap.elevatorElevatorVictor.getMotorOutputPercent());
     	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
     	SmartDashboard.putNumber("JoyPercent", OI.operator.getRawAxis(3));
-    	SmartDashboard.putNumber("ElevatorENC", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
     	stickValue=OI.operator.getRawAxis(3);
 
     }
