@@ -112,7 +112,7 @@ public class RobotMap {
         elevatorElevatorTalon.setSensorPhase(false);
         elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         
-    	elevatorElevatorTalon.config_kP(0, 0.01, 0);
+    	elevatorElevatorTalon.config_kP(0, 8, 0);
      	elevatorElevatorTalon.config_kI(0, 0, 0);
      	elevatorElevatorTalon.config_kD(0, 0, 0);
      	elevatorElevatorTalon.config_kF(0, 24, 0);
