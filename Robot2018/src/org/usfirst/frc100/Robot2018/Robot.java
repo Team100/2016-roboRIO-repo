@@ -116,6 +116,7 @@ public class Robot extends TimedRobot {
         if (!prefs.containsKey("FE")) {
         	prefs.putDouble("FE", 3.1);
         }
+        /*
     	RobotMap.elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         RobotMap.elevatorElevatorTalon.selectProfileSlot(0, 0);
         RobotMap.elevatorElevatorTalon.setSensorPhase(false);
@@ -123,8 +124,10 @@ public class Robot extends TimedRobot {
         RobotMap.elevatorElevatorTalon.configNominalOutputReverse(0.0f, 0);
         RobotMap.elevatorElevatorTalon.configMotionAcceleration(60, 0);
         RobotMap.elevatorElevatorTalon.configMotionCruiseVelocity(30, 0);
-        RobotMap.elevatorElevatorTalon.configPeakOutputForward(.4, 0);
-        RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-.4, 0);
+        //RobotMap.elevatorElevatorTalon.configPeakOutputForward(.4, 0);
+        //RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-.4, 0);
+         * */
+         
     	SmartDashboard.putBoolean("EnteredTestPathFinding", false);
     	SmartDashboard.putBoolean("PathFindingParsing", false);
     	SmartDashboard.putBoolean("SetControlMode", false);
@@ -305,6 +308,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+    	RobotMap.elevatorElevatorTalon.setSelectedSensorPosition(0, 0, 10);
     	//new PathFinding("ScaleS").start();
     	 ahrs.reset();
     	 PE = Robot.prefs.getDouble("PE",
@@ -320,6 +324,7 @@ public class Robot extends TimedRobot {
      	 EI= prefs.getDouble("EI", 0);
      	 ED= prefs.getDouble("ED", 0);
      	 EF= prefs.getDouble("EF", 0);
+     	 /*
          RobotMap.elevatorElevatorTalon.configClosedloopRamp(1, 0);
          RobotMap.elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
          RobotMap.elevatorElevatorTalon.selectProfileSlot(0, 0);
@@ -332,7 +337,9 @@ public class Robot extends TimedRobot {
          RobotMap.elevatorElevatorTalon.configMotionAcceleration(25, 0);
          RobotMap.elevatorElevatorTalon.configMotionCruiseVelocity(50, 0);
          RobotMap.elevatorElevatorTalon.configPeakOutputForward(25, 0);  
-         RobotMap.elevatorElevatorTalon.setSensorPhase(true);
+         //RobotMap.elevatorElevatorTalon.setSensorPhase(true);
+          
+          */
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove

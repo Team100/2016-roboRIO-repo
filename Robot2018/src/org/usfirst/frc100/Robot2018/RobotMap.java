@@ -111,24 +111,25 @@ public class RobotMap {
         elevatorElevatorTalon = new WPI_TalonSRX(5);
         elevatorElevatorTalon.setSensorPhase(false);
         elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        elevatorElevatorTalon.config_kP(0, 0, 0);
+        
     	elevatorElevatorTalon.config_kP(0, 0.01, 0);
      	elevatorElevatorTalon.config_kI(0, 0, 0);
      	elevatorElevatorTalon.config_kD(0, 0, 0);
-     	elevatorElevatorTalon.config_kF(0, 3.1, 0);
+     	elevatorElevatorTalon.config_kF(0, 24, 0);
         elevatorElevatorTalon.selectProfileSlot(0, 0);
 
 
         elevatorElevatorTalon.setSensorPhase(false);
         elevatorElevatorTalon.configNominalOutputForward(0.0f, 0);
         elevatorElevatorTalon.configNominalOutputReverse(0.0f, 0);
-        elevatorElevatorTalon.configMotionAcceleration(60, 0);
-        elevatorElevatorTalon.configMotionCruiseVelocity(30, 0);
-        elevatorElevatorTalon.configPeakOutputForward(.25, 0);
-        elevatorElevatorTalon.configPeakOutputReverse(-0.25, 0);
+        elevatorElevatorTalon.configMotionAcceleration(10, 0);
+        elevatorElevatorTalon.configMotionCruiseVelocity(10, 0);
+        elevatorElevatorTalon.configPeakOutputForward(.15, 0);
+        elevatorElevatorTalon.configPeakOutputReverse(-0.15, 0);
+        elevatorElevatorTalon.configClosedLoopPeakOutput(0, 0.2, 10);
         
        
-        elevatorElevatorTalon.setInverted(false);
+        elevatorElevatorTalon.setInverted(true);
        
         
 
@@ -136,9 +137,9 @@ public class RobotMap {
         
         elevatorElevatorVictor = new WPI_VictorSPX(6);  
         elevatorElevatorVictor.follow(elevatorElevatorTalon);
-        elevatorElevatorVictor.setInverted(false);
+        elevatorElevatorVictor.setInverted(true);
         elevatorElevatorVictor2 = new WPI_VictorSPX(7);
-        elevatorElevatorVictor2.setInverted(true);
+        elevatorElevatorVictor2.setInverted(false);
         elevatorElevatorVictor2.follow(elevatorElevatorTalon);
         
         elevatorElevatorLim1 = new DigitalInput(0);
