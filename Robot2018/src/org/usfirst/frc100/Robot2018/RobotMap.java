@@ -111,7 +111,26 @@ public class RobotMap {
         elevatorElevatorTalon = new WPI_TalonSRX(5);
         elevatorElevatorTalon.setSensorPhase(false);
         elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        elevatorElevatorTalon.config_kP(0, 0, 0);
+    	elevatorElevatorTalon.config_kP(0, 0.01, 0);
+     	elevatorElevatorTalon.config_kI(0, 0, 0);
+     	elevatorElevatorTalon.config_kD(0, 0, 0);
+     	elevatorElevatorTalon.config_kF(0, 3.1, 0);
+        elevatorElevatorTalon.selectProfileSlot(0, 0);
+
+
+        elevatorElevatorTalon.setSensorPhase(false);
+        elevatorElevatorTalon.configNominalOutputForward(0.0f, 0);
+        elevatorElevatorTalon.configNominalOutputReverse(0.0f, 0);
+        elevatorElevatorTalon.configMotionAcceleration(60, 0);
+        elevatorElevatorTalon.configMotionCruiseVelocity(30, 0);
+        elevatorElevatorTalon.configPeakOutputForward(.25, 0);
+        elevatorElevatorTalon.configPeakOutputReverse(-0.25, 0);
+        
+       
         elevatorElevatorTalon.setInverted(false);
+       
+        
 
         
         
@@ -171,7 +190,7 @@ public class RobotMap {
         LiveWindow.addSensor("ClimbingArm", "ClimbLim2", climbingArmClimbLim2);
         
         winchWinchTalon = new WPI_TalonSRX(11);
-        winchWinchTalon.configPeakOutputForward(0.15, 0);
+        winchWinchTalon.configPeakOutputForward(0.25, 0); //TODO Tune properly
         winchWinchTalon.configPeakOutputReverse(0, 0);
         
         winchWinchVictor1 = new WPI_VictorSPX(12);         //TODO CHANGE TO VICTOR SPX

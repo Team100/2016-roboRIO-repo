@@ -48,7 +48,7 @@ public class ClimbAdjust extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	//RobotMap.climbingArmClimbingTalon.set(ControlMode.PercentOutput, OI.operator.getY()); TODO Uncomment this
+    	RobotMap.climbingArmClimbingTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(1));
     }
 
     // Make this return true when this Command no longer needs to run execute()

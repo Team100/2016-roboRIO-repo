@@ -44,13 +44,16 @@ public class ElevatorUp extends Command {
     @Override
     protected void initialize() {
     	done=false;
-    	RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 200);
+    	RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 400);
+    	System.out.println("STARTED UP");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 230 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 170){
+    	RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 400);
+    	System.out.println(RobotMap.elevatorElevatorTalon.getMotorOutputVoltage());
+    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 430 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 370){
     		done = true;
     	}
     }

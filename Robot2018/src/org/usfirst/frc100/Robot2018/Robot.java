@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import org.usfirst.frc100.RandomTest.RobotMap;
 import org.usfirst.frc100.Robot2018.commands.*;
 import org.usfirst.frc100.Robot2018.subsystems.*;
+import org.usfirst.frc100.Robot2018.RobotMap;
 
 
 import java.util.*;
@@ -101,6 +102,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+    	
     	RobotMap.init();
     	if (!prefs.containsKey("PE")) {
         	prefs.putDouble("PE", 0.01);
