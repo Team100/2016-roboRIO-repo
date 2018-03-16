@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     
     //System.out.println("INITALIZED =======================================================================================");
     public static Preferences prefs = Preferences.getInstance(); //Creates preferences object
-
+    boolean run;
     double P; 
     double I; 
     double D; 
@@ -252,10 +252,24 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-    
-    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	run = true;
+    	
+    	
+
+        //autonomousCommand = chooser.getSelected();
+        // schedule the autonomous command (example)
+       // if (autonomousCommand != null) autonomousCommand.start();
+    }
+
+    /**
+     * This function is called periodically during autonomous
+     */
+    @Override
+    public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
+        gameData = DriverStation.getInstance().getGameSpecificMessage();
     	int modeSelect = oi.selector();
-    	if(gameData.length() > 0)
+    	if(gameData.length() > 0 && start)
         {
     		switch(modeSelect){
     		case 0:  //mid point switch
@@ -286,19 +300,6 @@ public class Robot extends TimedRobot {
     		
         }
     	
-    	
-
-        //autonomousCommand = chooser.getSelected();
-        // schedule the autonomous command (example)
-       // if (autonomousCommand != null) autonomousCommand.start();
-    }
-
-    /**
-     * This function is called periodically during autonomous
-     */
-    @Override
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
     }
 
     @Override
