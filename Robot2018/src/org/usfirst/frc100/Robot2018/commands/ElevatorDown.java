@@ -44,7 +44,7 @@ public class ElevatorDown extends Command {
     @Override
     protected void initialize() {
     	done=false;
-    	RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 100);
+    	RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 500);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -57,9 +57,9 @@ public class ElevatorDown extends Command {
     	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
     	SmartDashboard.putNumber("MMTrajVelo", RobotMap.elevatorElevatorTalon.getActiveTrajectoryVelocity());
     	SmartDashboard.putNumber("MMTrajPos", RobotMap.elevatorElevatorTalon.getActiveTrajectoryPosition());
-    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 110 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 90){
+    	/*if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 510 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 490){
     		done = true;
-    	}
+    	}*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -71,12 +71,13 @@ public class ElevatorDown extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-    	RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
+    	//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+    	end();
     }
 }
