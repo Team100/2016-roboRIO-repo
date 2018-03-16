@@ -59,10 +59,11 @@ public class IntakeOut extends Command {
     @Override
     protected void execute() {
 
-    	if((System.currentTimeMillis() - StartTime)/1000 > (1)) { //1.0
+    	if((System.currentTimeMillis() - StartTime)/1000 > (0.5)) { //1.0
     		doneThis = true;
     	} else {
     		RobotMap.intakeIntakeMaster.set(ControlMode.PercentOutput, 1);
+    		RobotMap.intakeIntakeFollower.set(ControlMode.PercentOutput, 1);
     	}
     		/*
     	if(passTime.done) {
@@ -86,6 +87,7 @@ public class IntakeOut extends Command {
     @Override
     protected void end() {
     	RobotMap.intakeIntakeMaster.set(ControlMode.PercentOutput, 0);
+    	RobotMap.intakeIntakeFollower.set(ControlMode.PercentOutput, 0);
     }
 
     // Called when another command which requires one or more of the same
