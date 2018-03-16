@@ -55,6 +55,7 @@ public class IntakeIn extends Command {
     @Override
     protected void execute() {
     	RobotMap.intakeIntakeMaster.set(ControlMode.PercentOutput, -1);
+    	RobotMap.intakeIntakeFollower.set(ControlMode.PercentOutput, -1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -67,6 +68,7 @@ public class IntakeIn extends Command {
     @Override
     protected void end() {
     	RobotMap.intakeIntakeMaster.set(ControlMode.PercentOutput, 0);
+    	RobotMap.intakeIntakeFollower.set(ControlMode.PercentOutput, 0);
     }
 
     // Called when another command which requires one or more of the same

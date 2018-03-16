@@ -45,12 +45,21 @@ public class ElevatorUp extends Command {
     protected void initialize() {
     	done=false;
     	RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 200);
+    	System.out.println("STARTED UP");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 230 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 170){
+    	//RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 200);
+    	SmartDashboard.putNumber("ElevatorMaster",RobotMap.elevatorElevatorTalon.getMotorOutputPercent());
+    	SmartDashboard.putNumber("ElevatorVel", RobotMap.elevatorElevatorTalon.getSelectedSensorVelocity(0));
+    	SmartDashboard.putNumber("ElevatorSlave1",RobotMap.elevatorElevatorVictor.getMotorOutputPercent());
+    	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
+    	SmartDashboard.putNumber("MMTrajVelo", RobotMap.elevatorElevatorTalon.getActiveTrajectoryVelocity());
+    	SmartDashboard.putNumber("MMTrajPos", RobotMap.elevatorElevatorTalon.getActiveTrajectoryPosition());
+    	//System.out.println(RobotMap.elevatorElevatorTalon.getMotorOutputVoltage());
+    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 210 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 190){
     		done = true;
     	}
     }
@@ -58,12 +67,15 @@ public class ElevatorUp extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
+    	
         return done;
+        
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
+    	RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
     }
 
     // Called when another command which requires one or more of the same

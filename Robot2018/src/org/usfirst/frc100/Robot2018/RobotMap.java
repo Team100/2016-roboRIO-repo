@@ -109,17 +109,20 @@ public class RobotMap {
         LiveWindow.addActuator("DriveTrain", "ShiftingSolenoid", driveTrainShiftingSolenoid);
         
         elevatorElevatorTalon = new WPI_TalonSRX(5);
-        elevatorElevatorTalon.setSensorPhase(false);
+        elevatorElevatorTalon.setSensorPhase(true);
         elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        elevatorElevatorTalon.setInverted(false);
+        
+    
+       
+        
 
         
         
         elevatorElevatorVictor = new WPI_VictorSPX(6);  
         elevatorElevatorVictor.follow(elevatorElevatorTalon);
-        elevatorElevatorVictor.setInverted(false);
+        elevatorElevatorVictor.setInverted(true);
         elevatorElevatorVictor2 = new WPI_VictorSPX(7);
-        elevatorElevatorVictor2.setInverted(true);
+        elevatorElevatorVictor2.setInverted(false);
         elevatorElevatorVictor2.follow(elevatorElevatorTalon);
         
         elevatorElevatorLim1 = new DigitalInput(0);
@@ -147,10 +150,16 @@ public class RobotMap {
         intakeIntakeMaster.setInverted(false);
         intakeIntakeMaster.configPeakOutputForward(0.75, 0);
         intakeIntakeMaster.configPeakOutputReverse(-0.75, 0);
+        intakeIntakeMaster.configOpenloopRamp(0.2, 0);
         
-        intakeIntakeFollower = new WPI_TalonSRX(9);
+        intakeIntakeFollower = new WPI_TalonSRX(9); //WARNING: THIS IS NOT A FOLLOWER; IT GOES AS THE SAME POWER AS THE TALON
+        
         intakeIntakeFollower.setInverted(true);
-        intakeIntakeFollower.follow(intakeIntakeMaster);
+        intakeIntakeFollower.configPeakOutputForward(0.75, 0);
+        intakeIntakeFollower.configPeakOutputReverse(-0.75, 0);
+        intakeIntakeFollower.configOpenloopRamp(0.1, 0);
+        
+        //intakeIntakeFollower.follow(intakeIntakeMaster);
 
         
         intakeIntakeDigSensorb = new DigitalInput(4);
@@ -169,7 +178,7 @@ public class RobotMap {
         LiveWindow.addSensor("ClimbingArm", "ClimbLim2", climbingArmClimbLim2);
         
         winchWinchTalon = new WPI_TalonSRX(11);
-        winchWinchTalon.configPeakOutputForward(0.15, 0);
+        winchWinchTalon.configPeakOutputForward(0.35, 0); //TODO Tune properly
         winchWinchTalon.configPeakOutputReverse(0, 0);
         
         winchWinchVictor1 = new WPI_VictorSPX(12);         //TODO CHANGE TO VICTOR SPX

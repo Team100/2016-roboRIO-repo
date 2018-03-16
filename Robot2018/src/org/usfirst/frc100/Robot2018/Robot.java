@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import org.usfirst.frc100.RandomTest.RobotMap;
 import org.usfirst.frc100.Robot2018.commands.*;
 import org.usfirst.frc100.Robot2018.subsystems.*;
+import org.usfirst.frc100.Robot2018.RobotMap;
 
 
 import java.util.*;
@@ -101,7 +102,26 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+    	
     	RobotMap.init();
+    	RobotMap.elevatorElevatorTalon.config_kP(0, 8, 0);
+     	RobotMap.elevatorElevatorTalon.config_kI(0, 0, 0);
+     	RobotMap.elevatorElevatorTalon.config_kD(0, 0, 0);
+     	RobotMap.elevatorElevatorTalon.config_kF(0, 24, 0);
+        RobotMap.elevatorElevatorTalon.selectProfileSlot(0, 0);
+
+
+        RobotMap.elevatorElevatorTalon.setSensorPhase(false);
+        RobotMap.elevatorElevatorTalon.configNominalOutputForward(0.0f, 0);
+        RobotMap.elevatorElevatorTalon.configNominalOutputReverse(0.0f, 0);
+        RobotMap.elevatorElevatorTalon.configMotionAcceleration(10, 0);
+        RobotMap.elevatorElevatorTalon.configMotionCruiseVelocity(15, 0);
+        RobotMap.elevatorElevatorTalon.configPeakOutputForward(.35, 0);
+        RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-0.35, 0);
+        RobotMap.elevatorElevatorTalon.configClosedLoopPeakOutput(0, 0.2, 10);
+        
+       
+        RobotMap.elevatorElevatorTalon.setInverted(true);
     	if (!prefs.containsKey("PE")) {
         	prefs.putDouble("PE", 0.01);
         }
@@ -114,6 +134,7 @@ public class Robot extends TimedRobot {
         if (!prefs.containsKey("FE")) {
         	prefs.putDouble("FE", 3.1);
         }
+        /*
     	RobotMap.elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         RobotMap.elevatorElevatorTalon.selectProfileSlot(0, 0);
         RobotMap.elevatorElevatorTalon.setSensorPhase(false);
@@ -121,8 +142,10 @@ public class Robot extends TimedRobot {
         RobotMap.elevatorElevatorTalon.configNominalOutputReverse(0.0f, 0);
         RobotMap.elevatorElevatorTalon.configMotionAcceleration(60, 0);
         RobotMap.elevatorElevatorTalon.configMotionCruiseVelocity(30, 0);
-        RobotMap.elevatorElevatorTalon.configPeakOutputForward(.4, 0);
-        RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-.4, 0);
+        //RobotMap.elevatorElevatorTalon.configPeakOutputForward(.4, 0);
+        //RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-.4, 0);
+         * */
+         
     	SmartDashboard.putBoolean("EnteredTestPathFinding", false);
     	SmartDashboard.putBoolean("PathFindingParsing", false);
     	SmartDashboard.putBoolean("SetControlMode", false);
@@ -304,6 +327,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+    	RobotMap.elevatorElevatorTalon.setSelectedSensorPosition(0, 0, 10);
     	//new PathFinding("ScaleS").start();
     	 ahrs.reset();
     	 PE = Robot.prefs.getDouble("PE",
@@ -319,6 +343,7 @@ public class Robot extends TimedRobot {
      	 EI= prefs.getDouble("EI", 0);
      	 ED= prefs.getDouble("ED", 0);
      	 EF= prefs.getDouble("EF", 0);
+     	 /*
          RobotMap.elevatorElevatorTalon.configClosedloopRamp(1, 0);
          RobotMap.elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
          RobotMap.elevatorElevatorTalon.selectProfileSlot(0, 0);
@@ -331,12 +356,18 @@ public class Robot extends TimedRobot {
          RobotMap.elevatorElevatorTalon.configMotionAcceleration(25, 0);
          RobotMap.elevatorElevatorTalon.configMotionCruiseVelocity(50, 0);
          RobotMap.elevatorElevatorTalon.configPeakOutputForward(25, 0);  
-         RobotMap.elevatorElevatorTalon.setSensorPhase(true);
+         //RobotMap.elevatorElevatorTalon.setSensorPhase(true);
+          
+          */
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        RobotMap.elevatorElevatorTalon.config_kP(0, PE, 0);
+    	RobotMap.elevatorElevatorTalon.config_kI(0, IE, 0);
+    	RobotMap.elevatorElevatorTalon.config_kD(0, DE, 0);
+    	RobotMap.elevatorElevatorTalon.config_kF(0, EF, 0);
     }
 
     /**
@@ -344,10 +375,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-    	EP= prefs.getDouble("EP", 1);
-    	EI= prefs.getDouble("EI", 0);
-    	ED= prefs.getDouble("ED", 0);
-    	EF= prefs.getDouble("EF", 0);
+    	SmartDashboard.putNumber("ElevatorENC", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
+
+    	
     	//System.out.println("running");
         //SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         //SmartDashboard.putData("Henry test path", new PathFinding());
@@ -368,14 +398,14 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("ArcadeDrive On", ArcadeDrive);
         SmartDashboard.putBoolean("Logitech On", Logitech);
         SmartDashboard.putNumber("Position", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("velR", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)/1508.965) * 3.28);///4096/1.5);
-        SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)/1508.965) *3.28);
+        SmartDashboard.putNumber("velR", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)));///4096/1.5);
+        SmartDashboard.putNumber("PosR", (RobotMap.driveTrainRightMaster.getSelectedSensorPosition(0)));
+        SmartDashboard.putNumber("ElevatorError", RobotMap.elevatorElevatorTalon.getClosedLoopError(0));
+
+        SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)));//1508.965) *3.28);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();
-        RobotMap.elevatorElevatorTalon.config_kP(0, PE, 0);
-    	RobotMap.elevatorElevatorTalon.config_kI(0, IE, 0);
-    	RobotMap.elevatorElevatorTalon.config_kD(0, DE, 0);
-    	RobotMap.elevatorElevatorTalon.config_kF(0, FE, 0);
+
 
         //Scheduler.getInstance().run();
 

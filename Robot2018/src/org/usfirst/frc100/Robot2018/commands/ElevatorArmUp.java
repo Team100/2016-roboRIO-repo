@@ -43,6 +43,7 @@ public class ElevatorArmUp extends Command {
     protected void initialize() {
     	done=false;
     	RobotMap.elevatorArmSolenoid.set(false);
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
