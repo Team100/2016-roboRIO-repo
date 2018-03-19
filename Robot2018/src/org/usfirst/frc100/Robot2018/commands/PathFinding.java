@@ -87,8 +87,10 @@ public class PathFinding extends Command {
     	mode = a;
     	if(mode == "null")
     		fastCalculation = false;
-    	else
+    	else {
     		fastCalculation = true;
+    		Robot.ahrs.reset();
+    	}
     }
 
     // Called just before this Command runs the first time
@@ -103,7 +105,7 @@ public class PathFinding extends Command {
     	startTime = System.currentTimeMillis();
     
     	if(mode == "Left") {
-    		Robot.ahrs.reset();
+    	//	Robot.ahrs.reset();
     		path = paths.returnLeftSwitch();
     		 points = new Waypoint[]{
     			new Waypoint(0, 0, 0), 
@@ -112,7 +114,7 @@ public class PathFinding extends Command {
     		};
     	} 
     	if(mode == "Right" ){
-    		Robot.ahrs.reset();
+    		//Robot.ahrs.reset();
     		path = paths.returnRightSwitch();
     		 points = new Waypoint []{
     			 new Waypoint(0, 0, 0), 
@@ -121,7 +123,7 @@ public class PathFinding extends Command {
     		}; 
     	}
     	if(mode == "BackR"){
-    		Robot.ahrs.reset();
+    		//Robot.ahrs.reset();
     		/*
     		points = new Waypoint[]{
     				
@@ -140,7 +142,7 @@ public class PathFinding extends Command {
     		//double angle = 0; 
     		double width = 0; 
     		//double length = 0;
-    		Robot.ahrs.reset();
+    		//Robot.ahrs.reset();
     		points = new Waypoint[] {
     				new Waypoint(0, 0, 0),
     				new Waypoint(length, 0, 0),
@@ -162,7 +164,7 @@ public class PathFinding extends Command {
     	}
     		    
     	if(mode == "BS"){
-    		/*
+     		/*
     		points = new Waypoint[]{
     			
     			new Waypoint(0, 0, Pathfinder.d2r(-90)), 
@@ -174,7 +176,7 @@ public class PathFinding extends Command {
     	
     	if (mode == "ScaleSR"){
     		
-    		Robot.ahrs.reset();
+    		//Robot.ahrs.reset();
     		path = paths.returnTurnRightScaleST();
     		points = new Waypoint[]{
     			new Waypoint(0, 0, 0), 
@@ -184,7 +186,7 @@ public class PathFinding extends Command {
     	}
     	if (mode == "ScaleS"){
     		
-    		Robot.ahrs.reset();
+    		//Robot.ahrs.reset();
     		path = paths.returnStraightScale();
     		points = new Waypoint[]{
     			new Waypoint(0, 0, 0), 
@@ -195,7 +197,7 @@ public class PathFinding extends Command {
     	
     	
     	if(mode == "ScaleSL"){
-    		Robot.ahrs.reset();
+    		//Robot.ahrs.reset();
     		path = paths.returnTurnLeftScaleST();
     		points = new Waypoint[]{
     				new Waypoint(0, 0, 0), 
@@ -205,7 +207,7 @@ public class PathFinding extends Command {
     	}
     	
     	if (mode == "ScaleTurnLeft") {
-    		Robot.ahrs.reset();
+    		//Robot.ahrs.reset();
     		path = paths.returnTurnLeftSclae();
     		 points = new Waypoint[]{
     			new Waypoint(0, 0, 0), 
@@ -219,7 +221,7 @@ public class PathFinding extends Command {
     		}; 
     	}
     	if(mode =="ScaleTurnRight"){
-    		Robot.ahrs.reset();
+    		//Robot.ahrs.reset();
     		path = paths.returnTurnRightScale();
     		
     		points = new Waypoint[]{
@@ -235,6 +237,8 @@ public class PathFinding extends Command {
     	}
     	
     	if(mode == "Straight"){
+    		//Robot.ahrs.reset();
+    		path = paths.returnStraight();
     		points = new Waypoint[]{
         			new Waypoint(0, 0, 0), 
         			//new Waypoint(3.556, 0, 0), 
@@ -293,14 +297,14 @@ public class PathFinding extends Command {
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
     	
-    		
+    		/*
     	
     	for (int i = 0; i < trajectory.length(); i++) {
     		Trajectory.Segment segL = leftT.get(i); 
     		Trajectory.Segment segR = (rightT.get(i));
     		System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
     	  
-    	}  
+    	}  */
     	
     	}
     	
@@ -367,8 +371,13 @@ public class PathFinding extends Command {
             	
     	 		double angleDifference1 = Pathfinder.boundHalfDegrees(desired_heading1 - (Robot.ahrs.getAngle()*-1));
     	 		double turn1 = .87* (-1.0/80.0) * angleDifference1;
-        		setR = rightV - turn1;
-        		setL = leftV + turn1;
+    	 		if(mode == "Straight") {
+        		setR = rightV; //- turn1;
+        		setL = leftV; //+ turn1;
+    	 		} else {
+    	 			setR = rightV- turn1;
+            		setL = leftV+ turn1;	
+    	 		}
         		
     		}
 			//this corrects the robots heading
@@ -387,7 +396,7 @@ public class PathFinding extends Command {
     		counter++; 
     	} 
     	
-    	if(counter >= leftT.length()){
+    	if(counter >= path.length){
     		finish = true;
     	}
     
@@ -403,7 +412,9 @@ public class PathFinding extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-   // 	Robot.driveTrain.stop();
+    	
+    //	RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,0); 
+    //	RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, 0);
     }
 
     // Called when another command which requires one or more of the same

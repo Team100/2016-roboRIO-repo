@@ -9,6 +9,7 @@ public class LeftSwitch extends CommandGroup {
 
     public LeftSwitch() {
     	addSequential(new PathFinding("Left"));
+    	addSequential(new IntakeOut());
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

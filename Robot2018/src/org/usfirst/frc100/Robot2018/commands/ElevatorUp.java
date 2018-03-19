@@ -17,6 +17,7 @@ import org.usfirst.frc100.Robot2018.Robot;
 import org.usfirst.frc100.Robot2018.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 
 /**
  *
@@ -44,7 +45,7 @@ public class ElevatorUp extends Command {
     @Override
     protected void initialize() {
     	done=false;
-    	RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 200);
+    	RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 200, DemandType.ArbitraryFeedForward,0.065);
     	System.out.println("STARTED UP");
     }
 

@@ -46,7 +46,7 @@ public class WinchWind extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	RobotMap.winchWinchTalon.set(ControlMode.PercentOutput, 1);
+    	RobotMap.winchWinchTalon.set(ControlMode.PercentOutput, 0.8);
     	//System.out.println("ENTERED WinchWind.execute()");
     }
 
