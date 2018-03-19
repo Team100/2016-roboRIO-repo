@@ -42,8 +42,11 @@ public class ElevatorArmUp extends Command {
     @Override
     protected void initialize() {
     	done=false;
-    	RobotMap.elevatorArmSolenoid.set(false);
-    	
+    	if(RobotMap.elevatorArmSolenoid.get()) {
+    		RobotMap.elevatorArmSolenoid.set(false);
+    	}else {
+        	RobotMap.elevatorArmSolenoid.set(true);
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run

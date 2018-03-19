@@ -157,7 +157,7 @@ public class DriveTrain extends Subsystem {
 
     }
     public void getJoy(){
-    	if(OI.leftController.getRawButton(1)){
+    	/*if(OI.leftController.getRawButton(1)){
         	RobotMap.driveTrainShiftingSolenoid.set(true);
         }else if(OI.rightStick.getRawButton(1)) {
         	RobotMap.driveTrainShiftingSolenoid.set(false);
@@ -165,12 +165,12 @@ public class DriveTrain extends Subsystem {
         	RobotMap.driveTrainShiftingSolenoid.set(true);
         }else if(OI.operator.getRawButtonPressed(2)) {
         	RobotMap.driveTrainShiftingSolenoid.set(false);
-        }
+        }*/
         //if(!Robot.Logitech){
         	//SmartDashboard.putNumber("Left Stick", OI.leftController.getY());
         	//SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
         	//if(Robot.ArcadeDrive){
-        RobotMap.driveTrainDifferentialDrive1.arcadeDrive(-OI.leftController.getY(), -OI.rightStick.getX());
+        RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), -OI.rightStick.getX());
         	//}else{
         		//RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
         	//}
@@ -230,7 +230,7 @@ public class DriveTrain extends Subsystem {
     	
     }
     public static void resetNavXYaw() {
-    	Robot.ahrs.zeroYaw();
+    	//Robot.ahrs.zeroYaw(); NOTE Our alliance partners at SF told us to do this, as it takes a long time to do
     }
 }
 

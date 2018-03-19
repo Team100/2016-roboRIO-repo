@@ -30,6 +30,7 @@ public class ElevatorAdjust extends Command {
 
     private int positionTalon;
     private double modifier;
+    private int count;
 	private double stickValue;
 	private int prevdir = 0; // -1 = down, 0 = neutral, 1 = up
 
@@ -49,29 +50,95 @@ public class ElevatorAdjust extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+    	count = 0; 
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	if(OI.operator.getRawAxis(3)  >= 0.1) {
-    		//modifier = -0.15;
+    	if(RobotMap.elevatorArmEleArmLim1.get()&& count == 0) {
+    		count = 1;
+    	} 
+    	//if(count >= 1 && RobotMap.elevatorArmEleArmLim1.get()) {
+    		//count = 0;
+    	//}
+    	/*if(RobotMap.elevatorElevatorLim1.get()){
+    		//RobotMap.elevatorElevatorTalon.configPeakOutputForward(0, 0);
+    	//	RobotMap.elevatorElevatorVictor.configPeakOutputForward(0, 0);
+    		//RobotMap.elevatorElevatorVictor2.configPeakOutputForward(0, 0);
+    	
+    		//if(OI.operator.getRawAxis(3)  >= 0.1/* && !RobotMap.elevatorArmEleArmLim1.get()*///)  {
+        		//modifier = -000.045;
+        		//System.out.println("UP");
+        		//System.out.println(OI.operator.getRawAxis(3));
+        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
+        	//}
+        	//else if(OI.operator.getRawAxis(3) <= -0.1 /*&& !RobotMap.elevatorArmEleArmLim2.get()*/) {
+        		
+        		//modifier = +0.2;
+        		//System.out.println("DOWN");
+        		//System.out.println(OI.operator.getRawAxis(3));
+        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)+000.045);
+        	//}
+        	//else {
+        	//	modifier = -0.03;
+        		//System.out.println("null");
+
+        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
+        	//}
+    	//}else if(RobotMap.elevatorElevatorLim2.get()) {
+    		//RobotMap.elevatorElevatorTalon.configPeakOutputReverse(.0, 0);
+    		//RobotMap.elevatorElevatorVictor.configPeakOutputReverse(.0, 0);
+    		//RobotMap.elevatorElevatorVictor2.configPeakOutputReverse(.0, 0);
+
+    		//if(OI.operator.getRawAxis(3)  >= 0.1) {
+        		//modifier = -000.045;
+        		//System.out.println("UP");
+        		//System.out.println(OI.operator.getRawAxis(3));
+        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
+        //	}
+        	//else if(OI.operator.getRawAxis(3) <= -0.1) {
+        		//modifier = +0.2;
+        		//System.out.println("DOWN");
+        		//System.out.println(OI.operator.getRawAxis(3));
+        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)+00.045);
+        	//}
+        	//else {
+        	//	modifier = -0.03;
+        		//System.out.println("null");
+
+        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
+        //}
+    	//}else{
+    		RobotMap.elevatorElevatorTalon.configPeakOutputForward(0.75, 0);
+    		RobotMap.elevatorElevatorVictor.configPeakOutputForward(0.75, 0);
+    		RobotMap.elevatorElevatorVictor2.configPeakOutputForward(0.75, 0);
+    		RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-0.75, 0);
+    		RobotMap.elevatorElevatorVictor.configPeakOutputReverse(-0.75, 0);
+    		RobotMap.elevatorElevatorVictor2.configPeakOutputReverse(-0.75, 0);
+    	if(OI.operator.getRawAxis(3)  >= 0.1 ) {
+    		//modifier = -000.045;
     		//System.out.println("UP");
     		//System.out.println(OI.operator.getRawAxis(3));
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(3)+0.075);
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
     	}
     	else if(OI.operator.getRawAxis(3) <= -0.1) {
     		//modifier = +0.2;
     		//System.out.println("DOWN");
     		//System.out.println(OI.operator.getRawAxis(3));
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(3)+0.0415);
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
     	}
     	else {
     	//	modifier = -0.03;
     		//System.out.println("null");
 
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -OI.operator.getRawAxis(3)+0.065);
-    	}
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
+    	} /*
+    	if(RobotMap.elevatorElevatorLim1.get()) {
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
+    	} else if( RobotMap.elevatorArmEleArmLim2.get()) {
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0);
+    	} */
     		//if(prevdir == -1 && OI.operator.getRawAxis(3) >-0.000025) {
     			//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.1);
     			
@@ -86,6 +153,7 @@ public class ElevatorAdjust extends Command {
     	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
     	SmartDashboard.putNumber("JoyPercent", -OI.operator.getRawAxis(3));
     	stickValue=OI.operator.getRawAxis(3);
+    	System.out.println(count);
 
     }
     // Make this return true when this Command no longer needs to run execute()

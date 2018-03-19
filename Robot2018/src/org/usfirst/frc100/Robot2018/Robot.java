@@ -116,8 +116,8 @@ public class Robot extends TimedRobot {
         RobotMap.elevatorElevatorTalon.configNominalOutputReverse(0.0f, 0);
         RobotMap.elevatorElevatorTalon.configMotionAcceleration(10, 0);
         RobotMap.elevatorElevatorTalon.configMotionCruiseVelocity(15, 0);
-        RobotMap.elevatorElevatorTalon.configPeakOutputForward(.35, 0);
-        RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-0.35, 0);
+        RobotMap.elevatorElevatorTalon.configPeakOutputForward(.75, 0);
+        RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-0.75, 0);
         RobotMap.elevatorElevatorTalon.configClosedLoopPeakOutput(0, 0.2, 10);
         
        
@@ -206,6 +206,7 @@ public class Robot extends TimedRobot {
        // SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         
         //SmartDashboard.putData("JSON", new ParseJSONFile());
+    	RobotMap.driveTrainShiftingSolenoid.set(true);
 
         MaunalDuo = prefs.getBoolean("Solenoid Maunal", false);
         Logitech = false;
@@ -255,6 +256,7 @@ public class Robot extends TimedRobot {
         if (!prefs.containsKey("EF")) {
         	prefs.putDouble("EF", 0);
         }
+        RobotMap.driveTrainShiftingSolenoid.set(true);
         
       //  new ParseJSONFile();
     }
@@ -272,11 +274,14 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
     }
-
+   
     @Override
     public void autonomousInit() {
-    	run = true;
     	
+    	RobotMap.driveTrainShiftingSolenoid.set(true);
+    	run = true;
+    	new StraightSwitch().start();
+    //	new RightSwitch().start();
     	
 
         //autonomousCommand = chooser.getSelected();
@@ -292,7 +297,25 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         gameData = DriverStation.getInstance().getGameSpecificMessage();
     	int modeSelect = oi.selector();
-    	if(gameData.length() > 0 && start)
+    	
+    	if(gameData.length() > 0 && run) {
+    		switch(modeSelect) {
+    		case 0:
+    		if(gameData.charAt(0) == 'R') {
+    			new LeftSwitch().start();
+    		} else if (gameData.charAt(0) == 'L') {
+    			new RightSwitch().start();
+    		}
+    		break;
+    		case 1: 
+    			new StraightSwitch().start();
+    		break;
+    		}
+    		run  = false;
+    		} 
+    	
+    	/*
+    	if(gameData.length() > 0 && run)
         {
     		switch(modeSelect){
     		case 0:  //mid point switch
@@ -320,16 +343,17 @@ public class Robot extends TimedRobot {
     		case 3: 
     			new StraightSwitch().start();
     		}
+    		run = false;
     		
         }
-    	
+    	*/
     }
 
     @Override
     public void teleopInit() {
-    	RobotMap.elevatorElevatorTalon.setSelectedSensorPosition(0, 0, 10);
+    	RobotMap.elevatorElevatorTalon.setSelectedSensorPosition(0, 0, 0);
     	//new PathFinding("ScaleS").start();
-    	 ahrs.reset();
+ //   	 ahrs.reset();
     	 PE = Robot.prefs.getDouble("PE",
  				0);
      	IE = Robot.prefs.getDouble("IE",
@@ -368,6 +392,7 @@ public class Robot extends TimedRobot {
     	RobotMap.elevatorElevatorTalon.config_kI(0, IE, 0);
     	RobotMap.elevatorElevatorTalon.config_kD(0, DE, 0);
     	RobotMap.elevatorElevatorTalon.config_kF(0, EF, 0);
+    	//RobotMap.driveTrainShiftingSolenoid.set(true);
     }
 
     /**
