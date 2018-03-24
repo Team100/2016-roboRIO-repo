@@ -44,7 +44,7 @@ public class ElevatorDown extends Command {
     @Override
     protected void initialize() {
     	done=false;
-    	RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 500);
+    	//RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 500);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -60,6 +60,20 @@ public class ElevatorDown extends Command {
     	/*if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 510 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 490){
     		done = true;
     	}*/
+    	
+    	if(-1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1500) {
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.2);
+    	}
+    	else if( -1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 250) {
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.1);
+    	}
+    	else if( -1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 50) {
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.07);
+    	}
+    	else if(-1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 50) {
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
+    		done = true;
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

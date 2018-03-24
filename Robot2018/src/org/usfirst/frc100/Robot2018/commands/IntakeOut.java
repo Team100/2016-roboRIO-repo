@@ -62,7 +62,7 @@ public class IntakeOut extends Command {
     	if((System.currentTimeMillis() - StartTime)/1000 > (0.5)) { //1.0
     		doneThis = true;
     	} else {
-    		RobotMap.intakeIntakeMaster.set(ControlMode.PercentOutput, 1);
+    		RobotMap.intakeIntakeMaster.set(ControlMode.PercentOutput, -1);
     		RobotMap.intakeIntakeFollower.set(ControlMode.PercentOutput, 1);
     	}
     		/*

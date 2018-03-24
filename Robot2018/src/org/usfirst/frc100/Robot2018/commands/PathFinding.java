@@ -68,6 +68,7 @@ public class PathFinding extends Command {
 	long timeInt;
 	int rightM = -1; 
 	int leftM = 1;
+	int length = 0;
 	String mode;
 	String fileName = "out.txt";
 	double[][] path;
@@ -85,11 +86,12 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
-    	if(mode == "null")
+    	if(mode == "null" || mode == "Left" || mode == "Right") {
     		fastCalculation = false;
-    	else {
-    		fastCalculation = true;
     		Robot.ahrs.reset();
+    	}else {
+    		fastCalculation = true;
+    	//	Robot.ahrs.reset();
     	}
     }
 
@@ -110,7 +112,7 @@ public class PathFinding extends Command {
     		 points = new Waypoint[]{
     			new Waypoint(0, 0, 0), 
         		new Waypoint(1.0, .9, Pathfinder.d2r(45)), //4.5 1.371    .57
-        		new Waypoint(2.95, 1.3, 0), //2.4  3.05\
+        		new Waypoint(2.95, 1.35, 0), //2.4  3.05\ //1.3 //1.55
     		};
     	} 
     	if(mode == "Right" ){
@@ -119,7 +121,7 @@ public class PathFinding extends Command {
     		 points = new Waypoint []{
     			 new Waypoint(0, 0, 0), 
     	       	 new Waypoint(1.0, -1.3, Pathfinder.d2r(-45)), //4.5 1.371    .57
-    	    	 new Waypoint(2.65, -1.55, 0),
+    	    	 new Waypoint(2.85, -1.99, 0),
     		}; 
     	}
     	if(mode == "BackR"){
@@ -296,6 +298,7 @@ public class PathFinding extends Command {
     	TankModifier modifier = new TankModifier(trajectory).modify(.67); //modify the width between wheels
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
+    	length = leftT.length();
     	
     		/*
     	
@@ -306,6 +309,8 @@ public class PathFinding extends Command {
     	  
     	}  */
     	
+    	} else {
+    		length = path.length;
     	}
     	
     	timer = new Timer();
@@ -360,8 +365,8 @@ public class PathFinding extends Command {
 				 setR = segR.velocity; //rightV
 		    	 setL = segL.velocity; //leftV
 				} else {
-				setR = segR.velocity-turn; //rightV - turn;
-	    	 	setL = segL.velocity+turn; //leftV + turn;
+				setR = segR.velocity;//-turn; //rightV - turn;
+	    	 	setL = segL.velocity;//+turn; //leftV + turn;
 				} 
     		} else {
     			double leftV = path[counter][0];
@@ -371,12 +376,12 @@ public class PathFinding extends Command {
             	
     	 		double angleDifference1 = Pathfinder.boundHalfDegrees(desired_heading1 - (Robot.ahrs.getAngle()*-1));
     	 		double turn1 = .87* (-1.0/80.0) * angleDifference1;
-    	 		if(mode == "Straight") {
+    	 		if(mode == "Straight" || mode == "Left" || mode == "Right") {
         		setR = rightV; //- turn1;
         		setL = leftV; //+ turn1;
     	 		} else {
     	 			setR = rightV- turn1;
-            		setL = leftV+ turn1;	
+            		setL = leftV+turn1;	
     	 		}
         		
     		}
@@ -390,13 +395,15 @@ public class PathFinding extends Command {
     	
     	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (setR*rightM)*1508.965); 
     	RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (setL*leftM)*1508.965);
+        RobotMap.driveTrainRightMaster.configClosedloopRamp(0.25, 0);
+        RobotMap.driveTrainLeftMaster.configClosedloopRamp(0.25, 0);
 		
     	//path.length
-    	if(counter < path.length){             
+    	if(counter < length){             
     		counter++; 
     	} 
     	
-    	if(counter >= path.length){
+    	if(counter >=length){                                                                    
     		finish = true;
     	}
     
@@ -411,7 +418,7 @@ public class PathFinding extends Command {
 
     // Called once after isFinished returns true
     @Override
-    protected void end() {
+    protected void end() {                                                                                          
     	
     //	RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,0); 
     //	RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, 0);

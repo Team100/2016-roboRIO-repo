@@ -37,9 +37,9 @@ public class PathFindingLogicCode extends Command {
         		
         		
         	};
-    	System.out.println("TO STRING OF POINTS========================================");
+    	/*System.out.println("TO STRING OF POINTS========================================");
     	System.out.println(points.toString());
-    	System.out.println("END");
+    	System.out.println("END");*/
     	
     	SmartDashboard.putBoolean("EnteredTestPathFinding", false);
     	

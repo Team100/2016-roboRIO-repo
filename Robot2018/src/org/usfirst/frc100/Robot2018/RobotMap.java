@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -57,6 +58,7 @@ public class RobotMap {
     public static DigitalInput climbingArmClimbLim2;
     public static WPI_TalonSRX winchWinchTalon;
     public static WPI_VictorSPX winchWinchVictor1;
+    public static Counter limitSwitches;
     
     public static Compressor miscCompressor;
 
@@ -70,6 +72,10 @@ public class RobotMap {
     //	@SuppressWarnings(value = { "CTRE CAN Recieve Timeout" })
     	//DuoSol = new DoubleSolenoid(2,3);
         driveTrainRightMaster = new WPI_TalonSRX(1);
+
+        //driveTrainRightMaster.configOpenloopRamp(0.5, 0);
+        //driveTrainLeftMaster.configOpenloopRamp(0.5, 0);
+
         driveTrainLeftMaster = new WPI_TalonSRX(2);
 
 
@@ -97,8 +103,11 @@ public class RobotMap {
         driveTrainRightMaster.setSensorPhase(false); 
         driveTrainLeftMaster.setSensorPhase(true); 
         
-        driveTrainLeftMaster.configOpenloopRamp(0.1, 0);
-        driveTrainRightMaster.configOpenloopRamp(0.1, 0);
+        driveTrainLeftMaster.configOpenloopRamp(0.25, 0);
+        driveTrainRightMaster.configOpenloopRamp(0.25, 0);
+        
+        driveTrainLeftMaster.configPeakCurrentLimit(45, 0);
+        driveTrainRightMaster.configPeakCurrentLimit(45, 0);
 
         driveTrainLeftFollower.follow(driveTrainLeftMaster);       // driveTrainTalonSRX2.setInverted(true);
         driveTrainRightFollower.follow(driveTrainRightMaster);
@@ -113,7 +122,7 @@ public class RobotMap {
         elevatorElevatorTalon = new WPI_TalonSRX(5);
         elevatorElevatorTalon.setSensorPhase(true);
         elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        
+        elevatorElevatorTalon.configPeakCurrentLimit(40, 0);
     
        
         
@@ -121,9 +130,11 @@ public class RobotMap {
         
         
         elevatorElevatorVictor = new WPI_VictorSPX(6);  
+        //elevatorElevatorVictor.configPeakCurrentLimit(40, 0);
         elevatorElevatorVictor.follow(elevatorElevatorTalon);
         elevatorElevatorVictor.setInverted(false);
         elevatorElevatorVictor2 = new WPI_VictorSPX(7);
+        //elevatorElevatorVictor2.configPeakCurrentLimit(40, 0);
         elevatorElevatorVictor2.setInverted(false);
         elevatorElevatorVictor2.follow(elevatorElevatorTalon);
         
@@ -159,7 +170,7 @@ public class RobotMap {
         intakeIntakeFollower.setInverted(true);
         intakeIntakeFollower.configPeakOutputForward(1, 0);
         intakeIntakeFollower.configPeakOutputReverse(-1, 0);
-        intakeIntakeFollower.configOpenloopRamp(0.1, 0);
+        intakeIntakeFollower.configOpenloopRamp(0.2, 0);
         
         //intakeIntakeFollower.follow(intakeIntakeMaster);
 
@@ -192,6 +203,11 @@ public class RobotMap {
         winchWinchVictor2.follow(winchWinchTalon);
         */
 
+        
+        limitSwitches = new Counter();
+        limitSwitches.setUpDownCounterMode();
+        limitSwitches.setDownSource(elevatorElevatorLim2);
+        limitSwitches.setUpSource(elevatorElevatorLim1);
         
 
 

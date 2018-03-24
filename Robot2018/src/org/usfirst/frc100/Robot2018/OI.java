@@ -114,10 +114,10 @@ public class OI {
 
         button12 = new JoystickButton(operator, 2);
         button12.whileHeld(new WinchWind());
-        /*
-        button11 = new JoystickButton(leftController, 11);
-        button11.whileHeld(new ClimbAdjust());
-        */
+        
+        button11 = new JoystickButton(operator, 1);
+        button11.whileHeld(new toggleElevatorSpeed());
+        
         /*
         button10 = new JoystickButton(leftController, 10);
         button10.whenPressed(new ClimbDown());*/
@@ -133,10 +133,10 @@ public class OI {
         //button8.whenPressed(new ClimbUp());
         button7 = new JoystickButton(leftController, 1);
         button7.whileHeld(new IntakeIn());
-        //button6 = new JoystickButton(operator, 7);
-        //button6.whileHeld(new ClimbDown());
-        //button5 = new JoystickButton(operator, 8);
-      //  button5.whenPressed(new ElevatorDown());
+        button6 = new JoystickButton(operator, 6);
+        button6.whenPressed(new ElevatorUp());
+        button5 = new JoystickButton(operator, 8);
+        button5.whenPressed(new ElevatorDown());
        // button4 = new JoystickButton(operator, 6);
         //button4.whenPressed(new ElevatorUp());
         
