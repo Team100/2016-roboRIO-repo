@@ -282,7 +282,7 @@ public class Robot extends TimedRobot {
         RobotMap.driveTrainShiftingSolenoid.set(true);
         
       //  new ParseJSONFile();
-        System.out.println(cubeInfo.getEntry("JSON").getString("Bad"));
+        //System.out.println(cubeInfo.getEntry("JSON").getString("Bad")); //TODO add back in (?)
     }
 
     /**

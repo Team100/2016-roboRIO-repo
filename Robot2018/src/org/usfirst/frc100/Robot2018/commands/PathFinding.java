@@ -35,7 +35,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import java.io
-.*;/**
+.*;
+import java.nio.file.Files;/**
  *
  */
 public class PathFinding extends Command {
@@ -86,7 +87,7 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
-    	if(mode == "null"|| mode == "Left" || mode == "Right") {
+    	if(mode == "null"|| mode == "Left" || mode == "Right" || mode == "Straight") {
     		fastCalculation = false;
     		Robot.ahrs.reset();
     	}else{
@@ -244,7 +245,7 @@ public class PathFinding extends Command {
     		points = new Waypoint[]{
         			new Waypoint(0, 0, 0), 
         			//new Waypoint(3.556, 0, 0), 
-        			new Waypoint(2.7, 7, 0),//Pathfinder.d2r(0)), 
+        			new Waypoint(2.7,0, 0),//Pathfinder.d2r(0)), 
         			
         		}; 
     		//System.out.println("run");
@@ -304,12 +305,18 @@ public class PathFinding extends Command {
     	//Keep first and second arguement the same, the refresh rate in seconds, max vel, max acc, max jerk);
     	trajectory = Pathfinder.generate(points, config);
     	TankModifier modifier = new TankModifier(trajectory).modify(.67); //modify the width between wheels
+    	
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
     	length = leftT.length();
+    	System.out.println("WRITING");
+    	File trajFile = new File("./home/lvusr/forward.traj");
+    	System.out.println("Working");
+    	Pathfinder.writeToFile(trajFile, trajectory);
+    	System.out.println("DONE");
+    	//System.out.println(trajFile.getAbsolutePath());
     	
-    	//File trajFile = new File("forward.csv");
-    	//Pathfinder.writeToCSV(trajFile, trajectory);
+    	//System.out.println(trajFile.getPath());
     	/*
     	for (int i = 0; i < trajectory.length(); i++) {
     		Trajectory.Segment segL = leftT.get(i); 
