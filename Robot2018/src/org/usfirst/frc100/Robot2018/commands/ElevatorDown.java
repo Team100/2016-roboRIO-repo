@@ -61,21 +61,21 @@ public class ElevatorDown extends Command {
     		done = true;
     	}*/
     	
-    	if(-1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1500) {
+    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1500) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.2);
     	}
-    	else if( -1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 250) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 250) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.1);
     	}
-    	else if( -1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 50) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 100) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.07);
     	}
-    	else if(-1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 50) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 100) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
     		done = true;
     	}
     }
-
+    //TODO make the encoder negative
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {

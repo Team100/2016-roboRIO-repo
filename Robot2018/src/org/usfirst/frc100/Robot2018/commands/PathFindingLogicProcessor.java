@@ -212,7 +212,7 @@ public class PathFindingLogicProcessor extends Command {
     	//SmartDashboard.putNumber("turn", turn);
     	
     	double setR = -segR.velocity;
-    	double setL = segL.velocity;
+    	double setL = -segL.velocity;//put a neg sign
     //	double setR = -(segR.velocity + turn); //-segR.velocity;// -(segR.velocity + turn); 
     //	double setL = (segL.velocity - turn);//segL.velocity;//(segL.velocity - turn);
     	

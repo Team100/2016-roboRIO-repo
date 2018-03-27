@@ -86,10 +86,10 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
-    	if(mode == "null" || mode == "Left" || mode == "Right") {
+    	if(mode == "null"|| mode == "Left" || mode == "Right") {
     		fastCalculation = false;
     		Robot.ahrs.reset();
-    	}else {
+    	}else{
     		fastCalculation = true;
     	//	Robot.ahrs.reset();
     	}
@@ -244,12 +244,20 @@ public class PathFinding extends Command {
     		points = new Waypoint[]{
         			new Waypoint(0, 0, 0), 
         			//new Waypoint(3.556, 0, 0), 
-        			new Waypoint(2.7, 0, 0),//Pathfinder.d2r(0)), 
+        			new Waypoint(2.7, 7, 0),//Pathfinder.d2r(0)), 
         			
         		}; 
-    		System.out.println("run");
+    		//System.out.println("run");
     	}
-    	
+    	//if(mode == "testLeftScale"){
+    		//path = paths.returnStraight();
+    		//points = new Waypoint[]{
+    			//	new Waypoint(0,0,0),
+    				//new Waypoint(-3, 3, 0),
+    				//new Waypoint(0,3,0),
+    				//new Waypoint(0.5, 0.15, Pathfinder.d2r(45)),
+    		//};
+    	//}
     	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);
     	//Everything needs to be in meters
     	//Keep in mind that computing paths takes a long time 
@@ -300,15 +308,16 @@ public class PathFinding extends Command {
     	rightT = modifier.getRightTrajectory();
     	length = leftT.length();
     	
-    		/*
-    	
+    	//File trajFile = new File("forward.csv");
+    	//Pathfinder.writeToCSV(trajFile, trajectory);
+    	/*
     	for (int i = 0; i < trajectory.length(); i++) {
     		Trajectory.Segment segL = leftT.get(i); 
     		Trajectory.Segment segR = (rightT.get(i));
     		System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
     	  
-    	}  */
-    	
+    	}  
+    	*/
     	} else {
     		length = path.length;
     	}
@@ -383,6 +392,11 @@ public class PathFinding extends Command {
     	 			setR = rightV- turn1;
             		setL = leftV+turn1;	
     	 		}
+    	 		SmartDashboard.putNumber("Turn", turn1);
+    	 		System.out.println(turn1);
+    	 		
+    	        SmartDashboard.putNumber("ATNLeftV", leftV);
+    	        SmartDashboard.putNumber("ATNRightV", rightV);
         		
     		}
 			//this corrects the robots heading
@@ -393,11 +407,15 @@ public class PathFinding extends Command {
     	SmartDashboard.putNumber("leftS", (setL*1508.965)); //this multiplier is a combination of gearing, how often encoder updates, and wheel diameter
     	SmartDashboard.putNumber("RightS", (setR*1508.965));
     	
+    	
     	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (setR*rightM)*1508.965); 
     	RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (setL*leftM)*1508.965);
         RobotMap.driveTrainRightMaster.configClosedloopRamp(0.25, 0);
         RobotMap.driveTrainLeftMaster.configClosedloopRamp(0.25, 0);
 		
+        SmartDashboard.putNumber("ATNLeftVel", RobotMap.driveTrainLeftMaster.getMotorOutputPercent());
+        SmartDashboard.putNumber("ATNRightVel1", RobotMap.driveTrainRightMaster.getMotorOutputPercent());
+
     	//path.length
     	if(counter < length){             
     		counter++; 

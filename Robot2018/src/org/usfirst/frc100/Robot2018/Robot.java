@@ -12,6 +12,8 @@
 package org.usfirst.frc100.Robot2018;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Preferences;
@@ -96,6 +98,7 @@ public class Robot extends TimedRobot {
     public static double EI;
     public static double ED;
     public static double EF;
+    public static NetworkTable cubeInfo;
     
     
     //Config for Elevator Min and Max
@@ -112,6 +115,11 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
     	RobotMap.init();
+    	
+    	NetworkTableInstance nt = NetworkTableInstance.create();
+    	nt.startClient();
+    	cubeInfo = nt.getTable("Camera");
+    	
     	
     	//USBCamera camera = new USBCamera("Camera");
     	//CameraServer.getInstance().startAutomaticCapture(camera);
@@ -189,7 +197,7 @@ public class Robot extends TimedRobot {
             //ahrs = new AHRS(SerialPort.Port.kMXP, SerialDataType.kProcessedData, (byte)200);
             //ahrs = new AHRS(SPI.Port.kMXP);
             ahrs = new AHRS(I2C.Port.kOnboard);
-        	ahrs.reset();
+        //	ahrs.reset();
 // Uses onboard I2C port
         	//ahrs.enableLogging(true); // Sends debugging logging
         } catch (RuntimeException ex ) {
@@ -274,6 +282,7 @@ public class Robot extends TimedRobot {
         RobotMap.driveTrainShiftingSolenoid.set(true);
         
       //  new ParseJSONFile();
+        System.out.println(cubeInfo.getEntry("JSON").getString("Bad"));
     }
 
     /**
@@ -293,12 +302,13 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
     	RobotMap.elevatorElevatorTalon.setSelectedSensorPosition(0, 0, 0);
-    	RobotMap.driveTrainShiftingSolenoid.set(true);
+    	RobotMap.driveTrainShiftingSolenoid.set(false);
     	RobotMap.elevatorArmSolenoid.set(false);
 
     	run = true;
     	RobotMap.driveTrainRightMaster.setSelectedSensorPosition(0, 0, 0);
     	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
+		//new PathFinding("Straight");
 
     	//new StraightSwitch().start();
     //	new RightSwitch().start();
@@ -329,10 +339,14 @@ public class Robot extends TimedRobot {
     		break;
     		case 1: 
     			new StraightSwitch().start();
-    		break;
+    			break;
     		}
+    		/*case 2:
+    			new TurnRightScale().start();
+    		}*/
     		run  = false;
     		} 
+    		
     	
     	/*
     	if(gameData.length() > 0 && run)
@@ -443,8 +457,10 @@ public class Robot extends TimedRobot {
         ArcadeDrive = prefs.getBoolean("ArcadeDrive", false);
         SmartDashboard.putBoolean("ArcadeDrive On", ArcadeDrive);
         SmartDashboard.putBoolean("Logitech On", Logitech);
+        //SmartDashboard.putNumber("Cube angle difference", cubeInfo.);
         SmartDashboard.putNumber("Position", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("velR", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)));///4096/1.5);
+        SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)));///4096/1.5);
         SmartDashboard.putNumber("PosR", (RobotMap.driveTrainRightMaster.getSelectedSensorPosition(0)));
         SmartDashboard.putNumber("ElevatorError", RobotMap.elevatorElevatorTalon.getClosedLoopError(0));
 

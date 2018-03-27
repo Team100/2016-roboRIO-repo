@@ -120,7 +120,7 @@ public class ElevatorAdjust extends Command {
     	if(OI.operator.getRawAxis(3)  >= 0.05 ) {//&& RobotMap.limitSwitches.get() < 1) {
     		//modifier = -000.045;
     		//System.out.println("UP");
-    		if((-1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 200) {
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 200) {
         		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/6)-000.095);
 
     		}else{//System.out.println(OI.operator.getRawAxis(3));
@@ -132,7 +132,7 @@ public class ElevatorAdjust extends Command {
     		//System.out.println(OI.operator.getRawAxis(3));
     		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.065);
     		//RobotMap.limitSwitches.reset();
-    		if((-1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))>= 1500) {
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))>= 1500) {
         		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/6)-000.085);
 
     		}else{//System.out.println(OI.operator.getRawAxis(3));
@@ -143,7 +143,7 @@ public class ElevatorAdjust extends Command {
     		//System.out.println("null");
 //TODO make the joystick value positive and the bias negative 0.045
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
-    	} /**/
+    	} /**///TODO make the encoder value negative
   
     	
     		//if(prevdir == -1 && OI.operator.getRawAxis(3) >-0.000025) {

@@ -65,18 +65,18 @@ public class ElevatorUp extends Command {
     	/*if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 210 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 190){
     		done = true;
     	}*/
-    	if(-1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1200) {
+    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1200) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.25-0.075);
     	}
-    	else if( -1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1500) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.20-0.075);
     	}
-    	else if(-1 * RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1500) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
     		done = true;
     	}
     	
-    }
+    }//TODO make the encoders negative
 
     // Make this return true when this Command no longer needs to run execute()
     @Override

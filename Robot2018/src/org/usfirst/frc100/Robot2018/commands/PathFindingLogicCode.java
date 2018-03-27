@@ -31,10 +31,13 @@ public class PathFindingLogicCode extends Command {
     	 */
     	Waypoint [] points = new Waypoint[]{
         		//right
-        			new Waypoint(0.0,0.0,0.0),
-        			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
-        			new Waypoint(2.3, -1.75, 0), //2.4  3.05
-        		
+//        			new Waypoint(0.0,0.0,0.0),
+//        			new Waypoint(1.0, -1.2, Pathfinder.d2r(-45)), //4.5 1.371    .57
+//        			new Waypoint(2.3, -1.75, 0), //2.4  3.05
+    			new Waypoint(0,0,0),
+				new Waypoint(-3, 3, 0),
+				new Waypoint(0,3,0),
+				new Waypoint(0.5, 0.15, Pathfinder.d2r(45)),
         		
         	};
     	/*System.out.println("TO STRING OF POINTS========================================");
