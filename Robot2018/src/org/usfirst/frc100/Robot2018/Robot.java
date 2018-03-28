@@ -11,7 +11,6 @@
 
 package org.usfirst.frc100.Robot2018;
 
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -20,11 +19,9 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.CameraServer;
-import edu.wpi.first.wpilibj.vision.USBCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 
 //import org.usfirst.frc100.RandomTest.RobotMap;
 import org.usfirst.frc100.Robot2018.commands.*;
@@ -122,7 +119,7 @@ public class Robot extends TimedRobot {
     	
     	
     	//USBCamera camera = new USBCamera("Camera");
-    	//CameraServer.getInstance().startAutomaticCapture(camera);
+    	//CameraServer.getInstance().startAutomaticCapture(0);
     	
     	elevatorMultiplier = kElevatorMultiplierMax;
     	RobotMap.elevatorElevatorTalon.config_kP(0, 8, 0);
@@ -340,11 +337,18 @@ public class Robot extends TimedRobot {
     		case 1: 
     			new StraightSwitch().start();
     			break;
+    		case 2:
+    			new StraightScaleLeft().start();
+    			break;
+    		
     		}
+    		
     		/*case 2:
     			new TurnRightScale().start();
     		}*/
     		run  = false;
+    		
+
     		} 
     		
     	
@@ -450,7 +454,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();
     	//System.out.println("running");
-    	SmartDashboard.putNumber("NavX-angle", ahrs.getAngle());
+    	//SmartDashboard.putNumber("NavX-angle", ahrs.getAngle());
         SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         SmartDashboard.putData("Henry test path", new PathFinding());
         Logitech = prefs.getBoolean("Logitech", false);
@@ -462,7 +466,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("velR", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)));///4096/1.5);
         SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)));///4096/1.5);
         SmartDashboard.putNumber("PosR", (RobotMap.driveTrainRightMaster.getSelectedSensorPosition(0)));
-        SmartDashboard.putNumber("ElevatorError", RobotMap.elevatorElevatorTalon.getClosedLoopError(0));
+        
 
         SmartDashboard.putNumber("PosL", (RobotMap.driveTrainLeftMaster.getSelectedSensorPosition(0)));//1508.965) *3.28);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());

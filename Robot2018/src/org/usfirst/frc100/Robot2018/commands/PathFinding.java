@@ -250,15 +250,15 @@ public class PathFinding extends Command {
         		}; 
     		//System.out.println("run");
     	}
-    	//if(mode == "testLeftScale"){
-    		//path = paths.returnStraight();
-    		//points = new Waypoint[]{
-    			//	new Waypoint(0,0,0),
-    				//new Waypoint(-3, 3, 0),
+    	if(mode == "testLeftScale"){
+    		//path = trajectory;
+    		points = new Waypoint[]{
+    				new Waypoint(0,0,0),
+    				new Waypoint(3, 3, 0),
     				//new Waypoint(0,3,0),
     				//new Waypoint(0.5, 0.15, Pathfinder.d2r(45)),
-    		//};
-    	//}
+    		};
+    	}
     	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);
     	//Everything needs to be in meters
     	//Keep in mind that computing paths takes a long time 
@@ -309,12 +309,12 @@ public class PathFinding extends Command {
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
     	length = leftT.length();
-    	System.out.println("WRITING");
+    	/*System.out.println("WRITING");
     	File trajFile = new File("./home/lvusr/forward.traj");
     	System.out.println("Working");
     	Pathfinder.writeToFile(trajFile, trajectory);
     	System.out.println("DONE");
-    	//System.out.println(trajFile.getAbsolutePath());
+    	//System.out.println(trajFile.getAbsolutePath());*/
     	
     	//System.out.println(trajFile.getPath());
     	/*
@@ -392,7 +392,7 @@ public class PathFinding extends Command {
             	
     	 		double angleDifference1 = Pathfinder.boundHalfDegrees(desired_heading1 - (Robot.ahrs.getAngle()*-1));
     	 		double turn1 = .87* (-1.0/80.0) * angleDifference1;
-    	 		if(mode == "Straight" || mode == "Left" || mode == "Right") {
+    	 		if(mode == "null" || mode == "Left" || mode == "Right") {
         		setR = rightV; //- turn1;
         		setL = leftV; //+ turn1;
     	 		} else {
@@ -414,6 +414,9 @@ public class PathFinding extends Command {
     	SmartDashboard.putNumber("leftS", (setL*1508.965)); //this multiplier is a combination of gearing, how often encoder updates, and wheel diameter
     	SmartDashboard.putNumber("RightS", (setR*1508.965));
     	
+    	SmartDashboard.putNumber("DT right Error", RobotMap.driveTrainRightMaster.getClosedLoopError(0));
+        
+        SmartDashboard.putNumber("DT left Error", RobotMap.driveTrainLeftMaster.getClosedLoopError(0));
     	
     	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (setR*rightM)*1508.965); 
     	RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (setL*leftM)*1508.965);
