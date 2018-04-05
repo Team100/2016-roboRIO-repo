@@ -87,7 +87,7 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
-    	if(mode == "null"|| mode == "Left" || mode == "Right" || mode == "Straight") {
+    	if(mode == "null" ) {//|| mode == "Left" || mode == "Right" || mode == "Straight") {
     		fastCalculation = false;
     		Robot.ahrs.reset();
     	}else{
@@ -112,17 +112,17 @@ public class PathFinding extends Command {
     		path = paths.returnLeftSwitch();
     		 points = new Waypoint[]{
     			new Waypoint(0, 0, 0), 
-        		new Waypoint(1.0, .9, Pathfinder.d2r(45)), //4.5 1.371    .57
-        		new Waypoint(2.95, 1.35, 0), //2.4  3.05\ //1.3 //1.55
+        		//new Waypoint(1.0, .9, Pathfinder.d2r(45)), //4.5 1.371    .57
+        		new Waypoint(2.5, 2.55, 0), //2.4  3.05\ //1.3 //1.55
     		};
     	} 
     	if(mode == "Right" ){
     		//Robot.ahrs.reset();
-    		path = paths.returnRightSwitch();
+    		 path = paths.returnRightSwitch();
     		 points = new Waypoint []{
     			 new Waypoint(0, 0, 0), 
-    	       	 new Waypoint(1.0, -1.3, Pathfinder.d2r(-45)), //4.5 1.371    .57
-    	    	 new Waypoint(2.85, -1.99, 0),
+    	       	 new Waypoint(2.5, -1.65, 0), //4.5 1.371    .57
+    	    	// new Waypoint(2.85, -1.99, 0),
     		}; 
     	}
     	if(mode == "BackR"){
@@ -244,7 +244,7 @@ public class PathFinding extends Command {
     		path = paths.returnStraight();
     		points = new Waypoint[]{
         			new Waypoint(0, 0, 0), 
-        			        			new Waypoint(2.7,0, 0),//Pathfinder.d2r(0)), 
+        			new Waypoint(2.7,0, 0),//Pathfinder.d2r(0)), 
         			
         		}; 
     		//System.out.println("run");
@@ -304,6 +304,7 @@ public class PathFinding extends Command {
     	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.07/2.2, 5.1/2.2, 20);//17.08);
     	//Keep first and second arguement the same, the refresh rate in seconds, max vel, max acc, max jerk);
     	trajectory = Pathfinder.generate(points, config);
+    	System.out.println(mode);
     	TankModifier modifier = new TankModifier(trajectory).modify(.67); //modify the width between wheels
     	
     	leftT = modifier.getLeftTrajectory();
@@ -317,14 +318,14 @@ public class PathFinding extends Command {
     	//System.out.println(trajFile.getAbsolutePath());*/
     	
     	//System.out.println(trajFile.getPath());
-    	/*
+    	//TODO UES THIS 
     	for (int i = 0; i < trajectory.length(); i++) {
     		Trajectory.Segment segL = leftT.get(i); 
     		Trajectory.Segment segR = (rightT.get(i));
     		System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
     	  
     	}  
-    	*/
+    	
     	} else {
     		length = path.length;
     	}

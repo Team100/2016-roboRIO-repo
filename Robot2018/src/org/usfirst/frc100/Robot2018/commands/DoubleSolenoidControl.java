@@ -4,6 +4,7 @@ package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc100.Robot2018.OI;
 import org.usfirst.frc100.Robot2018.Robot;
@@ -49,15 +50,26 @@ public class DoubleSolenoidControl extends Command {
     	//if(Robot.MaunalDuo){
     		if(OI.operator.getRawButtonPressed(7)){
     			if(RobotMap.DuoSol.get() == Value.kForward){
+    				SmartDashboard.putString("DoubleSolenoidValue", "In");
     				RobotMap.DuoSol.set(DoubleSolenoid.Value.kOff);
+    				SmartDashboard.putString("DoubleSolenoidValue", "Neutral");
+
     			}else{
     				RobotMap.DuoSol.set(DoubleSolenoid.Value.kForward);
+    				SmartDashboard.putString("DoubleSolenoidValue", "In");
+
     			}
     		}else if(OI.operator.getRawButtonPressed(5)){
     			if(RobotMap.DuoSol.get() == Value.kReverse){
+    				SmartDashboard.putString("DoubleSolenoidValue", "Out");
+
     				RobotMap.DuoSol.set(Value.kOff);
+    				SmartDashboard.putString("DoubleSolenoidValue", "Neutral");
+
     			}else{
     				RobotMap.DuoSol.set(Value.kReverse);
+    				SmartDashboard.putString("DoubleSolenoidValue", "Out");
+
     			}
     		}
     	/*}else{
