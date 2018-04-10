@@ -12,11 +12,11 @@ logging.basicConfig(level=logging.DEBUG)
 IM_CENTER = 159.5  # Image width divided by 2 & subtracted by 0.5
 HDPP = 0.1962  # Number of degrees
 VPPD = 6  # Number of pixels
-CAMERA_HEIGHT = 17  # In inches
+CAMERA_HEIGHT = 46  # In inches
 HORI_PIXEL = 4  # Pixel horizontal (180 degrees) with camera
 DIST_OFFSET = 5  # Inches to offset distance
 CAMERA_URI = "http://raspberrypi.local:5802/?action=stream"  # MJPG URL or camera number
-NT_URI = "raspberrypi.local"  # NetworkTables server location
+NT_URI = "roborio-100-frc.local"  # NetworkTables server location
 SWITCH = False  # Enable switch detection
 
 
@@ -122,7 +122,7 @@ def push_networktable(table, objects, cs):
     # Check if cube or switch
     if cs == 0:
         # Put in cube field
-        table.putString("JSON", json)
+        table.putString("Cube", json)
     else:
         # Put in switch field
         table.putString("Switch", json)
@@ -141,6 +141,8 @@ if __name__ == "__main__":
         try:
             # Read frame
             _, frame = camera.read()
+            frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+
             # Process through GRIP
             c_bbox, s_bbox = process_grip(frame, cameraTable)
 
