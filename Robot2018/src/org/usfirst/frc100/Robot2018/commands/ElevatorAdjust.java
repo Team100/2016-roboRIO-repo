@@ -57,61 +57,10 @@ public class ElevatorAdjust extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	if(RobotMap.elevatorArmEleArmLim1.get()&& count == 0) {
+    	if(RobotMap.elevatorArmEleArmLim1.get()&& count == 0) {//not used
     		count = 1;
-    	} 
-    	//if(count >= 1 && RobotMap.elevatorArmEleArmLim1.get()) {
-    		//count = 0;
-    	//}
-    	/*if(RobotMap.elevatorElevatorLim1.get()){
-    		//RobotMap.elevatorElevatorTalon.configPeakOutputForward(0, 0);
-    	//	RobotMap.elevatorElevatorVictor.configPeakOutputForward(0, 0);
-    		//RobotMap.elevatorElevatorVictor2.configPeakOutputForward(0, 0);
-    	
-    		//if(OI.operator.getRawAxis(3)  >= 0.1/* && !RobotMap.elevatorArmEleArmLim1.get()*///)  {
-        		//modifier = -000.045;
-        		//System.out.println("UP");
-        		//System.out.println(OI.operator.getRawAxis(3));
-        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
-        	//}
-        	//else if(OI.operator.getRawAxis(3) <= -0.1 /*&& !RobotMap.elevatorArmEleArmLim2.get()*/) {
-        		
-        		//modifier = +0.2;
-        		//System.out.println("DOWN");
-        		//System.out.println(OI.operator.getRawAxis(3));
-        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)+000.045);
-        	//}
-        	//else {
-        	//	modifier = -0.03;
-        		//System.out.println("null");
-
-        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
-        	//}
-    	//}else if(RobotMap.elevatorElevatorLim2.get()) {
-    		//RobotMap.elevatorElevatorTalon.configPeakOutputReverse(.0, 0);
-    		//RobotMap.elevatorElevatorVictor.configPeakOutputReverse(.0, 0);
-    		//RobotMap.elevatorElevatorVictor2.configPeakOutputReverse(.0, 0);
-
-    		//if(OI.operator.getRawAxis(3)  >= 0.1) {
-        		//modifier = -000.045;
-        		//System.out.println("UP");
-        		//System.out.println(OI.operator.getRawAxis(3));
-        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
-        //	}
-        	//else if(OI.operator.getRawAxis(3) <= -0.1) {
-        		//modifier = +0.2;
-        		//System.out.println("DOWN");
-        		//System.out.println(OI.operator.getRawAxis(3));
-        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)+00.045);
-        	//}
-        	//else {
-        	//	modifier = -0.03;
-        		//System.out.println("null");
-
-        		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.045);
-        //}
-    	//}else{
-    		RobotMap.elevatorElevatorTalon.configPeakOutputForward(0.75, 0);
+    	}    	
+    		RobotMap.elevatorElevatorTalon.configPeakOutputForward(0.75, 0);//setting values fo the elevaotr
     		RobotMap.elevatorElevatorVictor.configPeakOutputForward(0.75, 0);
     		RobotMap.elevatorElevatorVictor2.configPeakOutputForward(0.75, 0);
     		RobotMap.elevatorElevatorTalon.configPeakOutputReverse(-0.75, 0);
@@ -119,48 +68,32 @@ public class ElevatorAdjust extends Command {
     		RobotMap.elevatorElevatorVictor2.configPeakOutputReverse(-0.75, 0);
     	if(OI.operator.getRawAxis(3)  >= 0.05 ) {//&& RobotMap.limitSwitches.get() < 1) {
     		//modifier = -000.045;
-    		//System.out.println("UP");
-    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 400) {
-        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/6)-000.095);
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 400) {//slows down if it is very low of high
+        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/6)-000.095);// 0.095 is a bias value against gravity
 
-    		}else{//System.out.println(OI.operator.getRawAxis(3));
+    		}else{
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/2)-000.065);
     		RobotMap.limitSwitches.reset();}
     	}else if(OI.operator.getRawAxis(3) <= -0.05 ) {//&& RobotMap.limitSwitches.get() > -1) {
     		//modifier = +0.2;
-    		//System.out.println("DOWN");
-    		//System.out.println(OI.operator.getRawAxis(3));
-    		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.065);
-    		//RobotMap.limitSwitches.reset();
     		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))>= 1500) {
         		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/6)-000.085);
 
     		}else{//System.out.println(OI.operator.getRawAxis(3));
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/2)-000.065);
     		RobotMap.limitSwitches.reset();}
-    	}else {
+    	}else{
     	//	modifier = -0.03;
-    		//System.out.println("null");
-//TODO make the joystick value positive and the bias negative 0.045
+    		//TODO make the joystick value positive and the bias negative 0.045
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
     	} /**///TODO make the encoder value negative
   
-    	
-    		//if(prevdir == -1 && OI.operator.getRawAxis(3) >-0.000025) {
-    			//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.1);
-    			
-    		//}
-    		//prevdir = (int)Math.signum(OI.operator.getRawAxis(3));
-    	//System.out.println("");
-    	//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)+modifier);
-    	//RobotMap.elevatorElevatorTalon.
     	SmartDashboard.putNumber("ElevatorMaster",RobotMap.elevatorElevatorTalon.getMotorOutputPercent());
     	SmartDashboard.putNumber("ElevatorVel", RobotMap.elevatorElevatorTalon.getSelectedSensorVelocity(0));
     	SmartDashboard.putNumber("ElevatorSlave1",RobotMap.elevatorElevatorVictor.getMotorOutputPercent());
     	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
     	SmartDashboard.putNumber("JoyPercent", -OI.operator.getRawAxis(3));
     	stickValue=OI.operator.getRawAxis(3);
-    	//System.out.println(count);
 
     }
     // Make this return true when this Command no longer needs to run execute()

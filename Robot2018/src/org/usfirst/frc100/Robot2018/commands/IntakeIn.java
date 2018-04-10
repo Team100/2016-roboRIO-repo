@@ -54,8 +54,8 @@ public class IntakeIn extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	RobotMap.intakeIntakeMaster.set(ControlMode.PercentOutput, 1.0);
-    	RobotMap.intakeIntakeFollower.set(ControlMode.PercentOutput, -1.0);
+    	RobotMap.intakeIntakeMaster.set(ControlMode.PercentOutput, 1.0);//runs the intake talon as fast as possible
+    	RobotMap.intakeIntakeFollower.set(ControlMode.PercentOutput, -1.0);//funs the intake follower
     }
 
     // Make this return true when this Command no longer needs to run execute()

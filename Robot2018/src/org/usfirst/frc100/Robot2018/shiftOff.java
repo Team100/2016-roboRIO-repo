@@ -40,29 +40,29 @@ public class shiftOff extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	done=false;
-    	RobotMap.driveTrainShiftingSolenoid.set(false);
+    	done=false;//to stop when ready
+    	RobotMap.driveTrainShiftingSolenoid.set(false);// turns the solenoid off
 
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	RobotMap.driveTrainShiftingSolenoid.set(false);
+    	RobotMap.driveTrainShiftingSolenoid.set(false);//makes sure it's off
 
-    	done = true;
+    	done = true;//makes is finished true
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return done;
+        return done;//return the boolean that need to be true when it ends.
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-    	RobotMap.driveTrainShiftingSolenoid.set(false);
+    	RobotMap.driveTrainShiftingSolenoid.set(false);//one more time
 
     }
 
