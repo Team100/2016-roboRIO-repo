@@ -55,8 +55,8 @@ public class ElevatorDown extends Command {// this command will take the elevato
     	SmartDashboard.putNumber("ElevatorVel", RobotMap.elevatorElevatorTalon.getSelectedSensorVelocity(0));
     	SmartDashboard.putNumber("ElevatorSlave1",RobotMap.elevatorElevatorVictor.getMotorOutputPercent());
     	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
-    	SmartDashboard.putNumber("MMTrajVelo", RobotMap.elevatorElevatorTalon.getActiveTrajectoryVelocity());
-    	SmartDashboard.putNumber("MMTrajPos", RobotMap.elevatorElevatorTalon.getActiveTrajectoryPosition());
+    	//SmartDashboard.putNumber("MMTrajVelo", RobotMap.elevatorElevatorTalon.getActiveTrajectoryVelocity());
+    	//SmartDashboard.putNumber("MMTrajPos", RobotMap.elevatorElevatorTalon.getActiveTrajectoryPosition());
     	/*if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 510 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 490){
     		done = true;
     	}*/

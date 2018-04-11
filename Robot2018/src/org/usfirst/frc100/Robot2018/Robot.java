@@ -315,8 +315,11 @@ public class Robot extends TimedRobot {
     		switch(modeSelect) {
     		case 0://goes for a switch
     		if(gameData.charAt(0) == 'R') {
+    			System.out.println("Right Switch");
+
     			new RightSwitch().start();
     		} else if (gameData.charAt(0) == 'L') {
+    			System.out.println("Left Switch");
     			new LeftSwitch().start();
     		}
     		break;
@@ -324,10 +327,11 @@ public class Robot extends TimedRobot {
     			new StraightSwitch().start();
     			break;
     		case 2://scale if on left(WIP)TODO take off WIP when finished
+    			System.out.println("Case 2");
     			if(gameData.charAt(1) == 'L') {
         			new StraightScaleLeft().start();
-        		} else if (gameData.charAt(0) == 'R') {
-        			new TurnRightScale().start();
+        		} else if (gameData.charAt(1) == 'R') {
+        			new StraightScaleRight().start();
         		}
     			break;
     		}

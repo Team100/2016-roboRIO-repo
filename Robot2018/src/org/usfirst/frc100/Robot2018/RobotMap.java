@@ -85,6 +85,8 @@ public class RobotMap {
         //setting the closed loop feedback to a quad encoder
         driveTrainRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         driveTrainLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        driveTrainRightMaster.setSelectedSensorPosition(0, 0, 0);
+        driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
 
         //the left follower which will follow the left master
         driveTrainLeftFollower = new WPI_VictorSPX(4);
@@ -92,8 +94,8 @@ public class RobotMap {
         driveTrainLeftMaster.setInverted(false); 
         driveTrainLeftFollower.setInverted(false); 
         driveTrainRightFollower.setInverted(false); 
-        driveTrainRightMaster.setSensorPhase(true); 
-        driveTrainLeftMaster.setSensorPhase(true); 
+        driveTrainRightMaster.setSensorPhase(false); 
+        driveTrainLeftMaster.setSensorPhase(false); 
         
         driveTrainLeftMaster.configOpenloopRamp(0.45, 0);//configs the ramp rate(# of seconds from 0 - max speed)
         driveTrainRightMaster.configOpenloopRamp(0.45, 0);

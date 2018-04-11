@@ -57,17 +57,17 @@ public class ElevatorUp extends Command {//this command brings the elevator up. 
     	SmartDashboard.putNumber("ElevatorVel", RobotMap.elevatorElevatorTalon.getSelectedSensorVelocity(0));
     	SmartDashboard.putNumber("ElevatorSlave1",RobotMap.elevatorElevatorVictor.getMotorOutputPercent());
     	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
-    	SmartDashboard.putNumber("MMTrajVelo", RobotMap.elevatorElevatorTalon.getActiveTrajectoryVelocity());
-    	SmartDashboard.putNumber("MMTrajPos", RobotMap.elevatorElevatorTalon.getActiveTrajectoryPosition());
+    	//SmartDashboard.putNumber("MMTrajVelo", RobotMap.elevatorElevatorTalon.getActiveTrajectoryVelocity());
+    	//SmartDashboard.putNumber("MMTrajPos", RobotMap.elevatorElevatorTalon.getActiveTrajectoryPosition());
     	//System.out.println(RobotMap.elevatorElevatorTalon.getMotorOutputVoltage());
     	/*if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 210 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 190){
     		done = true;
     	}*/
     	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1200) {//moves the elevator up and down moves up as if its motion magic
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.15-0.075);
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.6-0.075);
     	}
     	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1560) {
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.1-0.075);
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.4-0.075);
     	}
     	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);

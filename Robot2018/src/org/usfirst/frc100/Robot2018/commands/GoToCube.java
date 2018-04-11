@@ -51,8 +51,8 @@ public class GoToCube extends Command {
     			RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, -0.5);
     		}
     		else if (Robot.ahrs.getFusedHeading() < angle - kTurnDeadband) {
-    			RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, 0.5);
-    			RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, 0.5);
+    			RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, +0.5);
+    			RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput, +0.5);
     		}
     		else {
     			turnMode = false;
