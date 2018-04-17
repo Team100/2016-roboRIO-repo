@@ -58,7 +58,10 @@ def read_log_file(fname):
             elif value.startswith('false'):
                 val = 0.0
             else:
-                val = float(value)
+                try:
+                    val = float(value)
+                except ValueError:
+                    val = 0.0
 
             mydict[varname][0].append(time/1000.0)
             mydict[varname][1].append(val)
