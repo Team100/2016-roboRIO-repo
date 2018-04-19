@@ -321,9 +321,9 @@ public class Robot extends TimedRobot {
     	if(gameData.length() > 0 && run) {
     		switch(modeSelect) {
     		case 0:
-    		if(gameData.charAt(0) == 'R') {
+    		if(gameData.charAt(0) == 'L') {
     			new RightSwitch().start();
-    		} else if (gameData.charAt(0) == 'L') {
+    		} else if (gameData.charAt(0) == 'R') {
     			new LeftSwitch().start();
     		}
     		break;
@@ -469,6 +469,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)));///4096/1.5);
         SmartDashboard.putNumber("PosR", (RobotMap.driveTrainRightMaster.getSelectedSensorPosition(0)));
         
+
         SmartDashboard.putNumber("PosL", (RobotMap.driveTrainLeftMaster.getSelectedSensorPosition(0)));//1508.965) *3.28);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();

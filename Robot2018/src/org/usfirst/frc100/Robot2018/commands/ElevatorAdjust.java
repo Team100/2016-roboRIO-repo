@@ -120,7 +120,7 @@ public class ElevatorAdjust extends Command {
     	if(OI.operator.getRawAxis(3)  >= 0.05 ) {//&& RobotMap.limitSwitches.get() < 1) {
     		//modifier = -000.045;
     		//System.out.println("UP");
-    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 400) {
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 200) {
         		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/6)-000.095);
 
     		}else{//System.out.println(OI.operator.getRawAxis(3));

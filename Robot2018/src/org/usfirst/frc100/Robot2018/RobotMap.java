@@ -103,8 +103,8 @@ public class RobotMap {
         driveTrainRightMaster.setSensorPhase(true); 
         driveTrainLeftMaster.setSensorPhase(true); 
         
-        driveTrainLeftMaster.configOpenloopRamp(0.75, 0);
-        driveTrainRightMaster.configOpenloopRamp(0.75, 0);
+        driveTrainLeftMaster.configOpenloopRamp(0.25, 0);
+        driveTrainRightMaster.configOpenloopRamp(0.25, 0);
         
         driveTrainLeftMaster.configPeakCurrentLimit(45, 0);
         driveTrainRightMaster.configPeakCurrentLimit(45, 0);
