@@ -9,11 +9,6 @@ public class StraightScaleLeft extends CommandGroup {
 
     public StraightScaleLeft() {
     	addSequential(new PathFinding("testLeftScale"));
-    	addSequential(new ElevatorUp());
-    	addSequential(new IntakeOut());
-    	addSequential(new ElevatorDown());
-
-
     	/*
     	 * addSequential(new TurnTo(180));
     	 * 
