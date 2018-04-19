@@ -63,13 +63,13 @@ public class ElevatorUp extends Command {//this command brings the elevator up. 
     	/*if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 210 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 190){
     		done = true;
     	}*/
-    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= -1200) {//moves the elevator up and down moves up as if its motion magic //TODO change all to <= + for practice bot
+    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1200) {//moves the elevator up and down moves up as if its motion magic
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.6-0.075);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= -1560) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.4-0.075);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= -1560) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
     		done = true;
     	}

@@ -62,16 +62,16 @@ public class ElevatorDown extends Command {// this command will take the elevato
     	}*/
     	//it will go up, and the farther it goes down the slower it gets
     	//it start slow. It's an bell curve of velocity
-    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= -1500) { //TODO change all back to >= + for practice robot
+    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1500) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.2);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= -250) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 250) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.1);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= -100) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 100) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.07);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= -100) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 100) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
     		done = true;
     	}
