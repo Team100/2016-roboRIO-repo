@@ -100,7 +100,7 @@ public class RobotMap {
         driveTrainLeftMaster.setInverted(false); 
         driveTrainLeftFollower.setInverted(false); 
         driveTrainRightFollower.setInverted(false); 
-        driveTrainRightMaster.setSensorPhase(true); 
+        driveTrainRightMaster.setSensorPhase(false); 
         driveTrainLeftMaster.setSensorPhase(true); 
         
         driveTrainLeftMaster.configOpenloopRamp(0.25, 0);

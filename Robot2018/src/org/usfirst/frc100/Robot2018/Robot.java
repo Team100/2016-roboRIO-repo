@@ -314,8 +314,15 @@ public class Robot extends TimedRobot {
         //autonomousCommand = chooser.getSelected();
         // schedule the autonomous command (example)
        // if (autonomousCommand != null) autonomousCommand.start();
-    	
-    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    }
+
+    /**
+     * This function is called periodically during autonomous
+     */
+    @Override
+    public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
+        gameData = DriverStation.getInstance().getGameSpecificMessage();
     	int modeSelect = oi.selector();
      	
     	if(gameData.length() > 0 && run) {
@@ -344,15 +351,6 @@ public class Robot extends TimedRobot {
 
     		} 
     		
-    }
-
-    /**
-     * This function is called periodically during autonomous
-     */
-    @Override
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-        
     	
     	/*
     	if(gameData.length() > 0 && run)

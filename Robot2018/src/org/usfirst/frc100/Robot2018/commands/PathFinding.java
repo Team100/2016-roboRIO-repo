@@ -244,12 +244,12 @@ public class PathFinding extends Command {
     		path = paths.returnStraight();
     		points = new Waypoint[]{
         			new Waypoint(0, 0, 0), 
-        			        			new Waypoint(2.7,0, 0),//Pathfinder.d2r(0)), 
+        			//new Waypoint(3.556, 0, 0), 
+        			new Waypoint(2.7,0, 0),//Pathfinder.d2r(0)), 
         			
         		}; 
     		//System.out.println("run");
-    	}//new Waypoint(3.556, 0, 0), 
-
+    	}
     	if(mode == "testLeftScale"){
     		//path = trajectory;
     		points = new Waypoint[]{
@@ -423,14 +423,9 @@ public class PathFinding extends Command {
         RobotMap.driveTrainRightMaster.configClosedloopRamp(0.25, 0);
         RobotMap.driveTrainLeftMaster.configClosedloopRamp(0.25, 0);
 		
-        SmartDashboard.putNumber("ATNLeftVel", RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0));
-        SmartDashboard.putNumber("ATNRightVel1", RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0));
-        
-        SmartDashboard.putNumber("ATNLeftPO", RobotMap.driveTrainLeftMaster.getMotorOutputPercent());
-        SmartDashboard.putNumber("ATNRightPO", RobotMap.driveTrainRightMaster.getMotorOutputPercent());
+        SmartDashboard.putNumber("ATNLeftVel", RobotMap.driveTrainLeftMaster.getMotorOutputPercent());
+        SmartDashboard.putNumber("ATNRightVel1", RobotMap.driveTrainRightMaster.getMotorOutputPercent());
 
-        SmartDashboard.putNumber("ATNLeftEncPos",RobotMap.driveTrainLeftMaster.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("ATNRightEncPos",RobotMap.driveTrainRightMaster.getSelectedSensorPosition(0));
     	//path.length
     	if(counter < length){             
     		counter++; 
