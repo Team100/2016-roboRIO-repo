@@ -89,7 +89,7 @@ public class PathFinding extends Command {
     	requires(Robot.driveTrain);
     	
     	mode = a;
-    	if(mode == "null" ||mode == "testRightScale"/* || mode == "testLeftScale"*/){//|| mode == "Left" ) {//|| mode == "Left" || mode == "Right" || mode == "Straight") {
+    	if(mode == "null" ||mode == "ScaleTurnRight" /*|| mode == "testRightScale"*/){//|| mode == "Left" ) {//|| mode == "Left" || mode == "Right" || mode == "Straight") {
     		fastCalculation = false;
     		System.out.println("FAST CALC DISABLED");
     		Robot.ahrs.reset();
@@ -244,30 +244,24 @@ public class PathFinding extends Command {
         		}; 
     		//System.out.println("run");
     	}//new Waypoint(3.556, 0, 0), 
+
     	if(mode == "testLeftScale"){
     		path = paths.startLeftScaleLeft();
     		points = new Waypoint[]{
-    				/*new Waypoint(0,0,0),
-    				new Waypoint(3, 0.425, 0),//using simple math for distances
-    			//	new Waypoint(4.52+0.889,0.15-0.825,Pathfinder.d2r(0)),
-    				new Waypoint(5.65, -0.478,Pathfinder.d2r(0)),
-    			//	new Waypoint(6.05, -0.51, Pathfinder.d2r(30)),*/
     				new Waypoint(0,0,0),
-    			//	new Waypoint(6, 0, 0),//using simple math for distances
+    				new Waypoint(4.25, 0.432, 0),//using simple math for distances
     			//	new Waypoint(4.52+0.889,0.15-0.825,Pathfinder.d2r(0)),
-    				new Waypoint(5.19, 0,Pathfinder.d2r(5)),
+    				new Waypoint(5.7, 0.432-1.5, Pathfinder.d2r(0)), 
     		};
     	}
     	if(mode == "testRightScale"){
     		path = paths.startRightScaleRight();
-    		//System.out.println(fastCalculation);
+    		System.out.println(fastCalculation);
     		points = new Waypoint[]{
     				new Waypoint(0,0,0),
-    				
-    				new Waypoint(3, -0.388, 0),//using simple math for distances
-    			//new Waypoint(4.52+0.889,0.15-0.825,Pathfinder.d2r(0)),
-    				new Waypoint(4.97, 0.79,Pathfinder.d2r(15)),
-    				//new Waypoint(5.19, 0, Pathfinder.d2r(-20)),
+    				new Waypoint(4.25, -0.432, 0),//using simple math for distances
+    			//	new Waypoint(4.52+0.889,0.15-0.825,Pathfinder.d2r(0)),
+    				new Waypoint(5.7, -0.432+1.5, Pathfinder.d2r(15)), 
     		};
     	}
     	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);
@@ -407,7 +401,7 @@ public class PathFinding extends Command {
             	
     	 		double angleDifference1 = Pathfinder.boundHalfDegrees(desired_heading1 - (Robot.ahrs.getAngle()*-1));
     	 		double turn1 = .87* (-1.0/80.0) * angleDifference1;
-    	 		if(mode == "null" || mode == "Left" || mode == "Right" || mode == "testLeftScale") {
+    	 		if(mode == "null" || mode == "Left" || mode == "Right") {
         		setR = rightV; //- turn1;
         		setL = leftV; //+ turn1;
     	 		} else {
