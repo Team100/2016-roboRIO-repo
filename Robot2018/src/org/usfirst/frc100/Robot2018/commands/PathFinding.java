@@ -87,7 +87,7 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
-    	if(mode == "null"|| mode == "Left" || mode == "Right" || mode == "Straight") {
+    	if(mode == "null"|| mode == "null" || mode == "null" || mode == "null") {
     		fastCalculation = false;
     		Robot.ahrs.reset();
     	}else{
@@ -264,7 +264,7 @@ public class PathFinding extends Command {
     	//Keep in mind that computing paths takes a long time 
     	//because the roborio isnt really that powerful
     	//Once you have a path, it makes sense to load all the data you want to use into an array
-
+  
     	
     	p = Robot.prefs.getDouble("P",
 				0);
@@ -317,14 +317,14 @@ public class PathFinding extends Command {
     	//System.out.println(trajFile.getAbsolutePath());*/
     	
     	//System.out.println(trajFile.getPath());
-    	/*
+    	
     	for (int i = 0; i < trajectory.length(); i++) {
     		Trajectory.Segment segL = leftT.get(i); 
     		Trajectory.Segment segR = (rightT.get(i));
     		System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
     	  
     	}  
-    	*/
+    	
     	} else {
     		length = path.length;
     	}
@@ -392,7 +392,7 @@ public class PathFinding extends Command {
             	
     	 		double angleDifference1 = Pathfinder.boundHalfDegrees(desired_heading1 - (Robot.ahrs.getAngle()*-1));
     	 		double turn1 = .87* (-1.0/80.0) * angleDifference1;
-    	 		if(mode == "null" || mode == "Left" || mode == "Right") {
+    	 		if(mode != "null" ) {
         		setR = rightV; //- turn1;
         		setL = leftV; //+ turn1;
     	 		} else {

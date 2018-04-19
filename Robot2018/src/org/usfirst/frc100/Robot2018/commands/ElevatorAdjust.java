@@ -120,8 +120,8 @@ public class ElevatorAdjust extends Command {
     	if(OI.operator.getRawAxis(3)  >= 0.05 ) {//&& RobotMap.limitSwitches.get() < 1) {
     		//modifier = -000.045;
     		//System.out.println("UP");
-    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 200) {
-        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/6)-000.095);
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))>= -200) {
+        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/10)-000.095);
 
     		}else{//System.out.println(OI.operator.getRawAxis(3));
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/2)-000.065);
@@ -132,8 +132,8 @@ public class ElevatorAdjust extends Command {
     		//System.out.println(OI.operator.getRawAxis(3));
     		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.065);
     		//RobotMap.limitSwitches.reset();
-    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))>= 1500) {
-        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/6)-000.085);
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= -1500) {
+        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/10)-000.085);
 
     		}else{//System.out.println(OI.operator.getRawAxis(3));
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/2)-000.065);
