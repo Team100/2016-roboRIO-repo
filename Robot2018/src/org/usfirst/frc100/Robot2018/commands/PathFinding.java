@@ -87,7 +87,7 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
-    	if(mode == "null" || mode == "testLeftScale" ) {//|| mode == "Left" || mode == "Right" || mode == "Straight") {
+    	if(mode == "null" ) {//|| mode == "Left" || mode == "Right" || mode == "Straight") {
     		fastCalculation = false;
     		Robot.ahrs.reset();
     	}else{
@@ -254,9 +254,9 @@ public class PathFinding extends Command {
     		//path = trajectory;
     		points = new Waypoint[]{
     				new Waypoint(0,0,0),
-    				new Waypoint(2.64, 0.75, 0),
-    				new Waypoint(4.5,-0.4,Pathfinder.d2r(0)),
-    				new Waypoint(4.5, -0.7, Pathfinder.d2r(-35)),
+    				new Waypoint(3, 3, 0),
+    				//new Waypoint(0,3,0),
+    				//new Waypoint(0.5, 0.15, Pathfinder.d2r(45)),
     		};
     	}
     	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);

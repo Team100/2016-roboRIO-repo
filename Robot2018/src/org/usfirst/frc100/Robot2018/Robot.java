@@ -333,6 +333,7 @@ public class Robot extends TimedRobot {
     		case 2:
     			new StraightScaleLeft().start();
     			break;
+    		
     		}
     		
     		/*case 2:

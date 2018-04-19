@@ -66,10 +66,10 @@ public class ElevatorUp extends Command {
     		done = true;
     	}*/
     	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1200) {
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.15-0.075);
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.25-0.075);
     	}
     	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1560) {
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.1-0.075);
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.20-0.075);
     	}
     	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
