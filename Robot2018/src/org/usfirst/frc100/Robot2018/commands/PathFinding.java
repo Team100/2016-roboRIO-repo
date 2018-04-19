@@ -74,8 +74,7 @@ public class PathFinding extends Command {
 	String fileName = "out.txt";
 	double[][] path;
 	//Paths p;
-	double angle;
-	double DistanceH;
+	
     public PathFinding() {
     	
     	requires(Robot.driveTrain);
@@ -87,9 +86,8 @@ public class PathFinding extends Command {
     	
     	leftM = 1; 
     	requires(Robot.driveTrain);
-    	
     	mode = a;
-    	if(mode == "null" || mode == "testLeftScale"||mode == "ScaleTurnRight"|| mode == "autocube" ) {//|| mode == "Left" || mode == "Right" || mode == "Straight") {
+    	if(mode == "null" || mode == "testLeftScale" ) {//|| mode == "Left" || mode == "Right" || mode == "Straight") {
     		fastCalculation = false;
     		Robot.ahrs.reset();
     	}else{
@@ -101,9 +99,7 @@ public class PathFinding extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	angle = Robot.cubes[0].getAngle();
-    	System.out.println(Pathfinder.d2r(angle));
-    	DistanceH= Robot.cubes[0].getDistance();
+    	
     	paths = new Paths();
     	timeInt = 100;
     	finish = false;
@@ -142,12 +138,17 @@ public class PathFinding extends Command {
         	leftM = -1; 
     	}
     	if(mode == "autocube"){
+    		ParseJSONFile a = new ParseJSONFile("angle");
+        	String an = a.Data();
+        	double length = Double.parseDouble(an);
+        	//esse guey
+    		//double angle = 0; 
+    		double width = 0; 
+    		//double length = 0;
     		//Robot.ahrs.reset();
-    		System.out.println("yeet");
     		points = new Waypoint[] {
     				new Waypoint(0, 0, 0),
-    				/*new Waypoint((Math.sin(Pathfinder.d2r(angle))*(DistanceH*0.0254)),(Math.cos(Pathfinder.d2r(angle)))*(DistanceH*0.0254),0),
-    				new Waypoint(Math.sin(PathFinder.dr2(angle)*(DistanceH*0,0254)));*/
+    				new Waypoint(length, 0, 0),
     		};
     		//Robot.ahrs.reset();
     		/*
@@ -227,11 +228,15 @@ public class PathFinding extends Command {
     		path = paths.returnTurnRightScale();
     		
     		points = new Waypoint[]{
-    				new Waypoint(0,0,0),
-    				new Waypoint(2.64, -0.65, 0),
-    				new Waypoint(4.0, .5,0),
-    				new Waypoint(4.2, 1.25, Pathfinder.d2r(0)),
-    		};
+    			new Waypoint(0, 0, 0), 
+    			//new Waypoint(3.556, 0, 0), 
+    			new Waypoint(4.5, 0, 0),//Pathfinder.d2r(0)), 
+    			new Waypoint(5.3, -.914, Pathfinder.d2r(90)),
+    			new Waypoint(5.2, -2.4, Pathfinder.d2r(90)),
+    		//	new Waypoint(5.5, 3.4, Pathfinder.d2r(45)),
+    			new Waypoint(5.8, -4.26,0),
+    			new Waypoint(7.0, -4.26, 0),
+    		}; 
     	}
     	
     	if(mode == "Straight"){
@@ -250,8 +255,8 @@ public class PathFinding extends Command {
     		points = new Waypoint[]{
     				new Waypoint(0,0,0),
     				new Waypoint(2.64, 0.75, 0),
-    				new Waypoint(4.5,0.15,Pathfinder.d2r(0)),
-    				new Waypoint(4.4, 0.25, Pathfinder.d2r(0)),
+    				new Waypoint(4.5,-0.4,Pathfinder.d2r(0)),
+    				new Waypoint(4.5, -0.7, Pathfinder.d2r(-35)),
     		};
     	}
     	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);

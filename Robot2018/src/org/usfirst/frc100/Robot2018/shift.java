@@ -40,8 +40,8 @@ public class shift extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	done=false;//done is to make it stop when ready
-    	RobotMap.driveTrainShiftingSolenoid.set(true);//sets the solenoid to true on the drive train
+    	done=false;
+    	RobotMap.driveTrainShiftingSolenoid.set(true);
 
     }
 
@@ -55,13 +55,13 @@ public class shift extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return done;//note done is returned to finish the script
+        return done;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-    	RobotMap.driveTrainShiftingSolenoid.set(true);//just to make sure
+    	RobotMap.driveTrainShiftingSolenoid.set(true);
 
     }
 

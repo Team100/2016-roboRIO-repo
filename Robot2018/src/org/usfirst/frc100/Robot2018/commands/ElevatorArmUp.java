@@ -17,7 +17,7 @@ import org.usfirst.frc100.Robot2018.RobotMap;
 /**
  *
  */
-public class ElevatorArmUp extends Command {//the actual command running 
+public class ElevatorArmUp extends Command {
 
     private boolean done;
 
@@ -42,10 +42,10 @@ public class ElevatorArmUp extends Command {//the actual command running
     @Override
     protected void initialize() {
     	done=false;
-    	if(RobotMap.elevatorArmSolenoid.get()) {//checks if the pneumatics are already on
-    		RobotMap.elevatorArmSolenoid.set(false);//if so turn off
+    	if(RobotMap.elevatorArmSolenoid.get()) {
+    		RobotMap.elevatorArmSolenoid.set(false);
     	}else {
-        	RobotMap.elevatorArmSolenoid.set(true);//else: turn off
+        	RobotMap.elevatorArmSolenoid.set(true);
     	}
     }
 

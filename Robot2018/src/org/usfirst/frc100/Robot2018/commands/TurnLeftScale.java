@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class TurnLeftScale extends CommandGroup {
 
     public TurnLeftScale() {
-    	addSequential(new PathFinding("testLeftScale"));
+    	addSequential(new PathFinding("ScaleTurnLeft"));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

@@ -15,7 +15,7 @@ public class CalculateDeadzone extends Command{
 		negDeadzone = 0;
 	}
 
-	public void initizlize(){//used for auto
+	public void initizlize(){
 		
 	}
 	

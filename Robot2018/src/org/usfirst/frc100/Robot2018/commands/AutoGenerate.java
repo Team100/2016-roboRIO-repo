@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoGenerate {//for auton
+public class AutoGenerate {
 	
 	private double maxAcc; 
 	private double distance; 
