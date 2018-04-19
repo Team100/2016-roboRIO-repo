@@ -93,8 +93,8 @@ public class RobotMap {
         driveTrainRightMaster.setInverted(false); //make sure these are correct on the actual drive train. 
         driveTrainLeftMaster.setInverted(false); 
         driveTrainLeftFollower.setInverted(false); 
-        driveTrainRightFollower.setInverted(false); 
-        driveTrainRightMaster.setSensorPhase(false); 
+        driveTrainRightFollower.setInverted(true); 
+        driveTrainRightMaster.setSensorPhase(true); //TODO This was switched 
         driveTrainLeftMaster.setSensorPhase(false); 
         
         driveTrainLeftMaster.configOpenloopRamp(0.45, 0);//configs the ramp rate(# of seconds from 0 - max speed)
@@ -113,7 +113,7 @@ public class RobotMap {
 
         
         elevatorElevatorTalon = new WPI_TalonSRX(5);//deifing the first elevator(master)
-        elevatorElevatorTalon.setSensorPhase(true);
+        elevatorElevatorTalon.setSensorPhase(false);
         elevatorElevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);//setting the feedback sensor of the eleator master
         elevatorElevatorTalon.configPeakCurrentLimit(40, 0);//the maximum amount of current allowed on the elevator talon
         elevatorElevatorVictor = new WPI_VictorSPX(6);  //the first follower of the elevator talon(this is victor which is a simpler talon)(talons can have two followers)

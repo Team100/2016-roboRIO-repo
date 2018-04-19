@@ -52,7 +52,7 @@ public class Drive extends Command {//runs constantly
     	//System.out.println("run");
     	//RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(4));
     		Robot.driveTrain.getJoy();//runs a function that is in the drivetrain subsystem
-    	
+    		//System.out.println(RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0));
     }
 
     // Make this return true when this Command no longer needs to run execute()

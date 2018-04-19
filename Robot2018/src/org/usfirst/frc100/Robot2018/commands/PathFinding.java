@@ -452,6 +452,7 @@ public class PathFinding extends Command {
     	} 
     	
     	if(counter >=length){   
+    		
     		timer.cancel();
     		
     		finish = true;
