@@ -47,13 +47,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		test_MSP430();
 	}
+
+
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -98,8 +100,6 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		count = 0;
-		indicatorState = 0;
 	}
 
 	/**
@@ -108,6 +108,20 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		test_MSP430();
+
+	}
+		
+	/**
+	 * This function is called periodically during test mode
+	 */
+	@SuppressWarnings("deprecation")
+	@Override
+	public void testPeriodic() {
+		LiveWindow.run();
+	}
+	
+	private void test_MSP430() {
 		count ++;
 		boolean curState;
 		int i;
@@ -128,22 +142,15 @@ public class Robot extends IterativeRobot {
 				oi.msp430.setOutput(i + 1, curState);
 				SmartDashboard.putBoolean("Indicator" + Integer.toString(i+1), curState);
 			}
-			for (i=6; i < 11; i++) {
-				curState = ((indicatorState & (0x01 << (11 - i -1))) == 0)?false:true;
-				oi.msp430.setOutput(i + 1, curState);
-				SmartDashboard.putBoolean("Indicator" + Integer.toString(i+1), curState);
+			for (i=0; i< 8; i++) {
+				double analogValue = oi.msp430.getRawAxis(i);
+				SmartDashboard.putNumber("Analog Input" + Integer.toString(i+1), analogValue);
 			}
+			for (i=1; i<=16; i++) {
+				boolean buttonValue = oi.msp430.getRawButton(i);
+				SmartDashboard.putBoolean("Button Input" + Integer.toString(i), buttonValue);
+			}
+
 		}
-		
-
-
-	}
-
-	/**
-	 * This function is called periodically during test mode
-	 */
-	@Override
-	public void testPeriodic() {
-		LiveWindow.run();
 	}
 }
