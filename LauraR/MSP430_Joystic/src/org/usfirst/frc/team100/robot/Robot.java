@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team100.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -18,7 +18,7 @@ import org.usfirst.frc.team100.robot.subsystems.ExampleSubsystem;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
@@ -115,10 +115,9 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	public void testPeriodic() {
-		LiveWindow.run();
+		LiveWindow.updateValues();
 	}
 	
 	private void test_MSP430() {
@@ -139,7 +138,7 @@ public class Robot extends IterativeRobot {
 			//oi.msp430.setOutputs(indicatorState);
 			for (i=0; i<6; i++){
 				curState = ((indicatorState & (0x01 << i)) == 0)?false:true;
-				oi.msp430.setOutput(i + 1, curState);
+				oi.msp430.setOutput(i+1, curState);
 				SmartDashboard.putBoolean("Indicator" + Integer.toString(i+1), curState);
 			}
 			for (i=0; i< 8; i++) {
