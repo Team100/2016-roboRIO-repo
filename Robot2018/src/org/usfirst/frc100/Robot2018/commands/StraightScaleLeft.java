@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class StraightScaleLeft extends CommandGroup {
 
     public StraightScaleLeft() {
-    	addSequential(new PathFinding("ScaleSR"));
+    	addSequential(new PathFinding("testLeftScale"));
     	/*
     	 * addSequential(new TurnTo(180));
     	 * 
