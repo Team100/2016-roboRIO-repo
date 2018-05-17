@@ -41,8 +41,9 @@ public class passTime extends Command {
     	//timePassed = System.nanoTime()/1000000000;
     }
     protected void run(){
-    	if((System.currentTimeMillis() - StartTime)/1000 > (2)) {
+    	if((System.currentTimeMillis() - StartTime)/1000 > (5)) {
     		done = true;
+    		//you found the secret message proceed to checkout please, and keep on t-posing!
     	}
     	System.out.println("running");
 

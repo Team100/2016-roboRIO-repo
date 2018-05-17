@@ -87,7 +87,7 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
-    	if(mode == "null"|| mode == "null" || mode == "null" || mode == "null") {
+    	if(mode == "null"|| mode == "null" || mode == "Left" || mode == "Right") {
     		fastCalculation = false;
     		Robot.ahrs.reset();
     	}else{
