@@ -38,7 +38,7 @@ public class DoubleSolenoidControl extends Command {
     @Override
     protected void initialize() {
     	done = false;
-    	System.out.println("ENTERED DOUBLE SOLENOID=======================================");
+    	//System.out.println("ENTERED DOUBLE SOLENOID=======================================");
     	
     }
 
@@ -47,13 +47,13 @@ public class DoubleSolenoidControl extends Command {
     protected void execute() {
 
     	//if(Robot.MaunalDuo){
-    		if(OI.operator.getRawButtonPressed(5)){
+    		if(OI.operator.getRawButtonPressed(7)){
     			if(RobotMap.DuoSol.get() == Value.kForward){
     				RobotMap.DuoSol.set(DoubleSolenoid.Value.kOff);
     			}else{
     				RobotMap.DuoSol.set(DoubleSolenoid.Value.kForward);
     			}
-    		}else if(OI.operator.getRawButtonPressed(7)){
+    		}else if(OI.operator.getRawButtonPressed(5)){
     			if(RobotMap.DuoSol.get() == Value.kReverse){
     				RobotMap.DuoSol.set(Value.kOff);
     			}else{
