@@ -330,7 +330,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("velR", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)));///4096/1.5);
         SmartDashboard.putNumber("velL", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)));///4096/1.5);
         SmartDashboard.putNumber("PosR", (RobotMap.driveTrainRightMaster.getSelectedSensorPosition(0)));
-        
+        SmartDashboard.putNumber("PosL", (RobotMap.driveTrainLeftMaster.getSelectedSensorPosition(0)));
      	
     	if(gameData.length() > 0 && run) {
          	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
@@ -338,16 +338,17 @@ public class Robot extends TimedRobot {
     		switch(modeSelect) {
     		case 0:
     		if(gameData.charAt(0) == 'L') {
-    			new RightSwitch().start();
+    			//new RightSwitch().start();
     		} else if (gameData.charAt(0) == 'R') {
-    			new LeftSwitch().start();
+    			//new LeftSwitch().start();
     		}
     		break;
     		case 1: 
     			new StraightSwitch().start();
+    			System.out.println("##############################################################################################Straight Switch Started ########################################################################");
     			break;
     		case 2:
-    			new StraightScaleLeft().start();
+    			//new StraightScaleLeft().start();
     			break;
     		
     		}

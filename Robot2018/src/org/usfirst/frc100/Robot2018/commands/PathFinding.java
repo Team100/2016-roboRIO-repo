@@ -67,8 +67,8 @@ public class PathFinding extends Command {
 	long startTime;
 	long currentTime;
 	long timeInt;
-	int rightM = -1; 
-	int leftM = 1;
+	int rightM = 1; 
+	int leftM = -1;
 	int length = 0;
 	String mode;
 	String fileName = "out.txt";

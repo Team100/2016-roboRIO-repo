@@ -171,7 +171,7 @@ public class DriveTrain extends Subsystem {
         	//SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
         	//if(Robot.ArcadeDrive){
     	//TODO turn the second value negative at compition
-        RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), -OI.rightStick.getX()/1.333);
+        RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), OI.rightStick.getX()/1.333);
         	//}else{
         		//RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
         	//}
