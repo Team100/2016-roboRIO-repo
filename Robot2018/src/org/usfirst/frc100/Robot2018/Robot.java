@@ -302,7 +302,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
     	RobotMap.elevatorElevatorTalon.setSelectedSensorPosition(0, 0, 0);
-    	RobotMap.driveTrainShiftingSolenoid.set(false);
+    	RobotMap.driveTrainShiftingSolenoid.set(true);
     	RobotMap.elevatorArmSolenoid.set(false);
 
     	run = true;

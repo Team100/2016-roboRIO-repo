@@ -127,10 +127,10 @@ public class PathFindingLogicProcessor extends Command {
     	d = preferences.kD;
     	a = preferences.kA;
     	
-    	p2 = preferences.kP2;
-    	i2 = preferences.kI2;
-    	d2 = preferences.kD2;
-    	a2 = preferences.kA2;
+    	p2 = preferences.kP;
+    	i2 = preferences.kI;
+    	d2 = preferences.kD;
+    	a2 = preferences.kA;
     	
     	RobotMap.driveTrainRightMaster.config_kP(0, p, 10); //.123
     	RobotMap.driveTrainRightMaster.config_kI(0, i, 10); //.2

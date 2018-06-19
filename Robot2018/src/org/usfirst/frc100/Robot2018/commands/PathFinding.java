@@ -275,13 +275,13 @@ public class PathFinding extends Command {
     	a = Robot.prefs.getDouble("F",             //.45
 				0);
     	
-    	p2 = Robot.prefs.getDouble("PL",
+    	p2 = Robot.prefs.getDouble("P", //Was PL
 				0);
-    	i2 = Robot.prefs.getDouble("IL",
+    	i2 = Robot.prefs.getDouble("I",
 				0);
-    	d2 = Robot.prefs.getDouble("DL",
+    	d2 = Robot.prefs.getDouble("D",
 				0);
-    	a2 = Robot.prefs.getDouble("FL",          //.45
+    	a2 = Robot.prefs.getDouble("F",          //.45
 				0);
     	//when tuning, use feedforward gain first, then tweak a little p
     	//dont need to really touch the i or d gain
@@ -291,10 +291,10 @@ public class PathFinding extends Command {
         RobotMap.driveTrainRightMaster.config_kD(0, d, 10);
     	RobotMap.driveTrainRightMaster.config_kF(0, a, 10);
     
-    	RobotMap.driveTrainLeftMaster.config_kP(0, p2, 10); //.34 //.22
-    	RobotMap.driveTrainLeftMaster.config_kI(0, i2, 10); //.189
-    	RobotMap.driveTrainLeftMaster.config_kD(0, d2, 10); //2.0E-4
-    	RobotMap.driveTrainLeftMaster.config_kF(0, a2, 10); //0
+    	RobotMap.driveTrainLeftMaster.config_kP(0, p, 10); //.34 //.22
+    	RobotMap.driveTrainLeftMaster.config_kI(0, i, 10); //.189
+    	RobotMap.driveTrainLeftMaster.config_kD(0, d, 10); //2.0E-4
+    	RobotMap.driveTrainLeftMaster.config_kF(0, a, 10); //0
     // 	RobotMap.gyro.reset();
     	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
 
@@ -404,6 +404,10 @@ public class PathFinding extends Command {
     	 		
     	        SmartDashboard.putNumber("ATNLeftV", leftV);
     	        SmartDashboard.putNumber("ATNRightV", rightV);
+    	        
+    	        
+    	        SmartDashboard.putNumber("ATNLeftkP", RobotMap.driveTrainLeftMaster.configGetParameter(0, 0, 0));
+    	        SmartDashboard.putNumber("ATNRightkP", RobotMap.driveTrainRightMaster.configGetParameter(0, 0, 0));
         		
     		}
 			//this corrects the robots heading
@@ -418,10 +422,11 @@ public class PathFinding extends Command {
         
         SmartDashboard.putNumber("DT left Error", RobotMap.driveTrainLeftMaster.getClosedLoopError(0));
     	
+        //RobotMap.driveTrainRightMaster.configClosedloopRamp(0.01, 0);
+        //RobotMap.driveTrainLeftMaster.configClosedloopRamp(0.01, 0);
     	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (setR*rightM)*1508.965); 
     	RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (setL*leftM)*1508.965);
-        RobotMap.driveTrainRightMaster.configClosedloopRamp(0.25, 0);
-        RobotMap.driveTrainLeftMaster.configClosedloopRamp(0.25, 0);
+        
 		
         SmartDashboard.putNumber("ATNLeftVel", RobotMap.driveTrainLeftMaster.getMotorOutputPercent());
         SmartDashboard.putNumber("ATNRightVel1", RobotMap.driveTrainRightMaster.getMotorOutputPercent());
