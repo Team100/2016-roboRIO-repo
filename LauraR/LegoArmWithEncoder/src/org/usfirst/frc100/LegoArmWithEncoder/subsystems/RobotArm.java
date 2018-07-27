@@ -27,6 +27,34 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class RobotArm extends Subsystem {
+	public class IndexCalibrationPoint {
+		double m_potPosition;
+		double m_encoderPosition;
+	}
+	
+	public class IndexCalibrationData {
+		protected IndexCalibrationPoint[] m_calibrationData;
+		protected int m_curPtr = 0;
+		IndexCalibrationData (int numPoints) {
+			m_calibrationData = new IndexCalibrationPoint[numPoints];
+		}
+		
+		public void resetCurPtr () {
+			m_curPtr = 0;
+		}
+		
+		public boolean addCurData () {
+			if (m_curPtr < m_calibrationData.length - 1) {
+				m_calibrationData[m_curPtr] = new IndexCalibrationPoint();
+				m_calibrationData [m_curPtr].m_encoderPosition = robotArmEncoder.get();
+				m_calibrationData[m_curPtr].m_potPosition = armPositionPot.get();
+				m_curPtr ++;
+				return true;
+			} else {
+				return false;
+			}			
+		}
+	}
     Servo armContinuousRotationServo = RobotMap.robotArmArmContinuousRotationServo;
     
     DigitalInput armUpperLimit = RobotMap.robotArmArmUpperLimit;
@@ -40,7 +68,9 @@ public class RobotArm extends Subsystem {
     Encoder robotArmEncoder = new Encoder(encoderA, encoderB);
     Counter indexCounter = new Counter(encoderIdx);
     
-    Boolean isHomed = false;
+    private boolean m_isHomed = false;
+    private double m_homePotValue = 0.0;
+    private IndexCalibrationData m_indexCalibrationData = new IndexCalibrationData(80);
     
     final static String ntPrefix = "RobotArm/"; // Prefix for network table variables
     
@@ -112,8 +142,37 @@ public class RobotArm extends Subsystem {
     	return armPositionPot.get();
     }
     
-    public void resetEncoder () {
+    private void resetEncoder () {
     	robotArmEncoder.reset();
+    }
+    
+    public boolean isHomed() {
+    	return m_isHomed;
+    }
+    
+    public double getHomePotValue () {
+    	return m_homePotValue;
+    }
+    
+    public void setHome() {
+    	m_isHomed = true;
+    	m_homePotValue = getPotValue();
+    	resetEncoder();
+    }
+    
+    public void updateIndexCalibrationPoint () {
+    	m_indexCalibrationData.addCurData();
+    }
+    
+    public void resetIndexCalibration() {
+    	m_indexCalibrationData.resetCurPtr();
+    }
+    
+    public void printIndexCalibration(){
+    	for (int i = 0; i < m_indexCalibrationData.m_curPtr; i ++) {
+    		IndexCalibrationPoint data = m_indexCalibrationData.m_calibrationData[i];
+    		System.out.println(data.m_encoderPosition + ", " + data.m_potPosition);
+    	}
     }
     
     public void updateDashboard()
@@ -122,13 +181,14 @@ public class RobotArm extends Subsystem {
         SmartDashboard.putNumber(ntPrefix + "Arm Pot", getPotValue());
         SmartDashboard.putBoolean(ntPrefix + "Arm Hi", isAtHighLimit());
         SmartDashboard.putBoolean(ntPrefix + "Arm Lo", isAtLowLimit());
-        SmartDashboard.putBoolean(ntPrefix + "Arm Encoder A", encoderA.get());
-        SmartDashboard.putBoolean(ntPrefix + "Arm Encoder B", encoderB.get());
-        SmartDashboard.putBoolean(ntPrefix + "Arm Encoder Index", encoderIdx.get());
+        //SmartDashboard.putBoolean(ntPrefix + "Arm Encoder A", encoderA.get());
+        //SmartDashboard.putBoolean(ntPrefix + "Arm Encoder B", encoderB.get());
+        //SmartDashboard.putBoolean(ntPrefix + "Arm Encoder Index", encoderIdx.get());
         SmartDashboard.putNumber(ntPrefix + "Arm Encoder Position", robotArmEncoder.getDistance());
         SmartDashboard.putNumber(ntPrefix + "Arm Encoder Rate", robotArmEncoder.getRate());
         SmartDashboard.putNumber(ntPrefix + "Arm Index Counter", indexCounter.get());
         SmartDashboard.putNumber(ntPrefix + "Servo", armContinuousRotationServo.get());
+        SmartDashboard.putNumber(ntPrefix + "Arm Home Pot Value", getHomePotValue());
 
     }
 }

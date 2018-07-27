@@ -23,6 +23,7 @@ public class ArmHome extends Command {
 	private final double m_slow_homing_speed = 0.1;
 	private final double m_maxHomeTime = 45.0; // seconds
 	private Timer m_homingTimer = new Timer();
+	private boolean done = false;
 	
 	
     public ArmHome() {
@@ -34,12 +35,14 @@ public class ArmHome extends Command {
     protected void initialize() {
     	m_homingState = HomingState.INIT;
     	m_homingTimer.reset();
+    	done = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	switch (m_homingState) {
     	case INIT:
+    		done = false;
     		if (Robot.robotArm.isAtLowLimit()) {
     			// we're already at the limit, proceed to next step to find the edge
     			m_homingState = HomingState.AT_LOW_LIMIT;
@@ -80,16 +83,19 @@ public class ArmHome extends Command {
     		if (!Robot.robotArm.isAtLowLimit()) {
     			// we've just cleared the limit
     			m_homingState = HomingState.HOME_DONE;
+    			
     		} else {
     			m_homingState = HomingState.BUMP_IN_UP_DIRECTION;
     		}
     		break;
     	case HOME_DONE:
-    		Robot.robotArm.stop();
-        	Robot.robotArm.resetEncoder();
+    		Robot.robotArm.stop();  
+    		Robot.robotArm.setHome();
+    		done = true;
     		break;
     	case HOME_ERROR:
     		Robot.robotArm.stop();
+    		done = true;
     		break;
     	default:
     		m_homingState = HomingState.HOME_ERROR;
@@ -99,8 +105,7 @@ public class ArmHome extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (m_homingState == HomingState.HOME_DONE || 
-        		m_homingState == HomingState.HOME_ERROR);
+        return (done);
     }
 
     // Called once after isFinished returns true
