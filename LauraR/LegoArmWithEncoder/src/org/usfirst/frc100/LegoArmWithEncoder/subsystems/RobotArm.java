@@ -11,7 +11,11 @@
 
 package org.usfirst.frc100.LegoArmWithEncoder.subsystems;
 
+import org.usfirst.frc100.LegoArmWithEncoder.Robot;
 import org.usfirst.frc100.LegoArmWithEncoder.RobotMap;
+import org.usfirst.frc100.LegoArmWithEncoder.calibration.CalibrationBuilder;
+import org.usfirst.frc100.LegoArmWithEncoder.calibration.CalibrationBuilderImpl;
+import org.usfirst.frc100.LegoArmWithEncoder.calibration.CalibrationSendable;
 import org.usfirst.frc100.LegoArmWithEncoder.commands.HoldIt;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -27,14 +31,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class RobotArm extends Subsystem {
+	private final static String s_name = "Arm";
 	public class IndexCalibrationPoint {
 		double m_potPosition;
 		double m_encoderPosition;
 	}
 	
-	public class IndexCalibrationData {
+	public class IndexCalibrationData implements CalibrationSendable <IndexCalibrationData>{
 		protected IndexCalibrationPoint[] m_calibrationData;
 		protected int m_curPtr = 0;
+		private final static String s_key = "IndexCalibration";
 		IndexCalibrationData (int numPoints) {
 			m_calibrationData = new IndexCalibrationPoint[numPoints];
 		}
@@ -54,6 +60,57 @@ public class RobotArm extends Subsystem {
 				return false;
 			}			
 		}
+
+		@Override
+		public String getName() {
+			return s_key;
+		}
+
+		@Override
+		public void setName(String pName) {
+			//don't allow to change		
+		}
+
+		@Override
+		public String getSubsystem() {
+			return s_name;
+		}
+
+		@Override
+		public void setSubsystem(String pSubsystem) {
+			// don't allow to change			
+		}
+
+		@Override
+		public void writeCalibrationData(CalibrationBuilder pBuilder) {
+			double[] encLocations = new double[m_curPtr];
+			double[] potPositions = new double[m_curPtr];
+			for (int i=0; i < m_curPtr; i ++) {
+				encLocations[i] = m_calibrationData[i].m_encoderPosition;
+				potPositions[i] = m_calibrationData[i].m_potPosition;
+			}
+			//pBuilder.putDouble("TheAnswer", 42.0);	
+			pBuilder.putDoubleArray("Encoder", encLocations);
+			pBuilder.putDoubleArray("Potentiometer", potPositions);
+		}
+	
+
+		private synchronized void readCalibrationData() {
+			CalibrationBuilderImpl builder = Robot.calibration.getCalibrationBuilder(s_key);
+			double[] encLocations = builder.getDoubleArray("Encoder", new double [0]);
+			double[] potPositions = builder.getDoubleArray("Potentiometer", new double [0]);
+			if (encLocations.length == potPositions.length) {
+				m_curPtr = encLocations.length;
+				
+				for (int i = 0; i < m_curPtr; i++){
+					IndexCalibrationPoint calibrationPoint = new IndexCalibrationPoint();
+					m_calibrationData[i] = calibrationPoint;
+					m_calibrationData[i].m_encoderPosition = encLocations[i];
+					m_calibrationData[i].m_potPosition = potPositions[i];
+				}	
+			} 			
+		}		
+		
 	}
     Servo armContinuousRotationServo = RobotMap.robotArmArmContinuousRotationServo;
     
@@ -85,6 +142,9 @@ public class RobotArm extends Subsystem {
 	    this.addChild("Potentiometer", armPositionPot);
 	    this.addChild("Encoder", robotArmEncoder);
 	    this.addChild("IndexCounter", indexCounter); 
+	    // try to read calibration data from file
+	    m_indexCalibrationData.readCalibrationData();
+	    
 	    stop(); // make sure the arm won't move if we go into Test mode first
 	}
 
@@ -173,6 +233,7 @@ public class RobotArm extends Subsystem {
     		IndexCalibrationPoint data = m_indexCalibrationData.m_calibrationData[i];
     		System.out.println(data.m_encoderPosition + ", " + data.m_potPosition);
     	}
+    	Robot.calibration.putCalibrationData(m_indexCalibrationData);
     }
     
     public void updateDashboard()
