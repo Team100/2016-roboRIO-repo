@@ -18,12 +18,12 @@ import org.usfirst.frc100.LegoArmWithEncoder.calibration.IndexCalibrationData.In
 import org.usfirst.frc100.LegoArmWithEncoder.calibration.SpeedCalibrationData;
 import org.usfirst.frc100.LegoArmWithEncoder.calibration.SpeedCalibrationData.SpeedCalibrationPoint;
 import org.usfirst.frc100.LegoArmWithEncoder.commands.HoldIt;
+import org.usfirst.frc100.LegoArmWithEncoder.devices.ParallaxContinuousRotationServo;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotArm extends Subsystem {
 
 
-    Servo armContinuousRotationServo = RobotMap.robotArmArmContinuousRotationServo;
+	ParallaxContinuousRotationServo armContinuousRotationServo = RobotMap.robotArmArmContinuousRotationServo;
     
     DigitalInput armUpperLimit = RobotMap.robotArmArmUpperLimit;
     DigitalInput armLowerLimit = RobotMap.robotArmArmLowerLimit;
@@ -80,7 +80,8 @@ public class RobotArm extends Subsystem {
     	if (isAtHighLimit()) {
     		stop();
     	} else {
-    		armContinuousRotationServo.set(0.0);  
+    		//armContinuousRotationServo.set(0.0); 
+    		armContinuousRotationServo.set(-1.0);
     	}
     }
     
@@ -89,6 +90,7 @@ public class RobotArm extends Subsystem {
     		stop();
     	}
     	else {
+    		//armContinuousRotationServo.set(1.0);
     		armContinuousRotationServo.set(1.0);
     	}
     }
@@ -97,7 +99,8 @@ public class RobotArm extends Subsystem {
     	if (isAtHighLimit() || speed > 1.0 || speed < 0.0) {
     		stop();
     	} else {
-    		armContinuousRotationServo.set( 0.5 - (speed/2.0));  
+    		//armContinuousRotationServo.set( 0.5 - (speed/2.0)); 
+    		armContinuousRotationServo.set(-speed);
     	}
     }
     
@@ -106,12 +109,15 @@ public class RobotArm extends Subsystem {
     		stop();
     	}
     	else {
-    		armContinuousRotationServo.set(0.5 + (speed/2.0));
+    		//armContinuousRotationServo.set(0.5 + (speed/2.0));
+    		armContinuousRotationServo.set(speed);
     	}
     }
     
     public void stop() {
-    	armContinuousRotationServo.set(0.5);
+    	//armContinuousRotationServo.set(0.5);
+    	armContinuousRotationServo.set(0);
+    	
     }
     
     public boolean isAtLowLimit() {

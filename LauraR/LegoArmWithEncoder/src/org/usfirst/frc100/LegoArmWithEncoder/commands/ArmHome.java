@@ -27,7 +27,7 @@ public class ArmHome extends Command {
 	DigitalInput m_lowLimit = RobotMap.robotArmArmLowerLimit;
 	private HomingState m_homingState = HomingState.INIT;
 	private final double m_fast_homing_speed = 1.0;
-	private final double m_slow_homing_speed = 0.02;
+	private final double m_slow_homing_speed = 0.1;
 	private final double m_maxHomeTime = 45.0; // seconds
 	private Timer m_homingTimer = new Timer();
 	private Thread m_task;
@@ -126,6 +126,7 @@ public class ArmHome extends Command {
     	case HOME_ERROR:
     		Robot.robotArm.stop();
     		m_done = true;
+    		System.out.println("Arm Home Command Error");
     		break;
     	default:
     		m_homingState = HomingState.HOME_ERROR;

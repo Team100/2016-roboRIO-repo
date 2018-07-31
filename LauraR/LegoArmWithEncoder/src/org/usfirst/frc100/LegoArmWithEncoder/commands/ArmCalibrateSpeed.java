@@ -34,9 +34,10 @@ public class ArmCalibrateSpeed extends Command {
 	private final double m_maxHomeTime = 45.0; // seconds
 	private Timer m_speedCalTimer = new Timer();
 	private boolean m_done = false;
-    static final double s_speedMax = 0.25;
-    static final double s_speedMin = 0.01;
-    static final double s_speedDelta = 0.01;
+    static final double s_speedMax = 1.0;
+    static final double s_speedMin = 0.001;
+    static final double s_speedDelta = 0.025;
+    static final double s_speedRatio = 0.75;
     static final double s_accelerationTime = 1.0; // seconds
     static final double s_runTime = 1.5; // seconds
     private double m_curSpeed = 0.0;
@@ -164,7 +165,7 @@ public class ArmCalibrateSpeed extends Command {
     			if (m_curSpeed < s_speedMin) {
     				m_speedCalState = SpeedCalibrationState.SPEED_CALIBRATION_DONE;
     			} else {
-    				m_curSpeed -= s_speedDelta;
+    				m_curSpeed *= s_speedRatio;
     				m_minSpeed = Double.NaN;
         		    m_maxSpeed = Double.NaN;
         		    m_avgSpeed = 0.0;
@@ -183,7 +184,7 @@ public class ArmCalibrateSpeed extends Command {
     	case SPEED_CALIBRATION_ERROR:
     		Robot.robotArm.stop();  
     		m_done = true;
-    		System.out.println("Arm Speed Calibration Error");
+    		System.out.println("Arm Speed Calibration Command Error");
 	    	break;
 	    default:
 	    	m_speedCalState = SpeedCalibrationState.SPEED_CALIBRATION_ERROR;
