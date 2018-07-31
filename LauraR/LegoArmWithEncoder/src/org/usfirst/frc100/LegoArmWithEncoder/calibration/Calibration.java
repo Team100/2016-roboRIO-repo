@@ -1,13 +1,9 @@
 package org.usfirst.frc100.LegoArmWithEncoder.calibration;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
 
 public class Calibration {
 	/**
@@ -79,14 +75,7 @@ public class Calibration {
 	      dataTable.getEntry(".name").setString(key);
 	  }
 
-	  /**
-	   * Maps the specified key (where the key is the name of the {@link NamedSendable}
-	   * to the specified value in this table. The value can be retrieved by
-	   * calling the get method with a key that is equal to the original key.
-	   *
-	   * @param value the value
-	   * @throws IllegalArgumentException If key is null
-	   */
+
 	  public <T> void putCalibrationData (CalibrationSendable<T>  value) {
 	    putCalibrationData(value.getName(), value);
 	  }
