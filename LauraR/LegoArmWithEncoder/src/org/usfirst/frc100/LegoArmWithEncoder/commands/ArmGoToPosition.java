@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmGoToPosition extends Command {
 	private SingleAxisPathPlanner m_pathPlanner;
 	private double m_position;
+	private double m_initPosition = 0;
 	private boolean m_isDone = true;
 	private Timer m_pathTimer = new Timer();
 	
@@ -93,6 +94,10 @@ public class ArmGoToPosition extends Command {
     	initMotionPrefs();
     	System.out.println(m_pathPlanner);
     	m_isDone = false;
+    	Robot.robotArm.setSpeedOffset(0.0);
+    	m_initPosition = Robot.robotArm.getEncoderPosition();
+    	Robot.robotArm.m_pidController.setSetpoint(m_initPosition);
+    	Robot.robotArm.m_pidController.enable();
     	m_pathTimer.reset();
     	m_pathTimer.start();
     }
@@ -101,10 +106,12 @@ public class ArmGoToPosition extends Command {
     protected void execute() {
     	double time = m_pathTimer.get();
     	SingleAxisPathPlanner.PathPoint pathPoint = m_pathPlanner.getPathPoint(time);
-    	System.out.println(time + ", " + pathPoint);
+    	//System.out.println(time + ", " + pathPoint);
+    	System.out.println(Robot.robotArm.m_pidController.getError());
     	m_isDone = pathPoint.m_isComplete;
     	if (!m_isDone) {
-    		Robot.robotArm.raiseAtSpeed(pathPoint.m_speed / 3600.0);
+    		Robot.robotArm.setSpeedOffset(pathPoint.m_speed / 3600.0);
+    		Robot.robotArm.m_pidController.setSetpoint( m_initPosition + pathPoint.m_position);
     	}
     }
 
@@ -115,6 +122,7 @@ public class ArmGoToPosition extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.robotArm.m_pidController.disable();
     	System.out.println("ArmGoToPosition complete");
     	Robot.robotArm.stop();
     }

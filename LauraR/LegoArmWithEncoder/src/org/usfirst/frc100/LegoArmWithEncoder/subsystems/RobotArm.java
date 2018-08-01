@@ -19,11 +19,16 @@ import org.usfirst.frc100.LegoArmWithEncoder.calibration.SpeedCalibrationData;
 import org.usfirst.frc100.LegoArmWithEncoder.calibration.SpeedCalibrationData.SpeedCalibrationPoint;
 import org.usfirst.frc100.LegoArmWithEncoder.commands.HoldIt;
 import org.usfirst.frc100.LegoArmWithEncoder.devices.ParallaxContinuousRotationServo;
+import org.usfirst.frc100.LegoArmWithEncoder.util.SingleAxisPathPlanner;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,7 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class RobotArm extends Subsystem {
+public class RobotArm extends Subsystem implements PIDOutput{
 
 
 	ParallaxContinuousRotationServo armContinuousRotationServo = RobotMap.robotArmArmContinuousRotationServo;
@@ -47,12 +52,28 @@ public class RobotArm extends Subsystem {
     Encoder robotArmEncoder = new Encoder(encoderA, encoderB);
     Counter indexCounter = new Counter(encoderIdx);
     
+    private double m_speedOffset = 0.0;
     private boolean m_isHomed = false;
     private double m_homePotValue = 0.0;
+    
+    public PIDController m_pidController;
+    
     private IndexCalibrationData m_indexCalibrationData = new IndexCalibrationData(80);
     private SpeedCalibrationData m_speedCalibrationData = new SpeedCalibrationData(80);
     
     final static String ntPrefix = "RobotArm/"; // Prefix for network table variables
+    
+    private static final String s_keyKP = "ArmKP";
+    private static final String s_keyKD = "ArmKD";
+    private static final String s_keyKI = "ArmKI";
+    private static final String s_keyKF = "ArmKF";
+    private static final double s_defaultKP = 0.0;
+    private static final double s_defaultKD = 0.0;
+    private static final double s_defaultKI = 0.0;
+    private static final double s_defaultKF = 0.0;
+    
+    private static final double s_minEncoderVal = -80000.0;
+    private static final double s_maxEncoderVal = 80000.0;
     
    	public RobotArm() {
    		// Add variables to Live Windows
@@ -68,6 +89,43 @@ public class RobotArm extends Subsystem {
 	    // try to read calibration data from file
 	    m_indexCalibrationData.readCalibrationData();
 	    m_speedCalibrationData.readCalibrationData();
+	    
+	    // arm position controller
+	    // get parameters out of the Preferences file
+	    // initialize parameters if necessary
+	    double kp = s_defaultKP;
+    	if (Robot.prefs.containsKey(s_keyKP)) {
+    		kp = Robot.prefs.getDouble(s_keyKP, kp);
+    	} else {
+    		Robot.prefs.putDouble(s_keyKP, kp);
+    	}
+    	double kd = s_defaultKD;
+    	if (Robot.prefs.containsKey(s_keyKD)) {
+    		kd = Robot.prefs.getDouble(s_keyKD, kd);
+    	} else {
+    		Robot.prefs.putDouble(s_keyKD, kd);
+    	}
+    	double ki = s_defaultKI;
+    	if (Robot.prefs.containsKey(s_keyKI)) {
+    		ki = Robot.prefs.getDouble(s_keyKI, ki);
+    	} else {
+    		Robot.prefs.putDouble(s_keyKI, ki);
+    	}
+    	double kf = s_defaultKF;
+    	if (Robot.prefs.containsKey(s_keyKF)) {
+    		kf = Robot.prefs.getDouble(s_keyKF, ki);
+    	} else {
+    		Robot.prefs.putDouble(s_keyKF, kf);
+    	}
+    	
+	    m_pidController = new PIDController(kp, ki, kd, kf, robotArmEncoder, this, 0.020);
+	    robotArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+	    m_pidController.setInputRange(s_minEncoderVal, s_maxEncoderVal);
+	    m_pidController.setName("Arm", "PositionPID");
+	    m_pidController.setOutputRange(-1.0, 1.0);
+	    m_pidController.setAbsoluteTolerance(100.0);
+	   
+	                      
 	    
 	    stop(); // make sure the arm won't move if we go into Test mode first
 	}
@@ -113,7 +171,23 @@ public class RobotArm extends Subsystem {
     		armContinuousRotationServo.set(speed);
     	}
     }
+
+    public void setSpeedOffset (double pOffset) {
+    	m_speedOffset = pOffset;
+    }
     
+	@Override
+	public void pidWrite(double pOutput) {
+		if (isAtLowLimit()|| isAtHighLimit()) {
+			// probably shouldn't continue with closed loop control if we hit a limit
+    		stop();
+    	}
+    	else {
+    		// change sense so that servo goes in correct direction to correct for errors.
+    		armContinuousRotationServo.set(-pOutput - m_speedOffset); 
+    	}
+		
+	}
     public void stop() {
     	//armContinuousRotationServo.set(0.5);
     	armContinuousRotationServo.set(0);
@@ -152,6 +226,10 @@ public class RobotArm extends Subsystem {
     
     public double getEncoderRate() {
     	return robotArmEncoder.getRate();
+    }
+    
+    public double getEncoderPosition() {
+    	return robotArmEncoder.getDistance();
     }
     
     public void updateIndexCalibrationPoint () {
@@ -202,5 +280,7 @@ public class RobotArm extends Subsystem {
         SmartDashboard.putNumber(ntPrefix + "Arm Home Pot Value", getHomePotValue());
 
     }
+
+
 }
 
