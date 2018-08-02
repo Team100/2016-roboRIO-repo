@@ -267,16 +267,16 @@ public class RobotArm extends Subsystem implements PIDOutput{
     public void updateDashboard()
     {
     	// Show variables in smart Dashboard
-        SmartDashboard.putNumber(ntPrefix + "Arm Pot", getPotValue());
+        SmartDashboard.putNumber(ntPrefix + "Arm Pot", 0.001 * Math.round(getPotValue()*1000));
         SmartDashboard.putBoolean(ntPrefix + "Arm Hi", isAtHighLimit());
         SmartDashboard.putBoolean(ntPrefix + "Arm Lo", isAtLowLimit());
         //SmartDashboard.putBoolean(ntPrefix + "Arm Encoder A", encoderA.get());
         //SmartDashboard.putBoolean(ntPrefix + "Arm Encoder B", encoderB.get());
         //SmartDashboard.putBoolean(ntPrefix + "Arm Encoder Index", encoderIdx.get());
         SmartDashboard.putNumber(ntPrefix + "Arm Encoder Position", robotArmEncoder.getDistance());
-        SmartDashboard.putNumber(ntPrefix + "Arm Encoder Rate", robotArmEncoder.getRate());
+        SmartDashboard.putNumber(ntPrefix + "Arm Encoder Rate", 0.001 * Math.round(robotArmEncoder.getRate()*1000));
         SmartDashboard.putNumber(ntPrefix + "Arm Index Counter", indexCounter.get());
-        SmartDashboard.putNumber(ntPrefix + "Servo", armContinuousRotationServo.get());
+        SmartDashboard.putNumber(ntPrefix + "Servo", 0.001 * Math.round(armContinuousRotationServo.get()*1000));
         SmartDashboard.putNumber(ntPrefix + "Arm Home Pot Value", getHomePotValue());
 
     }

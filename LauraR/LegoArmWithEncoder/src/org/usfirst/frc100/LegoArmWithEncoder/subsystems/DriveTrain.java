@@ -65,8 +65,8 @@ public class DriveTrain extends Subsystem {
     {
     	// Show variables in SmartDashboard
         SmartDashboard.putNumber(ntPrefix + "IR Distance", getDistance());
-        SmartDashboard.putNumber(ntPrefix + "LeftMotor", left.get());
-        SmartDashboard.putNumber(ntPrefix + "RightMotor", right.get());
+        SmartDashboard.putNumber(ntPrefix + "LeftMotor", 0.001 * Math.round(left.get()*1000));
+        SmartDashboard.putNumber(ntPrefix + "RightMotor", 0.001 * Math.round(right.get()*1000));
     }
 }
 

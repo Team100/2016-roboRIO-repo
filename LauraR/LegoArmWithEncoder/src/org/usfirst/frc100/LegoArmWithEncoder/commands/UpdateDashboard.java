@@ -17,7 +17,7 @@ public class UpdateDashboard extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	SmartDashboard.putString("RobotArm/.type", "SubSystem");
+    	SmartDashboard.putString("RobotArm/.type", "PlotSubSystem");
     	SmartDashboard.putString("DriveTrain/.type", "SubSystem");
     	SmartDashboard.putString("Claw/.type", "SubSystem");
     }
