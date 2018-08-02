@@ -19,6 +19,7 @@ import org.usfirst.frc100.LegoArmWithEncoder.calibration.SpeedCalibrationData;
 import org.usfirst.frc100.LegoArmWithEncoder.calibration.SpeedCalibrationData.SpeedCalibrationPoint;
 import org.usfirst.frc100.LegoArmWithEncoder.commands.HoldIt;
 import org.usfirst.frc100.LegoArmWithEncoder.devices.ParallaxContinuousRotationServo;
+import org.usfirst.frc100.LegoArmWithEncoder.util.MultiVarPIDController;
 import org.usfirst.frc100.LegoArmWithEncoder.util.SingleAxisPathPlanner;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -56,7 +57,7 @@ public class RobotArm extends Subsystem implements PIDOutput{
     private boolean m_isHomed = false;
     private double m_homePotValue = 0.0;
     
-    public PIDController m_pidController;
+    public MultiVarPIDController m_pidController;
     
     private IndexCalibrationData m_indexCalibrationData = new IndexCalibrationData(80);
     private SpeedCalibrationData m_speedCalibrationData = new SpeedCalibrationData(80);
@@ -118,7 +119,7 @@ public class RobotArm extends Subsystem implements PIDOutput{
     		Robot.prefs.putDouble(s_keyKF, kf);
     	}
     	
-	    m_pidController = new PIDController(kp, ki, kd, kf, robotArmEncoder, this, 0.020);
+	    m_pidController = new MultiVarPIDController(kp, ki, kd, kf, robotArmEncoder, this, 0.020, (MultiVarPIDController.SetpointProvider)null);
 	    robotArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 	    m_pidController.setInputRange(s_minEncoderVal, s_maxEncoderVal);
 	    m_pidController.setName("Arm", "PositionPID");
@@ -264,6 +265,14 @@ public class RobotArm extends Subsystem implements PIDOutput{
     	Robot.calibration.putCalibrationData(m_speedCalibrationData);
     }
     
+    public void resetPIDParameters() {	
+    	m_pidController.setPID(
+    			Robot.prefs.getDouble(s_keyKP, s_defaultKP),
+    			Robot.prefs.getDouble(s_keyKI, s_defaultKI),
+    			Robot.prefs.getDouble(s_keyKD, s_defaultKD),
+    			Robot.prefs.getDouble(s_keyKF, s_defaultKF));
+    }
+    
     public void updateDashboard()
     {
     	// Show variables in smart Dashboard
@@ -278,7 +287,7 @@ public class RobotArm extends Subsystem implements PIDOutput{
         SmartDashboard.putNumber(ntPrefix + "Arm Index Counter", indexCounter.get());
         SmartDashboard.putNumber(ntPrefix + "Servo", 0.001 * Math.round(armContinuousRotationServo.get()*1000));
         SmartDashboard.putNumber(ntPrefix + "Arm Home Pot Value", getHomePotValue());
-
+        SmartDashboard.putNumber(ntPrefix + "Arm Position Error", m_pidController.getError());
     }
 
 

@@ -1,6 +1,6 @@
 package org.usfirst.frc100.LegoArmWithEncoder.util;
 
-public class SingleAxisPathPlanner {
+public class SingleAxisPathPlanner implements MultiVarPIDController.SetpointProvider{
 	public class PathPoint {
 		public double m_position = Double.NaN;
 		public double m_speed = Double.NaN;
@@ -18,6 +18,7 @@ public class SingleAxisPathPlanner {
 	public static final double s_defaultDecel = 1000; //encoder ticks per second per second
 	public static final double s_defaultInitVelocity = 0;
 	public static final double s_defaultFinalVelocity = 0;
+	public static final double s_defaultInitPosition = 0;
 	public static final double s_defaultStartTime = 0;
 	
 	
@@ -36,19 +37,22 @@ public class SingleAxisPathPlanner {
 	private double m_slewStartTime; // seconds
 	private double m_decelStartTime; // seconds
 	private double m_endTime; // seconds 
+	private double m_initPosition; // encoder ticks
 	
 	private double m_maxVelocity; // ticks per second
 	private boolean m_isTrapezoidal = true;
 	private boolean m_isPathComputed = false;
 
-	public SingleAxisPathPlanner(double pMoveDist, double pSlewVel, double pAccel, double pDecel, double pInitVel, double pFinalVel, double pStartTime) throws IllegalArgumentException {
+	public SingleAxisPathPlanner(double pMoveDist, double pSlewVel, double pAccel, double pDecel, double pInitVel, double pFinalVel, double pInitPosition, double pStartTime) throws IllegalArgumentException {
 		m_moveDistance = pMoveDist; 
 		m_slewVelocity = pSlewVel; 
 		m_acceleration = pAccel; 
 		m_deceleration = pDecel; 
 		m_initVelocity = pInitVel; 
 		m_finalVelocity = pFinalVel;
+		m_initPosition = pInitPosition;
 		m_startTime = pStartTime;
+		
 		if (m_acceleration <= 0.0 ) {
 			throw new IllegalArgumentException("Acceleration must be >= 0.0");
 		} else if (m_deceleration <= 0.0){
@@ -58,15 +62,16 @@ public class SingleAxisPathPlanner {
 	}
 	
 	public SingleAxisPathPlanner () {
-		this(s_defaultMoveDistance, s_defaultSlewVelocity, s_defaultAccel, s_defaultDecel, s_defaultInitVelocity, s_defaultFinalVelocity, s_defaultStartTime) ;
+		this(s_defaultMoveDistance, s_defaultSlewVelocity, s_defaultAccel, s_defaultDecel, s_defaultInitVelocity, s_defaultFinalVelocity, s_defaultInitPosition, s_defaultStartTime) ;
 	}
 	
 
 	public SingleAxisPathPlanner(double pMoveDist, double pSlewVel, double pAccel, double pDecel) {
-		this(pMoveDist, pSlewVel, pAccel, pDecel, s_defaultInitVelocity, s_defaultFinalVelocity, s_defaultStartTime) ;
+		this(pMoveDist, pSlewVel, pAccel, pDecel, s_defaultInitVelocity, s_defaultFinalVelocity, s_defaultInitPosition, s_defaultStartTime) ;
 	}
 	
 	
+
 	public PathPoint getPathPoint(double time) {
 		if (!m_isPathComputed) {
 			computePathVariables();
@@ -83,17 +88,17 @@ public class SingleAxisPathPlanner {
 					// accelerating
 					double dt = time - m_startTime;
 					pathPoint.m_speed = m_initVelocity + m_acceleration * dt;
-					pathPoint.m_position = (m_initVelocity * dt) + (m_acceleration * dt * dt / 2.0);
+					pathPoint.m_position = m_initPosition + (m_initVelocity * dt) + (m_acceleration * dt * dt / 2.0);
 				} else if (time < m_decelStartTime) {
 					// slewing at constant speed
 					double dt = time - m_slewStartTime;
 					pathPoint.m_speed = m_slewVelocity;
-					pathPoint.m_position = m_accelDistance + m_slewVelocity * dt;
+					pathPoint.m_position = m_initPosition + m_accelDistance + m_slewVelocity * dt;
 				} else if (time < m_endTime) {
 					double dt = time - m_decelStartTime;
 					double speed = m_slewVelocity - m_deceleration * dt;
 					pathPoint.m_speed = speed;
-					pathPoint.m_position = m_accelDistance + m_slewDistance + ((m_slewVelocity - speed) * dt / 2.0) + speed * dt;		
+					pathPoint.m_position = m_initPosition + m_accelDistance + m_slewDistance + ((m_slewVelocity - speed) * dt / 2.0) + speed * dt;		
 				} else {
 					// We've reached the end of the path
 					pathPoint.m_isComplete = true;
@@ -105,12 +110,12 @@ public class SingleAxisPathPlanner {
 					// accelerating
 					double dt = time - m_startTime;
 					pathPoint.m_speed = m_initVelocity + m_acceleration * dt;
-					pathPoint.m_position = (m_initVelocity * dt) + (m_acceleration * dt * dt / 2.0);
+					pathPoint.m_position = m_initPosition + (m_initVelocity * dt) + (m_acceleration * dt * dt / 2.0);
 				} else if (time < m_endTime) {
 					double dt = time - m_decelStartTime;
 					double speed = m_maxVelocity - m_deceleration * dt;
 					pathPoint.m_speed = speed;
-					pathPoint.m_position = m_accelDistance + m_slewDistance + ((m_maxVelocity - speed) * dt / 2.0) + speed * dt;			
+					pathPoint.m_position = m_initPosition + m_accelDistance + m_slewDistance + ((m_maxVelocity - speed) * dt / 2.0) + speed * dt;			
 				} else {
 					// We've reached the end of the path
 					pathPoint.m_isComplete = true;
@@ -254,6 +259,20 @@ public class SingleAxisPathPlanner {
 		this.m_startTime = p_startTime;
 		m_isPathComputed = false;
 	}
+	
+	/**
+	 * @return the m_initPosition
+	 */
+	public double get_initPosition() {
+		return this.m_initPosition;
+	}
+
+	/**
+	 * @param pM_initPosition the m_initPosition to set
+	 */
+	public void set_initPosition(double p_initPosition) {
+		this.m_initPosition = p_initPosition;
+	}
 
 	/**
 	 * @return the m_decelStartTime
@@ -320,6 +339,24 @@ public class SingleAxisPathPlanner {
 	}
 
 	@Override
+	public double[] getSetpoints(double ptime) {
+		double mytime = ptime;
+		mytime = (mytime < m_startTime) ? m_startTime : mytime;
+		mytime = (mytime > m_endTime) ? m_endTime : mytime;
+		PathPoint pathpt = getPathPoint(mytime);
+		double[] sp = new double[2];
+		sp[0] = pathpt.m_position;
+		sp[1] = pathpt.m_speed;
+		return sp;
+	}
+
+	@Override
+	public void setSetpointStartTime(double ptime) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public String toString() {
 		return "SingleAxisPathPlanner [m_acceleration=" + this.m_acceleration + ", m_deceleration="
 				+ this.m_deceleration + ", m_slewVelocity=" + this.m_slewVelocity + ", m_moveDistance="
@@ -331,7 +368,6 @@ public class SingleAxisPathPlanner {
 				+ this.m_isTrapezoidal + ", m_isPathComputed=" + this.m_isPathComputed + "]";
 	}
 
-	
 	
 
 }

@@ -85,9 +85,9 @@ public class ArmGoToPosition extends Command {
     	} else {
     		Robot.prefs.putDouble(s_keyStartTime, startTime);
     	}
-    	m_pathPlanner = new SingleAxisPathPlanner(dist, slewVelocity, acceleration, deceleration, initVelocity, finalVelocity, startTime);
-	
-    }
+    	m_initPosition = Robot.robotArm.getEncoderPosition();
+    	m_pathPlanner = new SingleAxisPathPlanner(dist, slewVelocity, acceleration, deceleration, initVelocity, finalVelocity, m_initPosition, startTime);
+     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -95,8 +95,10 @@ public class ArmGoToPosition extends Command {
     	System.out.println(m_pathPlanner);
     	m_isDone = false;
     	Robot.robotArm.setSpeedOffset(0.0);
-    	m_initPosition = Robot.robotArm.getEncoderPosition();
-    	Robot.robotArm.m_pidController.setSetpoint(m_initPosition);
+    	
+    	Robot.robotArm.resetPIDParameters();
+    	Robot.robotArm.m_pidController.setSetpointProvider(m_pathPlanner);
+    	Robot.robotArm.m_pidController.startSetpointProvider();
     	Robot.robotArm.m_pidController.enable();
     	m_pathTimer.reset();
     	m_pathTimer.start();
@@ -105,13 +107,9 @@ public class ArmGoToPosition extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double time = m_pathTimer.get();
-    	SingleAxisPathPlanner.PathPoint pathPoint = m_pathPlanner.getPathPoint(time);
-    	//System.out.println(time + ", " + pathPoint);
-    	System.out.println(Robot.robotArm.m_pidController.getError());
-    	m_isDone = pathPoint.m_isComplete;
-    	if (!m_isDone) {
-    		Robot.robotArm.setSpeedOffset(pathPoint.m_speed / 3600.0);
-    		Robot.robotArm.m_pidController.setSetpoint( m_initPosition + pathPoint.m_position);
+    	//System.out.println(Robot.robotArm.m_pidController.getSetpoint());
+    	if (time > m_pathPlanner.get_endTime()) {
+    		m_isDone = true;
     	}
     }
 
@@ -123,6 +121,7 @@ public class ArmGoToPosition extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.robotArm.m_pidController.disable();
+    	Robot.robotArm.m_pidController.setSetpointProvider(null);
     	System.out.println("ArmGoToPosition complete");
     	Robot.robotArm.stop();
     }
