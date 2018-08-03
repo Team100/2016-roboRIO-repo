@@ -8,6 +8,7 @@ public class SpeedCalibrationData implements CalibrationSendable <SpeedCalibrati
 		double m_maxEncRate;
 		double m_minEncRate;
 		double m_avgEncRate;
+		double m_potRate;
 		
 		/**
 		 * @return the m_speedSP
@@ -36,10 +37,17 @@ public class SpeedCalibrationData implements CalibrationSendable <SpeedCalibrati
 		public double get_avgEncRate() {
 			return this.m_avgEncRate;
 		}
-
+		
+		/**
+		 * @return the m_potRate
+		 */
+		public double get_potRate() {
+			return this.m_potRate;
+		}
+		
 		@Override
 		public String toString() {	
-			return (m_speedSP + ", " + m_avgEncRate + ", " + m_minEncRate + ", " + m_maxEncRate);
+			return (m_speedSP + ", " + m_avgEncRate + ", " + m_minEncRate + ", " + m_maxEncRate + ", " + m_potRate);
 		}
 		
 	}
@@ -56,13 +64,14 @@ public class SpeedCalibrationData implements CalibrationSendable <SpeedCalibrati
 		m_curPtr = 0;
 	}
 	
-	public boolean addCurData (double p_speedSP, double p_minSpeed, double p_maxSpeed, double p_avgSpeed) {
+	public boolean addCurData (double p_speedSP, double p_minSpeed, double p_maxSpeed, double p_avgSpeed, double p_potRate) {
 		if (m_curPtr < m_calibrationData.length - 1) {
 			m_calibrationData[m_curPtr] = new SpeedCalibrationPoint();
 			m_calibrationData [m_curPtr].m_avgEncRate = p_avgSpeed;
 			m_calibrationData [m_curPtr].m_minEncRate = p_minSpeed;
 			m_calibrationData [m_curPtr].m_maxEncRate = p_maxSpeed;
 			m_calibrationData[m_curPtr].m_speedSP = p_speedSP;
+			m_calibrationData[m_curPtr].m_potRate = p_potRate;
 			m_curPtr ++;
 			return true;
 		} else {
@@ -94,13 +103,16 @@ public class SpeedCalibrationData implements CalibrationSendable <SpeedCalibrati
 	public void writeCalibrationData(CalibrationBuilder pBuilder) {
 		double[] speedSP = new double[m_curPtr];
 		double[] avgRate = new double[m_curPtr];
+		double[] potRate = new double[m_curPtr];
 		for (int i=0; i < m_curPtr; i ++) {
 			speedSP[i] = m_calibrationData[i].get_speedSP();
 			avgRate[i] = m_calibrationData[i].get_avgEncRate();
+			potRate[i] = m_calibrationData[i].get_potRate();
 		}
 			
 		pBuilder.putDoubleArray("SpeedSP", speedSP);
 		pBuilder.putDoubleArray("AvgEncRate", avgRate);
+		pBuilder.putDoubleArray("PotentiometerRate", potRate);
 	}
 
 
@@ -108,7 +120,8 @@ public class SpeedCalibrationData implements CalibrationSendable <SpeedCalibrati
 		CalibrationBuilderImpl builder = Robot.calibration.getCalibrationBuilder(s_key);
 		double[] speedSP = builder.getDoubleArray("SpeedSP", new double [0]);
 		double[] avgRate = builder.getDoubleArray("AvgEncRate", new double [0]);
-		if (speedSP.length == avgRate.length) {
+		double[] potRate = builder.getDoubleArray("PotentiometerRate", new double [0]);
+		if ((speedSP.length == avgRate.length) && (potRate.length == speedSP.length)) {
 			m_curPtr = speedSP.length;
 			
 			for (int i = 0; i < m_curPtr; i++){
@@ -116,6 +129,7 @@ public class SpeedCalibrationData implements CalibrationSendable <SpeedCalibrati
 				m_calibrationData[i] = calibrationPoint;
 				m_calibrationData[i].m_speedSP = speedSP[i];
 				m_calibrationData[i].m_avgEncRate = avgRate[i];
+				m_calibrationData[i].m_potRate = potRate[i];
 			}	
 		} 			
 	}		

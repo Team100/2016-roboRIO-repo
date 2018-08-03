@@ -352,8 +352,7 @@ public class SingleAxisPathPlanner implements MultiVarPIDController.SetpointProv
 
 	@Override
 	public void setSetpointStartTime(double ptime) {
-		// TODO Auto-generated method stub
-		
+		set_startTime(ptime);	
 	}
 	
 	@Override

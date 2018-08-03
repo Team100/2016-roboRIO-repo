@@ -31,7 +31,6 @@ public class ArmCalibrateSpeed extends Command {
 	
 	
 	private SpeedCalibrationState m_speedCalState = SpeedCalibrationState.INIT;
-	private final double m_maxHomeTime = 45.0; // seconds
 	private Timer m_speedCalTimer = new Timer();
 	private boolean m_done = false;
     static final double s_speedMax = 1.0;
@@ -45,6 +44,8 @@ public class ArmCalibrateSpeed extends Command {
     private double m_maxSpeed = Double.NaN;
     private double m_avgSpeed = 0.0;
     private int m_numpts = 0;
+    private double m_initPotPosition = 0.0;
+    private double m_finalPotPosition = 0.0;
     
 
     // Called just before this Command runs the first time
@@ -79,6 +80,7 @@ public class ArmCalibrateSpeed extends Command {
     		Robot.robotArm.raiseAtSpeed(m_curSpeed);
     		if (m_speedCalTimer.hasPeriodPassed(s_accelerationTime)) {
     			speed = Robot.robotArm.getEncoderRate();
+    			m_initPotPosition = Robot.robotArm.getPotValue();
     			m_speedCalState = SpeedCalibrationState.RAISE_AT_SPEED;
     			m_minSpeed = speed;
     			m_maxSpeed = speed;
@@ -101,6 +103,7 @@ public class ArmCalibrateSpeed extends Command {
     		
     		if (m_speedCalTimer.hasPeriodPassed(s_runTime)) {
     			m_speedCalState = SpeedCalibrationState.REPORT_RAISE_SPEED;
+    			m_finalPotPosition = Robot.robotArm.getPotValue();
     			m_speedCalTimer.stop();
     			Robot.robotArm.stop();
     		} else {
@@ -108,7 +111,12 @@ public class ArmCalibrateSpeed extends Command {
     		}
 	    	break;
     	case REPORT_RAISE_SPEED:
-    		Robot.robotArm.updateSpeedCalibrationPoint(m_curSpeed, m_minSpeed, m_maxSpeed, (m_avgSpeed/(float) m_numpts));
+    		Robot.robotArm.updateSpeedCalibrationPoint(
+    				m_curSpeed, 
+    				m_minSpeed, 
+    				m_maxSpeed, 
+    				(m_avgSpeed/(float) m_numpts),
+    				(m_finalPotPosition - m_initPotPosition) / s_runTime);
     		if(Robot.robotArm.isAtLowLimit() || Robot.robotArm.isAtHighLimit()) {
     			Robot.robotArm.stop();
     			m_speedCalState = SpeedCalibrationState.SPEED_CALIBRATION_ERROR;
@@ -126,6 +134,7 @@ public class ArmCalibrateSpeed extends Command {
     		Robot.robotArm.lowerAtSpeed(m_curSpeed);
     		if (m_speedCalTimer.hasPeriodPassed(s_accelerationTime)) {
     			speed = Robot.robotArm.getEncoderRate();
+    			m_initPotPosition = Robot.robotArm.getPotValue();
     			m_speedCalState = SpeedCalibrationState.LOWER_AT_SPEED;
     			m_minSpeed = speed;
     			m_maxSpeed = speed;
@@ -147,6 +156,7 @@ public class ArmCalibrateSpeed extends Command {
 			m_numpts ++;
     		
     		if (m_speedCalTimer.hasPeriodPassed(s_runTime)) {
+    			m_finalPotPosition = Robot.robotArm.getPotValue();
     			m_speedCalState = SpeedCalibrationState.REPORT_LOWER_SPEED;
     			m_speedCalTimer.stop();
     			Robot.robotArm.stop();
@@ -161,7 +171,12 @@ public class ArmCalibrateSpeed extends Command {
     		if(Robot.robotArm.isAtLowLimit() || Robot.robotArm.isAtHighLimit()) {
     			m_speedCalState = SpeedCalibrationState.SPEED_CALIBRATION_ERROR;
     		} else { 			
-    			Robot.robotArm.updateSpeedCalibrationPoint(-m_curSpeed, m_minSpeed, m_maxSpeed, (m_avgSpeed/(float) m_numpts));
+    			Robot.robotArm.updateSpeedCalibrationPoint(
+        				-m_curSpeed, 
+        				m_minSpeed, 
+        				m_maxSpeed, 
+        				(m_avgSpeed/(float) m_numpts),
+        				(m_finalPotPosition - m_initPotPosition) / s_runTime);
     			if (m_curSpeed < s_speedMin) {
     				m_speedCalState = SpeedCalibrationState.SPEED_CALIBRATION_DONE;
     			} else {

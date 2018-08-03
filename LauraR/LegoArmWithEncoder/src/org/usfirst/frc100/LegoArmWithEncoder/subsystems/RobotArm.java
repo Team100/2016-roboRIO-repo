@@ -40,12 +40,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotArm extends Subsystem implements PIDOutput{
 
 
-	ParallaxContinuousRotationServo armContinuousRotationServo = RobotMap.robotArmArmContinuousRotationServo;
+	ParallaxContinuousRotationServo armContinuousRotationServo = RobotMap.robotArmContinuousRotationServo;
     
-    DigitalInput armUpperLimit = RobotMap.robotArmArmUpperLimit;
-    DigitalInput armLowerLimit = RobotMap.robotArmArmLowerLimit;
+    DigitalInput armUpperLimit = RobotMap.robotArmUpperLimit;
+    DigitalInput armLowerLimit = RobotMap.robotArmLowerLimit;
     
-    AnalogPotentiometer armPositionPot = RobotMap.robotArmArmPositionPot;
+    AnalogPotentiometer armPositionPot = RobotMap.robotArmPositionPot;
     
     DigitalInput encoderA = RobotMap.robotArmEncoderA;
     DigitalInput encoderB = RobotMap.robotArmEncoderB;
@@ -249,8 +249,8 @@ public class RobotArm extends Subsystem implements PIDOutput{
     	Robot.calibration.putCalibrationData(m_indexCalibrationData);
     }
     
-    public void updateSpeedCalibrationPoint (double p_speedSP, double p_minSpeed, double p_maxSpeed, double p_avgSpeed) {
-    	m_speedCalibrationData.addCurData(p_speedSP, p_minSpeed, p_maxSpeed, p_avgSpeed);
+    public void updateSpeedCalibrationPoint (double p_speedSP, double p_minSpeed, double p_maxSpeed, double p_avgSpeed, double p_potRate) {
+    	m_speedCalibrationData.addCurData(p_speedSP, p_minSpeed, p_maxSpeed, p_avgSpeed, p_potRate);
     }
     
     public void resetSpeedCalibration() {

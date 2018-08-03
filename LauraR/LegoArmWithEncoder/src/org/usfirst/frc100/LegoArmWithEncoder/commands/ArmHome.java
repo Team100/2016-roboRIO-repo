@@ -24,7 +24,7 @@ public class ArmHome extends Command {
 	    HOME_ERROR
 	}
 	
-	DigitalInput m_lowLimit = RobotMap.robotArmArmLowerLimit;
+	DigitalInput m_lowLimit = RobotMap.robotArmLowerLimit;
 	private HomingState m_homingState = HomingState.INIT;
 	private final double m_fast_homing_speed = 1.0;
 	private final double m_slow_homing_speed = 0.1;
