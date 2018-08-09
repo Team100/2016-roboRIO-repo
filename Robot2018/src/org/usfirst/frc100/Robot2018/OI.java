@@ -131,12 +131,15 @@ public class OI {
         */
         //button8 = new JoystickButton(operator, 5);
         //button8.whenPressed(new ClimbUp());
+        
         button7 = new JoystickButton(leftController, 1);
         button7.whileHeld(new IntakeIn());
+        /*
         button6 = new JoystickButton(operator, 6);
         button6.whenPressed(new ElevatorUp());
         button5 = new JoystickButton(operator, 8);
         button5.whenPressed(new ElevatorDown());
+        */
        // button4 = new JoystickButton(operator, 6);
         //button4.whenPressed(new ElevatorUp());
         
