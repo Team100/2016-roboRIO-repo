@@ -118,26 +118,32 @@ public class ElevatorAdjust extends Command {
     		RobotMap.elevatorElevatorVictor.configPeakOutputReverse(-0.75, 0);
     		RobotMap.elevatorElevatorVictor2.configPeakOutputReverse(-0.75, 0);
     	if(OI.operator.getRawAxis(3)  >= 0.05 ) {//&& RobotMap.limitSwitches.get() < 1) {
+    		System.out.println("POSITIVE JOYSTICK");
     		//modifier = -000.045;
     		//System.out.println("UP");
-    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))>= -200) {
-        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/10*0.1)-000.095);//Change here
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))>= 200) {
+        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3))-000.095);//Change here
 
     		}else{//System.out.println(OI.operator.getRawAxis(3));
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/2*0.1)-000.065);//Change here
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)*0.2)-000.065);//Change here
     		RobotMap.limitSwitches.reset();}
     	}else if(OI.operator.getRawAxis(3) <= -0.05 ) {//&& RobotMap.limitSwitches.get() > -1) {
+    		System.out.println("NEGATIVE JOYSTICK");
     		//modifier = +0.2;
     		//System.out.println("DOWN");
     		//System.out.println(OI.operator.getRawAxis(3));
     		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.065);
     		//RobotMap.limitSwitches.reset();
-    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= -1500) {
-        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/10*0.1)-000.085);
+    		System.out.println("A");
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 1500) {
+        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3))-000.085);
+        		System.out.println("DEBUG GOING DOWN 2");
 
     		}else{//System.out.println(OI.operator.getRawAxis(3));
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/2*0.1)-000.065);
-    		RobotMap.limitSwitches.reset();}
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3))*0.2-000.065);
+    		System.out.println("DEBUG: GOING DOWN");
+    		RobotMap.limitSwitches.reset();
+    		}
     	}else {
     	//	modifier = -0.03;
     		//System.out.println("null");
