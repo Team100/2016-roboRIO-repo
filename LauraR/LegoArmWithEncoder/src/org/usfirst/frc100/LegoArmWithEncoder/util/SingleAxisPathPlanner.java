@@ -21,7 +21,6 @@ public class SingleAxisPathPlanner implements MultiVarPIDController.SetpointProv
 	public static final double s_defaultInitPosition = 0;
 	public static final double s_defaultStartTime = 0;
 	
-	
 	private double m_acceleration; //encoder ticks per second per second
 	private double m_deceleration; //encoder ticks per second per second
 	private double m_slewVelocity; // encoder ticks per second

@@ -12,8 +12,9 @@
 package org.usfirst.frc100.LegoArmWithEncoder.subsystems;
 
 import org.usfirst.frc100.LegoArmWithEncoder.RobotMap;
+import org.usfirst.frc100.LegoArmWithEncoder.commands.ClawOpen;
 
-import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,24 +22,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Claw extends Subsystem {
-    Relay clawActuatorRelay = RobotMap.clawClawActuatorRelay;
+    Servo clawServo = RobotMap.clawServo;
     final static String ntPrefix = "Claw/"; // Prefix for network table variables
 
     /**
 	 * 
 	 */
 	public Claw() {
-		this.addChild("Claw Actuator", clawActuatorRelay);
+		this.addChild("Claw Servo", clawServo);
 	}
 
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new ClawOpen());
     }
+	
+	public void open() {
+		clawServo.setPosition(1.0);
+	}
+	
+	public void close() {
+		clawServo.setPosition(0.0);
+	}
+	
 	public void updateDashboard()
     {
     	// Show variables in SmartDashboard
-        SmartDashboard.putString(ntPrefix + "Relay", clawActuatorRelay.get().getPrettyValue());
+        SmartDashboard.putNumber(ntPrefix + "Servo", clawServo.get());
         
     }
 }

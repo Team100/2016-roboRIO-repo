@@ -1,36 +1,30 @@
 package org.usfirst.frc100.LegoArmWithEncoder.commands;
 
-import org.usfirst.frc100.LegoArmWithEncoder.Robot;
-import org.usfirst.frc100.LegoArmWithEncoder.subsystems.RobotArm;
-
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc100.LegoArmWithEncoder.Robot;
 
 /**
  *
  */
-public class ArmJog extends Command {
-	final RobotArm.Direction direction;
+public class ClawClose extends Command {
 
-    public ArmJog(RobotArm.Direction dir) {
+    public ClawClose() {
         // Use requires() here to declare subsystem dependencies
-    	requires(Robot.robotArm);
-    	direction = dir;
-    	
+        requires (Robot.claw);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// get most recent jog speed from preferences
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("ArmJog" + (direction == RobotArm.Direction.kUp ? "Up" : "Down"));  	
+    	Robot.claw.close();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

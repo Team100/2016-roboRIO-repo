@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmJog extends Command {
+public class ArmMoveDeltaPosition extends Command {
 	final RobotArm.Direction direction;
 
-    public ArmJog(RobotArm.Direction dir) {
+    public ArmMoveDeltaPosition(RobotArm.Direction dir) {
         // Use requires() here to declare subsystem dependencies
     	requires(Robot.robotArm);
     	direction = dir;
@@ -20,17 +20,17 @@ public class ArmJog extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// get most recent jog speed from preferences
+    	// get most recent position, speed, accel, decel settings from preferences
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("ArmJog" + (direction == RobotArm.Direction.kUp ? "Up" : "Down"));  	
+    	System.out.println("ArmMoveDeltaPosition" + (direction == RobotArm.Direction.kUp ? "Up" : "Down"));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

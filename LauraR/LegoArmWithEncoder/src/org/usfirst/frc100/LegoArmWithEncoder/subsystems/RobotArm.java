@@ -38,7 +38,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class RobotArm extends Subsystem implements PIDOutput{
-
+	public enum Direction { 
+		kUp, kDown
+	}
 
 	ParallaxContinuousRotationServo armContinuousRotationServo = RobotMap.robotArmContinuousRotationServo;
     
@@ -279,6 +281,7 @@ public class RobotArm extends Subsystem implements PIDOutput{
         SmartDashboard.putNumber(ntPrefix + "Arm Pot", 0.001 * Math.round(getPotValue()*1000));
         SmartDashboard.putBoolean(ntPrefix + "Arm Hi", isAtHighLimit());
         SmartDashboard.putBoolean(ntPrefix + "Arm Lo", isAtLowLimit());
+        SmartDashboard.putBoolean(ntPrefix + "Arm Is Homed", isHomed());
         //SmartDashboard.putBoolean(ntPrefix + "Arm Encoder A", encoderA.get());
         //SmartDashboard.putBoolean(ntPrefix + "Arm Encoder B", encoderB.get());
         //SmartDashboard.putBoolean(ntPrefix + "Arm Encoder Index", encoderIdx.get());

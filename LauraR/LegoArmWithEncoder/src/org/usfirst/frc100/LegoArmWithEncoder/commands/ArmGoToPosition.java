@@ -3,6 +3,7 @@ package org.usfirst.frc100.LegoArmWithEncoder.commands;
 import java.util.Vector;
 
 import org.usfirst.frc100.LegoArmWithEncoder.Robot;
+import org.usfirst.frc100.LegoArmWithEncoder.util.MotionPreferences;
 import org.usfirst.frc100.LegoArmWithEncoder.util.SingleAxisPathPlanner;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -27,6 +28,7 @@ public class ArmGoToPosition extends Command {
 	private final static String s_keyFinalVelocity = "ArmFinalVelocity";
 	private final static String s_keyStartTime = "ArmStartTime";
 	
+	
 
     public ArmGoToPosition(double position) {
         // Use requires() here to declare subsystem dependencies
@@ -37,56 +39,17 @@ public class ArmGoToPosition extends Command {
     private void initMotionPrefs() {
     	// Note that for items in the Preferences table, if they don't exist, we must manually add them
     	// I believe that this behavior is different than in previous versions of the WPILIB Preferences class
-    	
-    	double dist = SingleAxisPathPlanner.s_defaultMoveDistance;
-    	if (Robot.prefs.containsKey(s_keyMoveDistance)) {
-    		dist = Robot.prefs.getDouble(s_keyMoveDistance, dist);
-    	} else {
-    		Robot.prefs.putDouble(s_keyMoveDistance, dist);
-    	}
-    	
-    	double slewVelocity = SingleAxisPathPlanner.s_defaultSlewVelocity;
-    	if (Robot.prefs.containsKey(s_keySlewVelocity)) {
-    		slewVelocity = Robot.prefs.getDouble(s_keySlewVelocity, slewVelocity);
-    	} else {
-    		Robot.prefs.putDouble(s_keySlewVelocity, slewVelocity);
-    	}
-    	
-    	double acceleration = SingleAxisPathPlanner.s_defaultAccel;
-    	if (Robot.prefs.containsKey(s_keyAccel)) {
-    		acceleration = Robot.prefs.getDouble(s_keyAccel, acceleration);
-    	} else {
-    		Robot.prefs.putDouble(s_keyAccel, acceleration);
-    	}
-    	
-    	double deceleration = SingleAxisPathPlanner.s_defaultDecel;
-    	if (Robot.prefs.containsKey(s_keyDecel)) {
-    		deceleration = Robot.prefs.getDouble(s_keyDecel, deceleration);
-    	} else {
-    		Robot.prefs.putDouble(s_keyDecel, deceleration);
-    	}
-    	
-    	double initVelocity = SingleAxisPathPlanner.s_defaultInitVelocity;
-    	if (Robot.prefs.containsKey(s_keyInitVelocity)) {
-    		initVelocity = Robot.prefs.getDouble(s_keyInitVelocity, initVelocity);
-    	} else {
-    		Robot.prefs.putDouble(s_keyInitVelocity, initVelocity);
-    	}
-    	
-    	double finalVelocity = SingleAxisPathPlanner.s_defaultFinalVelocity;
-    	if (Robot.prefs.containsKey(s_keyFinalVelocity)) {
-    		finalVelocity = Robot.prefs.getDouble(s_keyFinalVelocity, finalVelocity);
-    	} else {
-    		Robot.prefs.putDouble(s_keyFinalVelocity, finalVelocity);
-    	}
-    	double startTime = SingleAxisPathPlanner.s_defaultStartTime;
-    	if (Robot.prefs.containsKey(s_keyStartTime)) {
-    		startTime = Robot.prefs.getDouble(s_keyStartTime, startTime);
-    	} else {
-    		Robot.prefs.putDouble(s_keyStartTime, startTime);
-    	}
+    	MotionPreferences mp = MotionPreferences.getInstance();
+    	mp.update();
     	m_initPosition = Robot.robotArm.getEncoderPosition();
-    	m_pathPlanner = new SingleAxisPathPlanner(dist, slewVelocity, acceleration, deceleration, initVelocity, finalVelocity, m_initPosition, startTime);
+    	m_pathPlanner = new SingleAxisPathPlanner(m_position, 
+    												mp.get_slewVelocity(), 
+    												mp.get_accel(), 
+    												mp.get_decel(), 
+    												mp.get_initVelocity(),
+    												mp.get_finalVelocity(), 
+    												m_initPosition, 
+    												mp.get_startTime());
      }
 
     // Called just before this Command runs the first time
@@ -107,7 +70,7 @@ public class ArmGoToPosition extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double time = m_pathTimer.get();
-    	//System.out.println(Robot.robotArm.m_pidController.getSetpoint());
+    	System.out.println(Robot.robotArm.m_pidController.getSetpoint());
     	if (time > m_pathPlanner.get_endTime()) {
     		m_isDone = true;
     	}

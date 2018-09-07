@@ -34,7 +34,7 @@ public class RobotMap {
     public static Victor driveTrainLeft;
     public static Victor driveTrainRight;
     public static AnalogInput driveTrainIRDistanceSensor;
-    public static Relay clawClawActuatorRelay;
+    public static Servo clawServo;
     public static DigitalInput robotArmEncoderA;
     public static DigitalInput robotArmEncoderB;
     public static DigitalInput robotArmEncoderIndex;
@@ -52,6 +52,6 @@ public class RobotMap {
         driveTrainRight = new Victor(2);
         driveTrainIRDistanceSensor = new AnalogInput(1);
         
-        clawClawActuatorRelay = new Relay(0);
+        clawServo = new Servo(4);
     }
 }
