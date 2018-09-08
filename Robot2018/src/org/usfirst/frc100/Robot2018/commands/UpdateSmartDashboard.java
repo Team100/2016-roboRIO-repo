@@ -38,8 +38,6 @@ public class UpdateSmartDashboard extends Command {
     	////////////////////////////////BRAKE////////////////////////////////
     	
     	SmartDashboard.putData("Auto mode", Robot.chooser);
-        SmartDashboard.putData("TestPathFinder", new PathFindingLogicCode());
-    	
     	SmartDashboard.putNumber("posDeadzone",CalculateDeadzone.posDeadzone);
 		SmartDashboard.putNumber("negDeadzone", CalculateDeadzone.negDeadzone);
 		
