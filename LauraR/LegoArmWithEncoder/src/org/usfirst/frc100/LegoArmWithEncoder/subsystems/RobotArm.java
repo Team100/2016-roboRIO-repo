@@ -20,15 +20,12 @@ import org.usfirst.frc100.LegoArmWithEncoder.calibration.SpeedCalibrationData.Sp
 import org.usfirst.frc100.LegoArmWithEncoder.commands.HoldIt;
 import org.usfirst.frc100.LegoArmWithEncoder.devices.ParallaxContinuousRotationServo;
 import org.usfirst.frc100.LegoArmWithEncoder.util.MultiVarPIDController;
-import org.usfirst.frc100.LegoArmWithEncoder.util.SingleAxisPathPlanner;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,7 +38,18 @@ public class RobotArm extends Subsystem implements PIDOutput{
 	public enum Direction { 
 		kUp, kDown
 	}
-
+    private static final String s_keyKP = "ArmPosKPx1000";
+    private static final String s_keyKD = "ArmPosKDx1000";
+    private static final String s_keyKI = "ArmPosKIx1000";
+    private static final String s_keyKF = "ArmPosKFx1000";
+    private static final double s_defaultKP = 10.0;
+    private static final double s_defaultKD = 0.0;
+    private static final double s_defaultKI = 1.0;
+    private static final double s_defaultKF = 0.277;
+    
+    private static final double s_minEncoderVal = -80000.0;
+    private static final double s_maxEncoderVal = 80000.0;
+    
 	ParallaxContinuousRotationServo armContinuousRotationServo = RobotMap.robotArmContinuousRotationServo;
     
     DigitalInput armUpperLimit = RobotMap.robotArmUpperLimit;
@@ -66,17 +74,7 @@ public class RobotArm extends Subsystem implements PIDOutput{
     
     final static String ntPrefix = "RobotArm/"; // Prefix for network table variables
     
-    private static final String s_keyKP = "ArmKP";
-    private static final String s_keyKD = "ArmKD";
-    private static final String s_keyKI = "ArmKI";
-    private static final String s_keyKF = "ArmKF";
-    private static final double s_defaultKP = 0.0;
-    private static final double s_defaultKD = 0.0;
-    private static final double s_defaultKI = 0.0;
-    private static final double s_defaultKF = 0.0;
-    
-    private static final double s_minEncoderVal = -80000.0;
-    private static final double s_maxEncoderVal = 80000.0;
+
     
    	public RobotArm() {
    		// Add variables to Live Windows
@@ -116,12 +114,12 @@ public class RobotArm extends Subsystem implements PIDOutput{
     	}
     	double kf = s_defaultKF;
     	if (Robot.prefs.containsKey(s_keyKF)) {
-    		kf = Robot.prefs.getDouble(s_keyKF, ki);
+    		kf = Robot.prefs.getDouble(s_keyKF, kf);
     	} else {
     		Robot.prefs.putDouble(s_keyKF, kf);
     	}
     	
-	    m_pidController = new MultiVarPIDController(kp, ki, kd, kf, robotArmEncoder, this, 0.020, (MultiVarPIDController.SetpointProvider)null);
+	    m_pidController = new MultiVarPIDController(kp/1000.0, ki/1000.0, kd/1000.0, kf/1000.0, robotArmEncoder, this, 0.020, (MultiVarPIDController.SetpointProvider)null);
 	    robotArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 	    m_pidController.setInputRange(s_minEncoderVal, s_maxEncoderVal);
 	    m_pidController.setName("Arm", "PositionPID");
@@ -181,8 +179,12 @@ public class RobotArm extends Subsystem implements PIDOutput{
     
 	@Override
 	public void pidWrite(double pOutput) {
-		if (isAtLowLimit()|| isAtHighLimit()) {
-			// probably shouldn't continue with closed loop control if we hit a limit
+		if (isAtLowLimit() && (pOutput < 0.0)){
+			// don't allow movement past limit
+			stop();
+		}
+		if (isAtHighLimit() && (pOutput > 0.0)) {
+			// don't allow movement past limit
     		stop();
     	}
     	else {
@@ -269,10 +271,10 @@ public class RobotArm extends Subsystem implements PIDOutput{
     
     public void resetPIDParameters() {	
     	m_pidController.setPID(
-    			Robot.prefs.getDouble(s_keyKP, s_defaultKP),
-    			Robot.prefs.getDouble(s_keyKI, s_defaultKI),
-    			Robot.prefs.getDouble(s_keyKD, s_defaultKD),
-    			Robot.prefs.getDouble(s_keyKF, s_defaultKF));
+    			Robot.prefs.getDouble(s_keyKP, s_defaultKP)/1000.0,
+    			Robot.prefs.getDouble(s_keyKI, s_defaultKI)/1000.0,
+    			Robot.prefs.getDouble(s_keyKD, s_defaultKD)/1000.0,
+    			Robot.prefs.getDouble(s_keyKF, s_defaultKF)/1000.0);
     }
     
     public void updateDashboard()
@@ -291,6 +293,7 @@ public class RobotArm extends Subsystem implements PIDOutput{
         SmartDashboard.putNumber(ntPrefix + "Servo", 0.001 * Math.round(armContinuousRotationServo.get()*1000));
         SmartDashboard.putNumber(ntPrefix + "Arm Home Pot Value", getHomePotValue());
         SmartDashboard.putNumber(ntPrefix + "Arm Position Error", m_pidController.getError());
+        SmartDashboard.putString(ntPrefix + "CurrentCommand", getCurrentCommandName());
     }
 
 

@@ -49,6 +49,7 @@ public class MotionPreferences {
     	
     	s_moveDistance = SingleAxisPathPlanner.s_defaultMoveDistance;
     	if (Robot.prefs.containsKey(s_keyMoveDistance)) {
+    		s_moveDistance = Robot.prefs.getDouble(s_keyMoveDistance,  s_moveDistance);
     	} else {
     		Robot.prefs.putDouble(s_keyMoveDistance, s_moveDistance);
     	}

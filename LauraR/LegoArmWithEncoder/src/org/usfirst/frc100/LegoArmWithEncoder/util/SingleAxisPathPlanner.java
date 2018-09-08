@@ -87,19 +87,21 @@ public class SingleAxisPathPlanner implements MultiVarPIDController.SetpointProv
 					// accelerating
 					double dt = time - m_startTime;
 					pathPoint.m_speed = m_initVelocity + m_acceleration * dt;
-					pathPoint.m_position = m_initPosition + (m_initVelocity * dt) + (m_acceleration * dt * dt / 2.0);
+					pathPoint.m_position = (m_initVelocity * dt) + (m_acceleration * dt * dt / 2.0);
 				} else if (time < m_decelStartTime) {
 					// slewing at constant speed
 					double dt = time - m_slewStartTime;
 					pathPoint.m_speed = m_slewVelocity;
-					pathPoint.m_position = m_initPosition + m_accelDistance + m_slewVelocity * dt;
+					pathPoint.m_position = m_accelDistance + m_slewVelocity * dt;
 				} else if (time < m_endTime) {
 					double dt = time - m_decelStartTime;
 					double speed = m_slewVelocity - m_deceleration * dt;
 					pathPoint.m_speed = speed;
-					pathPoint.m_position = m_initPosition + m_accelDistance + m_slewDistance + ((m_slewVelocity - speed) * dt / 2.0) + speed * dt;		
+					pathPoint.m_position = m_accelDistance + m_slewDistance + ((m_slewVelocity - speed) * dt / 2.0) + speed * dt;		
 				} else {
 					// We've reached the end of the path
+					pathPoint.m_speed = m_finalVelocity;
+					pathPoint.m_position = Math.abs(m_moveDistance);
 					pathPoint.m_isComplete = true;
 				}
 				
@@ -109,17 +111,26 @@ public class SingleAxisPathPlanner implements MultiVarPIDController.SetpointProv
 					// accelerating
 					double dt = time - m_startTime;
 					pathPoint.m_speed = m_initVelocity + m_acceleration * dt;
-					pathPoint.m_position = m_initPosition + (m_initVelocity * dt) + (m_acceleration * dt * dt / 2.0);
+					pathPoint.m_position = (m_initVelocity * dt) + (m_acceleration * dt * dt / 2.0);
 				} else if (time < m_endTime) {
 					double dt = time - m_decelStartTime;
 					double speed = m_maxVelocity - m_deceleration * dt;
 					pathPoint.m_speed = speed;
-					pathPoint.m_position = m_initPosition + m_accelDistance + m_slewDistance + ((m_maxVelocity - speed) * dt / 2.0) + speed * dt;			
+					pathPoint.m_position = m_accelDistance + m_slewDistance + ((m_maxVelocity - speed) * dt / 2.0) + speed * dt;			
 				} else {
 					// We've reached the end of the path
+					pathPoint.m_speed = m_finalVelocity;
+					pathPoint.m_position = Math.abs(m_moveDistance);
 					pathPoint.m_isComplete = true;
 				}
 			}
+		}
+		if (m_moveDistance > 0.0) {
+			pathPoint.m_position += m_initPosition;
+		}
+		else {
+			pathPoint.m_position = m_initPosition - pathPoint.m_position;
+			pathPoint.m_speed = -pathPoint.m_speed;
 		}
 		return (pathPoint);
 	}
@@ -127,18 +138,18 @@ public class SingleAxisPathPlanner implements MultiVarPIDController.SetpointProv
 	public void computePathVariables() {
 		m_accelDistance = (m_slewVelocity * m_slewVelocity - m_initVelocity * m_initVelocity) / (2 * m_acceleration);
 		m_decelDistance = (m_slewVelocity * m_slewVelocity - m_finalVelocity * m_finalVelocity) / (2 * m_deceleration);
-		if ((m_accelDistance + m_decelDistance) < m_moveDistance) {
+		if ((m_accelDistance + m_decelDistance) < Math.abs(m_moveDistance)) {
 			// Given the distance to be moved and the accel and decel values, we are able to achieve the slew velocity
 			m_isTrapezoidal = true;
 			m_maxVelocity = m_slewVelocity;
 			m_slewStartTime = m_startTime + ((m_slewVelocity - m_initVelocity) / m_acceleration);
-			m_decelStartTime = m_slewStartTime + ((m_moveDistance - m_accelDistance - m_decelDistance) / m_slewVelocity);
+			m_decelStartTime = m_slewStartTime + ((Math.abs(m_moveDistance) - m_accelDistance - m_decelDistance) / m_slewVelocity);
 			m_slewDistance = (m_decelStartTime - m_slewStartTime) * m_slewVelocity;
 			m_endTime = m_decelStartTime + ((m_slewVelocity - m_finalVelocity) / m_deceleration);						
 		} else {
 			// Given the distance to be moved and the accel and decel values, we cannot achieve the slew velocity
 			m_isTrapezoidal = false;
-			double term1 = 2.0 * m_moveDistance * m_acceleration * m_deceleration ;
+			double term1 = 2.0 * Math.abs(m_moveDistance) * m_acceleration * m_deceleration ;
 			double term2 = m_initVelocity * m_initVelocity * m_deceleration; // portion related to initial velocity
 			double term3 = m_finalVelocity * m_finalVelocity * m_acceleration; // portion related to final velocity
 			m_maxVelocity = Math.sqrt((term1 + term2 + term3) / (m_acceleration + m_deceleration));

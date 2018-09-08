@@ -93,7 +93,7 @@ public class OI {
 //        joystick5GoToPreset1.whenPressed(new ArmGoToPosition (4000.0));
         
         JoystickButton joystick7GoToPreset2 = new JoystickButton(joystick1, 7);
-        joystick7GoToPreset2.whenPressed(new ArmGoToPosition (60000.0));
+        joystick7GoToPreset2.whenPressed(new ArmGoToPosition (35000.0));
 
         
         

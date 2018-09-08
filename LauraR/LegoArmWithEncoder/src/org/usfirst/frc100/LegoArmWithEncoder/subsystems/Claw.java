@@ -30,25 +30,26 @@ public class Claw extends Subsystem {
 	 */
 	public Claw() {
 		this.addChild("Claw Servo", clawServo);
+		open();
 	}
 
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ClawOpen());
     }
 	
 	public void open() {
-		clawServo.setPosition(1.0);
+		clawServo.setPosition(0.0);
 	}
 	
 	public void close() {
-		clawServo.setPosition(0.0);
+		clawServo.setPosition(1.0);
 	}
 	
 	public void updateDashboard()
     {
     	// Show variables in SmartDashboard
         SmartDashboard.putNumber(ntPrefix + "Servo", clawServo.get());
+        SmartDashboard.putString(ntPrefix + "CurrentCommand", getCurrentCommandName());
         
     }
 }

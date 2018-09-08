@@ -3,6 +3,7 @@ package org.usfirst.frc100.LegoArmWithEncoder.commands;
 import java.util.Vector;
 
 import org.usfirst.frc100.LegoArmWithEncoder.Robot;
+import org.usfirst.frc100.LegoArmWithEncoder.subsystems.RobotArm;
 import org.usfirst.frc100.LegoArmWithEncoder.util.MotionPreferences;
 import org.usfirst.frc100.LegoArmWithEncoder.util.SingleAxisPathPlanner;
 
@@ -20,17 +21,7 @@ public class ArmGoToPosition extends Command {
 	private boolean m_isDone = true;
 	private Timer m_pathTimer = new Timer();
 	
-	private final static String s_keyMoveDistance = "ArmMoveDistance";
-	private final static String s_keySlewVelocity = "ArmSlewVelocity";
-	private final static String s_keyAccel = "ArmAcceleration";
-	private final static String s_keyDecel = "ArmDeceleration";
-	private final static String s_keyInitVelocity = "ArmInitVelocity";
-	private final static String s_keyFinalVelocity = "ArmFinalVelocity";
-	private final static String s_keyStartTime = "ArmStartTime";
-	
-	
-
-    public ArmGoToPosition(double position) {
+	public ArmGoToPosition(double position) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.robotArm);
         m_position = position;
@@ -42,7 +33,7 @@ public class ArmGoToPosition extends Command {
     	MotionPreferences mp = MotionPreferences.getInstance();
     	mp.update();
     	m_initPosition = Robot.robotArm.getEncoderPosition();
-    	m_pathPlanner = new SingleAxisPathPlanner(m_position, 
+    	m_pathPlanner = new SingleAxisPathPlanner(m_position - m_initPosition, 
     												mp.get_slewVelocity(), 
     												mp.get_accel(), 
     												mp.get_decel(), 
@@ -54,6 +45,8 @@ public class ArmGoToPosition extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.println("ArmGoToPosition: " + m_position);
+
     	initMotionPrefs();
     	System.out.println(m_pathPlanner);
     	m_isDone = false;
@@ -69,9 +62,14 @@ public class ArmGoToPosition extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double time = m_pathTimer.get();
-    	System.out.println(Robot.robotArm.m_pidController.getSetpoint());
-    	if (time > m_pathPlanner.get_endTime()) {
+    	if (Robot.robotArm.isHomed()) {
+	    	double time = m_pathTimer.get();
+	    	System.out.println(Robot.robotArm.m_pidController.getSetpoint());
+	    	if (time > m_pathPlanner.get_endTime()) {
+	    		m_isDone = true;
+	    	}
+    	} else {
+    		System.out.println("Robot Arm is not homed. Cannot go to a specified encoder position.");
     		m_isDone = true;
     	}
     }
