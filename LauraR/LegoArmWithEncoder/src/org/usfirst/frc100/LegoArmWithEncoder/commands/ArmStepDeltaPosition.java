@@ -22,19 +22,17 @@ public class ArmStepDeltaPosition extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	MotionPreferences mp = MotionPreferences.getInstance();
-    	mp.update();
     	System.out.println("ArmStepDeltaPosition" + (direction == RobotArm.Direction.kUp ? "Up" : "Down"));
     	m_isDone = false;
     	Robot.robotArm.m_pidController.setSetpointProvider(null);
     	double init_position = Robot.robotArm.getEncoderPosition();
+    	double step_size = Robot.robotArm.m_motionPreferences.get_moveDistance();
     	if (direction == RobotArm.Direction.kUp) {
-    		Robot.robotArm.m_pidController.setSetpoint(init_position + mp.get_moveDistance());
+    		Robot.robotArm.m_pidController.setSetpoint(init_position + step_size);
     	} else {
-    		Robot.robotArm.m_pidController.setSetpoint(init_position - mp.get_moveDistance());
+    		Robot.robotArm.m_pidController.setSetpoint(init_position - step_size);
     	}
-    	Robot.robotArm.setSpeedOffset(0.0);   	
-    	Robot.robotArm.resetPIDParameters();
+    	Robot.robotArm.setPIDforPositionControl();
     	Robot.robotArm.m_pidController.enable();
     }
 

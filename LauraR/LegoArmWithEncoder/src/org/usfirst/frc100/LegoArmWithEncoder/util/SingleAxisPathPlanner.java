@@ -12,10 +12,7 @@ public class SingleAxisPathPlanner implements MultiVarPIDController.SetpointProv
 		}
 		
 	}
-	public static final double s_defaultMoveDistance = 1000; // encoder ticks
-	public static final double s_defaultSlewVelocity = 1000; //encoder ticks per second
-	public static final double s_defaultAccel = 2000; //encoder ticks per second per second
-	public static final double s_defaultDecel = 1000; //encoder ticks per second per second
+
 	public static final double s_defaultInitVelocity = 0;
 	public static final double s_defaultFinalVelocity = 0;
 	public static final double s_defaultInitPosition = 0;
@@ -56,21 +53,16 @@ public class SingleAxisPathPlanner implements MultiVarPIDController.SetpointProv
 			throw new IllegalArgumentException("Acceleration must be >= 0.0");
 		} else if (m_deceleration <= 0.0){
 			throw new IllegalArgumentException("Deceleration must be >= 0.0");
+		} else if (m_slewVelocity <= 0.0) {
+			throw new IllegalArgumentException("Slew Velocity must be >= 0.0");
 		}
 		computePathVariables();
 	}
 	
-	public SingleAxisPathPlanner () {
-		this(s_defaultMoveDistance, s_defaultSlewVelocity, s_defaultAccel, s_defaultDecel, s_defaultInitVelocity, s_defaultFinalVelocity, s_defaultInitPosition, s_defaultStartTime) ;
-	}
-	
-
 	public SingleAxisPathPlanner(double pMoveDist, double pSlewVel, double pAccel, double pDecel) {
 		this(pMoveDist, pSlewVel, pAccel, pDecel, s_defaultInitVelocity, s_defaultFinalVelocity, s_defaultInitPosition, s_defaultStartTime) ;
 	}
 	
-	
-
 	public PathPoint getPathPoint(double time) {
 		if (!m_isPathComputed) {
 			computePathVariables();
@@ -125,6 +117,15 @@ public class SingleAxisPathPlanner implements MultiVarPIDController.SetpointProv
 				}
 			}
 		}
+		
+		/* 
+		 * TODO, look at initVelocity and finalVelocity handling.
+		 * The direction of travel is solely decided by the direction of the moveDistance. 
+		 * SlewVelocity, accel and decel are all required to be positive.
+		 * As the code stands, the direction of the initVelocity and finalVelocity are assumed to be the same as the direction of the slewing velocity.
+		 * If this is not the case, the code will need to be changed to accommodate negative values of initVelocity and finalVelocity.
+		 */
+		
 		if (m_moveDistance > 0.0) {
 			pathPoint.m_position += m_initPosition;
 		}

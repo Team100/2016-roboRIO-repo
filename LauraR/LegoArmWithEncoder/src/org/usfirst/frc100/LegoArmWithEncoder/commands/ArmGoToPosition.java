@@ -30,17 +30,16 @@ public class ArmGoToPosition extends Command {
     private void initMotionPrefs() {
     	// Note that for items in the Preferences table, if they don't exist, we must manually add them
     	// I believe that this behavior is different than in previous versions of the WPILIB Preferences class
-    	MotionPreferences mp = MotionPreferences.getInstance();
-    	mp.update();
+    	MotionPreferences mp = Robot.robotArm.m_motionPreferences;
     	m_initPosition = Robot.robotArm.getEncoderPosition();
     	m_pathPlanner = new SingleAxisPathPlanner(m_position - m_initPosition, 
     												mp.get_slewVelocity(), 
     												mp.get_accel(), 
     												mp.get_decel(), 
-    												mp.get_initVelocity(),
-    												mp.get_finalVelocity(), 
+    												0.0, // initVelocity
+    												0.0, // finalVelocity
     												m_initPosition, 
-    												mp.get_startTime());
+    												0.0); // startTime
      }
 
     // Called just before this Command runs the first time
@@ -50,9 +49,8 @@ public class ArmGoToPosition extends Command {
     	initMotionPrefs();
     	System.out.println(m_pathPlanner);
     	m_isDone = false;
-    	Robot.robotArm.setSpeedOffset(0.0);
-    	
-    	Robot.robotArm.resetPIDParameters();
+    	    	
+    	Robot.robotArm.setPIDforPositionControl();
     	Robot.robotArm.m_pidController.setSetpointProvider(m_pathPlanner);
     	Robot.robotArm.m_pidController.startSetpointProvider();
     	Robot.robotArm.m_pidController.enable();

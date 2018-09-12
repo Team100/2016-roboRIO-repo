@@ -19,6 +19,7 @@ import org.usfirst.frc100.LegoArmWithEncoder.calibration.SpeedCalibrationData;
 import org.usfirst.frc100.LegoArmWithEncoder.calibration.SpeedCalibrationData.SpeedCalibrationPoint;
 import org.usfirst.frc100.LegoArmWithEncoder.commands.HoldIt;
 import org.usfirst.frc100.LegoArmWithEncoder.devices.ParallaxContinuousRotationServo;
+import org.usfirst.frc100.LegoArmWithEncoder.util.MotionPreferences;
 import org.usfirst.frc100.LegoArmWithEncoder.util.MultiVarPIDController;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -38,17 +39,11 @@ public class RobotArm extends Subsystem implements PIDOutput{
 	public enum Direction { 
 		kUp, kDown
 	}
-    private static final String s_keyKP = "ArmPosKPx1000";
-    private static final String s_keyKD = "ArmPosKDx1000";
-    private static final String s_keyKI = "ArmPosKIx1000";
-    private static final String s_keyKF = "ArmPosKFx1000";
-    private static final double s_defaultKP = 10.0;
-    private static final double s_defaultKD = 0.0;
-    private static final double s_defaultKI = 1.0;
-    private static final double s_defaultKF = 0.277;
     
     private static final double s_minEncoderVal = -80000.0;
     private static final double s_maxEncoderVal = 80000.0;
+    private static final double s_minEncoderSpd = -4000.0;
+    private static final double s_maxEncoderSpd = 4000.0;
     
 	ParallaxContinuousRotationServo armContinuousRotationServo = RobotMap.robotArmContinuousRotationServo;
     
@@ -63,11 +58,11 @@ public class RobotArm extends Subsystem implements PIDOutput{
     Encoder robotArmEncoder = new Encoder(encoderA, encoderB);
     Counter indexCounter = new Counter(encoderIdx);
     
-    private double m_speedOffset = 0.0;
     private boolean m_isHomed = false;
     private double m_homePotValue = 0.0;
     
     public MultiVarPIDController m_pidController;
+    public final MotionPreferences m_motionPreferences;
     
     private IndexCalibrationData m_indexCalibrationData = new IndexCalibrationData(80);
     private SpeedCalibrationData m_speedCalibrationData = new SpeedCalibrationData(80);
@@ -93,43 +88,50 @@ public class RobotArm extends Subsystem implements PIDOutput{
 	    
 	    // arm position controller
 	    // get parameters out of the Preferences file
-	    // initialize parameters if necessary
-	    double kp = s_defaultKP;
-    	if (Robot.prefs.containsKey(s_keyKP)) {
-    		kp = Robot.prefs.getDouble(s_keyKP, kp);
-    	} else {
-    		Robot.prefs.putDouble(s_keyKP, kp);
-    	}
-    	double kd = s_defaultKD;
-    	if (Robot.prefs.containsKey(s_keyKD)) {
-    		kd = Robot.prefs.getDouble(s_keyKD, kd);
-    	} else {
-    		Robot.prefs.putDouble(s_keyKD, kd);
-    	}
-    	double ki = s_defaultKI;
-    	if (Robot.prefs.containsKey(s_keyKI)) {
-    		ki = Robot.prefs.getDouble(s_keyKI, ki);
-    	} else {
-    		Robot.prefs.putDouble(s_keyKI, ki);
-    	}
-    	double kf = s_defaultKF;
-    	if (Robot.prefs.containsKey(s_keyKF)) {
-    		kf = Robot.prefs.getDouble(s_keyKF, kf);
-    	} else {
-    		Robot.prefs.putDouble(s_keyKF, kf);
-    	}
+	    m_motionPreferences = MotionPreferences.getInstance();
     	
-	    m_pidController = new MultiVarPIDController(kp/1000.0, ki/1000.0, kd/1000.0, kf/1000.0, robotArmEncoder, this, 0.020, (MultiVarPIDController.SetpointProvider)null);
-	    robotArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+	    m_pidController = new MultiVarPIDController(
+	    		m_motionPreferences.get_posKp(),
+	    		m_motionPreferences.get_posKi(),
+	    		m_motionPreferences.get_posKd(),
+	    		m_motionPreferences.get_posKf(),
+	    		robotArmEncoder, // PID input
+	    		this, // PID output
+	    		0.020, // period in seconds
+	    		(MultiVarPIDController.SetpointProvider)null);
+	    setPIDforPositionControl(); 
+	                 
+	    stop(); // make sure the arm won't move if we go into Test mode first
+	}
+   	
+   	public void setPIDforPositionControl() {    	
+   		m_pidController.disable();
+   		robotArmEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+	    m_pidController.setPID(
+	    		m_motionPreferences.get_posKp(),
+	    		m_motionPreferences.get_posKi(),
+	    		m_motionPreferences.get_posKd(),
+	    		m_motionPreferences.get_posKf());
 	    m_pidController.setInputRange(s_minEncoderVal, s_maxEncoderVal);
 	    m_pidController.setName("Arm", "PositionPID");
 	    m_pidController.setOutputRange(-1.0, 1.0);
-	    m_pidController.setAbsoluteTolerance(100.0);
-	   
-	                      
+	    m_pidController.setAbsoluteTolerance(100.0);	
 	    
-	    stop(); // make sure the arm won't move if we go into Test mode first
-	}
+   	}
+   	
+   	public void setPIDforSpeedControl() {
+   		m_pidController.disable();
+   		robotArmEncoder.setPIDSourceType(PIDSourceType.kRate);
+	    m_pidController.setPID(
+	    		m_motionPreferences.get_velKp(),
+	    		m_motionPreferences.get_velKi(),
+	    		m_motionPreferences.get_velKd(),
+	    		m_motionPreferences.get_velKf());
+	    m_pidController.setInputRange(s_minEncoderSpd, s_maxEncoderSpd);
+	    m_pidController.setName("Arm", "SpeedPID");
+	    m_pidController.setOutputRange(-1.0, 1.0);
+	    m_pidController.setAbsoluteTolerance(100.0);	   		
+   	}
 
 	public void initDefaultCommand() {
         setDefaultCommand(new HoldIt());
@@ -173,23 +175,20 @@ public class RobotArm extends Subsystem implements PIDOutput{
     	}
     }
 
-    public void setSpeedOffset (double pOffset) {
-    	m_speedOffset = pOffset;
-    }
-    
+
 	@Override
 	public void pidWrite(double pOutput) {
 		if (isAtLowLimit() && (pOutput < 0.0)){
 			// don't allow movement past limit
 			stop();
 		}
-		if (isAtHighLimit() && (pOutput > 0.0)) {
+		else if (isAtHighLimit() && (pOutput > 0.0)) {
 			// don't allow movement past limit
     		stop();
     	}
     	else {
     		// change sense so that servo goes in correct direction to correct for errors.
-    		armContinuousRotationServo.set(-pOutput - m_speedOffset); 
+    		armContinuousRotationServo.set(-pOutput); 
     	}
 		
 	}
@@ -217,6 +216,10 @@ public class RobotArm extends Subsystem implements PIDOutput{
     
     public boolean isHomed() {
     	return m_isHomed;
+    }
+    
+    public void clearIsHomed() {
+    	m_isHomed = false;
     }
     
     public double getHomePotValue () {
@@ -267,14 +270,6 @@ public class RobotArm extends Subsystem implements PIDOutput{
     		System.out.println(data);
     	}
     	Robot.calibration.putCalibrationData(m_speedCalibrationData);
-    }
-    
-    public void resetPIDParameters() {	
-    	m_pidController.setPID(
-    			Robot.prefs.getDouble(s_keyKP, s_defaultKP)/1000.0,
-    			Robot.prefs.getDouble(s_keyKI, s_defaultKI)/1000.0,
-    			Robot.prefs.getDouble(s_keyKD, s_defaultKD)/1000.0,
-    			Robot.prefs.getDouble(s_keyKF, s_defaultKF)/1000.0);
     }
     
     public void updateDashboard()

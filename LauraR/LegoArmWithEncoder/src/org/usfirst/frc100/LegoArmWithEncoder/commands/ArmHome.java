@@ -17,7 +17,7 @@ public class ArmHome extends Command {
 	    INIT,
 	    FAST_TO_LOW_LIMIT,
 	    AT_LOW_LIMIT,
-	    SLOW_TO_CLEAR_LIMIT,
+	    MEDIUM_TO_CLEAR_LIMIT,
 	    LIMIT_CLEARED,
 	    SLOW_TO_CAPTURE_LIMIT,
 	    HOME_DONE,
@@ -26,9 +26,10 @@ public class ArmHome extends Command {
 	
 	DigitalInput m_lowLimit = RobotMap.robotArmLowerLimit;
 	private HomingState m_homingState = HomingState.INIT;
-	private final double m_fast_homing_speed = 1.0;
-	private final double m_slow_homing_speed = 0.1;
-	private final double m_maxHomeTime = 45.0; // seconds
+	private double m_fast_homing_speed;
+	private double m_medium_homing_speed;
+	private double m_slow_homing_speed;
+	private double m_maxHomeTime; // seconds
 	private Timer m_homingTimer = new Timer();
 	private Thread m_task;
 	private boolean m_done = false;
@@ -56,6 +57,12 @@ public class ArmHome extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	m_homingState = HomingState.INIT;
+    	// get homing parameters from Preferences
+    	m_fast_homing_speed = Robot.robotArm.m_motionPreferences.get_homingSpeedFast();
+    	m_medium_homing_speed = Robot.robotArm.m_motionPreferences.get_homingSpeedMedium();
+    	m_slow_homing_speed = Robot.robotArm.m_motionPreferences.get_homingSpeedSlow();
+    	m_maxHomeTime = Robot.robotArm.m_motionPreferences.get_homingMaxTime(); // seconds
+    	Robot.robotArm.clearIsHomed();
     	m_homingTimer.reset();
     	m_done = false;
     	m_task = new Thread(new HomingInterruptTask(), "LowLimitWatcher");
@@ -96,12 +103,12 @@ public class ArmHome extends Command {
     		break;
     	case AT_LOW_LIMIT:
     		// start moving slowly up until limit is just cleared.
-    		m_homingState = HomingState.SLOW_TO_CLEAR_LIMIT;
+    		m_homingState = HomingState.MEDIUM_TO_CLEAR_LIMIT;
     		Robot.robotArm.stop();
     		break;
 
-    	case SLOW_TO_CLEAR_LIMIT:
-    		Robot.robotArm.raiseAtSpeed(m_slow_homing_speed);
+    	case MEDIUM_TO_CLEAR_LIMIT:
+    		Robot.robotArm.raiseAtSpeed(m_medium_homing_speed);
     		if (!Robot.robotArm.isAtLowLimit()) {
     			m_homingState = HomingState.LIMIT_CLEARED;
     			Robot.robotArm.stop();

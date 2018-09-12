@@ -82,16 +82,7 @@ public class OI {
         
         JoystickButton joystick3Home = new JoystickButton(joystick1, 3);
         joystick3Home.whenPressed(new ArmHome ());
-        
-//        JoystickButton joystick9CalibrateIndices = new JoystickButton(joystick1, 9);
-//        joystick9CalibrateIndices.whenPressed(new ArmCalibrateIndices ());
-        
-//        JoystickButton joystick10CalibrateSpeed = new JoystickButton(joystick1, 10);
-//        joystick10CalibrateSpeed.whenPressed(new ArmCalibrateSpeed ());
-        
-//        JoystickButton joystick5GoToPreset1 = new JoystickButton(joystick1, 5);
-//        joystick5GoToPreset1.whenPressed(new ArmGoToPosition (4000.0));
-        
+              
         JoystickButton joystick7GoToPreset2 = new JoystickButton(joystick1, 7);
         joystick7GoToPreset2.whenPressed(new ArmGoToPosition (35000.0));
 
