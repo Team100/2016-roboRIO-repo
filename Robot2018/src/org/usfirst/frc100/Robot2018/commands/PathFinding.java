@@ -1,9 +1,5 @@
 // RobotBuilder Version: 2.
-//esse guey
-//esse guey
-//esse guey
-//esse guey
-//esse guey  
+
 package org.usfirst.frc100.Robot2018.commands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -87,7 +83,7 @@ public class PathFinding extends Command {
     	leftM = 1; 
     	requires(Robot.driveTrain);
     	mode = a;
-    	if(mode == "null"|| mode == "null" || mode == "Left" || mode == "Right") {
+    	if(mode == "null"|| mode == "null" || mode == "Left" || mode == "Rightm") {
     		fastCalculation = false;
     		Robot.ahrs.reset();
     	}else{
@@ -119,11 +115,11 @@ public class PathFinding extends Command {
     	if(mode == "Right" ){
     		//Robot.ahrs.reset();
     		path = paths.returnRightSwitch();
-    		 points = new Waypoint []{
+    		 /*points = new Waypoint []{
     			 new Waypoint(0, 0, 0), 
     	       	 new Waypoint(1.0, -1.3, Pathfinder.d2r(-45)), //4.5 1.371    .57
     	    	 new Waypoint(2.85, -1.99, 0),
-    		}; 
+    		}; */
     	}
     	if(mode == "BackR"){
     		//Robot.ahrs.reset();
@@ -275,13 +271,13 @@ public class PathFinding extends Command {
     	a = Robot.prefs.getDouble("F",             //.45
 				0);
     	
-    	p2 = Robot.prefs.getDouble("PL",
+    	p2 = Robot.prefs.getDouble("P",
 				0);
-    	i2 = Robot.prefs.getDouble("IL",
+    	i2 = Robot.prefs.getDouble("I",
 				0);
-    	d2 = Robot.prefs.getDouble("DL",
+    	d2 = Robot.prefs.getDouble("D",
 				0);
-    	a2 = Robot.prefs.getDouble("FL",          //.45
+    	a2 = Robot.prefs.getDouble("F",          //.45
 				0);
     	//when tuning, use feedforward gain first, then tweak a little p
     	//dont need to really touch the i or d gain
@@ -291,10 +287,10 @@ public class PathFinding extends Command {
         RobotMap.driveTrainRightMaster.config_kD(0, d, 10);
     	RobotMap.driveTrainRightMaster.config_kF(0, a, 10);
     
-    	RobotMap.driveTrainLeftMaster.config_kP(0, p2, 10); //.34 //.22
-    	RobotMap.driveTrainLeftMaster.config_kI(0, i2, 10); //.189
-    	RobotMap.driveTrainLeftMaster.config_kD(0, d2, 10); //2.0E-4
-    	RobotMap.driveTrainLeftMaster.config_kF(0, a2, 10); //0
+    	RobotMap.driveTrainLeftMaster.config_kP(0, p, 10); //.34 //.22
+    	RobotMap.driveTrainLeftMaster.config_kI(0, i, 10); //.189
+    	RobotMap.driveTrainLeftMaster.config_kD(0, d, 10); //2.0E-4
+    	RobotMap.driveTrainLeftMaster.config_kF(0, a, 10); //0
     // 	RobotMap.gyro.reset();
     	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
 
