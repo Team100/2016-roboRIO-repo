@@ -344,7 +344,7 @@ public class Robot extends TimedRobot {
     		}
     		break;
     		case 1: 
-    			new StraightSwitch().start();
+    			new RightSwitch().start();
     			System.out.println("##############################################################################################Straight Switch Started ########################################################################");
     			break;
     		case 2:
@@ -465,7 +465,6 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
     	//System.out.println("running");
     	//SmartDashboard.putNumber("NavX-angle", ahrs.getAngle());
-        SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         SmartDashboard.putData("Henry test path", new PathFinding());
         Logitech = prefs.getBoolean("Logitech", false);
         ArcadeDrive = prefs.getBoolean("ArcadeDrive", false);
