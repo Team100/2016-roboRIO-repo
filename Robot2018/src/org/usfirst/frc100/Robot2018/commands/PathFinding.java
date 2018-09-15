@@ -1,9 +1,5 @@
 // RobotBuilder Version: 2.
-//esse guey
-//esse guey
-//esse guey
-//esse guey
-//esse guey  
+
 package org.usfirst.frc100.Robot2018.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
