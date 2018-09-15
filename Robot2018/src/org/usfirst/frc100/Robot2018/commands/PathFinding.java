@@ -108,7 +108,7 @@ public class PathFinding extends Command {
 					new Waypoint(2.95, 1.35, 0), // 2.4 3.05\ //1.3 //1.55
 			};
 		}
-		if (mode == "Right") {
+		if (mode == "b"/*"Right"*/) {
 			// Robot.ahrs.reset();
 			path = paths.returnRightSwitch();
 			points = new Waypoint[] { new Waypoint(0, 0, 0), new Waypoint(1.0, -1.3, Pathfinder.d2r(-45)), // 4.5 1.371
@@ -157,7 +157,7 @@ public class PathFinding extends Command {
 
 		}
 
-		if (mode == "ScaleSR") {
+		if (mode == "Right"/*"ScaleSR"*/) {
 
 			// Robot.ahrs.reset();
 			path = paths.returnTurnRightScaleST();
