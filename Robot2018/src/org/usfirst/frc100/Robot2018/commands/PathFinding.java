@@ -76,12 +76,14 @@ public class PathFinding extends Command {
 	}
 
 	public PathFinding(String a) {
+		SmartDashboard.putString("DT/.type", "PlotSubSystem");
+		System.out.println("Put Subsystem on SD");
 		rightM = -1;
 
 		leftM = 1;
 		requires(Robot.driveTrain);
 		mode = a;
-		if (mode == "null" || mode == "null" || mode == "Left" || mode == "") {
+		if (mode == "null" || mode == "null" || mode == "Left" || mode == "Mayamo Marc") {
 			fastCalculation = false;
 			Robot.ahrs.reset();
 		} else {
@@ -168,9 +170,21 @@ public class PathFinding extends Command {
 
 			// Robot.ahrs.reset();
 			path = paths.returnStraightScale();
-			points = new Waypoint[] { new Waypoint(0, 0, 0),
-					// new Waypoint(5.8, 0, 0),
-					new Waypoint(7.49, 0, Pathfinder.d2r(0)), };
+			points = new Waypoint[] { 
+					new Waypoint(0, 0, 0),
+				    new Waypoint(2.743, 0.914, 0),
+				    //new Waypoint(3.05, -1.45, Pathfinder.d2r(0)),
+			};
+		}
+		if (mode == "ScaleSa") {
+
+			// Robot.ahrs.reset();
+			path = paths.returnStraightScale();
+			points = new Waypoint[] { 
+					new Waypoint(0, 0, 0),
+				    new Waypoint(2.743, 0.914, 0),
+				    //new Waypoint(3.05, -1.45, Pathfinder.d2r(0)),
+			};
 		}
 
 		if (mode == "ScaleSL") {
@@ -356,14 +370,14 @@ public class PathFinding extends Command {
 				setR = rightV - turn1;
 				setL = leftV + turn1;
 			}
-			SmartDashboard.putNumber("Turn", turn1);
+			/*SmartDashboard.putNumber("Turn", turn1);
 			System.out.println(turn1);
-
-			SmartDashboard.putNumber("ATNLeftV", leftV);
-			SmartDashboard.putNumber("ATNRightV", rightV);
-
+*/
+			SmartDashboard.putNumber("DT/DesiredVelLeft", leftV);
+			SmartDashboard.putNumber("DT/DesiredVelRight", rightV);
+/*
 			SmartDashboard.putNumber("ATNLeftkP", RobotMap.driveTrainLeftMaster.configGetParameter(0, 0, 0));
-			SmartDashboard.putNumber("ATNRightkP", RobotMap.driveTrainRightMaster.configGetParameter(0, 0, 0));
+			SmartDashboard.putNumber("ATNRightkP", RobotMap.driveTrainRightMaster.configGetParameter(0, 0, 0));*/
 
 		}
 		// this corrects the robots heading
@@ -372,21 +386,20 @@ public class PathFinding extends Command {
 		// double setR = segR.velocity;
 		// double setL = segL.velocity;
 
-		SmartDashboard.putNumber("leftS", (setL * 1508.965)); // this multiplier is a combination of gearing, how often
+		SmartDashboard.putNumber("DT/leftS", (setL * 1508.965)); // this multiplier is a combination of gearing, how often
 																// encoder updates, and wheel diameter
-		SmartDashboard.putNumber("RightS", (setR * 1508.965));
+		SmartDashboard.putNumber("DT/RightS", (setR * 1508.965));
 
-		SmartDashboard.putNumber("DT right Error", RobotMap.driveTrainRightMaster.getClosedLoopError(0));
+		SmartDashboard.putNumber("DT/DT right Error", RobotMap.driveTrainRightMaster.getClosedLoopError(0));
 
-		SmartDashboard.putNumber("DT left Error", RobotMap.driveTrainLeftMaster.getClosedLoopError(0));
+		SmartDashboard.putNumber("DT/DT left Error", RobotMap.driveTrainLeftMaster.getClosedLoopError(0));
 
 		// RobotMap.driveTrainRightMaster.configClosedloopRamp(0.01, 0);
 		// RobotMap.driveTrainLeftMaster.configClosedloopRamp(0.01, 0);
 		RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (setR * rightM) * 1508.965);
 		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (setL * leftM) * 1508.965);
 
-		SmartDashboard.putNumber("ATNLeftVel", RobotMap.driveTrainLeftMaster.getMotorOutputPercent());
-		SmartDashboard.putNumber("ATNRightVel1", RobotMap.driveTrainRightMaster.getMotorOutputPercent());
+
 
 		// path.length
 		if (counter < length) {
@@ -395,6 +408,7 @@ public class PathFinding extends Command {
 
 		if (counter >= length) {
 			finish = true;
+			timer.cancel();
 		}
 
 		SmartDashboard.putBoolean("finish", finish);

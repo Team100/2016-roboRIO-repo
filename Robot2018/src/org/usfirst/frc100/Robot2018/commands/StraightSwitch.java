@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class StraightSwitch extends CommandGroup {
 
     public StraightSwitch() {
-    	addSequential(new PathFinding("Straight"));
+    	addSequential(new PathFinding("ScaleSa"));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
