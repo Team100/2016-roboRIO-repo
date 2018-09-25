@@ -18,3 +18,7 @@ build
 bin
 /.recommenders/
 Robot2018/.classpath
+Robot2018/.idea/workspace.xml
+Robot2018/.idea/vcs.xml
+Robot2018/.idea/modules.xml
+Robot2018/.idea/misc.xml
