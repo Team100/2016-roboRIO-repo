@@ -45,7 +45,7 @@ public class PathFinding extends Command {
 	private boolean finish; 
 	private int counter; 
 	//FalconPathPlanner path;
-	Timer timer; 
+	 Timer timer; 
 	//boolean finish; 
 	boolean fastCalculation;
 	int countZero;
