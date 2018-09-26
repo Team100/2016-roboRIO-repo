@@ -107,9 +107,8 @@ public class PathFinding extends Command {
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
     
-    	System.out.println("===================================================================");
     	System.out.println(mode);
-		/*if(mode == "CrossLine"){
+		if(mode == "CrossLine"){
 			path = paths.returnCrossLine();
 		}else if(mode == "CenterLeft"){
 			path = paths.returnCenterLeft();
@@ -123,9 +122,9 @@ public class PathFinding extends Command {
 			path = paths.returnLeftLeftScale();
 		}else if(mode == "RightRightScale"){
 			path = paths.returnRightRightScale();
-		}   */
+		}   
 	        
-    	if(mode == "Left") {
+    	/*if(mode == "Left") {
     	//	Robot.ahrs.reset();
     		path = paths.returnLeftSwitch();
     		 points = new Waypoint[]{
@@ -145,7 +144,7 @@ public class PathFinding extends Command {
     	}   
     	if(mode == "BackR"){
     		//Robot.ahrs.reset();
-    		
+    		/*
     		points = new Waypoint[]{
     				
     			new Waypoint(2.45, -1.65, 0), 
@@ -169,7 +168,7 @@ public class PathFinding extends Command {
     				new Waypoint(length, 0, 0),
     		};
     		//Robot.ahrs.reset();
-    		
+    		/*
     		if(angle < 0){
     			points = new Waypoint[] {
     					new Waypoint(0, 0, Pathfinder.d2r(Robot.ahrs.getAngle()*-1)),
@@ -276,7 +275,7 @@ public class PathFinding extends Command {
     				//new Waypoint(0,3,0),
     				//new Waypoint(0.5, 0.15, Pathfinder.d2r(45)),
     		};
-    	}
+    	}*/ 
     	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);
     	//Everything needs to be in meters
     	//Keep in mind that computing paths takes a long time 
@@ -293,13 +292,13 @@ public class PathFinding extends Command {
     	a = Robot.prefs.getDouble("F",             //.45
 				0);
     	    
-    	p2 = Robot.prefs.getDouble("P",
+    	p2 = Robot.prefs.getDouble("PL",
 				0);
-    	i2 = Robot.prefs.getDouble("I",
+    	i2 = Robot.prefs.getDouble("IL",
 				0);
-    	d2 = Robot.prefs.getDouble("D",
+    	d2 = Robot.prefs.getDouble("DL",
 				0);
-    	a2 = Robot.prefs.getDouble("F",          //.45
+    	a2 = Robot.prefs.getDouble("FL",          //.45
 				0);
     	//when tuning, use feedforward gain first, then tweak a little p
     	//dont need to really touch the i or d gain
