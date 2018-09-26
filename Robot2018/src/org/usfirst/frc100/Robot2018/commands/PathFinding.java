@@ -418,9 +418,9 @@ public class PathFinding extends Command {
     	 		}
     	 		SmartDashboard.putNumber("Turn", turn1);
     	 		System.out.println(turn1);
-    	 		
-    	        SmartDashboard.putNumber("ATNLeftV", leftV);
-    	        SmartDashboard.putNumber("ATNRightV", rightV);
+
+				SmartDashboard.putNumber("DT/DesiredVelLeft", leftV);
+				SmartDashboard.putNumber("DT/DesiredVelRight", rightV);
         		
     		}
 			//this corrects the robots heading
@@ -428,20 +428,20 @@ public class PathFinding extends Command {
     	//double setR = segR.velocity;
     	//double setL = segL.velocity;
     	    
-    	SmartDashboard.putNumber("leftS", (setL*1508.965)); //this multiplier is a combination of gearing, how often encoder updates, and wheel diameter
-    	SmartDashboard.putNumber("RightS", (setR*1508.965));
+    	SmartDashboard.putNumber("DT/leftS", (setL*1508.965)); //this multiplier is a combination of gearing, how often encoder updates, and wheel diameter
+    	SmartDashboard.putNumber("DT/RightS", (setR*1508.965));
     	    
-    	SmartDashboard.putNumber("DT right Error", RobotMap.driveTrainRightMaster.getClosedLoopError(0));
+    	SmartDashboard.putNumber("DT/DT right Error", RobotMap.driveTrainRightMaster.getClosedLoopError(0));
             
-        SmartDashboard.putNumber("DT left Error", RobotMap.driveTrainLeftMaster.getClosedLoopError(0));
+        SmartDashboard.putNumber("DT/DT left Error", RobotMap.driveTrainLeftMaster.getClosedLoopError(0));
     	    
     	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (setR*rightM)*1508.965); 
     	RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (setL*leftM)*1508.965);
         RobotMap.driveTrainRightMaster.configClosedloopRamp(0.25, 0);
         RobotMap.driveTrainLeftMaster.configClosedloopRamp(0.25, 0);
 		    
-        SmartDashboard.putNumber("ATNLeftVel", RobotMap.driveTrainLeftMaster.getMotorOutputPercent());
-        SmartDashboard.putNumber("ATNRightVel1", RobotMap.driveTrainRightMaster.getMotorOutputPercent());
+        SmartDashboard.putNumber("DT/LeftMOP", RobotMap.driveTrainLeftMaster.getMotorOutputPercent());
+        SmartDashboard.putNumber("DT/RightMOP", RobotMap.driveTrainRightMaster.getMotorOutputPercent());
             
     	//path.length
     	if(counter < length){             
