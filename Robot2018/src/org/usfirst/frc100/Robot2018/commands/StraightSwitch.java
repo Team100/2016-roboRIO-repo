@@ -7,6 +7,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class StraightSwitch extends CommandGroup {
 
+	public StraightSwitch() {
+		
+	}
+	
     public StraightSwitch(String path) {
     	addSequential(new PathFinding(path));
         // Add Commands here:

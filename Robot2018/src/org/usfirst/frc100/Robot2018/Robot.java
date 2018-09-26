@@ -338,18 +338,34 @@ public class Robot extends TimedRobot {
         	RobotMap.driveTrainRightMaster.setSelectedSensorPosition(0, 0, 0);
     		switch(modeSelect) {
     		case 0:
-    		if(gameData.charAt(0) == 'L') {
-    			//new RightSwitch().start();
-    		} else if (gameData.charAt(0) == 'R') {
-    			//new LeftSwitch().start();
-    		}
+    			new StraightSwitch("CrossLine").start();
     		break;
     		case 1: 
-    			new StraightSwitch().start();
-    			System.out.println("##############################################################################################Straight Switch Started ########################################################################");
+    			if(gameData.charAt(0) == 'L') {
+    				new StraightSwitch("CenterLeft").start();
+        		} else if (gameData.charAt(0) == 'R') {
+        			new StraightSwitch("CenterRight").start();
+        		}else {
+        			new StraightSwitch("CrossLine").start();
+        		}
     			break;
     		case 2:
-    			//new StraightScaleLeft().start();
+    			if(gameData.charAt(0) == 'L') {
+    				new StraightSwitch("LeftLeft").start();
+        		} else if (gameData.charAt(1) == 'L') {
+        			new StraightSwitch("LeftLeftScale").start();
+        		}else {
+        			new StraightSwitch("CrossLine").start();
+        		}
+    			break;
+    		case 3:
+    			if(gameData.charAt(0) == 'R') {
+    				new StraightSwitch("RightRight").start();
+        		} else if (gameData.charAt(1) == 'R') {
+        			new StraightSwitch("RightRightScale").start();
+        		}else {
+        			new StraightSwitch("CrossLine").start();
+        		}
     			break;
     		
     		}
