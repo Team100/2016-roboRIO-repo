@@ -65,13 +65,13 @@ public class ElevatorUp extends Command {
     	/*if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 210 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 190){
     		done = true;
     	}*/
-    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= -1200) {
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.75-0.075);
+    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1200) {
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.55-0.075);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= -1560) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.3-0.075);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= -1560) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
     		done = true;
     	}

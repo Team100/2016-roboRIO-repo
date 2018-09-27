@@ -61,16 +61,16 @@ public class ElevatorDown extends Command {
     		done = true;
     	}*/
     	
-    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= -1500) {
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.65);
+    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1500) {
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.55);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= -250) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 250) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.35);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= -100) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 100) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0.15);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= -100) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 100) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
     		done = true;
     	}

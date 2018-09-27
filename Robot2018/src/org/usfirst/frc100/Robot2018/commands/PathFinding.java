@@ -45,7 +45,7 @@ public class PathFinding extends Command {
 	private boolean finish; 
 	private int counter; 
 	//FalconPathPlanner path;
-	 Timer timer; 
+	Timer timer; 
 	//boolean finish; 
 	boolean fastCalculation;
 	int countZero;
@@ -122,7 +122,11 @@ public class PathFinding extends Command {
 			path = paths.returnLeftLeftScale();
 		}else if(mode == "RightRightScale"){
 			path = paths.returnRightRightScale();
-		}   
+		}else if (mode == "RightRightScaleFront") {
+			path = paths.returnRightRightScaleFront();
+		}else if (mode == "LeftLeftScaleFront") {
+			path = paths.returnLeftLeftScaleFront();
+		}
 	        
     	/*if(mode == "Left") {
     	//	Robot.ahrs.reset();
@@ -292,13 +296,13 @@ public class PathFinding extends Command {
     	a = Robot.prefs.getDouble("F",             //.45
 				0);
     	    
-    	p2 = Robot.prefs.getDouble("PL",
+    	p2 = Robot.prefs.getDouble("P",
 				0);
-    	i2 = Robot.prefs.getDouble("IL",
+    	i2 = Robot.prefs.getDouble("I",
 				0);
-    	d2 = Robot.prefs.getDouble("DL",
+    	d2 = Robot.prefs.getDouble("D",
 				0);
-    	a2 = Robot.prefs.getDouble("FL",          //.45
+    	a2 = Robot.prefs.getDouble("F",          //.45
 				0);
     	//when tuning, use feedforward gain first, then tweak a little p
     	//dont need to really touch the i or d gain

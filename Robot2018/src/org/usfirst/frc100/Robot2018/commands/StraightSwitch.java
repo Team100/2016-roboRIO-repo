@@ -13,6 +13,13 @@ public class StraightSwitch extends CommandGroup {
 	
     public StraightSwitch(String path) {
     	addSequential(new PathFinding(path));
+    	if(path == "LeftLeftScale" || path == "RightRightScale" || path == "RightRightScaleFront" || path == "LeftLeftScaleFront") {
+    		addSequential(new ElevatorUp());
+    		addSequential(new IntakeOut());
+    		addSequential(new ElevatorDown());
+    	}else if(path != "crossLine" || path != "null") {
+    		addSequential(new IntakeOut());
+    	}
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
