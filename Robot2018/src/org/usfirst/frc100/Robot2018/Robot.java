@@ -353,18 +353,22 @@ public class Robot extends TimedRobot {
     		case 2:
     			if(gameData.charAt(0) == 'L') {
     				new StraightSwitch("LeftLeft").start();
-        		} else if (gameData.charAt(1) == 'L') {
+        		} /*
+        		else if (gameData.charAt(1) == 'L') {
         			new StraightSwitch("LeftLeftScale").start();
-        		}else {
+        		}*/else {
+
         			new StraightSwitch("CrossLine").start();
         		}
     			break;
     		case 3:
     			if(gameData.charAt(0) == 'R') {
     				new StraightSwitch("RightRight").start();
-        		} else if (gameData.charAt(1) == 'R') {
+        		}
+        		/*else if (gameData.charAt(1) == 'R') {
         			new StraightSwitch("RightRightScale").start();
-        		}else {
+        		}*/
+        		else {
         			new StraightSwitch("CrossLine").start();
         		}
     			break;
