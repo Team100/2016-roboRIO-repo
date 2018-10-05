@@ -107,6 +107,7 @@ public class PathFinding extends Command {
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
     
+    	System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     	System.out.println(mode);
 		if(mode == "CrossLine"){
 			path = paths.returnCrossLine();

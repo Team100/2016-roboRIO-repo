@@ -337,6 +337,8 @@ public class Robot extends TimedRobot {
     	if(gameData.length() > 0 && run) {
          	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
         	RobotMap.driveTrainRightMaster.setSelectedSensorPosition(0, 0, 0);
+        	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        	System.out.println(modeSelect);
     		switch(modeSelect) {
     		case 0:
     			new StraightSwitch("CrossLine").start();
