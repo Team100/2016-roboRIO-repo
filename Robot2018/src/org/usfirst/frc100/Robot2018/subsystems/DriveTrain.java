@@ -128,7 +128,7 @@ public class DriveTrain extends Subsystem {
 				
 				RobotMap.driveTrainRightMaster.pidWrite(d);///2);
 				RobotMap.driveTrainLeftMaster.pidWrite(d);///2);
-				System.out.println("IN PID OUTPUT");
+				//System.out.println("IN PID OUTPUT");
 			}
 		});
     }
@@ -184,7 +184,7 @@ public class DriveTrain extends Subsystem {
         	//}
         	
         //}
-     //   System.out.println("running");
+     //   //System.out.println("running");
     }
     
 

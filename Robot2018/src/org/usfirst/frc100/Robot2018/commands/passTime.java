@@ -45,7 +45,7 @@ public class passTime extends Command {
     		done = true;
     		//you found the secret message proceed to checkout please, and keep on t-posing!
     	}
-    	System.out.println("running");
+    	//System.out.println("running");
 
     }
 

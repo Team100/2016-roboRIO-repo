@@ -78,7 +78,7 @@ public class PathFinding extends Command {
     public PathFinding() {
     	
     	requires(Robot.driveTrain);
-  //  	System.out.println("hi");
+  //  	//System.out.println("hi");
   
     }
     public PathFinding(String a){
@@ -107,8 +107,8 @@ public class PathFinding extends Command {
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
     
-    	System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    	System.out.println(mode);
+    	//System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    	//System.out.println(mode);
 		if(mode == "CrossLine"){
 			path = paths.returnCrossLine();
 		}else if(mode == "CenterLeft"){
@@ -270,7 +270,7 @@ public class PathFinding extends Command {
         			new Waypoint(2.7,0, 0),//Pathfinder.d2r(0)), 
         			
         		}; 
-    		//System.out.println("run");
+    		////System.out.println("run");
     	}   
     	if(mode == "testLeftScale"){
     		//path = trajectory;
@@ -331,19 +331,19 @@ public class PathFinding extends Command {
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
     	length = leftT.length();
-    	/*System.out.println("WRITING");
+    	/*//System.out.println("WRITING");
     	File trajFile = new File("./home/lvusr/forward.traj");
-    	System.out.println("Working");
+    	//System.out.println("Working");
     	Pathfinder.writeToFile(trajFile, trajectory);
-    	System.out.println("DONE");
-    	//System.out.println(trajFile.getAbsolutePath());*/
+    	//System.out.println("DONE");
+    	////System.out.println(trajFile.getAbsolutePath());*/
     	    
-    	//System.out.println(trajFile.getPath());
+    	////System.out.println(trajFile.getPath());
     	    
     	for (int i = 0; i < trajectory.length(); i++) {
     		Trajectory.Segment segL = leftT.get(i); 
     		Trajectory.Segment segR = (rightT.get(i));
-    		System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
+    		//System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
     	    
     	}   
     	    
@@ -364,7 +364,7 @@ public class PathFinding extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	//System.out.println("hi");
+    	////System.out.println("hi");
     	//parseArray();
     	long ellapsedTime = System.currentTimeMillis();
     	    
@@ -422,7 +422,7 @@ public class PathFinding extends Command {
             		setL = leftV+turn1;	
     	 		}
     	 		SmartDashboard.putNumber("Turn", turn1);
-    	 		System.out.println(turn1);
+    	 		//System.out.println(turn1);
 
 				SmartDashboard.putNumber("DT/DesiredVelLeft", leftV);
 				SmartDashboard.putNumber("DT/DesiredVelRight", rightV);

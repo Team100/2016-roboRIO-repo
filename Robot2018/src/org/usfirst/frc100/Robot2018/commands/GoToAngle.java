@@ -30,7 +30,7 @@ public class GoToAngle extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("turn");
+    	//System.out.println("turn");
     	/*
     	count = 0;
     	Robot.ahrs.reset();
