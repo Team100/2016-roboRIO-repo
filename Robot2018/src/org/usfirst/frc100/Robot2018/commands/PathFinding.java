@@ -455,9 +455,11 @@ public class PathFinding extends Command {
     	    
     	if(counter >=length){                                                                    
     		finish = true;
+    		timer.cancel();
+
     	}   
             
-    	SmartDashboard.putBoolean("finish", finish);
+    	    	SmartDashboard.putBoolean("finish", finish);
     }       
             
     // Make this return true when this Command no longer needs to run execute()
