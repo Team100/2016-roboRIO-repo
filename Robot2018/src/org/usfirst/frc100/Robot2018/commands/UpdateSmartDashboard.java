@@ -58,7 +58,7 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("ClimbAdjust", new ClimbAdjust());
         SmartDashboard.putData("WinchWind", new WinchWind());
         //SmartDashboard.putData("JSON", new ParseJSONFile());
-        //System.out.println("SMART DASHBOARD UPDATE============================");
+        ////System.out.println("SMART DASHBOARD UPDATE============================");
         /**
          * All of the NavX Stuff
          *

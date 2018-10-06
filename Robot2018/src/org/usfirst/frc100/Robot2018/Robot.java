@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
     public static OI oi;
 
     
-    //System.out.println("INITALIZED =======================================================================================");
+    ////System.out.println("INITALIZED =======================================================================================");
     public static Preferences prefs = Preferences.getInstance(); //Creates preferences object
     boolean run;
     double P; 
@@ -283,7 +283,7 @@ public class Robot extends TimedRobot {
         RobotMap.driveTrainShiftingSolenoid.set(true);
         
       //  new ParseJSONFile();
-        //System.out.println(cubeInfo.getEntry("JSON").getString("Bad")); //TODO add back in (?)
+        ////System.out.println(cubeInfo.getEntry("JSON").getString("Bad")); //TODO add back in (?)
     }
 
     /**
@@ -337,8 +337,8 @@ public class Robot extends TimedRobot {
     	if(gameData.length() > 0 && run) {
          	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
         	RobotMap.driveTrainRightMaster.setSelectedSensorPosition(0, 0, 0);
-        	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        	System.out.println(modeSelect);
+        	//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        	//System.out.println(modeSelect);
     		switch(modeSelect) {
     		case 0:
     			new StraightSwitch("CrossLine").start();
@@ -498,7 +498,7 @@ public class Robot extends TimedRobot {
     	SmartDashboard.putNumber("ElevatorENC", RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0));
 
     	
-    	//System.out.println("running");
+    	////System.out.println("running");
         //SmartDashboard.putData("TestPath", new PathFindingLogicCode());
         //SmartDashboard.putData("Henry test path", new PathFinding());
         RequestedTime = prefs.getDouble("Number of Seconds to Wait", 10);
@@ -509,7 +509,7 @@ public class Robot extends TimedRobot {
        // SmartDashboard.putBoolean("DriverStation On", logitech);
         SmartDashboard.putBoolean("solenoid On", RobotMap.driveTrainShiftingSolenoid.get());
         Scheduler.getInstance().run();
-    	//System.out.println("running");
+    	////System.out.println("running");
     	//SmartDashboard.putNumber("NavX-angle", ahrs.getAngle());
         SmartDashboard.putData("Henry test path", new PathFinding());
         Logitech = prefs.getBoolean("Logitech", false);
