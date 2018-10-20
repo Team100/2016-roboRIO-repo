@@ -38,7 +38,7 @@ public class DoubleSolenoidControl extends Command {
     @Override
     protected void initialize() {
     	done = false;
-    	//System.out.println("ENTERED DOUBLE SOLENOID=======================================");
+    	////System.out.println("ENTERED DOUBLE SOLENOID=======================================");
     	
     }
 

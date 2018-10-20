@@ -36,10 +36,8 @@ public class UpdateSmartDashboard extends Command {
     	 * Put all SmartDashboard stuff below the following line
     	 */
     	////////////////////////////////BRAKE////////////////////////////////
-    	
+    	/*
     	SmartDashboard.putData("Auto mode", Robot.chooser);
-        SmartDashboard.putData("TestPathFinder", new PathFindingLogicCode());
-    	
     	SmartDashboard.putNumber("posDeadzone",CalculateDeadzone.posDeadzone);
 		SmartDashboard.putNumber("negDeadzone", CalculateDeadzone.negDeadzone);
 		
@@ -60,10 +58,10 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putData("ClimbAdjust", new ClimbAdjust());
         SmartDashboard.putData("WinchWind", new WinchWind());
         //SmartDashboard.putData("JSON", new ParseJSONFile());
-        //System.out.println("SMART DASHBOARD UPDATE============================");
+        ////System.out.println("SMART DASHBOARD UPDATE============================");
         /**
          * All of the NavX Stuff
-         */
+         *
         SmartDashboard.putBoolean("NavX-isConnected", DriveTrain.navxIsConnected);
         SmartDashboard.putBoolean("NavX-isCalibrating", DriveTrain.navxIsCalibrating);
         SmartDashboard.putNumber("NavX-pitch", DriveTrain.navxPitch);
@@ -86,7 +84,7 @@ public class UpdateSmartDashboard extends Command {
         SmartDashboard.putNumber("NavX-quaternionW", DriveTrain.navxQuaternionW);
         SmartDashboard.putNumber("NavX-quaternionX", DriveTrain.navxQuaternionX);
         SmartDashboard.putNumber("NavX-quaternionY", DriveTrain.navxQuaternionY);
-        SmartDashboard.putNumber("NavX-quaternionZ", DriveTrain.navxQuaternionZ);
+        SmartDashboard.putNumber("NavX-quaternionZ", DriveTrain.navxQuaternionZ);*/
     }
 
     // Called just before this Command runs the first time

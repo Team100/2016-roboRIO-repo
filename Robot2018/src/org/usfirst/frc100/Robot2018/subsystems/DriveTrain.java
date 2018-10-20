@@ -128,7 +128,7 @@ public class DriveTrain extends Subsystem {
 				
 				RobotMap.driveTrainRightMaster.pidWrite(d);///2);
 				RobotMap.driveTrainLeftMaster.pidWrite(d);///2);
-				System.out.println("IN PID OUTPUT");
+				//System.out.println("IN PID OUTPUT");
 			}
 		});
     }
@@ -171,7 +171,7 @@ public class DriveTrain extends Subsystem {
         	//SmartDashboard.putNumber("Right Stick", OI.rightStick.getY());
         	//if(Robot.ArcadeDrive){
     	//TODO turn the second value negative at compition
-        RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), -OI.rightStick.getX()/1.333);
+        RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.leftController.getY(), OI.rightStick.getX());
         	//}else{
         		//RobotMap.driveTrainDifferentialDrive1.tankDrive(OI.leftController.getY(), OI.rightStick.getY());
         	//}
@@ -184,7 +184,7 @@ public class DriveTrain extends Subsystem {
         	//}
         	
         //}
-     //   System.out.println("running");
+     //   //System.out.println("running");
     }
     
 

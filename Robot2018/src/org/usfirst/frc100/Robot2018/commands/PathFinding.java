@@ -78,7 +78,7 @@ public class PathFinding extends Command {
     public PathFinding() {
     	
     	requires(Robot.driveTrain);
-  //  	System.out.println("hi");
+  //  	//System.out.println("hi");
   
     }
     public PathFinding(String a){
@@ -107,7 +107,29 @@ public class PathFinding extends Command {
     	//timer = new Timer();
     	startTime = System.currentTimeMillis();
     
-    	if(mode == "Left") {
+    	//System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    	//System.out.println(mode);
+		if(mode == "CrossLine"){
+			path = paths.returnCrossLine();
+		}else if(mode == "CenterLeft"){
+			path = paths.returnCenterLeft();
+		}else if(mode == "CenterRight"){
+			path = paths.returnCenterRight();
+		}else if(mode == "LeftLeft"){
+			path = paths.returnLeftLeft();
+		}else if(mode == "RightRight"){
+			path = paths.returnRightRight();
+		}else if(mode == "LeftLeftScale"){
+			path = paths.returnLeftLeftScale();
+		}else if(mode == "RightRightScale"){
+			path = paths.returnRightRightScale();
+		}else if (mode == "RightRightScaleFront") {
+			path = paths.returnRightRightScaleFront();
+		}else if (mode == "LeftLeftScaleFront") {
+			path = paths.returnLeftLeftScaleFront();
+		}
+	        
+    	/*if(mode == "Left") {
     	//	Robot.ahrs.reset();
     		path = paths.returnLeftSwitch();
     		 points = new Waypoint[]{
@@ -115,7 +137,7 @@ public class PathFinding extends Command {
         		new Waypoint(1.0, .9, Pathfinder.d2r(45)), //4.5 1.371    .57
         		new Waypoint(2.95, 1.35, 0), //2.4  3.05\ //1.3 //1.55
     		};
-    	} 
+    	}   
     	if(mode == "Right" ){
     		//Robot.ahrs.reset();
     		path = paths.returnRightSwitch();
@@ -124,7 +146,7 @@ public class PathFinding extends Command {
     	       	 new Waypoint(1.0, -1.3, Pathfinder.d2r(-45)), //4.5 1.371    .57
     	    	 new Waypoint(2.85, -1.99, 0),
     		}; 
-    	}
+    	}   
     	if(mode == "BackR"){
     		//Robot.ahrs.reset();
     		/*
@@ -133,10 +155,10 @@ public class PathFinding extends Command {
     			new Waypoint(2.45, -1.65, 0), 
     			new Waypoint(2.0, -1.77, Pathfinder.d2r(-45)),
     			new Waypoint(1.8, -2.25, Pathfinder.d2r(-90)), 
-    		}; */
+    		}; //
     		rightM = 1; 
         	leftM = -1; 
-    	}
+    	}   
     	if(mode == "autocube"){
     		ParseJSONFile a = new ParseJSONFile("angle");
         	String an = a.Data();
@@ -163,20 +185,20 @@ public class PathFinding extends Command {
     					new Waypoint(0, 0, Pathfinder.d2r(Robot.ahrs.getAngle()*-1)),
     					new Waypoint(length, -width, Pathfinder.d2r((Robot.ahrs.getAngle() - angle)*-1)),
     			};
-    		} */
-    	}
+    		} //
+    	}   
     		    
     	if(mode == "BS"){
-     		/*
+     		//
     		points = new Waypoint[]{
     			
     			new Waypoint(0, 0, Pathfinder.d2r(-90)), 
     			new Waypoint(2.1, -1.3, Pathfinder.d2r(0)),
     			new Waypoint(2.7, -1.3, Pathfinder.d2r(20)),
-    		}; */
-	
-    	}
-    	
+    		}; //
+	        
+    	}   
+    	    
     	if (mode == "ScaleSR"){
     		
     		//Robot.ahrs.reset();
@@ -186,7 +208,7 @@ public class PathFinding extends Command {
     			new Waypoint(5.8, 0, 0),
     			new Waypoint(7.49, -.15, Pathfinder.d2r(0)),
     		}; 
-    	}
+    	}   
     	if (mode == "ScaleS"){
     		
     		//Robot.ahrs.reset();
@@ -196,9 +218,9 @@ public class PathFinding extends Command {
     		//	new Waypoint(5.8, 0, 0),
     			new Waypoint(7.49, 0, Pathfinder.d2r(0)),
     		}; 
-    	}
-    	
-    	
+    	}   
+    	    
+    	    
     	if(mode == "ScaleSL"){
     		//Robot.ahrs.reset();
     		path = paths.returnTurnLeftScaleST();
@@ -207,8 +229,8 @@ public class PathFinding extends Command {
     				new Waypoint(5.8, 0, 0),
         			new Waypoint(7.49, .15, Pathfinder.d2r(0)),	
     		};
-    	}
-    	
+    	}   
+    	    
     	if (mode == "ScaleTurnLeft") {
     		//Robot.ahrs.reset();
     		path = paths.returnTurnLeftSclae();
@@ -222,7 +244,7 @@ public class PathFinding extends Command {
     			new Waypoint(5.8, 4.26,0),
     			new Waypoint(7.0, 4.26, 0),
     		}; 
-    	}
+    	}   
     	if(mode =="ScaleTurnRight"){
     		//Robot.ahrs.reset();
     		path = paths.returnTurnRightScale();
@@ -237,8 +259,8 @@ public class PathFinding extends Command {
     			new Waypoint(5.8, -4.26,0),
     			new Waypoint(7.0, -4.26, 0),
     		}; 
-    	}
-    	
+    	}   
+    	    
     	if(mode == "Straight"){
     		//Robot.ahrs.reset();
     		path = paths.returnStraight();
@@ -248,8 +270,8 @@ public class PathFinding extends Command {
         			new Waypoint(2.7,0, 0),//Pathfinder.d2r(0)), 
         			
         		}; 
-    		//System.out.println("run");
-    	}
+    		////System.out.println("run");
+    	}   
     	if(mode == "testLeftScale"){
     		//path = trajectory;
     		points = new Waypoint[]{
@@ -258,14 +280,14 @@ public class PathFinding extends Command {
     				//new Waypoint(0,3,0),
     				//new Waypoint(0.5, 0.15, Pathfinder.d2r(45)),
     		};
-    	}
+    	}*/ 
     	//When making waypoints (how far you wanna go, how far you wanna go left or right(left is positinve, right is negative, and exit angle);
     	//Everything needs to be in meters
     	//Keep in mind that computing paths takes a long time 
     	//because the roborio isnt really that powerful
     	//Once you have a path, it makes sense to load all the data you want to use into an array
-  
-    	
+            
+    	    
     	p = Robot.prefs.getDouble("P",
 				0);
     	i = Robot.prefs.getDouble("I",
@@ -274,30 +296,30 @@ public class PathFinding extends Command {
 				0);
     	a = Robot.prefs.getDouble("F",             //.45
 				0);
-    	
-    	p2 = Robot.prefs.getDouble("PL",
+    	    
+    	p2 = Robot.prefs.getDouble("P",
 				0);
-    	i2 = Robot.prefs.getDouble("IL",
+    	i2 = Robot.prefs.getDouble("I",
 				0);
-    	d2 = Robot.prefs.getDouble("DL",
+    	d2 = Robot.prefs.getDouble("D",
 				0);
-    	a2 = Robot.prefs.getDouble("FL",          //.45
+    	a2 = Robot.prefs.getDouble("F",          //.45
 				0);
     	//when tuning, use feedforward gain first, then tweak a little p
     	//dont need to really touch the i or d gain
-    	
+    	    
     	RobotMap.driveTrainRightMaster.config_kP(0, p, 10); //.123
     	RobotMap.driveTrainRightMaster.config_kI(0, i, 10); //.2
         RobotMap.driveTrainRightMaster.config_kD(0, d, 10);
     	RobotMap.driveTrainRightMaster.config_kF(0, a, 10);
-    
+            
     	RobotMap.driveTrainLeftMaster.config_kP(0, p2, 10); //.34 //.22
     	RobotMap.driveTrainLeftMaster.config_kI(0, i2, 10); //.189
     	RobotMap.driveTrainLeftMaster.config_kD(0, d2, 10); //2.0E-4
     	RobotMap.driveTrainLeftMaster.config_kF(0, a2, 10); //0
     // 	RobotMap.gyro.reset();
     	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);
-
+            
     	//ArrayList<Integer> y = //new ArrayList();//10.1, 16.7,  3.07 5.1  
     	//change this to 20 ms                                  1.7 1.7   2.5 2.5
     	if(!fastCalculation){
@@ -305,30 +327,30 @@ public class PathFinding extends Command {
     	//Keep first and second arguement the same, the refresh rate in seconds, max vel, max acc, max jerk);
     	trajectory = Pathfinder.generate(points, config);
     	TankModifier modifier = new TankModifier(trajectory).modify(.67); //modify the width between wheels
-    	
+    	    
     	leftT = modifier.getLeftTrajectory();
     	rightT = modifier.getRightTrajectory();
     	length = leftT.length();
-    	/*System.out.println("WRITING");
+    	/*//System.out.println("WRITING");
     	File trajFile = new File("./home/lvusr/forward.traj");
-    	System.out.println("Working");
+    	//System.out.println("Working");
     	Pathfinder.writeToFile(trajFile, trajectory);
-    	System.out.println("DONE");
-    	//System.out.println(trajFile.getAbsolutePath());*/
-    	
-    	//System.out.println(trajFile.getPath());
-    	
+    	//System.out.println("DONE");
+    	////System.out.println(trajFile.getAbsolutePath());*/
+    	    
+    	////System.out.println(trajFile.getPath());
+    	    
     	for (int i = 0; i < trajectory.length(); i++) {
     		Trajectory.Segment segL = leftT.get(i); 
     		Trajectory.Segment segR = (rightT.get(i));
-    		System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
-    	  
-    	}  
-    	
+    		//System.out.println("{" +segL.velocity + ", " + segR.velocity + ", " + segR.heading +"},");
+    	    
+    	}   
+    	    
     	} else {
     		length = path.length;
-    	}
-    	
+    	}   
+    	    
     	timer = new Timer();
     	timer.schedule(new TimerTask() {
     	    @Override
@@ -336,20 +358,20 @@ public class PathFinding extends Command {
     	    	parseArray();
     	    }
     	  }, 0, 20); //this number must match refresh rate
-      
-    } 
-
+            
+    }       
+            
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	//System.out.println("hi");
+    	////System.out.println("hi");
     	//parseArray();
     	long ellapsedTime = System.currentTimeMillis();
-    	
-    	
-    	
-    }
-    
+    	    
+    	    
+    	    
+    }       
+            
     public void parseArray(){
     	//SmartDashboard.putNumber("SRX1 ENC POS", ((RobotMap.driveTrainTalonSRX1.getSelectedSensorVelocity(0)*10*1.04667)/8192));
 	    //SmartDashboard.putNumber("SRX2 ENC POS", ((RobotMap.driveTrainTalonSRX2.getSelectedSensorVelocity(0)*10*1.04667)/8192));
@@ -366,15 +388,15 @@ public class PathFinding extends Command {
     		if(!fastCalculation){
     			Trajectory.Segment segL = leftT.get(counter); //get left and right profile data
     			Trajectory.Segment segR = (rightT.get(counter)); //access each point and count every iterations
-    	/*
+    	/*  
     		double leftV = path[counter][0];
     		double rightV = path[counter][1]; 
     		double angle = path[counter][2];
-    	*/
-	    
+    	*/  
+	        
     	//double gyro_heading = RobotMap.gyro.getAngle();//... your gyro code here ...    // Assuming the gyro is giving a value in degrees
         		double desired_heading = Pathfinder.r2d(segR.heading); //angle // Should also be in degrees
-    	
+    	    
     	 		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - (Robot.ahrs.getAngle()*-1));
     	 		double turn = .87* (-1.0/80.0) * angleDifference; //.80 tweek the first value for how the robot tracks angle
 				if(mode == "BackR" ){
@@ -400,61 +422,62 @@ public class PathFinding extends Command {
             		setL = leftV+turn1;	
     	 		}
     	 		SmartDashboard.putNumber("Turn", turn1);
-    	 		System.out.println(turn1);
-    	 		
-    	        SmartDashboard.putNumber("ATNLeftV", leftV);
-    	        SmartDashboard.putNumber("ATNRightV", rightV);
+    	 		//System.out.println(turn1);
+
+				SmartDashboard.putNumber("DT/DesiredVelLeft", leftV);
+				SmartDashboard.putNumber("DT/DesiredVelRight", rightV);
         		
     		}
 			//this corrects the robots heading
 			//you can access a lot of data at each segment index like heading, acc, velocity etc
     	//double setR = segR.velocity;
     	//double setL = segL.velocity;
-    	
-    	SmartDashboard.putNumber("leftS", (setL*1508.965)); //this multiplier is a combination of gearing, how often encoder updates, and wheel diameter
-    	SmartDashboard.putNumber("RightS", (setR*1508.965));
-    	
-    	SmartDashboard.putNumber("DT right Error", RobotMap.driveTrainRightMaster.getClosedLoopError(0));
-        
-        SmartDashboard.putNumber("DT left Error", RobotMap.driveTrainLeftMaster.getClosedLoopError(0));
-    	
+    	    
+    	SmartDashboard.putNumber("DT/leftS", (setL*1508.965)); //this multiplier is a combination of gearing, how often encoder updates, and wheel diameter
+    	SmartDashboard.putNumber("DT/RightS", (setR*1508.965));
+    	    
+    	SmartDashboard.putNumber("DT/DT right Error", RobotMap.driveTrainRightMaster.getClosedLoopError(0));
+            
+        SmartDashboard.putNumber("DT/DT left Error", RobotMap.driveTrainLeftMaster.getClosedLoopError(0));
+    	    
     	RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (setR*rightM)*1508.965); 
     	RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (setL*leftM)*1508.965);
         RobotMap.driveTrainRightMaster.configClosedloopRamp(0.25, 0);
         RobotMap.driveTrainLeftMaster.configClosedloopRamp(0.25, 0);
-		
-        SmartDashboard.putNumber("ATNLeftVel", RobotMap.driveTrainLeftMaster.getMotorOutputPercent());
-        SmartDashboard.putNumber("ATNRightVel1", RobotMap.driveTrainRightMaster.getMotorOutputPercent());
-
+		    
+        SmartDashboard.putNumber("DT/LeftMOP", RobotMap.driveTrainLeftMaster.getMotorOutputPercent());
+        SmartDashboard.putNumber("DT/RightMOP", RobotMap.driveTrainRightMaster.getMotorOutputPercent());
+            
     	//path.length
     	if(counter < length){             
     		counter++; 
-    	} 
-    	
+    	}   
+    	    
     	if(counter >=length){                                                                    
     		finish = true;
-    	}
-    
+    	}   
+            
     	SmartDashboard.putBoolean("finish", finish);
-    }
-
+    }       
+            
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return finish; //end command when the array is fully parsed
-     }
-
+     }      
+            
     // Called once after isFinished returns true
     @Override
     protected void end() {                                                                                          
-    	
+    	    
     //	RobotMap.driveTrainRightMaster.set(ControlMode.PercentOutput,0); 
     //	RobotMap.driveTrainLeftMaster.set(ControlMode.PercentOutput, 0);
-    }
-
+    }       
+            
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-    }
-}
+    }       
+}           
+            

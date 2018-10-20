@@ -59,7 +59,7 @@ public class Home extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	//System.out.println("run");
+    	////System.out.println("run");
     	//RobotMap.driveTrainDifferentialDrive1.arcadeDrive(OI.operator.getRawAxis(1), -OI.operator.getRawAxis(4));
     	RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -Vel);
     	if(RobotMap.elevatorElevatorLim1.get()){
@@ -85,7 +85,7 @@ public class Home extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-    	System.out.println("done");
+    	//System.out.println("done");
     	RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0);
     	RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, Vel);
     }

@@ -67,15 +67,15 @@ public class updatePreferences extends Command {
     	kA = Robot.prefs.getDouble("F",
 				0);
     	
-    	kP2 = Robot.prefs.getDouble("PL",
+    	kP2 = Robot.prefs.getDouble("P",
 				0);
-    	kI2 = Robot.prefs.getDouble("IL",
+    	kI2 = Robot.prefs.getDouble("I",
 				0);
-    	kD2 = Robot.prefs.getDouble("DL",
+    	kD2 = Robot.prefs.getDouble("D",
 				0);
-    	kA2 = Robot.prefs.getDouble("FL",
+    	kA2 = Robot.prefs.getDouble("F",
 				0);
-    
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run

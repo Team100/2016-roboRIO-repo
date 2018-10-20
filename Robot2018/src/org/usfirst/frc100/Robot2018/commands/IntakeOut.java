@@ -68,7 +68,7 @@ public class IntakeOut extends Command {
     		/*
     	if(passTime.done) {
     		doneThis = true;
-    		System.out.println("hi");
+    		//System.out.println("hi");
     	}else{
     		RobotMap.intakeIntakeMaster.set(ControlMode.PercentOutput, 1);
     } */
