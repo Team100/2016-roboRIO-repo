@@ -71,8 +71,8 @@ public class ElevatorAdjust extends Command {
     		//System.out.println("POSITIVE JOYSTICK");
     		//modifier = -000.045;
     		////System.out.println("UP");
-    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))>= 600) {
-        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3))-000.095);//Change here
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 300) {
+        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/5)-000.095);//Change here
 
     		}else{////System.out.println(OI.operator.getRawAxis(3));
         		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3))-000.095);//Change here
@@ -86,8 +86,8 @@ public class ElevatorAdjust extends Command {
     		//RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, OI.operator.getRawAxis(3)-000.065);
     		//RobotMap.limitSwitches.reset();
     		//System.out.println("A");
-    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))<= 1300) {
-        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3))-000.085);
+    		if((RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0))>= 1500) {
+        		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, (OI.operator.getRawAxis(3)/3)-000.085);
         		//System.out.println("DEBUG GOING DOWN 2");
 
     		}else{////System.out.println(OI.operator.getRawAxis(3));
