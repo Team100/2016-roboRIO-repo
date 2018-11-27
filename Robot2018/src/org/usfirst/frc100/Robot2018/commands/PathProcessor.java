@@ -12,14 +12,15 @@ public class PathProcessor extends CommandGroup {
 	}
 
 	public PathProcessor(String path) {
+		System.out.println("######## RUNNING NEW PATH PROCESSOR");
 		addSequential(new PathfindingV2Issue4(path));
 		if (path == "LeftLeftScale" || path == "RightRightScale" || path == "RightRightScaleFront"
 				|| path == "LeftLeftScaleFront") {
-			addSequential(new ElevatorUp());
-			addSequential(new IntakeOut());
-			addSequential(new ElevatorDown());
+			//addSequential(new ElevatorUp());
+			//addSequential(new IntakeOut());
+			//addSequential(new ElevatorDown());
 		} else if (path != "CrossLine" || path != "null") {
-			addSequential(new IntakeOut());
+			//addSequential(new IntakeOut());
 		}
 	}
 }

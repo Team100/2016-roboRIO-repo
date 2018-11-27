@@ -48,25 +48,25 @@ public class Constants {
 	/**
 	 * P value for the drivetrain
 	 */
-	public static final double DRIVETRAIN_P = 0.6;
+	public static final double DRIVETRAIN_P = 0;
 	
 	
 	/**
 	 * I value for the drivetrain
 	 */
-	public static final double DRIVETRAIN_I = 0.004;
+	public static final double DRIVETRAIN_I = 0;
 	
 	
 	/**
 	 * D value for the drivetrain
 	 */
-	public static final double DRIVETRAIN_D = 0.005;
+	public static final double DRIVETRAIN_D = 0;
 	
 	
 	/**
 	 * F value for the drivetrain
 	 */
-	public static final double DRIVETRAIN_F = 1.0;
+	public static final double DRIVETRAIN_F = 1;
 	
 	
 	/**

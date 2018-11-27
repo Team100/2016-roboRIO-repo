@@ -36,7 +36,7 @@ public class PathfindingV2Issue4 extends Command {
 	private static double leftVelocity;
 	private static double rightVelocity;
 	private static double angle;	
-	private PathfindingV2Issue4 runner = new PathfindingV2Issue4();
+	//private PathfindingV2Issue4 runner = new PathfindingV2Issue4();
 	Timer timer;
 	public PathfindingV2Issue4() {
 
@@ -115,8 +115,16 @@ public class PathfindingV2Issue4 extends Command {
 		RobotMap.driveTrainRightMaster.configClosedloopRamp(Constants.RAMP_RATE_DRIVETRAIN, 0);
 		
 		// Set the motors to their desired value
-		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (rightVelocity * Constants.LEFT_DRIVETRAIN_MODIFIER) * Constants.DRIVETRAIN_TICKS_PER_METER);
-		RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (leftVelocity * Constants.RIGHT_DRIVETRAIN_MODIFIER) * Constants.DRIVETRAIN_TICKS_PER_METER);
+		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (leftVelocity * Constants.LEFT_DRIVETRAIN_MODIFIER) * Constants.DRIVETRAIN_TICKS_PER_METER);
+		RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (rightVelocity * Constants.RIGHT_DRIVETRAIN_MODIFIER) * Constants.DRIVETRAIN_TICKS_PER_METER);
+		SmartDashboard.putNumber("DT/leftIntended", (leftVelocity * Constants.LEFT_DRIVETRAIN_MODIFIER) * Constants.DRIVETRAIN_TICKS_PER_METER);
+		SmartDashboard.putNumber("DT/rightIntended", ((rightVelocity * Constants.RIGHT_DRIVETRAIN_MODIFIER) * Constants.DRIVETRAIN_TICKS_PER_METER));
+		SmartDashboard.putNumber("DT/leftActual", (RobotMap.driveTrainLeftMaster.getSelectedSensorVelocity(0)));
+		SmartDashboard.putNumber("DT/rightActual", (RobotMap.driveTrainRightMaster.getSelectedSensorVelocity(0)));
+		SmartDashboard.putNumber("DT/leftError", RobotMap.driveTrainLeftMaster.getClosedLoopError(0));
+		SmartDashboard.putNumber("DT/rightError", RobotMap.driveTrainRightMaster.getClosedLoopError(0));
+		
+		
 		lineInPath += 1;
 		if(lineInPath >= lengthOfPath) {
 			finished = true;
