@@ -2775,14 +2775,14 @@ public class Paths {
 	public static double[][] getPath(String currentMode) {
 		Paths paths = new Paths();
 		double[][] path = null;
-		if (currentMode == "cross line") {
+		if (currentMode.equals(Constants.POSSIBLE_MODES[0])) {
 			path = paths.returnCrossLine();
-		} else if (currentMode == "center to left switch") {
+		} else if (currentMode.equals(Constants.POSSIBLE_MODES[1])) {
 			path = paths.returnCenterLeft();
-		} else if (currentMode == "center to right switch") {
+		} else if (currentMode.equals(Constants.POSSIBLE_MODES[2])) {
 			path = paths.returnCenterRight();
-		} else if (currentMode == "left to left sclae") {
-			path = paths.returnLeftLeftScale();
+		} else if (currentMode.equals(Constants.POSSIBLE_MODES[3])) {
+			path = paths.returnLeftLeftScaleFront();
 		}
 		return path;		
 	}

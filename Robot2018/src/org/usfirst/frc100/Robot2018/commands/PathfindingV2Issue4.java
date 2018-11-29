@@ -55,6 +55,8 @@ public class PathfindingV2Issue4 extends Command {
 	 * @param mode
 	 */
 	public PathfindingV2Issue4(String mode) {
+		requires(Robot.driveTrain);
+
 		currentMode = mode;
 		boolean modeFound = false;
 		/*This compares the mode that is given to any available mode. Modes can be found in the constants file*/
@@ -62,6 +64,7 @@ public class PathfindingV2Issue4 extends Command {
 			if(Constants.POSSIBLE_MODES[i].equals(mode)){
 				modeFound = true;
 			}
+			
 		}
 		if(!modeFound) {
 			throw new RuntimeErrorException(new Error("Unknown Path:" + mode));
@@ -87,6 +90,9 @@ public class PathfindingV2Issue4 extends Command {
 	protected void initialize() {
 		lineInPath = 0;
 		finished = false;
+		RobotMap.driveTrainLeftMaster.configClosedloopRamp(Constants.RAMP_RATE_DRIVETRAIN, 0);
+		RobotMap.driveTrainRightMaster.configClosedloopRamp(Constants.RAMP_RATE_DRIVETRAIN, 0);
+		
 		path = Paths.getPath(currentMode);
 		/*This is a very long number becuase it is the time in milliseconds hence the long type*/
 		startTime = System.currentTimeMillis();
@@ -111,9 +117,7 @@ public class PathfindingV2Issue4 extends Command {
 		angle = path[lineInPath][2];
 		
 		// Set the ramp rates for both sides
-		RobotMap.driveTrainLeftMaster.configClosedloopRamp(Constants.RAMP_RATE_DRIVETRAIN, 0);
-		RobotMap.driveTrainRightMaster.configClosedloopRamp(Constants.RAMP_RATE_DRIVETRAIN, 0);
-		
+
 		// Set the motors to their desired value
 		RobotMap.driveTrainLeftMaster.set(ControlMode.Velocity, (leftVelocity * Constants.LEFT_DRIVETRAIN_MODIFIER) * Constants.DRIVETRAIN_TICKS_PER_METER);
 		RobotMap.driveTrainRightMaster.set(ControlMode.Velocity, (rightVelocity * Constants.RIGHT_DRIVETRAIN_MODIFIER) * Constants.DRIVETRAIN_TICKS_PER_METER);

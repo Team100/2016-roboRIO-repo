@@ -301,7 +301,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
     	SmartDashboard.putString("DT/.type", "PlotSubSystem");
     	RobotMap.elevatorElevatorTalon.setSelectedSensorPosition(0, 0, 0);
-    	RobotMap.driveTrainShiftingSolenoid.set(true);
+    	RobotMap.driveTrainShiftingSolenoid.set(false);
     	RobotMap.elevatorArmSolenoid.set(false);
 
     	run = true;
@@ -348,7 +348,7 @@ public class Robot extends TimedRobot {
         new UpdateSmartDashboard();
 
         
-        RobotMap.driveTrainShiftingSolenoid.set(true);
+        RobotMap.driveTrainShiftingSolenoid.set(false);
         chooser.addDefault("Autonomous Command", new AutonomousCommand());
     	if(gameData.length() > 0 && run) {
          	RobotMap.driveTrainLeftMaster.setSelectedSensorPosition(0, 0, 0);

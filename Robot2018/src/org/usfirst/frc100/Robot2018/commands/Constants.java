@@ -48,13 +48,13 @@ public class Constants {
 	/**
 	 * P value for the drivetrain
 	 */
-	public static final double DRIVETRAIN_P = 0;
+	public static final double DRIVETRAIN_P = 0.0027;
 	
 	
 	/**
 	 * I value for the drivetrain
 	 */
-	public static final double DRIVETRAIN_I = 0;
+	public static final double DRIVETRAIN_I = 0.001;
 	
 	
 	/**
@@ -66,7 +66,7 @@ public class Constants {
 	/**
 	 * F value for the drivetrain
 	 */
-	public static final double DRIVETRAIN_F = 1;
+	public static final double DRIVETRAIN_F = 0.39;
 	
 	
 	/**
@@ -86,20 +86,23 @@ public class Constants {
 	/**
 	 * The closed loop ramp rate for the drivetrain
 	 */
-	public static final double RAMP_RATE_DRIVETRAIN = 0.25;
+	public static final double RAMP_RATE_DRIVETRAIN = 0;
 	
 	/**
 	 * The interval for each loop of an execution of the Pathfinding processor
 	 */
-	public static final int EXECUTION_LOOP_INTERVAL = 25;
+	public static final int EXECUTION_LOOP_INTERVAL = 20;
 	
-	
+	/**
+	 * Convert one second to 100 ms
+	 */
+	public static final int HUNDRED_MILLISECONDS_IN_SECONDS = 10;
 	// Modes
 	
 	/**
 	 * The encoder ticks per meter as defined from a formula based on the other constants
 	 */
-	public static final double DRIVETRAIN_TICKS_PER_METER = (ENCODER_PULSES_PER_REVOLUTION)*(ENCODER_TICKS_PER_PULSE)*(DRIVETRAIN_ENCODER_TO_WHEEL_RATIO) * (1/(WHEEL_DIAMETER_IN_METERS * PI));
+	public static final double DRIVETRAIN_TICKS_PER_METER = (ENCODER_PULSES_PER_REVOLUTION)*(ENCODER_TICKS_PER_PULSE)*(DRIVETRAIN_ENCODER_TO_WHEEL_RATIO) * (1/(WHEEL_DIAMETER_IN_METERS * PI))/HUNDRED_MILLISECONDS_IN_SECONDS;
 	
 	
 	/**
