@@ -48,7 +48,7 @@ public class ElevatorUp extends Command {
     	done=false;
     	//RobotMap.elevatorElevatorTalon.set(ControlMode.MotionMagic, 200, DemandType.ArbitraryFeedForward,0.065);
     	RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, 0); //Starts stationary
-    	System.out.println("STARTED UP");
+    	//System.out.println("STARTED UP");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -61,17 +61,17 @@ public class ElevatorUp extends Command {
     	SmartDashboard.putNumber("ElevatorSlave2", RobotMap.elevatorElevatorVictor2.getMotorOutputPercent());
     	SmartDashboard.putNumber("MMTrajVelo", RobotMap.elevatorElevatorTalon.getActiveTrajectoryVelocity());
     	SmartDashboard.putNumber("MMTrajPos", RobotMap.elevatorElevatorTalon.getActiveTrajectoryPosition());
-    	//System.out.println(RobotMap.elevatorElevatorTalon.getMotorOutputVoltage());
+    	////System.out.println(RobotMap.elevatorElevatorTalon.getMotorOutputVoltage());
     	/*if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 210 && RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) == 190){
     		done = true;
     	}*/
-    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= -1200) {
-    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.75-0.075);
+    	if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1200) {
+    		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.55-0.075);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= -1560) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -0.3-0.075);
     	}
-    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) <= -1560) {
+    	else if(RobotMap.elevatorElevatorTalon.getSelectedSensorPosition(0) >= 1560) {
     		RobotMap.elevatorElevatorTalon.set(ControlMode.PercentOutput, -000.075);
     		done = true;
     	}

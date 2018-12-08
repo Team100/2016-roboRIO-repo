@@ -25,7 +25,7 @@ public class ParseJSONFile extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	SmartDashboard.putBoolean("RunningParseJSON", true);
-    	System.out.println("===================================================================================================");
+    	//System.out.println("===================================================================================================");
     	String myJSONData = "{\"name\":\"test\",\"value\":\"ABC\"}";// Put the JSON data into this string
     	JSONParser parser = new JSONParser();
     	myParsedData = new JSONObject();
@@ -49,7 +49,7 @@ public class ParseJSONFile extends Command {
          * Gets value for index "name"
          */
         String myStringData = myParsedData.toString();
-        //System.out.println(myStringData); //  Change 'name' to ideal 
+        ////System.out.println(myStringData); //  Change 'name' to ideal 
         myParsedData.get("test");
         SmartDashboard.putString("JSONResult", myStringData);
         SmartDashboard.putBoolean("RunningParseJSON", false);

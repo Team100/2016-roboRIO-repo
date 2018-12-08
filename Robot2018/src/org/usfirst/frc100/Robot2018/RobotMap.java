@@ -96,12 +96,20 @@ public class RobotMap {
 
 
         driveTrainLeftFollower = new WPI_VictorSPX(4);
-        driveTrainRightMaster.setInverted(false); //make sure these are correct on the actual drive train. 
-        driveTrainLeftMaster.setInverted(false); 
-        driveTrainLeftFollower.setInverted(false); 
-        driveTrainRightFollower.setInverted(false); 
+        driveTrainRightMaster.setInverted(true); //make sure these are correct on the actual drive train. 
+        driveTrainLeftMaster.setInverted(true); 
+        driveTrainLeftFollower.setInverted(true); 
+        driveTrainRightFollower.setInverted(true); 
         driveTrainRightMaster.setSensorPhase(false); 
-        driveTrainLeftMaster.setSensorPhase(true); 
+        driveTrainLeftMaster.setSensorPhase(false); 
+        //VOLTAGE COMPENSATION
+        driveTrainLeftMaster.configVoltageCompSaturation(11, 10);
+        driveTrainLeftMaster.enableVoltageCompensation(true);
+        driveTrainLeftMaster.configVoltageMeasurementFilter(32, 10);
+        driveTrainRightMaster.configVoltageCompSaturation(11, 10);
+        driveTrainRightMaster.enableVoltageCompensation(true);
+        driveTrainRightMaster.configVoltageMeasurementFilter(32, 10);
+        
         
         driveTrainLeftMaster.configOpenloopRamp(0.25, 0);
         driveTrainRightMaster.configOpenloopRamp(0.25, 0);
