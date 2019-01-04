@@ -2767,5 +2767,24 @@ public class Paths {
 			};
 			return SC;
 	}*/
+	/**
+	 * This function takes in a string and finds if it is equals that string
+	 * @param currentMode
+	 * @return a two dimensional array of doubles is the path
+	 */
+	public static double[][] getPath(String currentMode) {
+		Paths paths = new Paths();
+		double[][] path = null;
+		if (currentMode.equals(Constants.POSSIBLE_MODES[0])) {
+			path = paths.returnCrossLine();
+		} else if (currentMode.equals(Constants.POSSIBLE_MODES[1])) {
+			path = paths.returnCenterLeft();
+		} else if (currentMode.equals(Constants.POSSIBLE_MODES[2])) {
+			path = paths.returnCenterRight();
+		} else if (currentMode.equals(Constants.POSSIBLE_MODES[3])) {
+			path = paths.returnLeftLeftScaleFront();
+		}
+		return path;		
+	}
 
 }

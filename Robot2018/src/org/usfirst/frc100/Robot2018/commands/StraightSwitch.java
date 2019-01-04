@@ -17,7 +17,7 @@ public class StraightSwitch extends CommandGroup {
     		addSequential(new ElevatorUp());
     		addSequential(new IntakeOut());
     		addSequential(new ElevatorDown());
-    	}else if(path != "crossLine" || path != "null") {
+    	}else if(path != "CrossLine" || path != "null") {
     		addSequential(new IntakeOut());
     	}
         // Add Commands here:
