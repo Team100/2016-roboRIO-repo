@@ -2,11 +2,21 @@
 package org.usfirst.frc.team100.robot.subsystems;
 
 import org.usfirst.frc.team100.robot.Robot;
+import org.usfirst.frc.team100.robot.commands.DriveWithJoy;
 
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -21,85 +31,96 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class SimpleMotor extends PIDSubsystem  {
+public class SimpleMotor extends Subsystem  {
 //	public Servo motor;
 	public double dValue;
 	RobotDrive drive;
-    private Potentiometer pot;
-    private Potentiometer pots;
-    private AnalogGyro gyro;
-   SpeedController rightSide, leftSide;
+	public PIDController pid;
+  //  private Potentiometer pot;
+   // private Potentiometer pots;
+   // private AnalogGyro gyro;
+    //public SpeedController rightSide, shooter;
+	
+	
     private static final double kP_real = 4, kI_real = 0.07,
             kP_simulation = 18, kI_simulation = 0.2;
+	private static final double DEFAULT_DRIVE_TRAIN_KP = 1; //.004
+	private static final double DEFAULT_DRIVE_TRAIN_KI = 0.00;
+	private static final double DEFAULT_DRIVE_TRAIN_KD = 0.0;
+	private static final double DEFAULT_DRIVE_TRAIN_KF = 0.0;
+	public double driveTrain_kP;
+	public double driveTrain_kI;
+	public double driveTrain_kD;
+	public double driveTrain_kF;
     
     public SimpleMotor() {
-        super(kP_real, kI_real, 0);
-        if (Robot.isSimulation()) { // Check for simulation and update PID values
-            getPIDController().setPID(kP_simulation, kI_simulation, 0, 0);
-        }
-        setAbsoluteTolerance(0.005);
-       
-       
-      //  motor = new Servo(0);
-        pots = new AnalogPotentiometer(1, -2.0/5);
-        rightSide = new Victor(1);
-        leftSide = new Victor(0);
-        gyro = new AnalogGyro(0);
-        drive = new RobotDrive(rightSide, leftSide);
-        // Conversion value of potentiometer varies between the real world and simulation
-        if (Robot.isReal()) {
-            pot = new AnalogPotentiometer(2);
-        } else {
-            pot = new AnalogPotentiometer(2); // Defaults to meters
-        }
-
-		// Let's show everything on the LiveWindow
-      //  LiveWindow.addActuator("Elevator", "motor",  one);
-       // LiveWindow.addSensor("Elevator", "Pot", (AnalogPotentiometer) pot);
-       
-        LiveWindow.addActuator("Elevator", "PID", getPIDController());
-        LiveWindow.addSensor("skjsad", "pots", (AnalogPotentiometer) pots);
-        LiveWindow.addSensor("gyro" , "gyro", gyro);
-    }
-
-    public void initDefaultCommand() {}
-
-	/**
-	 * The log method puts interesting information to the SmartDashboard.
-	 */
-    public void log() {
-        SmartDashboard.putData("Wrist Pot", (AnalogPotentiometer) pot);
-    }
-
-    /**
-     * Use the potentiometer as the PID sensor. This method is automatically
-     * called by the subsystem.
-     */
-   protected double returnPIDInput() {
-       return gyro.getAngle();
-    }
-
-
-    /**
-     * Use the motor as the PID output. This method is automatically called by
-     * the subsystem.
-     */
-    protected void usePIDOutput(double d) {
-    	//d=-d/4;
-    	//d +=.5;
-    	dValue = d;
-    	drive.drive((d+.5), (-d-.5));
-       // one.set(d);
+    	// rightSide = new Victor(1);
+         //shooter = new Victor(0);
         
-        //SmartDashboard.putNumber("motor speed", motor.getAngle());
+ 		if (!Robot.prefs.containsKey("driveTrain_kP")) {
+			Robot.prefs.putDouble("driveTrain_kP", DEFAULT_DRIVE_TRAIN_KP);
+		}
+		if (!Robot.prefs.containsKey("driveTrain_kI")) {
+			Robot.prefs.putDouble("driveTrain_kI", DEFAULT_DRIVE_TRAIN_KI);
+		}
+		if (!Robot.prefs.containsKey("driveTrain_kD")) {
+			Robot.prefs.putDouble("driveTrain_kD", DEFAULT_DRIVE_TRAIN_KD);
+		}
+		if (!Robot.prefs.containsKey("driveTrain_kF")) {
+			Robot.prefs.putDouble("driveTrain_kF", DEFAULT_DRIVE_TRAIN_KF);
+		}
+
+		driveTrain_kP = Robot.prefs.getDouble("driveTrain_kP",
+				DEFAULT_DRIVE_TRAIN_KP);
+		driveTrain_kI = Robot.prefs.getDouble("driveTrain_kI",
+				DEFAULT_DRIVE_TRAIN_KI);
+		driveTrain_kD = Robot.prefs.getDouble("driveTrain_kD",
+				DEFAULT_DRIVE_TRAIN_KD);
+		driveTrain_kD = Robot.prefs.getDouble("driveTrain_kF",
+				DEFAULT_DRIVE_TRAIN_KF);
+		
+    	pid = new PIDController(driveTrain_kP, driveTrain_kI,  driveTrain_kD, driveTrain_kF, new PIDSource() { // .04 0 0 for 180
+			PIDSourceType m_sourceType = PIDSourceType.kRate;
+
+			public double pidGet() {
+				return Robot.encoderLeft.getRate();
+			}
+
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				m_sourceType = pidSource;
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return m_sourceType;
+			}
+		}, new PIDOutput() {
+			public void pidWrite(double d) {
+				//pidWrite(d); // /2
+				//left.pidWrite(-d/2); // /2
+				Robot.leftMaster.pidWrite(d);
+			}
+		});
+       
+   
     }
-    public double returnDValue()
-    {
-    	return dValue;
+
+    public void initDefaultCommand() {
+    	setDefaultCommand(new DriveWithJoy());
     }
-    public double potValue()
-    {
-    	return gyro.getAngle();
+
+	
+    public void log() {
+      //  SmartDashboard.putData("Wrist Pot", (AnalogPotentiometer) pot);
     }
+
+  
+    public void moveRightSide(Joystick joy){
+    	Robot.leftMaster.set(joy.getRawAxis(1));
+    	
+    }
+ 
+   
     
 }
